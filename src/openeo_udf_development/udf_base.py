@@ -157,10 +157,23 @@ class CollectionTile(object):
         self._extent = None
         self._start_times = None
         self._end_times = None
+        self._data = None
 
         self.set_extent(extent=extent)
         self.set_start_times(start_times=start_times)
         self.set_end_times(end_times=end_times)
+
+    def check_data_with_time(self):
+
+        if self._data is not None and self.start_times is not None:
+            if len(self.start_times) != len(self.data):
+                raise Exception("The size of the start times vector just be equal "
+                                "to the size of data")
+
+        if self._data is not None and self.end_times is not None:
+            if len(self.end_times) != len(self.data):
+                raise Exception("The size of the end times vector just be equal "
+                                "to the size of data")
 
     def __str__(self):
         return "id: %(id)s\n" \
@@ -267,6 +280,23 @@ class ImageCollectionTile(CollectionTile):
             start_times: None
             end_times: None
             data: [[[0.]]]
+            >>> dates = [pandas.Timestamp('2012-05-01')]
+            >>> starts = pandas.DatetimeIndex(dates)
+            >>> dates = [pandas.Timestamp('2012-05-02')]
+            >>> ends = pandas.DatetimeIndex(dates)
+            >>> rdc = ImageCollectionTile(id="test", extent=extent, data=data, wavelength=420, start_times=starts, end_times=ends)
+            >>> print(rdc)
+            id: test
+            extent: north: 100
+            south: 0
+            east: 100
+            west: 0
+            nsres: 10
+            ewres: 10
+            wavelength: 420
+            start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
+            end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
+            data: [[[0.]]]
 
         """
 
@@ -274,11 +304,7 @@ class ImageCollectionTile(CollectionTile):
 
         self.wavelength = wavelength
         self.set_data(data)
-
-        if self.start_times is not None:
-            if len(self.start_times) != len(self.data):
-                raise Exception("The size of the start times vector just be equal "
-                                "to the size of the first data dimension")
+        self.check_data_with_time()
 
     def __str__(self):
         return "id: %(id)s\n" \
@@ -356,16 +382,8 @@ class VectorCollectionTile(CollectionTile):
         """
         CollectionTile.__init__(self, id=id, extent=extent, start_times=start_times, end_times=end_times)
 
-        self.id = id
-        self._extent = extent
-        self._start_times = start_times
-        self._end_times = end_times
-        self._data = data
-
-        if self.start_times is not None:
-            if len(self.start_times) != len(self.data):
-                raise Exception("The size of the start times vector just be equal "
-                                "to the size of the first data dimension")
+        self.set_data(data)
+        self.check_data_with_time()
 
     def __str__(self):
         return "id: %(id)s\n" \
@@ -382,7 +400,9 @@ class VectorCollectionTile(CollectionTile):
     def set_data(self, data):
         """Set the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns
 
-        This function will check if the provided data is a geopandas.GeoDataFrame
+        This function will check if the provided data is a geopandas.GeoDataFrame and raises
+
+        an Exception
 
         Args:
             data: geopandas.GeoDataFrame
