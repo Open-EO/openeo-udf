@@ -120,6 +120,10 @@ class SpatialExtent(object):
 
 
 class CollectionTile(object):
+    """This is the base class for image and vector collection tiles. It implements
+    start time, end time and spatial extent handling.
+
+    """
 
     def __init__(self, id, extent, start_times=None, end_times=None):
         """Constructor of the base class for tile of a collection
@@ -127,8 +131,6 @@ class CollectionTile(object):
         Args:
             id: The unique id of the image collection tile
             extent: The spatial extent with resolution information, must be of type SpatialExtent
-            data: The three dimensional numpy.ndarray with indices [t][y][x]
-            wavelength: The optional wavelength of the data chunk
             start_times: The pandas.DateTimeIndex vector with start times for each spatial x,y slice
             end_times: The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
@@ -136,14 +138,14 @@ class CollectionTile(object):
 
             Some basic tests
 
-            >>> extent = SpatialExtent(north=0, south=100, east=0, west=100, nsres=10, ewres=10)
+            >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
             >>> coll = CollectionTile(id="test", extent=extent)
             >>> print(coll)
             id: test
-            extent: north: 0
-            south: 100
-            east: 0
-            west: 100
+            extent: north: 100
+            south: 0
+            east: 100
+            west: 0
             nsres: 10
             ewres: 10
             start_times: None
@@ -177,8 +179,6 @@ class CollectionTile(object):
 
         Args:
             start_times:
-
-        Returns:
 
         """
         if start_times is None:
@@ -230,6 +230,12 @@ class CollectionTile(object):
 
 
 class ImageCollectionTile(CollectionTile):
+    """This class represents a three dimensional image collection tile with
+    time information and x,y slices with a single scalar value for each pixel.
+    A tile represents a scalar field in space and time,
+    for example a time series of a single Landsat 8 or Sentinel2A band. A tile may be a
+    spatio-temporal subset of a scalar time series or a whole time series.
+    """
 
     def __init__(self, id, extent, data, wavelength=None, start_times=None, end_times=None):
         """Constructor of the tile of an image collection
@@ -247,14 +253,14 @@ class ImageCollectionTile(CollectionTile):
             Some basic tests
 
             >>> data = numpy.zeros(shape=(1,1,1))
-            >>> extent = SpatialExtent(north=0, south=100, east=0, west=100, nsres=10, ewres=10)
+            >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
             >>> rdc = ImageCollectionTile(id="test", extent=extent, data=data, wavelength=420)
             >>> print(rdc)
             id: test
-            extent: north: 0
-            south: 100
-            east: 0
-            west: 100
+            extent: north: 100
+            south: 0
+            east: 100
+            west: 0
             nsres: 10
             ewres: 10
             wavelength: 420
@@ -294,8 +300,6 @@ class ImageCollectionTile(CollectionTile):
         Args:
             data:
 
-        Returns:
-
         """
         if isinstance(data, numpy.ndarray) is False:
             raise Exception("Argument data must be of type numpy.ndarray")
@@ -310,14 +314,13 @@ class ImageCollectionTile(CollectionTile):
 
 class VectorCollectionTile(CollectionTile):
 
-    def __init__(self, id, extent, data, datatype=None, start_times=None, end_times=None):
+    def __init__(self, id, extent, data, start_times=None, end_times=None):
         """Constructor of the tile of a vector collection
 
         Args:
             id: The unique id of the image collection tile
             extent: The spatial extent with resolution information, must be of type SpatialExtent
-            data: The three dimensional numpy.ndarray with indices [t][y][x]
-            wavelength: The optional wavelength of the data chunk
+            data: A GeoDataFrame with geometry column and attribute data
             start_times: The pandas.DateTimeIndex vector with start times for each spatial x,y slice
             end_times: The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
@@ -325,28 +328,36 @@ class VectorCollectionTile(CollectionTile):
 
             Some basic tests
 
-            >>> data = numpy.zeros(shape=(1,1,1))
-            >>> extent = SpatialExtent(north=0, south=100, east=0, west=100, nsres=10, ewres=10)
-            >>> rdc = ImageCollectionTile(id="test", extent=extent, data=data, wavelength=420)
-            >>> print(rdc)
+            >>> from shapely.geometry import Point
+            >>> p1 = Point(0,0)
+            >>> p2 = Point(100,100)
+            >>> p3 = Point(100,0)
+            >>> pseries = [p1, p2, p3]
+            >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
+            >>> data["a"] = [1,2,3]
+            >>> data["b"] = ["a","b","c"]
+            >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
+            >>> vdc = VectorCollectionTile(id="test", extent=extent, data=data)
+            >>> print(vdc)
             id: test
-            extent: north: 0
-            south: 100
-            east: 0
-            west: 100
-            nsres: 10
-            ewres: 10
-            wavelength: 420
+            extent: north: 100
+            south: 0
+            east: 100
+            west: 0
+            nsres: None
+            ewres: None
             start_times: None
             end_times: None
-            data: [[[0.]]]
+            data:    a  b         geometry
+            0  1  a      POINT (0 0)
+            1  2  b  POINT (100 100)
+            2  3  c    POINT (100 0)
 
         """
         CollectionTile.__init__(self, id=id, extent=extent, start_times=start_times, end_times=end_times)
 
         self.id = id
         self._extent = extent
-        self.datatype = datatype
         self._start_times = start_times
         self._end_times = end_times
         self._data = data
@@ -359,31 +370,26 @@ class VectorCollectionTile(CollectionTile):
     def __str__(self):
         return "id: %(id)s\n" \
                "extent: %(extent)s\n" \
-               "wavelength: %(wavelength)s\n" \
                "start_times: %(start_times)s\n" \
                "end_times: %(end_times)s\n" \
-               "data: %(data)s"%{"id":self.id, "extent":self.extent, "wavelength":self.datatype,
-                                   "start_times":self.start_times, "end_times":self.end_times, "data":self.data}
+               "data: %(data)s"%{"id":self.id, "extent":self.extent,
+                                 "start_times":self.start_times,
+                                 "end_times":self.end_times, "data":self.data}
 
     def get_data(self):
         return self._data
 
     def set_data(self, data):
-        """Set the three dimensional numpy.ndarray
+        """Set the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns
 
-        This function will check if the provided data is a numpy.ndarray with three dimensions
+        This function will check if the provided data is a geopandas.GeoDataFrame
 
         Args:
-            data:
-
-        Returns:
+            data: geopandas.GeoDataFrame
 
         """
-        if isinstance(data, numpy.ndarray) is False:
-            raise Exception("Argument data must be of type numpy.ndarray")
-
-        if len(data.shape) != 3:
-            raise Exception("Argument data must have three dimensions")
+        if isinstance(data, geopandas.GeoDataFrame) is False:
+            raise Exception("Argument data must be of type geopandas.GeoDataFrame")
 
         self._data = data
 
