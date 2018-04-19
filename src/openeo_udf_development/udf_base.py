@@ -308,7 +308,7 @@ class ImageCollectionTile(CollectionTile):
     data = property(fget=get_data, fset=set_data)
 
 
-class VectorCollectionTile(object):
+class VectorCollectionTile(CollectionTile):
 
     def __init__(self, id, extent, data, datatype=None, start_times=None, end_times=None):
         """Constructor of the tile of a vector collection
@@ -342,6 +342,7 @@ class VectorCollectionTile(object):
             data: [[[0.]]]
 
         """
+        CollectionTile.__init__(self, id=id, extent=extent, start_times=start_times, end_times=end_times)
 
         self.id = id
         self._extent = extent
@@ -386,65 +387,7 @@ class VectorCollectionTile(object):
 
         self._data = data
 
-    def get_start_times(self):
-        return self._start_times
-
-    def set_start_times(self, start_times=None):
-        """Set the start times vector that must be of type pandas.DateTimeIndex
-
-        Args:
-            start_times:
-
-        Returns:
-
-        """
-        if start_times is None:
-            return
-
-        if isinstance(start_times, pandas.DatetimeIndex) is False:
-            raise Exception("The start times vector mus be of type pandas.DatetimeIndex")
-
-        self._start_times = start_times
-
-    def get_end_times(self):
-        return self._end_times
-
-    def set_end_times(self, end_times=None):
-        """Set the end times vector that must be of type pandas.DateTimeIndex
-
-        Args:
-            end_times:
-
-        Returns:
-
-        """
-        if end_times is None:
-            return
-
-        if isinstance(end_times, pandas.DatetimeIndex) is False:
-            raise Exception("The start times vector mus be of type pandas.DatetimeIndex")
-
-        self._end_times = end_times
-
-    def get_extent(self):
-        return self._extent
-
-    def set_extent(self, extent):
-        """Set the spatial extent
-
-        Args:
-            extent: The spatial extent with resolution information, must be of type SpatialExtent
-        """
-
-        if isinstance(extent, SpatialExtent) is False:
-            raise Exception("extent mus be of type SpatialExtent")
-
-        self._extent = extent
-
     data = property(fget=get_data, fset=set_data)
-    start_times = property(fget=get_start_times, fset=set_start_times)
-    end_times = property(fget=get_end_times, fset=set_end_times)
-    extent = property(fget=get_extent, fset=set_extent)
 
 
 ###############################################################################
