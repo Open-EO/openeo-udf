@@ -6,6 +6,7 @@
 import geopandas
 import pandas
 import numpy
+from shapely.geometry import Polygon
 
 class Extent(object):
 
@@ -30,15 +31,17 @@ class Extent(object):
             nsres: 10
             ewres: 10
 
-            >>> rdc = Extent(north=0, south=100, east=0, west=100)
-            >>> print(rdc)
+            >>> extent = Extent(north=0, south=100, east=0, west=100)
+            >>> print(extent)
             north: 0
             south: 100
             east: 0
             west: 100
             nsres: None
             ewres: None
-
+            >>> p = extent.as_polygon()
+            >>> print(p)
+            POLYGON ((100 0, 0 0, 0 100, 100 100, 100 0))
 
         """
 
@@ -57,6 +60,11 @@ class Extent(object):
                "nsres: %(ns)s\n" \
                "ewres: %(ew)s"%{"n":self.north, "s":self.south, "e":self.east,
                                   "w":self.west, "ns":self.nsres, "ew":self.ewres}
+
+    def as_polygon(self):
+
+        return Polygon([(self.west, self.north),(self.east, self.north),
+                        (self.east, self.south),(self.west, self.south)])
 
 
 class RasterDataChunk(object):
@@ -81,20 +89,26 @@ class RasterDataChunk(object):
             >>> rdc = RasterDataChunk(id="test", extent=extent, data=data, wavelength=420)
             >>> print(rdc)
             id: test
-            extent: None
-            data: array([[[ 0.]]])
+            extent: north: 0
+            south: 100
+            east: 0
+            west: 100
+            nsres: 10
+            ewres: 10
             wavelength: 420
             start_times: None
             end_times: None
+            data: [[[0.]]]
+
 
         """
 
         self.id = id
-        self.extent = extent
+        self._extent = extent
         self.wavelength = wavelength
-        self.start_times = start_times
-        self.end_times = end_times
-        self.data = data
+        self._start_times = start_times
+        self._end_times = end_times
+        self._data = data
 
         if self.start_times is not None:
             if len(self.start_times) != len(self.data):
@@ -111,7 +125,7 @@ class RasterDataChunk(object):
                                    "start_times":self.start_times, "end_times":self.end_times, "data":self.data}
 
     def get_data(self):
-        return self.data
+        return self._data
 
     def set_data(self, data):
         """Set the three dimensional numpy.ndarray
@@ -130,10 +144,10 @@ class RasterDataChunk(object):
         if len(data.shape) != 3:
             raise Exception("Argument data must have three dimensions")
 
-        pass
+        self._data = data
 
     def get_start_times(self):
-        return self.start_times
+        return self._start_times
 
     def set_start_times(self, start_times=None):
         """Set the start times vector that must be of type pandas.DateTimeIndex
@@ -150,12 +164,12 @@ class RasterDataChunk(object):
         if isinstance(start_times, pandas.DatetimeIndex) is False:
             raise Exception("The start times vector mus be of type pandas.DatetimeIndex")
 
-        self.start_times = start_times
+        self._start_times = start_times
 
     def get_end_times(self):
-        return self.end_times
+        return self._end_times
 
-    def setend_times(self, end_times=None):
+    def set_end_times(self, end_times=None):
         """Set the end times vector that must be of type pandas.DateTimeIndex
 
         Args:
@@ -170,10 +184,10 @@ class RasterDataChunk(object):
         if isinstance(end_times, pandas.DatetimeIndex) is False:
             raise Exception("The start times vector mus be of type pandas.DatetimeIndex")
 
-        self.end_times = end_times
+        self._end_times = end_times
 
     def get_extent(self):
-        return self.extent
+        return self._extent
 
     def set_extent(self, extent):
         """Set the spatial extent
@@ -185,8 +199,12 @@ class RasterDataChunk(object):
         if isinstance(extent, Extent) is False:
             raise Exception("extent mus be of type Extent")
 
+        self._extent = extent
+
     data = property(fget=get_data, fset=set_data)
     start_times = property(fget=get_start_times, fset=set_start_times)
+    end_times = property(fget=get_end_times, fset=set_end_times)
+    extent = property(fget=get_extent, fset=set_extent)
 
 
 ###############################################################################
