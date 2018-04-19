@@ -1,7 +1,17 @@
-# Add your pinned requirements so that they can be easily installed with:
-# pip install -r requirements.txt
-# Remember to also add them in setup.cfg but unpinned.
-# Example:
-# numpy==1.13.3
-# scipy==1.0
-
+# The requirements for GRASS GIS Python2 environment
+http://download.pytorch.org/whl/cpu/torch-0.3.1-cp35-cp35m-linux_x86_64.whl
+geopandas==0.3.0
+Shapely==1.6.4.post1
+pyproj==1.9.5.1
+pandas==0.22.0
+numpy==1.14.2
+Pillow==5.0.0
+pkg-resources==0.0.0
+ply==3.11
+PyScaffold==3.0.2
+PyYAML==3.12
+scikit-learn==0.19.1
+six==1.11.0
+torch==0.3.1
+torchvision==0.2.0
+tensorflow

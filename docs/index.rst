@@ -1,41 +1,120 @@
-======================
-openeo_udf_development
-======================
+====================
+OpenEO UDF Framework
+====================
 
-This is the documentation of **openeo_udf_development**.
+This is the description of the OpenEO User Defined Function (UDF) API that must be applied when implementing
+UDF for the OpenEO backends.
 
-.. note::
+This document describes the UDF interface and provides reference implementation for Python.
 
-    This is the main page of your project's `Sphinx <http://sphinx-doc.org/>`_
-    documentation. It is formatted in `reStructuredText
-    <http://sphinx-doc.org/rest.html>`__. Add additional pages by creating
-    rst-files in ``docs`` and adding them to the `toctree
-    <http://sphinx-doc.org/markup/toctree.html>`_ below. Use then
-    `references <http://sphinx-doc.org/markup/inline.html>`__ in order to link
-    them from this page, e.g. :ref:`authors <authors>` and :ref:`changes`.
+Basic datatypes
+===============
 
-    It is also possible to refer to the documentation of other Python packages
-    with the `Python domain syntax
-    <http://sphinx-doc.org/domains.html#the-python-domain>`__. By default you
-    can reference the documentation of `Sphinx <http://sphinx.pocoo.org>`__,
-    `Python <http://docs.python.org/>`__, `NumPy
-    <http://docs.scipy.org/doc/numpy>`__, `SciPy
-    <http://docs.scipy.org/doc/scipy/reference/>`__, `matplotlib
-    <http://matplotlib.sourceforge.net>`__, `Pandas
-    <http://pandas.pydata.org/pandas-docs/stable>`__, `Scikit-Learn
-    <http://scikit-learn.org/stable>`__. You can add more by
-    extending the ``intersphinx_mapping`` in your Sphinx's ``conf.py``.
+The basis of the interface description are basic data-types that are available in many programming languages.
+These basic data-types are:
 
-    The pretty useful extension `autodoc
-    <http://www.sphinx-doc.org/en/stable/ext/autodoc.html>`__ is activated by
-    default and lets you include documentation from docstrings. Docstrings can
-    be written in `Google
-    <http://google.github.io/styleguide/pyguide.html#Comments>`__
-    (recommended!), `NumPy
-    <https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt>`__
-    and `classical
-    <http://www.sphinx-doc.org/en/stable/domains.html#info-field-lists>`__
-    style.
+   - Strings
+   - Floating point values
+   - Integer values
+   - Date and time data-types
+   - Multi-dimensional arrays, lists or vectors of floating point values, integer values and date time data-types
+   - Maps or dictionaries
+
+The argument of a UDF is a single dictionary or map, that can be represented by a class object as well,
+depending on the programming language.
+
+The return value is a dictionary as well.
+
+Swagger description
+===================
+
+The data chunk that represent a subset of data from a spatio-temporal dataset:
+
+   .. code-block:: python
+
+      "data_chunk": {
+         "description": "A chunk of data that represents a spatio-temporal subset of a spatio-time dataset. "
+                        "The apporach to implement these datatypes can be different between the programming "
+                        "languages. For Python we suggest to use **pandas.DatetimeIndex** for the one dimensional "
+                        "time arrays and **numpy.ndarray**'s for the data."
+         "type": "object",
+         "required": [
+            "data",
+            "from"
+         ],
+         "data": {
+            "description": "A three dimensional array fo integer (8,16,32,64 bit) or float (16, 32, 64 bit) values."
+                           "The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns "
+                           "the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom "
+                           "and represents the rows of the 2D array. The x-indexing is counted from left to right "
+                           "and represents the columns of the 2D array.",
+            "type": "array",
+            "items": {
+               "type": "array"
+                  "items": {
+                     "type": "array"
+                        "items": {
+                           "type": "number"
+                           }
+                     }
+               }
+            }
+         },
+         "from": {
+            "description": "The vector that contains that start time values for each x,y slice."
+                           "As date-time string format ISO 8601 must be supported, or a program language specific "
+                           "data-type that represents date and time.",
+            "type": "array",
+            "items": {
+               "type": "string"
+               }
+            }
+         },
+         "to": {
+            "description": "The vector that contains that end time values for each x,y slice, in case the "
+                           "the time stamps for all or a subset of slices are intervals. For time instances "
+                           "the from and to time stamps must be equal. As date-time string format ISO 8601 must "
+                           "be supported, or a program language specific data-type that represents date and time.",
+            "type": "array",
+            "items": {
+               "type": "string"
+               }
+            }
+         },
+         "id": {
+            "description": "The identifier of this data chunk.",
+            "type": "string"
+            }
+         },
+         "example": {
+            "id": "test_data",
+            "from": ("2001-01-01T00:00:00",
+                     "2001-01-02T00:00:00",
+                     "2001-01-03T00:00:00"),
+            "to": ("2001-01-02T00:00:00",
+                   "2001-01-03T00:00:00",
+                   "2001-01-04T00:00:00"),
+            "data": (
+                        (
+                            (0, 0, 0),
+                            (1, 1, 1),
+                            (2, 2, 2)
+                        ),
+                        (
+                            (0, 0, 0),
+                            (1, 1, 1),
+                            (2, 2, 2)
+                        (,
+                        )
+                            (0, 0, 0),
+                            (1, 1, 1),
+                            (2, 2, 2)
+                        )
+                    )
+         }
+      }
+
+   ..
 
 
 Contents
