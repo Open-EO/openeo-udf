@@ -15,3 +15,4 @@ six==1.11.0
 torch==0.3.1
 torchvision==0.2.0
 tensorflow
+Sphinx==1.7.2

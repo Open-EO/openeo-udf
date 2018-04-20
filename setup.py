@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    Setup file for openeo_udf_development.
+    Setup file for openeo_udf.
 
     This file was generated with PyScaffold 3.0.2.
     PyScaffold helps you to put up the scaffold of your new Python project.
@@ -14,9 +14,9 @@ from setuptools import setup
 # Add here console scripts and other entry points in ini-style format
 entry_points = """
 [console_scripts]
-# script_name = openeo_udf_development.module:function
+# script_name = openeo_udf.module:function
 # For example:
-# fibonacci = openeo_udf_development.skeleton:run
+# fibonacci = openeo_udf.skeleton:run
 """
 
 

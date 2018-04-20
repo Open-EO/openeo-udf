@@ -2,8 +2,6 @@
 OpenEO UDF Framework
 ====================
 
-
-
 Description
 ===========
 
