@@ -10,9 +10,60 @@ from shapely.geometry import Polygon
 
 
 class SpatialExtent(object):
+    """The axis aligned spatial extent of a collection tile
+
+    Some basic tests:
+
+    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> print(extent)
+    north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: 10
+    ewres: 10
+
+    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
+    >>> print(extent)
+    north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: None
+    ewres: None
+    >>> p = extent.as_polygon()
+    >>> print(p)
+    POLYGON ((0 100, 100 100, 100 0, 0 0, 0 100))
+
+    >>> from shapely.wkt import loads
+    >>> p = loads("POLYGON ((0 100, 100 100, 100 0, 0 0, 0 100))")
+    >>> extent = SpatialExtent.from_polygon(p)
+    >>> print(extent)
+    north: 100.0
+    south: 0.0
+    east: 100.0
+    west: 0.0
+    nsres: None
+    ewres: None
+
+    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
+    >>> extent.as_polygon() == extent.as_polygon()
+    True
+    >>> diff = extent.as_polygon() - extent.as_polygon()
+    >>> print(diff)
+    GEOMETRYCOLLECTION EMPTY
+
+    >>> extent_1 = SpatialExtent(north=80, south=10, east=80, west=10)
+    >>> extent_2 = SpatialExtent(north=100, south=0, east=100, west=0)
+    >>> extent_1.as_polygon() == extent_2.as_polygon()
+    False
+    >>> extent_2.as_polygon().contains(extent_2.as_polygon())
+    True
+
+    """
 
     def __init__(self, north, south, east, west, nsres=None, ewres=None):
-        """Constructor of the axis aligned spatial extent of a data chunk
+        """Constructor of the axis aligned spatial extent of a collection tile
 
         Args:
             north: The northern border of the data chunk
@@ -21,53 +72,6 @@ class SpatialExtent(object):
             west: The west border of the data chunk
             nsres: The north-south pixel resolution (ignored in case of vector data chunks)
             ewres: The east-west pixel resolution (ignored in case of vector data chunks)
-
-
-            >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
-            >>> print(extent)
-            north: 100
-            south: 0
-            east: 100
-            west: 0
-            nsres: 10
-            ewres: 10
-
-            >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
-            >>> print(extent)
-            north: 100
-            south: 0
-            east: 100
-            west: 0
-            nsres: None
-            ewres: None
-            >>> p = extent.as_polygon()
-            >>> print(p)
-            POLYGON ((0 100, 100 100, 100 0, 0 0, 0 100))
-
-            >>> from shapely.wkt import loads
-            >>> p = loads("POLYGON ((0 100, 100 100, 100 0, 0 0, 0 100))")
-            >>> extent = SpatialExtent.from_polygon(p)
-            >>> print(extent)
-            north: 100.0
-            south: 0.0
-            east: 100.0
-            west: 0.0
-            nsres: None
-            ewres: None
-
-            >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
-            >>> extent.as_polygon() == extent.as_polygon()
-            True
-            >>> diff = extent.as_polygon() - extent.as_polygon()
-            >>> print(diff)
-            GEOMETRYCOLLECTION EMPTY
-
-            >>> extent_1 = SpatialExtent(north=80, south=10, east=80, west=10)
-            >>> extent_2 = SpatialExtent(north=100, south=0, east=100, west=0)
-            >>> extent_1.as_polygon() == extent_2.as_polygon()
-            False
-            >>> extent_2.as_polygon().contains(extent_2.as_polygon())
-            True
 
         """
 
@@ -123,6 +127,21 @@ class CollectionTile(object):
     """This is the base class for image and vector collection tiles. It implements
     start time, end time and spatial extent handling.
 
+    Some basic tests:
+
+    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> coll = CollectionTile(id="test", extent=extent)
+    >>> print(coll)
+    id: test
+    extent: north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: 10
+    ewres: 10
+    start_times: None
+    end_times: None
+
     """
 
     def __init__(self, id, extent, start_times=None, end_times=None):
@@ -134,22 +153,6 @@ class CollectionTile(object):
             start_times: The pandas.DateTimeIndex vector with start times for each spatial x,y slice
             end_times: The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
-
-
-            Some basic tests
-
-            >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
-            >>> coll = CollectionTile(id="test", extent=extent)
-            >>> print(coll)
-            id: test
-            extent: north: 100
-            south: 0
-            east: 100
-            west: 0
-            nsres: 10
-            ewres: 10
-            start_times: None
-            end_times: None
 
         """
 
@@ -248,6 +251,45 @@ class ImageCollectionTile(CollectionTile):
     A tile represents a scalar field in space and time,
     for example a time series of a single Landsat 8 or Sentinel2A band. A tile may be a
     spatio-temporal subset of a scalar time series or a whole time series.
+
+    Some basic tests:
+
+    >>> import numpy, pandas
+    >>> data = numpy.zeros(shape=(1,1,1))
+    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> rdc = ImageCollectionTile(id="test", extent=extent, data=data, wavelength=420)
+    >>> print(rdc)
+    id: test
+    extent: north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: 10
+    ewres: 10
+    wavelength: 420
+    start_times: None
+    end_times: None
+    data: [[[0.]]]
+    >>> dates = [pandas.Timestamp('2012-05-01')]
+    >>> starts = pandas.DatetimeIndex(dates)
+    >>> dates = [pandas.Timestamp('2012-05-02')]
+    >>> ends = pandas.DatetimeIndex(dates)
+    >>> rdc = ImageCollectionTile(id="test", extent=extent,
+    ...                           data=data, wavelength=420,
+    ...                           start_times=starts, end_times=ends)
+    >>> print(rdc)
+    id: test
+    extent: north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: 10
+    ewres: 10
+    wavelength: 420
+    start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
+    end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
+    data: [[[0.]]]
+
     """
 
     def __init__(self, id, extent, data, wavelength=None, start_times=None, end_times=None):
@@ -261,45 +303,6 @@ class ImageCollectionTile(CollectionTile):
             start_times: The pandas.DateTimeIndex vector with start times for each spatial x,y slice
             end_times: The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
-
-
-            Some basic tests
-
-            >>> data = numpy.zeros(shape=(1,1,1))
-            >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
-            >>> rdc = ImageCollectionTile(id="test", extent=extent, data=data, wavelength=420)
-            >>> print(rdc)
-            id: test
-            extent: north: 100
-            south: 0
-            east: 100
-            west: 0
-            nsres: 10
-            ewres: 10
-            wavelength: 420
-            start_times: None
-            end_times: None
-            data: [[[0.]]]
-            >>> dates = [pandas.Timestamp('2012-05-01')]
-            >>> starts = pandas.DatetimeIndex(dates)
-            >>> dates = [pandas.Timestamp('2012-05-02')]
-            >>> ends = pandas.DatetimeIndex(dates)
-            >>> rdc = ImageCollectionTile(id="test", extent=extent,
-            ...                           data=data, wavelength=420,
-            ...                           start_times=starts, end_times=ends)
-            >>> print(rdc)
-            id: test
-            extent: north: 100
-            south: 0
-            east: 100
-            west: 0
-            nsres: 10
-            ewres: 10
-            wavelength: 420
-            start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
-            end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
-            data: [[[0.]]]
-
         """
 
         CollectionTile.__init__(self, id=id, extent=extent, start_times=start_times, end_times=end_times)
@@ -341,6 +344,38 @@ class ImageCollectionTile(CollectionTile):
 
 
 class VectorCollectionTile(CollectionTile):
+    """A vector collection tile that represents a subset or a whole vector dataset
+    where single vector features may have time stamps assigned.
+
+    Some basic tests:
+
+    >>> from shapely.geometry import Point
+    >>> import geopandas
+    >>> p1 = Point(0,0)
+    >>> p2 = Point(100,100)
+    >>> p3 = Point(100,0)
+    >>> pseries = [p1, p2, p3]
+    >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
+    >>> data["a"] = [1,2,3]
+    >>> data["b"] = ["a","b","c"]
+    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
+    >>> vdc = VectorCollectionTile(id="test", extent=extent, data=data)
+    >>> print(vdc)
+    id: test
+    extent: north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: None
+    ewres: None
+    start_times: None
+    end_times: None
+    data:    a  b         geometry
+    0  1  a      POINT (0 0)
+    1  2  b  POINT (100 100)
+    2  3  c    POINT (100 0)
+
+    """
 
     def __init__(self, id, extent, data, start_times=None, end_times=None):
         """Constructor of the tile of a vector collection
@@ -352,34 +387,6 @@ class VectorCollectionTile(CollectionTile):
             start_times: The pandas.DateTimeIndex vector with start times for each spatial x,y slice
             end_times: The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
-
-
-            Some basic tests
-
-            >>> from shapely.geometry import Point
-            >>> p1 = Point(0,0)
-            >>> p2 = Point(100,100)
-            >>> p3 = Point(100,0)
-            >>> pseries = [p1, p2, p3]
-            >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
-            >>> data["a"] = [1,2,3]
-            >>> data["b"] = ["a","b","c"]
-            >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
-            >>> vdc = VectorCollectionTile(id="test", extent=extent, data=data)
-            >>> print(vdc)
-            id: test
-            extent: north: 100
-            south: 0
-            east: 100
-            west: 0
-            nsres: None
-            ewres: None
-            start_times: None
-            end_times: None
-            data:    a  b         geometry
-            0  1  a      POINT (0 0)
-            1  2  b  POINT (100 100)
-            2  3  c    POINT (100 0)
 
         """
         CollectionTile.__init__(self, id=id, extent=extent, start_times=start_times, end_times=end_times)
@@ -419,15 +426,115 @@ class VectorCollectionTile(CollectionTile):
 
 
 class UdfArgument(object):
+    """The class that stores the arguments for a user defined function (UDF)
+
+    Some basic tests:
+
+    >>> from shapely.geometry import Point
+    >>> import geopandas
+    >>> import numpy, pandas
+    >>> data = numpy.zeros(shape=(1,1,1))
+    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> starts = pandas.DatetimeIndex([pandas.Timestamp('2012-05-01')])
+    >>> ends = pandas.DatetimeIndex([pandas.Timestamp('2012-05-02')])
+    >>> A = ImageCollectionTile(id="A", extent=extent,
+    ...                         data=data, wavelength=420,
+    ...                         start_times=starts, end_times=ends)
+    >>> B = ImageCollectionTile(id="B", extent=extent,
+    ...                         data=data, wavelength=380,
+    ...                         start_times=starts, end_times=ends)
+    >>> p1 = Point(0,0)
+    >>> p2 = Point(100,100)
+    >>> p3 = Point(100,0)
+    >>> pseries = [p1, p2, p3]
+    >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
+    >>> data["a"] = [1,2,3]
+    >>> data["b"] = ["a","b","c"]
+    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
+    >>> C = VectorCollectionTile(id="C", extent=extent, data=data)
+    >>> D = VectorCollectionTile(id="D", extent=extent, data=data)
+    >>> udf_args = UdfArgument(proj={"EPSG":4326}, image_collection_tiles=[A, B],
+    ...                        vector_collection_tiles=[C, D])
+    >>> udf_args.add_model_path("scikit-learn", "random_forest", "/tmp/model.p")
+    >>> print(udf_args.get_itc_by_id("A"))
+    id: A
+    extent: north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: 10
+    ewres: 10
+    wavelength: 420
+    start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
+    end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
+    data: [[[0.]]]
+    >>> print(udf_args.get_itc_by_id("B"))
+    id: B
+    extent: north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: 10
+    ewres: 10
+    wavelength: 380
+    start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
+    end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
+    data: [[[0.]]]
+    >>> print(udf_args.get_itc_by_id("C"))
+    None
+    >>> print(udf_args.get_vtc_by_id("C"))
+    id: C
+    extent: north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: None
+    ewres: None
+    start_times: None
+    end_times: None
+    data:    a  b         geometry
+    0  1  a      POINT (0 0)
+    1  2  b  POINT (100 100)
+    2  3  c    POINT (100 0)
+    >>> print(udf_args.get_vtc_by_id("D"))
+    id: D
+    extent: north: 100
+    south: 0
+    east: 100
+    west: 0
+    nsres: None
+    ewres: None
+    start_times: None
+    end_times: None
+    data:    a  b         geometry
+    0  1  a      POINT (0 0)
+    1  2  b  POINT (100 100)
+    2  3  c    POINT (100 0)
+    >>> print(len(udf_args.get_vector_collection_tiles()) == 2)
+    True
+    >>> print(len(udf_args.get_image_collection_tiles()) == 2)
+    True
+    >>> print(udf_args.models)
+    {'scikit-learn': {'model_id': 'random_forest', 'path': '/tmp/model.p'}}
+
+    """
 
     def __init__(self, proj, image_collection_tiles=None, vector_collection_tiles=None):
+        """The constructor of the UDF argument class that stores all data required by the
+        user defined function.
+
+        Args:
+            proj:
+            image_collection_tiles:
+            vector_collection_tiles:
+        """
 
         self._image_tile_list = []
         self._vector_tile_list = []
         self._image_tile_dict = {}
         self._vector_tile_dict = {}
         self.proj = proj
-        self._models = {"scikit":{}, "pytorch":{}, "tensorflow":{}}
+        self.models = {}
 
         self.set_image_collection_tiles(image_collection_tiles=image_collection_tiles)
         self.set_vector_collection_tiles(vector_collection_tiles=vector_collection_tiles)
@@ -436,14 +543,12 @@ class UdfArgument(object):
 
         if id in self._image_tile_dict:
             return self._image_tile_dict[id]
-
         return None
 
     def get_vtc_by_id(self, id):
 
         if id in self._vector_tile_dict:
             return self._vector_tile_dict[id]
-
         return None
 
     def get_image_collection_tiles(self):
@@ -475,7 +580,19 @@ class UdfArgument(object):
         self._vector_tile_list.append(vector_collection_tile)
         self._vector_tile_dict[vector_collection_tile.id] = vector_collection_tile
 
-###############################################################################
+    def add_model_path(self, framework, model_id, path):
+        """Add a model path to the UDF object
+
+        Args:
+            framework: The name of the framework (scikit-learn, pytorch, tensorflow)
+            model_id: The unique od of the model
+            path: The path to the model
+
+        Returns:
+
+        """
+        self.models[framework] = dict(model_id=model_id, path=path)
+
 
 if __name__ == "__main__":
     import doctest
