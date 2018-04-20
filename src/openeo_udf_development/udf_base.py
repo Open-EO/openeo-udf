@@ -284,7 +284,9 @@ class ImageCollectionTile(CollectionTile):
             >>> starts = pandas.DatetimeIndex(dates)
             >>> dates = [pandas.Timestamp('2012-05-02')]
             >>> ends = pandas.DatetimeIndex(dates)
-            >>> rdc = ImageCollectionTile(id="test", extent=extent, data=data, wavelength=420, start_times=starts, end_times=ends)
+            >>> rdc = ImageCollectionTile(id="test", extent=extent,
+            ...                           data=data, wavelength=420,
+            ...                           start_times=starts, end_times=ends)
             >>> print(rdc)
             id: test
             extent: north: 100
@@ -415,6 +417,60 @@ class VectorCollectionTile(CollectionTile):
 
     data = property(fget=get_data, fset=set_data)
 
+
+class UdfArgument(object):
+
+    def __init__(self, proj, image_collection_tiles=None, vector_collection_tiles=None):
+
+        self._image_tile_list = []
+        self._vector_tile_list = []
+        self._image_tile_dict = {}
+        self._vector_tile_dict = {}
+        self.proj = proj
+        self._models = {"scikit":{}, "pytorch":{}, "tensorflow":{}}
+
+    def get_itc_by_id(self, id):
+
+        if id in self._image_tile_dict:
+            return self._image_tile_dict[id]
+
+        return None
+
+    def get_vtc_by_id(self, id):
+
+        if id in self._vector_tile_dict:
+            return self._vector_tile_dict[id]
+
+        return None
+
+    def get_image_collection_tiles(self):
+        return self._image_tile_list
+
+    def set_image_collection_tiles(self, image_collection_tiles):
+
+        for entry in image_collection_tiles:
+            self._image_tile_list.append(entry)
+            self._image_tile_dict[entry.id] = entry
+
+    def get_vector_collection_tiles(self):
+        return self._vector_tile_list
+
+    def set_vector_collection_tiles(self, vector_collection_tiles):
+
+        for entry in vector_collection_tiles:
+            self._vector_tile_list.append(entry)
+            self._vector_tile_dict[entry.id] = entry
+
+    icts = property(fget=get_image_collection_tiles, fset=set_image_collection_tiles)
+    vcts = property(fget=get_image_collection_tiles, fset=set_image_collection_tiles)
+
+    def append_itc(self, image_collection_tile):
+        self._image_tile_list.append(image_collection_tile)
+        self._image_tile_dict[image_collection_tile.id] = image_collection_tile
+
+    def append_vtc(self, vector_collection_tile):
+        self._vector_tile_list.append(vector_collection_tile)
+        self._vector_tile_dict[vector_collection_tile.id] = vector_collection_tile
 
 ###############################################################################
 
