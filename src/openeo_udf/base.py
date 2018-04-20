@@ -321,12 +321,12 @@ class ImageCollectionTile(CollectionTile):
         """Constructor of the tile of an image collection
 
         Args:
-            id: The unique id of the image collection tile
-            extent: The spatial extent with resolution information, must be of type SpatialExtent
-            data: The three dimensional numpy.ndarray with indices [t][y][x]
-            wavelength: The optional wavelength of the data chunk
-            start_times: The pandas.DateTimeIndex vector with start times for each spatial x,y slice
-            end_times: The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
+            id (str): The unique id of the image collection tile
+            extent (SpatialExtent): The spatial extent with resolution information
+            data (numpy.ndarray): The three dimensional numpy.ndarray with indices [t][y][x]
+            wavelength (float): The optional wavelength of the data chunk
+            start_times (pandas.DateTimeIndex): The vector with start times for each spatial x,y slice
+            end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
         """
 
@@ -354,7 +354,7 @@ class ImageCollectionTile(CollectionTile):
         This function will check if the provided data is a numpy.ndarray with three dimensions
 
         Args:
-            data:
+            data (numpy.ndarray): The three dimensional numpy.ndarray with indices [t][y][x]
 
         """
         if isinstance(data, numpy.ndarray) is False:
@@ -406,13 +406,12 @@ class VectorCollectionTile(CollectionTile):
         """Constructor of the tile of a vector collection
 
         Args:
-            id: The unique id of the image collection tile
-            extent: The spatial extent with resolution information, must be of type SpatialExtent
-            data: A GeoDataFrame with geometry column and attribute data
-            start_times: The pandas.DateTimeIndex vector with start times for each spatial x,y slice
-            end_times: The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
+            id (str): The unique id of the vector collection tile
+            extent (SpatialExtent): The spatial extent with resolution information
+            data (geopandas.GeoDataFrame): A GeoDataFrame with geometry column and attribute data
+            start_times (pandas.DateTimeIndex): The vector with start times for each spatial x,y slice
+            end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
-
         """
         CollectionTile.__init__(self, id=id, extent=extent, start_times=start_times, end_times=end_times)
 
@@ -435,11 +434,10 @@ class VectorCollectionTile(CollectionTile):
         """Set the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns
 
         This function will check if the provided data is a geopandas.GeoDataFrame and raises
-
         an Exception
 
         Args:
-            data: geopandas.GeoDataFrame
+            data (geopandas.GeoDataFrame): A GeoDataFrame with geometry column and attribute data
 
         """
         if isinstance(data, geopandas.GeoDataFrame) is False:
@@ -551,9 +549,9 @@ class UdfArgument(object):
         user defined function.
 
         Args:
-            proj:
-            image_collection_tiles:
-            vector_collection_tiles:
+            proj (dict): A dictionary of form {"proj type string": "projection decription"} i. e. {"EPSG":4326}
+            image_collection_tiles (list): A list of ImageCollectionTile objects
+            vector_collection_tiles (list): A list of VectorCollectionTile objects
         """
 
         self._image_tile_list = []
@@ -608,9 +606,9 @@ class UdfArgument(object):
         """Add a model path to the UDF object
 
         Args:
-            framework: The name of the framework (scikit-learn, pytorch, tensorflow)
-            model_id: The unique od of the model
-            path: The path to the model
+            framework (str): The name of the framework (scikit-learn, pytorch, tensorflow)
+            model_id (str): The unique od of the model
+            path (str): The path to the model
 
         Returns:
 

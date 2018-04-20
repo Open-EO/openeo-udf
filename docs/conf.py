@@ -266,4 +266,6 @@ intersphinx_mapping = {
     'sklearn': ('http://scikit-learn.org/stable', None),
     'pandas': ('http://pandas.pydata.org/pandas-docs/stable', None),
     'scipy': ('https://docs.scipy.org/doc/scipy/reference', None),
+    'shapely': ('http://toblerity.org/shapely', None),
+    'geopandas': ('http://geopandas.org', None),
 }
