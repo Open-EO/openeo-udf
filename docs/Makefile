@@ -8,8 +8,8 @@ PAPER         =
 BUILDDIR      = _build
 AUTODOCDIR    = api
 AUTODOCBUILD  = sphinx-apidoc
-PROJECT       = openeo_udf_development
-MODULEDIR     = ../src/openeo_udf_development
+PROJECT       = openeo_udf
+MODULEDIR     = ../src/openeo_udf
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $?), 1)
