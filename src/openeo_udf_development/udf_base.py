@@ -429,6 +429,9 @@ class UdfArgument(object):
         self.proj = proj
         self._models = {"scikit":{}, "pytorch":{}, "tensorflow":{}}
 
+        self.set_image_collection_tiles(image_collection_tiles=image_collection_tiles)
+        self.set_vector_collection_tiles(vector_collection_tiles=vector_collection_tiles)
+
     def get_itc_by_id(self, id):
 
         if id in self._image_tile_dict:
