@@ -346,10 +346,16 @@ class ImageCollectionTile(CollectionTile):
                                    "start_times":self.start_times, "end_times":self.end_times, "data":self.data}
 
     def get_data(self):
+        """Return the three dimensional numpy.ndarray with indices [t][y][x]
+
+        Returns:
+            numpy.ndarray: The three dimensional numpy.ndarray with indices [t][y][x]
+
+        """
         return self._data
 
     def set_data(self, data):
-        """Set the three dimensional numpy.ndarray
+        """Set the three dimensional numpy.ndarray with indices [t][y][x]
 
         This function will check if the provided data is a numpy.ndarray with three dimensions
 
@@ -368,7 +374,7 @@ class ImageCollectionTile(CollectionTile):
     data = property(fget=get_data, fset=set_data)
 
 
-class VectorCollectionTile(CollectionTile):
+class VectorTile(CollectionTile):
     """A vector collection tile that represents a subset or a whole vector dataset
     where single vector features may have time stamps assigned.
 
@@ -384,7 +390,7 @@ class VectorCollectionTile(CollectionTile):
     >>> data["a"] = [1,2,3]
     >>> data["b"] = ["a","b","c"]
     >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
-    >>> vdc = VectorCollectionTile(id="test", extent=extent, data=data)
+    >>> vdc = VectorTile(id="test", extent=extent, data=data)
     >>> print(vdc)
     id: test
     extent: north: 100
@@ -428,6 +434,12 @@ class VectorCollectionTile(CollectionTile):
                                  "end_times":self.end_times, "data":self.data}
 
     def get_data(self):
+        """Return the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns
+
+        Returns:
+            geopandas.GeoDataFrame: A data frame that contains the geometry column and any number of attribute columns
+
+        """
         return self._data
 
     def set_data(self, data):
@@ -474,12 +486,12 @@ class UdfArgument(object):
     >>> data["a"] = [1,2,3]
     >>> data["b"] = ["a","b","c"]
     >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
-    >>> C = VectorCollectionTile(id="C", extent=extent, data=data)
-    >>> D = VectorCollectionTile(id="D", extent=extent, data=data)
+    >>> C = VectorTile(id="C", extent=extent, data=data)
+    >>> D = VectorTile(id="D", extent=extent, data=data)
     >>> udf_args = UdfArgument(proj={"EPSG":4326}, image_collection_tiles=[A, B],
-    ...                        vector_collection_tiles=[C, D])
+    ...                        vector_tiles=[C, D])
     >>> udf_args.add_model_path("scikit-learn", "random_forest", "/tmp/model.p")
-    >>> print(udf_args.get_itc_by_id("A"))
+    >>> print(udf_args.get_image_collection_tile_by_id("A"))
     id: A
     extent: north: 100
     south: 0
@@ -491,7 +503,7 @@ class UdfArgument(object):
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
     data: [[[0.]]]
-    >>> print(udf_args.get_itc_by_id("B"))
+    >>> print(udf_args.get_image_collection_tile_by_id("B"))
     id: B
     extent: north: 100
     south: 0
@@ -503,9 +515,9 @@ class UdfArgument(object):
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
     data: [[[0.]]]
-    >>> print(udf_args.get_itc_by_id("C"))
+    >>> print(udf_args.get_image_collection_tile_by_id("C"))
     None
-    >>> print(udf_args.get_vtc_by_id("C"))
+    >>> print(udf_args.get_vector_tile_by_id("C"))
     id: C
     extent: north: 100
     south: 0
@@ -519,7 +531,7 @@ class UdfArgument(object):
     0  1  a      POINT (0 0)
     1  2  b  POINT (100 100)
     2  3  c    POINT (100 0)
-    >>> print(udf_args.get_vtc_by_id("D"))
+    >>> print(udf_args.get_vector_tile_by_id("D"))
     id: D
     extent: north: 100
     south: 0
@@ -533,7 +545,7 @@ class UdfArgument(object):
     0  1  a      POINT (0 0)
     1  2  b  POINT (100 100)
     2  3  c    POINT (100 0)
-    >>> print(len(udf_args.get_vector_collection_tiles()) == 2)
+    >>> print(len(udf_args.get_vector_tiles()) == 2)
     True
     >>> print(len(udf_args.get_image_collection_tiles()) == 2)
     True
@@ -544,14 +556,14 @@ class UdfArgument(object):
 
     """
 
-    def __init__(self, proj, image_collection_tiles=None, vector_collection_tiles=None):
+    def __init__(self, proj, image_collection_tiles=None, vector_tiles=None):
         """The constructor of the UDF argument class that stores all data required by the
         user defined function.
 
         Args:
             proj (dict): A dictionary of form {"proj type string": "projection decription"} i. e. {"EPSG":4326}
-            image_collection_tiles (list): A list of ImageCollectionTile objects
-            vector_collection_tiles (list): A list of VectorCollectionTile objects
+            image_collection_tiles (list[ImageCollectionTile]): A list of ImageCollectionTile objects
+            vector_tiles (list[VectorTile]): A list of VectorTile objects
         """
 
         self._image_tile_list = []
@@ -562,37 +574,59 @@ class UdfArgument(object):
         self.models = {}
 
         self.set_image_collection_tiles(image_collection_tiles=image_collection_tiles)
-        self.set_vector_collection_tiles(vector_collection_tiles=vector_collection_tiles)
+        self.set_vector_tiles(vector_tiles=vector_tiles)
 
-    def get_itc_by_id(self, id):
+    def get_image_collection_tile_by_id(self, id):
+        """Get an image collection tile by its id
 
+        Args:
+            id (str): The image collection tile id
+
+        Returns:
+            ImageCollectionTile: the requested image collection tile of None if not found
+
+        """
         if id in self._image_tile_dict:
             return self._image_tile_dict[id]
         return None
 
-    def get_vtc_by_id(self, id):
+    def get_vector_tile_by_id(self, id):
+        """Get a vector tile by its id
 
+        Args:
+            id (str): The vector tile id
+
+        Returns:
+            VectorTile: the requested vector tile of None if not found
+
+        """
         if id in self._vector_tile_dict:
             return self._vector_tile_dict[id]
         return None
 
     def get_image_collection_tiles(self):
+        """Get all image collection tiles
+
+        Returns:
+            list[ImageCollectionTile]: The list of image collection tiles
+
+        """
         return self._image_tile_list
 
     def set_image_collection_tiles(self, image_collection_tiles):
         for entry in image_collection_tiles:
             self.append_itc(entry)
 
-    def get_vector_collection_tiles(self):
+    def get_vector_tiles(self):
         return self._vector_tile_list
 
-    def set_vector_collection_tiles(self, vector_collection_tiles):
+    def set_vector_tiles(self, vector_tiles):
 
-        for entry in vector_collection_tiles:
+        for entry in vector_tiles:
             self.append_vtc(entry)
 
-    icts = property(fget=get_image_collection_tiles, fset=set_image_collection_tiles)
-    vcts = property(fget=get_image_collection_tiles, fset=set_image_collection_tiles)
+    image_collection_tiles = property(fget=get_image_collection_tiles, fset=set_image_collection_tiles)
+    vector_tiles = property(fget=get_vector_tiles, fset=set_vector_tiles)
 
     def append_itc(self, image_collection_tile):
         self._image_tile_list.append(image_collection_tile)
