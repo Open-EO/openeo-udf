@@ -324,7 +324,7 @@ class ImageCollectionTile(CollectionTile):
             id (str): The unique id of the image collection tile
             extent (SpatialExtent): The spatial extent with resolution information
             data (numpy.ndarray): The three dimensional numpy.ndarray with indices [t][y][x]
-            wavelength (float): The optional wavelength of the data chunk
+            wavelength (float): The optional wavelength of the image collection tile
             start_times (pandas.DateTimeIndex): The vector with start times for each spatial x,y slice
             end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
