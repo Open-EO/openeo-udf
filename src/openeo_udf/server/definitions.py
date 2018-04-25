@@ -69,10 +69,10 @@ class ImageCollectionTile(Schema):
         },
         "data":{
             "description": "A three dimensional array fo integer (8,16,32,64 bit) or float (16, 32, 64 bit) values." \
-                          "The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns " \
-                          "the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom " \
-                          "and represents the rows of the 2D array. The x-indexing is counted from left to right " \
-                          "and represents the columns of the 2D array.",
+                           "The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns " \
+                           "the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom " \
+                           "and represents the rows of the 2D array. The x-indexing is counted from left to right " \
+                           "and represents the columns of the 2D array.",
             "type": "array",
             "items": {
                 "type": "array",

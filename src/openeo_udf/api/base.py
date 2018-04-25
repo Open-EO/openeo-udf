@@ -7,6 +7,7 @@ import geopandas
 import pandas
 import numpy
 from shapely.geometry import Polygon
+from flask import json
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Sören Gebbert"
@@ -51,6 +52,9 @@ class SpatialExtent(object):
     west: 0.0
     nsres: None
     ewres: None
+
+    >>> extent.as_json()
+    '{"extent": {"east": 100.0, "ewres": null, "north": 100.0, "nsres": null, "south": 0.0, "west": 0.0}}'
 
     >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
     >>> extent.as_polygon() == extent.as_polygon()
@@ -130,6 +134,29 @@ class SpatialExtent(object):
 
         return SpatialExtent(north=north, south=south, east=east, west=west)
 
+    def as_dict(self):
+        """Return the spatial extent as a dict that can be easily converted into JSON
+
+        Returns:
+            dict:
+            Dictionary representation
+
+        """
+        d = dict(extent=dict(north=self.north, south=self.south, east=self.east,
+                             west=self.west, ewres=self.ewres, nsres=self.nsres))
+
+        return d
+
+    def as_json(self):
+        """Return the spatial extent as JSON string
+
+        Returns:
+            str:
+            JSON representation
+
+        """
+        return json.dumps(self.as_dict())
+
 
 class CollectionTile(object):
     """This is the base class for image and vector collection tiles. It implements
@@ -149,6 +176,35 @@ class CollectionTile(object):
     ewres: 10
     start_times: None
     end_times: None
+
+    >>> import pandas
+    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> dates = [pandas.Timestamp('2012-05-01')]
+    >>> starts = pandas.DatetimeIndex(dates)
+    >>> dates = [pandas.Timestamp('2012-05-02')]
+    >>> ends = pandas.DatetimeIndex(dates)
+    >>> rdc = CollectionTile(id="test", extent=extent,
+    ...                      start_times=starts, end_times=ends)
+    >>> "extent" in rdc.extent_as_dict()
+    True
+    >>> rdc.extent_as_dict()["extent"]["west"] == 0
+    True
+    >>> rdc.extent_as_dict()["extent"]["east"] == 100
+    True
+    >>> rdc.extent_as_dict()["extent"]["north"] == 100
+    True
+    >>> rdc.extent_as_dict()["extent"]["south"] == 0
+    True
+    >>> rdc.extent_as_dict()["extent"]["nsres"] == 10
+    True
+    >>> rdc.extent_as_dict()["extent"]["ewres"] == 10
+    True
+
+    >>> from flask import json
+    >>> json.dumps(rdc.start_times_as_dict())
+    '{"start_times": ["2012-05-01T00:00:00"]}'
+    >>> json.dumps(rdc.end_times_as_dict())
+    '{"end_times": ["2012-05-02T00:00:00"]}'
 
     """
 
@@ -269,6 +325,15 @@ class CollectionTile(object):
     end_times = property(fget=get_end_times, fset=set_end_times)
     extent = property(fget=get_extent, fset=set_extent)
 
+    def extent_as_dict(self):
+        return self._extent.as_dict()
+
+    def start_times_as_dict(self):
+        return dict(start_times=[t.isoformat() for t in self._start_times])
+
+    def end_times_as_dict(self):
+        return dict(end_times=[t.isoformat() for t in self._end_times])
+
 
 class ImageCollectionTile(CollectionTile):
     """This class represents a three dimensional image collection tile with
@@ -373,6 +438,8 @@ class ImageCollectionTile(CollectionTile):
 
     data = property(fget=get_data, fset=set_data)
 
+    def as_dict(self):
+        pass
 
 class VectorTile(CollectionTile):
     """A vector collection tile that represents a subset or a whole vector dataset
