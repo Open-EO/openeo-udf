@@ -11,4 +11,4 @@ __email__      = "soerengebbert@googlemail.com"
 
 if __name__ == '__main__':
     create_endpoints()
-    flask_app.run(host='0.0.0.0', port=5000, debug=True)
+    flask_app.run(host='0.0.0.0', port=8081, debug=True)

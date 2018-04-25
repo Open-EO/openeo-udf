@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .app import flask_api
-from .jobs import Jobs
+from .udf import Udf
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Sören Gebbert"
@@ -14,6 +14,6 @@ def create_endpoints():
 
     :return:
     """
-    flask_api.add_resource(Jobs, '/jobs')
+    flask_api.add_resource(Udf, '/udf')
 
 

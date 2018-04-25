@@ -18,7 +18,7 @@ flask_api = Api(flask_app,
                 title="OpenEO UDF API",
                 description="The OpenEO UDF API specification",
                 schemes=['http', 'https'],
-                consumes=['application/gml+xml', 'application/json'])
+                consumes=['application/json'])
 
 flask_api._swagger_object["securityDefinitions"] = {"basicAuth": {"type": "basic"}}
 flask_api._swagger_object["security"] = [{"basicAuth": []}]
