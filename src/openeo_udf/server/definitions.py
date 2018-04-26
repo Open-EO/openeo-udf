@@ -67,7 +67,7 @@ class ImageCollectionTile(Schema):
             "description": "The wavelength of the image collection tile.",
             "type": "float"
         },
-        "data":{
+        "data": {
             "description": "A three dimensional array fo integer (8,16,32,64 bit) or float (16, 32, 64 bit) values." \
                            "The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns " \
                            "the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom " \
@@ -78,9 +78,7 @@ class ImageCollectionTile(Schema):
                 "type": "array",
                 "items": {
                     "type": "array",
-                    "items": {
-                        "type": "float"
-                    }
+                    "items": {"type": "float"}
                 }
             }
         },
@@ -88,9 +86,7 @@ class ImageCollectionTile(Schema):
             "description": "The array that contains that start time values for each x,y slice."
                            "As date-time string format ISO 8601 must be supported.",
             "type": "array",
-            "items": {
-                "type": "string"
-            }
+            "items": {"type": "string"}
         },
         "end_times": {
             "description": "The vector that contains that end time values for each x,y slice, in case the "
@@ -99,9 +95,7 @@ class ImageCollectionTile(Schema):
                            "As date-time string format ISO 8601 must "
                            "be supported",
             "type": "array",
-            "items": {
-                "type": "string"
-            }
+            "items": {"type": "string"}
         },
         "extent": SpatialExtent
     }
@@ -144,50 +138,20 @@ class ImageCollectionTile(Schema):
 
 #####################################################################
 
-class VectorFeature(Schema):
-    description = "A single vector feature with attribute data."
-    type = "object"
-    required = ["geometry"]
-    properties = {
-        "geometry": {
-            "description": "WKT string of a vector feature of type Point, "
-                           "MultiPoint, Line, MultiLine, Polygon or MultiPolygon.",
-            "type": "string"
-        },
-        "attributes": {
-            "description": "A list of attributes",
-            "type": "array",
-            "items": {"type": "string"}
-        }
-    }
-    example = {
-        "geometry": "POINT(0, 0)",
-        "attributes": ["1", "F"]
-    }
-
-
-#####################################################################
-
-class VectorTile(Schema):
+class FeatureCollectionTile(Schema):
     description = "A tile of vector data that represents a " \
                   "spatio-temporal subset of a spatio-temporal " \
                   "vector dataset. "
     type = "object"
-    required = ["data", "column_names", "id", "extent"]
+    required = ["data", "id"]
     properties = {
         "id": {
             "description": "The identifier of this vector tile.",
             "type": "string"
         },
-        "column_names": {
-            "description": "The names of the attribute columns.",
-            "type": "array",
-            "items": {"type": "string"}
-        },
         "data": {
-            "description": "The array the vector features including attribute data.",
-            "type": "array",
-            "items": VectorFeature
+            "description": "A GeoJSON FeatureCollection.",
+            "type": dict()
         },
         "start_times": {
             "description": "The array that contains that start time values for each vector feature."
@@ -201,11 +165,8 @@ class VectorTile(Schema):
                            "the from and to time stamps must be equal or empty. "
                            "As date-time string format ISO 8601 must be supported.",
             "type": "array",
-            "items": {
-                "type": "string"
-            }
-        },
-        "extent": SpatialExtent
+            "items": {"type": "string"}
+        }
     }
     example = {
         "id": "test_data",
@@ -215,22 +176,18 @@ class VectorTile(Schema):
         "end_times": ["2001-01-02T00:00:00",
                       "2001-01-03T00:00:00",
                       "2001-01-04T00:00:00"],
-        "data": (
-            {"geometry": "POINT(30, 53)", "attributes": ["1", "A"]},
-            {"geometry": "POINT(24, 50)", "attributes": ["2", "B"]},
-            {"geometry": "POINT(27, 52)", "attributes": ["3", "C"]}
-        ),
-        "column_names": ["id", "format"],
-        "extent": {
-            "north": 53,
-            "south": 50,
-            "east": 30,
-            "west": 24
-        }
+        "data": {"features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"},
+                               "geometry": {"coordinates": [0.0, 0.0], "type": "Point"}},
+                              {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"},
+                               "geometry": {"coordinates": [100.0, 100.0], "type": "Point"}},
+                              {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"},
+                               "geometry": {"coordinates": [100.0, 0.0], "type": "Point"}}],
+                 "type": "FeatureCollection"}
     }
 
 
 #####################################################################
+
 
 class MachineLearnModel(Schema):
     description = "A machine learn model that should be downloaded and applied to the UDF data."
@@ -259,8 +216,8 @@ class MachineLearnModel(Schema):
 #####################################################################
 
 class UdfData(Schema):
-    description = "The UDF data object that stores image collection tiles, vector tiles," \
-                  " projection information and machine learn models. This object is argument for the " \
+    description = "The UDF data object that stores image collection tiles, feature collection tiles," \
+                  "projection information and machine learn models. This object is argument for the " \
                   "UDF as well as their return value."
     type = "object"
     required = ["proj"]
@@ -275,10 +232,10 @@ class UdfData(Schema):
             "type": "array",
             "items": ImageCollectionTile
         },
-        "vector_tiles": {
-            "description": "A list of vector tiles.",
+        "feature_collection_tiles": {
+            "description": "A list of feature collection tiles.",
             "type": "array",
-            "items": VectorTile
+            "items": FeatureCollectionTile
         },
         "models": {
             "description": "A list of machine learn models.",
@@ -325,7 +282,7 @@ class UdfData(Schema):
                 }
             }
         ],
-        "vector_tiles": [
+        "feature_collection_tiles": [
             {
                 "id": "test_data",
                 "start_times": ["2001-01-01T00:00:00",
@@ -334,18 +291,13 @@ class UdfData(Schema):
                 "end_times": ["2001-01-02T00:00:00",
                               "2001-01-03T00:00:00",
                               "2001-01-04T00:00:00"],
-                "data": (
-                    {"geometry": "POINT(30, 53)", "attributes": ["1", "A"]},
-                    {"geometry": "POINT(24, 50)", "attributes": ["2", "B"]},
-                    {"geometry": "POINT(27, 52)", "attributes": ["3", "C"]}
-                ),
-                "column_names": ["id", "format"],
-                "extent": {
-                    "north": 53,
-                    "south": 50,
-                    "east": 30,
-                    "west": 24
-                }
+                "data": {"features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"},
+                                       "geometry": {"coordinates": [0.0, 0.0], "type": "Point"}},
+                                      {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"},
+                                       "geometry": {"coordinates": [100.0, 100.0], "type": "Point"}},
+                                      {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"},
+                                       "geometry": {"coordinates": [100.0, 0.0], "type": "Point"}}],
+                         "type": "FeatureCollection"}
             }
         ]
     }

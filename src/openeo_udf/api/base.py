@@ -52,10 +52,7 @@ class SpatialExtent(object):
     west: 0.0
     nsres: None
     ewres: None
-
-    >>> extent.as_json()
-    '{"extent": {"east": 100.0, "ewres": null, "north": 100.0, "nsres": null, "south": 0.0, "west": 0.0}}'
-
+    
     >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
     >>> extent.as_polygon() == extent.as_polygon()
     True
@@ -134,7 +131,7 @@ class SpatialExtent(object):
 
         return SpatialExtent(north=north, south=south, east=east, west=west)
 
-    def as_dict(self):
+    def to_dict(self):
         """Return the spatial extent as a dict that can be easily converted into JSON
 
         Returns:
@@ -143,19 +140,14 @@ class SpatialExtent(object):
 
         """
         d = dict(extent=dict(north=self.north, south=self.south, east=self.east,
-                             west=self.west, ewres=self.ewres, nsres=self.nsres))
+                             west=self.west))
+
+        if self.ewres:
+            d["extent"].update({"ewres":self.ewres})
+        if self.nsres:
+            d["extent"].update({"nsres":self.nsres})
 
         return d
-
-    def as_json(self):
-        """Return the spatial extent as JSON string
-
-        Returns:
-            str:
-            JSON representation
-
-        """
-        return json.dumps(self.as_dict())
 
 
 class CollectionTile(object):
@@ -185,30 +177,30 @@ class CollectionTile(object):
     >>> ends = pandas.DatetimeIndex(dates)
     >>> rdc = CollectionTile(id="test", extent=extent,
     ...                      start_times=starts, end_times=ends)
-    >>> "extent" in rdc.extent_as_dict()
+    >>> "extent" in rdc.extent_to_dict()
     True
-    >>> rdc.extent_as_dict()["extent"]["west"] == 0
+    >>> rdc.extent_to_dict()["extent"]["west"] == 0
     True
-    >>> rdc.extent_as_dict()["extent"]["east"] == 100
+    >>> rdc.extent_to_dict()["extent"]["east"] == 100
     True
-    >>> rdc.extent_as_dict()["extent"]["north"] == 100
+    >>> rdc.extent_to_dict()["extent"]["north"] == 100
     True
-    >>> rdc.extent_as_dict()["extent"]["south"] == 0
+    >>> rdc.extent_to_dict()["extent"]["south"] == 0
     True
-    >>> rdc.extent_as_dict()["extent"]["nsres"] == 10
+    >>> rdc.extent_to_dict()["extent"]["nsres"] == 10
     True
-    >>> rdc.extent_as_dict()["extent"]["ewres"] == 10
+    >>> rdc.extent_to_dict()["extent"]["ewres"] == 10
     True
 
     >>> from flask import json
-    >>> json.dumps(rdc.start_times_as_dict())
+    >>> json.dumps(rdc.start_times_to_dict())
     '{"start_times": ["2012-05-01T00:00:00"]}'
-    >>> json.dumps(rdc.end_times_as_dict())
+    >>> json.dumps(rdc.end_times_to_dict())
     '{"end_times": ["2012-05-02T00:00:00"]}'
 
     """
 
-    def __init__(self, id, extent, start_times=None, end_times=None):
+    def __init__(self, id, extent=None, start_times=None, end_times=None):
         """Constructor of the base class for tile of a collection
 
         Args:
@@ -315,6 +307,8 @@ class CollectionTile(object):
         Args:
             extent (SpatialExtent): The spatial extent with resolution information, must be of type SpatialExtent
         """
+        if extent is None:
+            return
 
         if isinstance(extent, SpatialExtent) is False:
             raise Exception("extent mus be of type SpatialExtent")
@@ -325,13 +319,13 @@ class CollectionTile(object):
     end_times = property(fget=get_end_times, fset=set_end_times)
     extent = property(fget=get_extent, fset=set_extent)
 
-    def extent_as_dict(self):
-        return self._extent.as_dict()
+    def extent_to_dict(self):
+        return self._extent.to_dict()
 
-    def start_times_as_dict(self):
+    def start_times_to_dict(self):
         return dict(start_times=[t.isoformat() for t in self._start_times])
 
-    def end_times_as_dict(self):
+    def end_times_to_dict(self):
         return dict(end_times=[t.isoformat() for t in self._end_times])
 
 
@@ -379,6 +373,10 @@ class ImageCollectionTile(CollectionTile):
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
     data: [[[0.]]]
+
+    >>> from flask import json
+    >>> json.dumps(rdc.to_dict())
+    '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"], "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0}, "id": "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
 
     """
 
@@ -438,11 +436,25 @@ class ImageCollectionTile(CollectionTile):
 
     data = property(fget=get_data, fset=set_data)
 
-    def as_dict(self):
-        pass
+    def to_dict(self):
 
-class VectorTile(CollectionTile):
-    """A vector collection tile that represents a subset or a whole vector dataset
+        d = {"id": self.id}
+        if self._data is not None:
+            d["data"] = self._data.tolist()
+        if self.wavelength is not None:
+            d["wavelength"] = self.wavelength
+        if self._start_times is not None:
+            d.update(self.start_times_to_dict())
+        if self._end_times is not None:
+            d.update(self.end_times_to_dict())
+        if self._extent is not None:
+            d.update(self.extent_to_dict())
+
+        return d
+
+
+class FeatureCollectionTile(CollectionTile):
+    """A feature collection tile that represents a subset or a whole feature collection
     where single vector features may have time stamps assigned.
 
     Some basic tests:
@@ -456,44 +468,59 @@ class VectorTile(CollectionTile):
     >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
     >>> data["a"] = [1,2,3]
     >>> data["b"] = ["a","b","c"]
-    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
-    >>> vdc = VectorTile(id="test", extent=extent, data=data)
+    >>> vdc = FeatureCollectionTile(id="test", data=data)
     >>> print(vdc)
     id: test
-    extent: north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: None
-    ewres: None
     start_times: None
     end_times: None
     data:    a  b         geometry
     0  1  a      POINT (0 0)
     1  2  b  POINT (100 100)
     2  3  c    POINT (100 0)
+    >>> from flask import json
+    >>> json.dumps(vdc.to_dict())
+    '{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"}, "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"}, {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"}, {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}], "type": "FeatureCollection"}, "id": "test"}'
+
+    >>> p1 = Point(0,0)
+    >>> pseries = [p1]
+    >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
+    >>> data["a"] = [1]
+    >>> data["b"] = ["a"]
+    >>> dates = [pandas.Timestamp('2012-05-01')]
+    >>> starts = pandas.DatetimeIndex(dates)
+    >>> dates = [pandas.Timestamp('2012-05-02')]
+    >>> ends = pandas.DatetimeIndex(dates)
+    >>> vdc = FeatureCollectionTile(id="test", start_times=starts, end_times=ends, data=data)
+    >>> print(vdc)
+    id: test
+    start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
+    end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
+    data:    a  b     geometry
+    0  1  a  POINT (0 0)
+
+    >>> from flask import json
+    >>> json.dumps(vdc.to_dict())
+    '{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"}, "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"}], "type": "FeatureCollection"}, "end_times": ["2012-05-02T00:00:00"], "id": "test", "start_times": ["2012-05-01T00:00:00"]}'
 
     """
 
-    def __init__(self, id, extent, data, start_times=None, end_times=None):
+    def __init__(self, id, data, start_times=None, end_times=None):
         """Constructor of the tile of a vector collection
 
         Args:
             id (str): The unique id of the vector collection tile
-            extent (SpatialExtent): The spatial extent with resolution information
             data (geopandas.GeoDataFrame): A GeoDataFrame with geometry column and attribute data
             start_times (pandas.DateTimeIndex): The vector with start times for each spatial x,y slice
             end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
         """
-        CollectionTile.__init__(self, id=id, extent=extent, start_times=start_times, end_times=end_times)
+        CollectionTile.__init__(self, id=id, start_times=start_times, end_times=end_times)
 
         self.set_data(data)
         self.check_data_with_time()
 
     def __str__(self):
         return "id: %(id)s\n" \
-               "extent: %(extent)s\n" \
                "start_times: %(start_times)s\n" \
                "end_times: %(end_times)s\n" \
                "data: %(data)s"%{"id":self.id, "extent":self.extent,
@@ -526,6 +553,18 @@ class VectorTile(CollectionTile):
 
     data = property(fget=get_data, fset=set_data)
 
+    def to_dict(self):
+
+        d = {"id": self.id}
+        if self._start_times is not None:
+            d.update(self.start_times_to_dict())
+        if self._end_times is not None:
+            d.update(self.end_times_to_dict())
+        if self._data is not None:
+            d["data"] = json.loads(self._data.to_json())
+
+        return d
+
 
 class UdfArgument(object):
     """The class that stores the arguments for a user defined function (UDF)
@@ -552,9 +591,8 @@ class UdfArgument(object):
     >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
     >>> data["a"] = [1,2,3]
     >>> data["b"] = ["a","b","c"]
-    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
-    >>> C = VectorTile(id="C", extent=extent, data=data)
-    >>> D = VectorTile(id="D", extent=extent, data=data)
+    >>> C = FeatureCollectionTile(id="C", data=data)
+    >>> D = FeatureCollectionTile(id="D", data=data)
     >>> udf_args = UdfArgument(proj={"EPSG":4326}, image_collection_tiles=[A, B],
     ...                        vector_tiles=[C, D])
     >>> udf_args.add_model_path("scikit-learn", "random_forest", "/tmp/model.p")
@@ -586,12 +624,6 @@ class UdfArgument(object):
     None
     >>> print(udf_args.get_vector_tile_by_id("C"))
     id: C
-    extent: north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: None
-    ewres: None
     start_times: None
     end_times: None
     data:    a  b         geometry
@@ -600,12 +632,6 @@ class UdfArgument(object):
     2  3  c    POINT (100 0)
     >>> print(udf_args.get_vector_tile_by_id("D"))
     id: D
-    extent: north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: None
-    ewres: None
     start_times: None
     end_times: None
     data:    a  b         geometry
@@ -630,7 +656,7 @@ class UdfArgument(object):
         Args:
             proj (dict): A dictionary of form {"proj type string": "projection decription"} i. e. {"EPSG":4326}
             image_collection_tiles (list[ImageCollectionTile]): A list of ImageCollectionTile objects
-            vector_tiles (list[VectorTile]): A list of VectorTile objects
+            vector_tiles (list[FeatureCollectionTile]): A list of VectorTile objects
         """
 
         self._image_tile_list = []
@@ -664,7 +690,7 @@ class UdfArgument(object):
             id (str): The vector tile id
 
         Returns:
-            VectorTile: the requested vector tile of None if not found
+            FeatureCollectionTile: the requested vector tile of None if not found
 
         """
         if id in self._vector_tile_dict:

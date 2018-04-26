@@ -25,7 +25,7 @@ flask_api._swagger_object["security"] = [{"basicAuth": []}]
 flask_api._swagger_object["tags"] = [
     {
         "name": "UDF",
-        "description": "Interfacing end executing user-defined functions at the back-end."
+        "description": "Interfacing end executing user-defined functions at the provided data."
     }
 ]
 
