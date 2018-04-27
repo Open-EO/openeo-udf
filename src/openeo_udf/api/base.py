@@ -151,6 +151,17 @@ class SpatialExtent(object):
 
     @staticmethod
     def from_dict(extent):
+        """Create a SpatialExtent from a python dictionary that was created from
+        the JSON definition of the SpatialExtent
+
+        Args:
+            extent (dict): The dictionary that contains the spatial extent definition
+
+        Returns:
+            SpatialExtent:
+            A new SpatialExtent object
+
+        """
 
         north = None
         south = None
@@ -362,21 +373,57 @@ class CollectionTile(object):
     extent = property(fget=get_extent, fset=set_extent)
 
     def extent_to_dict(self):
+        """Convert the extent into a dictionary representation that can be converted to JSON
+
+        Returns:
+            dict:
+            The spatial extent
+
+        """
         return self._extent.to_dict()
 
     def start_times_to_dict(self):
+        """Convert the start times vector into a dictionary representation that can be converted to JSON
+
+        Returns:
+            dict:
+            The start times vector
+
+        """
         return dict(start_times=[t.isoformat() for t in self._start_times])
 
     def end_times_to_dict(self):
+        """Convert the end times vector into a dictionary representation that can be converted to JSON
+
+        Returns:
+            dict:
+            The end times vector
+
+        """
         return dict(end_times=[t.isoformat() for t in self._end_times])
 
     def set_extent_from_dict(self, extent):
+        """Set the spatial extent from a dictionary
+
+        Args:
+            extent (dict): The dictionary with the layout of the JSON SpatialExtent definition
+        """
         self.set_extent(SpatialExtent.from_dict(extent))
 
     def set_start_times_from_list(self, start_times):
+        """Set the start times vector from a dictionary
+
+        Args:
+            start_times (dict): The dictionary with the layout of the JSON start times vector definition
+        """
         self.set_start_times(pandas.DatetimeIndex(start_times))
 
     def set_end_times_from_list(self, end_times):
+        """Set the end times vector from a dictionary
+
+        Args:
+            end_times (dict): The dictionary with the layout of the JSON end times vector definition
+        """
         self.set_end_times(pandas.DatetimeIndex(end_times))
 
 
@@ -504,6 +551,13 @@ class ImageCollectionTile(CollectionTile):
     data = property(fget=get_data, fset=set_data)
 
     def to_dict(self):
+        """Convert this ImageCollectionTile into a dictionary that can be converted into
+        a valid JSON representation
+
+        Returns:
+            dict:
+            ImageCollectionTile as a dictionary
+        """
 
         d = {"id": self.id}
         if self._data is not None:
@@ -521,6 +575,17 @@ class ImageCollectionTile(CollectionTile):
 
     @staticmethod
     def from_dict(ict_dict):
+        """Create a image collection tile from a python dictionary that was created from
+        the JSON definition of the ImageCollectionTile
+
+        Args:
+            ict_dict (dict): The dictionary that contains the image collection tile definition
+
+        Returns:
+            ImageCollectionTile:
+            A new ImageCollectionTile object
+
+        """
 
         if "id" not in ict_dict:
             raise Exception("Missing id in dictionary")
@@ -665,6 +730,13 @@ class FeatureCollectionTile(CollectionTile):
     data = property(fget=get_data, fset=set_data)
 
     def to_dict(self):
+        """Convert this FeatureCollectionTile into a dictionary that can be converted into
+        a valid JSON representation
+
+        Returns:
+            dict:
+            FeatureCollectionTile as a dictionary
+        """
 
         d = {"id": self.id}
         if self._start_times is not None:
@@ -678,6 +750,17 @@ class FeatureCollectionTile(CollectionTile):
 
     @staticmethod
     def from_dict(fct_dict):
+        """Create a feature collection tile from a python dictionary that was created from
+        the JSON definition of the FeatureCollectionTile
+
+        Args:
+            fct_dict (dict): The dictionary that contains the feature collection tile definition
+
+        Returns:
+            FeatureCollectionTile:
+            A new FeatureCollectionTile object
+
+        """
 
         if "id" not in fct_dict:
             raise Exception("Missing id in dictionary")
@@ -902,6 +985,11 @@ class UdfData(object):
         return self._image_tile_list
 
     def set_image_collection_tiles(self, image_collection_tiles):
+        """Set the image collection tiles
+
+        Args:
+            image_collection_tiles (list[ImageCollectionTile]):
+        """
 
         if image_collection_tiles is None:
             return
@@ -910,9 +998,20 @@ class UdfData(object):
             self.append_ict(entry)
 
     def get_feature_collection_tiles(self):
+        """Get all feature collection tiles
+
+        Returns:
+            list[FeatureCollectionTile]: The list of feature collection tiles
+
+        """
         return self._feature_tile_list
 
     def set_feature_collection_tiles(self, feature_collection_tiles):
+        """Set the feature collection tiles
+
+        Args:
+            image_collection_tiles (list[FeatureCollectionTile]):
+        """
 
         if feature_collection_tiles is None:
             return
@@ -924,10 +1023,24 @@ class UdfData(object):
     feature_collection_tiles = property(fget=get_feature_collection_tiles, fset=set_feature_collection_tiles)
 
     def append_ict(self, image_collection_tile):
+        """Append a image collection tile to the list
+
+        It will be automatically added to the dictionary of all image collection tiles
+
+        Args:
+            image_collection_tile (ImageCollectionTile): The image collection tile to append
+        """
         self._image_tile_list.append(image_collection_tile)
         self._image_tile_dict[image_collection_tile.id] = image_collection_tile
 
     def append_fct(self, feature_collection_tile):
+        """Append a feature collection tile to the list
+
+        It will be automatically added to the dictionary of all feature collection tiles
+
+        Args:
+            feature_collection_tile (FeatureCollectionTile): The feature collection tile to append
+        """
         self._feature_tile_list.append(feature_collection_tile)
         self._feature_tile_dict[feature_collection_tile.id] = feature_collection_tile
 
@@ -945,6 +1058,14 @@ class UdfData(object):
         self.models[framework] = dict(model_id=model_id, path=path)
 
     def to_dict(self):
+        """Convert this UdfData object into a dictionary that can be converted into
+        a valid JSON representation
+
+        Returns:
+            dict:
+            UdfData object as a dictionary
+        """
+
 
         d = {"proj": self.proj}
 
@@ -967,6 +1088,17 @@ class UdfData(object):
 
     @staticmethod
     def from_dict(udf_dict):
+        """Create a udf data object from a python dictionary that was created from
+        the JSON definition of the UdfData class
+
+        Args:
+            udf_dict (dict): The dictionary that contains the udf data definition
+
+        Returns:
+            UdfData:
+            A new UdfData object
+
+        """
 
         if "proj" not in udf_dict:
             raise Exception("Missing projection in dictionary")
