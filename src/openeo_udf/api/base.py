@@ -566,7 +566,7 @@ class FeatureCollectionTile(CollectionTile):
         return d
 
 
-class UdfArgument(object):
+class UdfData(object):
     """The class that stores the arguments for a user defined function (UDF)
 
     Some basic tests:
@@ -593,7 +593,7 @@ class UdfArgument(object):
     >>> data["b"] = ["a","b","c"]
     >>> C = FeatureCollectionTile(id="C", data=data)
     >>> D = FeatureCollectionTile(id="D", data=data)
-    >>> udf_args = UdfArgument(proj={"EPSG":4326}, image_collection_tiles=[A, B],
+    >>> udf_args = UdfData(proj={"EPSG":4326}, image_collection_tiles=[A, B],
     ...                        vector_tiles=[C, D])
     >>> udf_args.add_model_path("scikit-learn", "random_forest", "/tmp/model.p")
     >>> print(udf_args.get_image_collection_tile_by_id("A"))
@@ -708,7 +708,7 @@ class UdfArgument(object):
 
     def set_image_collection_tiles(self, image_collection_tiles):
         for entry in image_collection_tiles:
-            self.append_itc(entry)
+            self.append_ict(entry)
 
     def get_vector_tiles(self):
         return self._vector_tile_list
@@ -716,16 +716,16 @@ class UdfArgument(object):
     def set_vector_tiles(self, vector_tiles):
 
         for entry in vector_tiles:
-            self.append_vtc(entry)
+            self.append_vct(entry)
 
     image_collection_tiles = property(fget=get_image_collection_tiles, fset=set_image_collection_tiles)
     vector_tiles = property(fget=get_vector_tiles, fset=set_vector_tiles)
 
-    def append_itc(self, image_collection_tile):
+    def append_ict(self, image_collection_tile):
         self._image_tile_list.append(image_collection_tile)
         self._image_tile_dict[image_collection_tile.id] = image_collection_tile
 
-    def append_vtc(self, vector_collection_tile):
+    def append_vct(self, vector_collection_tile):
         self._vector_tile_list.append(vector_collection_tile)
         self._vector_tile_dict[vector_collection_tile.id] = vector_collection_tile
 

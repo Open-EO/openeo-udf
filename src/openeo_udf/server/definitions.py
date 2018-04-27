@@ -188,7 +188,6 @@ class FeatureCollectionTile(Schema):
 
 #####################################################################
 
-
 class MachineLearnModel(Schema):
     description = "A machine learn model that should be downloaded and applied to the UDF data."
     type = "object"
