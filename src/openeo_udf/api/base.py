@@ -149,6 +149,31 @@ class SpatialExtent(object):
 
         return d
 
+    @staticmethod
+    def from_dict(extent):
+
+        north = None
+        south = None
+        east = None
+        west = None
+        ewres = None
+        nsres = None
+
+        if "north" in extent:
+            north = extent["north"]
+        if "south" in extent:
+            south = extent["south"]
+        if "east" in extent:
+            east = extent["east"]
+        if "west" in extent:
+            west = extent["west"]
+        if "ewres" in extent:
+            ewres = extent["ewres"]
+        if "nsres" in extent:
+            nsres = extent["nsres"]
+
+        return SpatialExtent(north=north, south=south, west=west, east=east, nsres=nsres, ewres=ewres)
+
 
 class CollectionTile(object):
     """This is the base class for image and vector collection tiles. It implements
@@ -197,6 +222,23 @@ class CollectionTile(object):
     '{"start_times": ["2012-05-01T00:00:00"]}'
     >>> json.dumps(rdc.end_times_to_dict())
     '{"end_times": ["2012-05-02T00:00:00"]}'
+
+    >>> ct = CollectionTile(id="test")
+    >>> ct.set_extent_from_dict({"north": 53, "south": 50, "east": 30, "west": 24, "nsres": 0.01, "ewres": 0.01})
+    >>> ct.set_start_times_from_list(["2012-05-01T00:00:00"])
+    >>> ct.set_end_times_from_list(["2012-05-02T00:00:00"])
+    >>> print(ct)
+    id: test
+    extent: north: 53
+    south: 50
+    east: 30
+    west: 24
+    nsres: 0.01
+    ewres: 0.01
+    start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
+    end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
+
+
 
     """
 
@@ -328,6 +370,15 @@ class CollectionTile(object):
     def end_times_to_dict(self):
         return dict(end_times=[t.isoformat() for t in self._end_times])
 
+    def set_extent_from_dict(self, extent):
+        self.set_extent(SpatialExtent.from_dict(extent))
+
+    def set_start_times_from_list(self, start_times):
+        self.set_start_times(pandas.DatetimeIndex(start_times))
+
+    def set_end_times_from_list(self, end_times):
+        self.set_end_times(pandas.DatetimeIndex(end_times))
+
 
 class ImageCollectionTile(CollectionTile):
     """This class represents a three dimensional image collection tile with
@@ -341,8 +392,8 @@ class ImageCollectionTile(CollectionTile):
     >>> import numpy, pandas
     >>> data = numpy.zeros(shape=(1,1,1))
     >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
-    >>> rdc = ImageCollectionTile(id="test", extent=extent, data=data, wavelength=420)
-    >>> print(rdc)
+    >>> ict = ImageCollectionTile(id="test", extent=extent, data=data, wavelength=420)
+    >>> print(ict)
     id: test
     extent: north: 100
     south: 0
@@ -358,10 +409,10 @@ class ImageCollectionTile(CollectionTile):
     >>> starts = pandas.DatetimeIndex(dates)
     >>> dates = [pandas.Timestamp('2012-05-02')]
     >>> ends = pandas.DatetimeIndex(dates)
-    >>> rdc = ImageCollectionTile(id="test", extent=extent,
+    >>> ict = ImageCollectionTile(id="test", extent=extent,
     ...                           data=data, wavelength=420,
     ...                           start_times=starts, end_times=ends)
-    >>> print(rdc)
+    >>> print(ict)
     id: test
     extent: north: 100
     south: 0
@@ -375,8 +426,24 @@ class ImageCollectionTile(CollectionTile):
     data: [[[0.]]]
 
     >>> from flask import json
-    >>> json.dumps(rdc.to_dict())
-    '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"], "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0}, "id": "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
+    >>> json.dumps(ict.to_dict()) # doctest: +ELLIPSIS
+    ...                           # doctest: +NORMALIZE_WHITESPACE
+    '{"data": [[[0.0]]],
+    "end_times": ["2012-05-02T00:00:00"],
+    "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
+    "id": "test",
+    "start_times": ["2012-05-01T00:00:00"],
+    "wavelength": 420}'
+
+    >>> ict = ImageCollectionTile.from_dict(ict.to_dict())
+    >>> json.dumps(ict.to_dict()) # doctest: +ELLIPSIS
+    ...                           # doctest: +NORMALIZE_WHITESPACE
+    '{"data": [[[0.0]]],
+    "end_times": ["2012-05-02T00:00:00"],
+    "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
+    "id": "test",
+    "start_times": ["2012-05-01T00:00:00"],
+    "wavelength": 420}'
 
     """
 
@@ -452,6 +519,33 @@ class ImageCollectionTile(CollectionTile):
 
         return d
 
+    @staticmethod
+    def from_dict(ict_dict):
+
+        if "id" not in ict_dict:
+            raise Exception("Missing id in dictionary")
+
+        if "data" not in ict_dict:
+            raise Exception("Missing data in dictionary")
+
+        if "extent" not in ict_dict:
+            raise Exception("Missing extent in dictionary")
+
+        ict = ImageCollectionTile(id =ict_dict["id"],
+                                  extent=SpatialExtent.from_dict(ict_dict["extent"]),
+                                  data=numpy.asarray(ict_dict["data"]))
+
+        if "start_times" in ict_dict:
+            ict.set_start_times_from_list(ict_dict["start_times"])
+
+        if "end_times" in ict_dict:
+            ict.set_end_times_from_list(ict_dict["end_times"])
+
+        if "wavelength" in ict_dict:
+            ict.wavelength = ict_dict["wavelength"]
+
+        return ict
+
 
 class FeatureCollectionTile(CollectionTile):
     """A feature collection tile that represents a subset or a whole feature collection
@@ -468,8 +562,8 @@ class FeatureCollectionTile(CollectionTile):
     >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
     >>> data["a"] = [1,2,3]
     >>> data["b"] = ["a","b","c"]
-    >>> vdc = FeatureCollectionTile(id="test", data=data)
-    >>> print(vdc)
+    >>> fct = FeatureCollectionTile(id="test", data=data)
+    >>> print(fct)
     id: test
     start_times: None
     end_times: None
@@ -478,7 +572,7 @@ class FeatureCollectionTile(CollectionTile):
     1  2  b  POINT (100 100)
     2  3  c    POINT (100 0)
     >>> from flask import json
-    >>> json.dumps(vdc.to_dict())
+    >>> json.dumps(fct.to_dict())
     '{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"}, "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"}, {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"}, {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}], "type": "FeatureCollection"}, "id": "test"}'
 
     >>> p1 = Point(0,0)
@@ -490,8 +584,8 @@ class FeatureCollectionTile(CollectionTile):
     >>> starts = pandas.DatetimeIndex(dates)
     >>> dates = [pandas.Timestamp('2012-05-02')]
     >>> ends = pandas.DatetimeIndex(dates)
-    >>> vdc = FeatureCollectionTile(id="test", start_times=starts, end_times=ends, data=data)
-    >>> print(vdc)
+    >>> fct = FeatureCollectionTile(id="test", start_times=starts, end_times=ends, data=data)
+    >>> print(fct)
     id: test
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
@@ -499,8 +593,24 @@ class FeatureCollectionTile(CollectionTile):
     0  1  a  POINT (0 0)
 
     >>> from flask import json
-    >>> json.dumps(vdc.to_dict())
-    '{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"}, "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"}], "type": "FeatureCollection"}, "end_times": ["2012-05-02T00:00:00"], "id": "test", "start_times": ["2012-05-01T00:00:00"]}'
+    >>> json.dumps(fct.to_dict()) # doctest: +ELLIPSIS
+    ...                           # doctest: +NORMALIZE_WHITESPACE
+    '{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"}, "id": "0",
+                             "properties": {"a": 1, "b": "a"}, "type": "Feature"}],
+               "type": "FeatureCollection"},
+    "end_times": ["2012-05-02T00:00:00"],
+    "id": "test",
+    "start_times": ["2012-05-01T00:00:00"]}'
+
+    >>> fct = FeatureCollectionTile.from_dict(fct.to_dict())
+    >>> json.dumps(fct.to_dict()) # doctest: +ELLIPSIS
+    ...                           # doctest: +NORMALIZE_WHITESPACE
+    '{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"}, "id": "0",
+                             "properties": {"a": 1, "b": "a"}, "type": "Feature"}],
+               "type": "FeatureCollection"},
+    "end_times": ["2012-05-02T00:00:00"],
+    "id": "test",
+    "start_times": ["2012-05-01T00:00:00"]}'
 
     """
 
@@ -511,7 +621,8 @@ class FeatureCollectionTile(CollectionTile):
             id (str): The unique id of the vector collection tile
             data (geopandas.GeoDataFrame): A GeoDataFrame with geometry column and attribute data
             start_times (pandas.DateTimeIndex): The vector with start times for each spatial x,y slice
-            end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
+            end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times
+                                              for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
         """
         CollectionTile.__init__(self, id=id, start_times=start_times, end_times=end_times)
@@ -565,6 +676,26 @@ class FeatureCollectionTile(CollectionTile):
 
         return d
 
+    @staticmethod
+    def from_dict(fct_dict):
+
+        if "id" not in fct_dict:
+            raise Exception("Missing id in dictionary")
+
+        if "data" not in fct_dict:
+            raise Exception("Missing data in dictionary")
+
+        fct = FeatureCollectionTile(id =fct_dict["id"],
+                                    data=geopandas.GeoDataFrame.from_features(fct_dict["data"]))
+
+        if "start_times" in fct_dict:
+            fct.set_start_times_from_list(fct_dict["start_times"])
+
+        if "end_times" in fct_dict:
+            fct.set_end_times_from_list(fct_dict["end_times"])
+
+        return fct
+
 
 class UdfData(object):
     """The class that stores the arguments for a user defined function (UDF)
@@ -593,10 +724,10 @@ class UdfData(object):
     >>> data["b"] = ["a","b","c"]
     >>> C = FeatureCollectionTile(id="C", data=data)
     >>> D = FeatureCollectionTile(id="D", data=data)
-    >>> udf_args = UdfData(proj={"EPSG":4326}, image_collection_tiles=[A, B],
-    ...                        vector_tiles=[C, D])
-    >>> udf_args.add_model_path("scikit-learn", "random_forest", "/tmp/model.p")
-    >>> print(udf_args.get_image_collection_tile_by_id("A"))
+    >>> udf_data = UdfData(proj={"EPSG":4326}, image_collection_tiles=[A, B],
+    ...                        feature_collection_tiles=[C, D])
+    >>> udf_data.add_model_path("scikit-learn", "random_forest", "/tmp/model.p")
+    >>> print(udf_data.get_image_collection_tile_by_id("A"))
     id: A
     extent: north: 100
     south: 0
@@ -608,7 +739,7 @@ class UdfData(object):
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
     data: [[[0.]]]
-    >>> print(udf_args.get_image_collection_tile_by_id("B"))
+    >>> print(udf_data.get_image_collection_tile_by_id("B"))
     id: B
     extent: north: 100
     south: 0
@@ -620,9 +751,9 @@ class UdfData(object):
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
     data: [[[0.]]]
-    >>> print(udf_args.get_image_collection_tile_by_id("C"))
+    >>> print(udf_data.get_image_collection_tile_by_id("C"))
     None
-    >>> print(udf_args.get_vector_tile_by_id("C"))
+    >>> print(udf_data.get_feature_collection_tile_by_id("C"))
     id: C
     start_times: None
     end_times: None
@@ -630,7 +761,7 @@ class UdfData(object):
     0  1  a      POINT (0 0)
     1  2  b  POINT (100 100)
     2  3  c    POINT (100 0)
-    >>> print(udf_args.get_vector_tile_by_id("D"))
+    >>> print(udf_data.get_feature_collection_tile_by_id("D"))
     id: D
     start_times: None
     end_times: None
@@ -638,36 +769,100 @@ class UdfData(object):
     0  1  a      POINT (0 0)
     1  2  b  POINT (100 100)
     2  3  c    POINT (100 0)
-    >>> print(len(udf_args.get_vector_tiles()) == 2)
+    >>> print(len(udf_data.get_feature_collection_tiles()) == 2)
     True
-    >>> print(len(udf_args.get_image_collection_tiles()) == 2)
+    >>> print(len(udf_data.get_image_collection_tiles()) == 2)
     True
-    >>> print(udf_args.models['scikit-learn']['path'])
+    >>> print(udf_data.models['scikit-learn']['path'])
     /tmp/model.p
-    >>> print(udf_args.models['scikit-learn']['model_id'])
+    >>> print(udf_data.models['scikit-learn']['model_id'])
     random_forest
+
+    >>> from flask import json
+    >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
+    ...                                # doctest: +NORMALIZE_WHITESPACE
+    '{"feature_collection_tiles": [{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
+                                    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
+                                   {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1",
+                                    "properties": {"a": 2, "b": "b"}, "type": "Feature"},
+                                   {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
+                                    "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
+                                    "type": "FeatureCollection"}, "id": "C"},
+                                   {"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
+                                    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
+                                   {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1",
+                                    "properties": {"a": 2, "b": "b"}, "type": "Feature"},
+                                   {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
+                                    "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
+                                    "type": "FeatureCollection"}, "id": "D"}],
+       "image_collection_tiles": [{"data": [[[0.0]]],
+                                   "end_times": ["2012-05-02T00:00:00"],
+                                   "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
+                                   "id": "A",
+                                   "start_times": ["2012-05-01T00:00:00"],
+                                   "wavelength": 420},
+                                  {"data": [[[0.0]]],
+                                   "end_times": ["2012-05-02T00:00:00"],
+                                   "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
+                                   "id": "B",
+                                   "start_times": ["2012-05-01T00:00:00"],
+                                   "wavelength": 380}],
+       "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
+       "proj": {"EPSG": 4326}}'
+
+    >>> udf = UdfData.from_dict(udf_data.to_dict())
+    >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
+    ...                           # doctest: +NORMALIZE_WHITESPACE
+    '{"feature_collection_tiles": [{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
+                                    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
+                                   {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1",
+                                    "properties": {"a": 2, "b": "b"}, "type": "Feature"},
+                                   {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
+                                    "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
+                                    "type": "FeatureCollection"}, "id": "C"},
+                                   {"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
+                                    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
+                                   {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1",
+                                    "properties": {"a": 2, "b": "b"}, "type": "Feature"},
+                                   {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
+                                    "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
+                                    "type": "FeatureCollection"}, "id": "D"}],
+       "image_collection_tiles": [{"data": [[[0.0]]],
+                                   "end_times": ["2012-05-02T00:00:00"],
+                                   "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
+                                   "id": "A",
+                                   "start_times": ["2012-05-01T00:00:00"],
+                                   "wavelength": 420},
+                                  {"data": [[[0.0]]],
+                                   "end_times": ["2012-05-02T00:00:00"],
+                                   "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
+                                   "id": "B",
+                                   "start_times": ["2012-05-01T00:00:00"],
+                                   "wavelength": 380}],
+       "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
+       "proj": {"EPSG": 4326}}'
 
     """
 
-    def __init__(self, proj, image_collection_tiles=None, vector_tiles=None):
+    def __init__(self, proj, image_collection_tiles=None, feature_collection_tiles=None):
         """The constructor of the UDF argument class that stores all data required by the
         user defined function.
 
         Args:
             proj (dict): A dictionary of form {"proj type string": "projection decription"} i. e. {"EPSG":4326}
             image_collection_tiles (list[ImageCollectionTile]): A list of ImageCollectionTile objects
-            vector_tiles (list[FeatureCollectionTile]): A list of VectorTile objects
+            feature_collection_tiles (list[FeatureCollectionTile]): A list of VectorTile objects
         """
 
         self._image_tile_list = []
-        self._vector_tile_list = []
+        self._feature_tile_list = []
         self._image_tile_dict = {}
-        self._vector_tile_dict = {}
+        self._feature_tile_dict = {}
         self.proj = proj
         self.models = {}
 
         self.set_image_collection_tiles(image_collection_tiles=image_collection_tiles)
-        self.set_vector_tiles(vector_tiles=vector_tiles)
+        self.set_feature_collection_tiles(feature_collection_tiles=feature_collection_tiles)
 
     def get_image_collection_tile_by_id(self, id):
         """Get an image collection tile by its id
@@ -683,7 +878,7 @@ class UdfData(object):
             return self._image_tile_dict[id]
         return None
 
-    def get_vector_tile_by_id(self, id):
+    def get_feature_collection_tile_by_id(self, id):
         """Get a vector tile by its id
 
         Args:
@@ -693,8 +888,8 @@ class UdfData(object):
             FeatureCollectionTile: the requested vector tile of None if not found
 
         """
-        if id in self._vector_tile_dict:
-            return self._vector_tile_dict[id]
+        if id in self._feature_tile_dict:
+            return self._feature_tile_dict[id]
         return None
 
     def get_image_collection_tiles(self):
@@ -707,27 +902,34 @@ class UdfData(object):
         return self._image_tile_list
 
     def set_image_collection_tiles(self, image_collection_tiles):
+
+        if image_collection_tiles is None:
+            return
+
         for entry in image_collection_tiles:
             self.append_ict(entry)
 
-    def get_vector_tiles(self):
-        return self._vector_tile_list
+    def get_feature_collection_tiles(self):
+        return self._feature_tile_list
 
-    def set_vector_tiles(self, vector_tiles):
+    def set_feature_collection_tiles(self, feature_collection_tiles):
 
-        for entry in vector_tiles:
-            self.append_vct(entry)
+        if feature_collection_tiles is None:
+            return
+
+        for entry in feature_collection_tiles:
+            self.append_fct(entry)
 
     image_collection_tiles = property(fget=get_image_collection_tiles, fset=set_image_collection_tiles)
-    vector_tiles = property(fget=get_vector_tiles, fset=set_vector_tiles)
+    feature_collection_tiles = property(fget=get_feature_collection_tiles, fset=set_feature_collection_tiles)
 
     def append_ict(self, image_collection_tile):
         self._image_tile_list.append(image_collection_tile)
         self._image_tile_dict[image_collection_tile.id] = image_collection_tile
 
-    def append_vct(self, vector_collection_tile):
-        self._vector_tile_list.append(vector_collection_tile)
-        self._vector_tile_dict[vector_collection_tile.id] = vector_collection_tile
+    def append_fct(self, feature_collection_tile):
+        self._feature_tile_list.append(feature_collection_tile)
+        self._feature_tile_dict[feature_collection_tile.id] = feature_collection_tile
 
     def add_model_path(self, framework, model_id, path):
         """Add a model path to the UDF object
@@ -741,6 +943,52 @@ class UdfData(object):
 
         """
         self.models[framework] = dict(model_id=model_id, path=path)
+
+    def to_dict(self):
+
+        d = {"proj": self.proj}
+
+        if self._image_tile_list is not None:
+            l = []
+            for tile in self._image_tile_list:
+                l.append(tile.to_dict())
+            d["image_collection_tiles"] = l
+
+        if self._feature_tile_list is not None:
+            l = []
+            for tile in self._feature_tile_list:
+                l.append(tile.to_dict())
+            d["feature_collection_tiles"] = l
+
+        if self.models is not None:
+            d["models"] = self.models
+
+        return d
+
+    @staticmethod
+    def from_dict(udf_dict):
+
+        if "proj" not in udf_dict:
+            raise Exception("Missing projection in dictionary")
+
+        udf_data = UdfData(proj=udf_dict["proj"])
+
+        if "image_collection_tiles" in udf_dict:
+            l = udf_dict["image_collection_tiles"]
+            for entry in l:
+                ict = ImageCollectionTile.from_dict(entry)
+                udf_data.append_ict(ict)
+
+        if "feature_collection_tiles" in udf_dict:
+            l = udf_dict["feature_collection_tiles"]
+            for entry in l:
+                fct = FeatureCollectionTile.from_dict(entry)
+                udf_data.append_fct(fct)
+
+        if "models" in udf_dict:
+            udf_data.models = udf_dict["models"]
+
+        return udf_data
 
 
 if __name__ == "__main__":
