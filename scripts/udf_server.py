@@ -4,9 +4,9 @@ from openeo_udf.server.app import flask_app
 from openeo_udf.server.endpoints import create_endpoints
 
 __license__ = "Apache License, Version 2.0"
-__author__     = "Sören Gebbert"
-__copyright__  = "Copyright 2018, Sören Gebbert"
-__maintainer__ = "Sören Gebbert"
+__author__     = "Soeren Gebbert"
+__copyright__  = "Copyright 2018, Soeren Gebbert"
+__maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 

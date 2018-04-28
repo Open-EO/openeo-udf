@@ -11,7 +11,7 @@ WORKDIR /tmp
 # https://stackoverflow.com/questions/40877643/apt-get-install-in-ubuntu-16-04-docker-image-etc-resolv-conf-device-or-reso
 RUN echo "resolvconf resolvconf/linkify-resolvconf boolean false" | debconf-set-selections
 
-# Install the dependencies of GRASS, python, python3, redis, rq, flask and virtualenv
+# Install the dependencies
 RUN apt update && apt upgrade -y && \
     apt install software-properties-common -y && \
     apt update && apt install --no-install-recommends --no-install-suggests \

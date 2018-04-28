@@ -2,9 +2,9 @@
 from flask_restful_swagger_2 import Schema
 
 __license__ = "Apache License, Version 2.0"
-__author__ = "Sören Gebbert"
-__copyright__ = "Copyright 2018, Sören Gebbert"
-__maintainer__ = "Sören Gebbert"
+__author__ = "Soeren Gebbert"
+__copyright__ = "Copyright 2018, Soeren Gebbert"
+__maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
