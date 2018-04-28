@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import make_response, jsonify
+from flask import make_response, jsonify, request
 from flask_restful import abort, Resource
 from flask_restful_swagger_2 import swagger
 from .definitions import UdfData, UdfCode
@@ -43,5 +43,11 @@ POST_JOBS_DOC = {
 
 class Udf(Resource):
     @swagger.doc(POST_JOBS_DOC)
-    def post(self, ):
+    def post(self):
+
+        if request.is_json is False:
+            return False
+
+        request_data = request.get_json()
+
         return make_response(jsonify(UdfData.example), 200)
