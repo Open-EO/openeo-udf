@@ -10,6 +10,8 @@ if [ $status -ne 0 ]; then
   exit $status
 fi
 
-cd /tmp
+sleep 3
+
+cd /tmp/src
 wget http://localhost:${PORT}/api/v0/swagger.json
-spectacle -d --port {DOC_PORT} swagger.json
+spectacle -d --port ${DOC_PORT} swagger.json

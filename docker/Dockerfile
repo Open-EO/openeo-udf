@@ -62,14 +62,20 @@ RUN apt-get install nodejs-legacy
 RUN npm install -g spectacle-docs
 
 WORKDIR /tmp/src
-RUN ps -ef
+RUN ls -ls
 
 RUN git clone https://github.com/Open-EO/openeo-udf.git openeo_udf
 WORKDIR /tmp/src/openeo_udf
+RUN pip3 install --upgrade pip
 RUN pip3 install --upgrade setuptools
 RUN pip3 install -r requirements.txt
 RUN python3 setup.py install
 
+# Update the code
+RUN git pull
+RUN python3 setup.py install
+
+WORKDIR /tmp/src/
 COPY start.sh /tmp/src/start.sh
 
 CMD bash /tmp/src/start.sh

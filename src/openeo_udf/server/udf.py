@@ -2,7 +2,7 @@
 from flask import make_response, jsonify, request
 from flask_restful import abort, Resource
 from flask_restful_swagger_2 import swagger
-from .definitions import UdfData, UdfCode
+from .definitions import UdfData, UdfCode, UdfRequest
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -20,14 +20,7 @@ POST_JOBS_DOC = {
             "in": "body",
             'required': True,
             "description": "The data for the provided UDF",
-            "schema": UdfData
-        },
-        {
-            "name": "code",
-            "in": "body",
-            'required': True,
-            "description": "The code of the UDF",
-            "schema": UdfCode
+            "schema": UdfRequest
         }
     ],
     'consumes':['application/json'],
@@ -49,5 +42,6 @@ class Udf(Resource):
             return False
 
         request_data = request.get_json()
+        print(request_data)
 
         return make_response(jsonify(UdfData.example), 200)

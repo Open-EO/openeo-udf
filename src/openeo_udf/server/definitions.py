@@ -323,3 +323,13 @@ class UdfCode(Schema):
                 "def udf(data): \n"
                 "    pass\n"
     }
+
+
+class UdfRequest(Schema):
+    description = "The udf request JSON specification."
+    type = "object"
+    required = ["code", "data"]
+    properties = {
+        "code": UdfCode,
+        "data": UdfData
+    }
