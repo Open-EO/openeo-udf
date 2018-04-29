@@ -71,9 +71,10 @@ RUN pip3 install --upgrade setuptools
 RUN pip3 install -r requirements.txt
 RUN python3 setup.py install
 
+RUN ps -e
+
 # Update the code
 RUN git pull
-RUN git status
 RUN python3 setup.py install
 
 WORKDIR /tmp/src/

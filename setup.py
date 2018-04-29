@@ -16,7 +16,7 @@ entry_points = """
 [console_scripts]
 # script_name = openeo_udf.module:function
 # For example:
-# fibonacci = openeo_udf.skeleton:run
+# fibonacci = openeo_udf.skeleton:run_json_user_code
 """
 
 

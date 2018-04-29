@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask import make_response, jsonify, request
+import traceback
+import sys
+from flask import make_response, jsonify, request, json
 from flask_restful import abort, Resource
 from flask_restful_swagger_2 import swagger
-from .definitions import UdfData, UdfCode, UdfRequest
+from .definitions import UdfData, UdfCode, UdfRequest, ErrorResponse
+from ..api.run_code import run_json_user_code
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -19,7 +22,7 @@ POST_JOBS_DOC = {
             "name": "data",
             "in": "body",
             'required': True,
-            "description": "The data for the provided UDF",
+            "description": "The UDF source code and data tp process",
             "schema": UdfRequest
         }
     ],
@@ -29,6 +32,10 @@ POST_JOBS_DOC = {
         "200": {
             "description": "The result of the UDF computation.",
             "schema": UdfData
+        },
+        "400": {
+            "description": "The error message.",
+            "schema": ErrorResponse
         }
     }
 }
@@ -38,10 +45,15 @@ class Udf(Resource):
     @swagger.doc(POST_JOBS_DOC)
     def post(self):
 
-        if request.is_json is False:
-            return False
+        try:
+            if request.is_json is False:
+                raise Exception("Missing JSON in request")
 
-        request_data = request.get_json()
-        print(request_data)
+            json_data = request.get_json()
+            result = run_json_user_code(json_data=json_data)
+        except Exception:
+            e_type, e_value, e_tb = sys.exc_info()
+            response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+            return make_response(jsonify(response), 400)
 
-        return make_response(jsonify(UdfData.example), 200)
+        return make_response(jsonify(result), 200)

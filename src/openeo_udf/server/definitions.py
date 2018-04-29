@@ -53,18 +53,18 @@ class SpatialExtent(Schema):
 
 #####################################################################
 
-class ImageCollectionTile(Schema):
+class RasterCollectionTile(Schema):
     description = "A three dimensional tile of data that represents a spatio-temporal " \
-                  "subset of a spatio-temporal image collection. "
+                  "subset of a spatio-temporal raster collection. "
     type = "object"
     required = ["data", "id", "extent"]
     properties = {
         "id": {
-            "description": "The identifier of this image collection tile.",
+            "description": "The identifier of this raster collection tile.",
             "type": "string"
         },
         "wavelength": {
-            "description": "The wavelength of the image collection tile.",
+            "description": "The wavelength of the raster collection tile.",
             "type": "float"
         },
         "data": {
@@ -202,7 +202,7 @@ class MachineLearnModel(Schema):
 #####################################################################
 
 class UdfData(Schema):
-    description = "The UDF data object that stores image collection tiles, feature collection tiles," \
+    description = "The UDF data object that stores raster collection tiles, feature collection tiles," \
                   "projection information and machine learn models. This object is argument for the " \
                   "UDF as well as their return value."
     type = "object"
@@ -212,11 +212,11 @@ class UdfData(Schema):
             "type": "string",
             "description": "The EPSG code or WKT projection string. eg: EPSG:4326"
         },
-        "image_collection_tiles": {
-            "description": "A list of image collection tiles. Each tile represents a single "
+        "raster_collection_tiles": {
+            "description": "A list of raster collection tiles. Each tile represents a single "
                            "image band or other scalar values like temperature.",
             "type": "array",
-            "items": ImageCollectionTile
+            "items": RasterCollectionTile
         },
         "feature_collection_tiles": {
             "description": "A list of feature collection tiles.",
@@ -231,7 +231,7 @@ class UdfData(Schema):
     }
     example = {
         "proj": "EPSG:4326",
-        "image_collection_tiles": [
+        "raster_collection_tiles": [
             {
                 "id": "test_data",
                 "wavelength": 420,
@@ -279,20 +279,20 @@ class UdfData(Schema):
 class UdfCode(Schema):
     description = "The object that stores the UDF code and language specification."
     type = "object"
-    required = ["language", "code"]
+    required = ["language", "source"]
     properties = {
         "language": {
             "type": "string",
             "description": "The language of UDF code"
         },
-        "code": {
+        "source": {
             "type": "string",
-            "description": "The UDF code"
+            "description": "The UDF source code as a string"
         }
     }
     example = {
         "language": "python",
-        "code": "import numpy as np \n"
+        "source": "import numpy as np \n"
                 " \n"
                 "def udf(data): \n"
                 "    pass\n"
@@ -306,4 +306,20 @@ class UdfRequest(Schema):
     properties = {
         "code": UdfCode,
         "data": UdfData
+    }
+
+
+class ErrorResponse(Schema):
+    description = "The error message."
+    type = "object"
+    required = ["message"]
+    properties = {
+        "message": {
+            "type": "string",
+            "description": "The error message"
+        },
+        "traceback": {
+            "type": "string",
+            "description": "The optional python traceback"
+        }
     }

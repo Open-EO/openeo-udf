@@ -257,7 +257,7 @@ class CollectionTile(object):
         """Constructor of the base class for tile of a collection
 
         Args:
-            id: The unique id of the image collection tile
+            id: The unique id of the raster collection tile
             extent: The spatial extent with resolution information, must be of type SpatialExtent
             start_times: The pandas.DateTimeIndex vector with start times for each spatial x,y slice
             end_times: The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
@@ -427,8 +427,8 @@ class CollectionTile(object):
         self.set_end_times(pandas.DatetimeIndex(end_times))
 
 
-class ImageCollectionTile(CollectionTile):
-    """This class represents a three dimensional image collection tile with
+class RasterCollectionTile(CollectionTile):
+    """This class represents a three dimensional raster collection tile with
     time information and x,y slices with a single scalar value for each pixel.
     A tile represents a scalar field in space and time,
     for example a time series of a single Landsat 8 or Sentinel2A band. A tile may be a
@@ -439,8 +439,8 @@ class ImageCollectionTile(CollectionTile):
     >>> import numpy, pandas
     >>> data = numpy.zeros(shape=(1,1,1))
     >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
-    >>> ict = ImageCollectionTile(id="test", extent=extent, data=data, wavelength=420)
-    >>> print(ict)
+    >>> rct = RasterCollectionTile(id="test", extent=extent, data=data, wavelength=420)
+    >>> print(rct)
     id: test
     extent: north: 100
     south: 0
@@ -456,10 +456,10 @@ class ImageCollectionTile(CollectionTile):
     >>> starts = pandas.DatetimeIndex(dates)
     >>> dates = [pandas.Timestamp('2012-05-02')]
     >>> ends = pandas.DatetimeIndex(dates)
-    >>> ict = ImageCollectionTile(id="test", extent=extent,
+    >>> rct = RasterCollectionTile(id="test", extent=extent,
     ...                           data=data, wavelength=420,
     ...                           start_times=starts, end_times=ends)
-    >>> print(ict)
+    >>> print(rct)
     id: test
     extent: north: 100
     south: 0
@@ -473,7 +473,7 @@ class ImageCollectionTile(CollectionTile):
     data: [[[0.]]]
 
     >>> from flask import json
-    >>> json.dumps(ict.to_dict()) # doctest: +ELLIPSIS
+    >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
     '{"data": [[[0.0]]],
     "end_times": ["2012-05-02T00:00:00"],
@@ -482,8 +482,8 @@ class ImageCollectionTile(CollectionTile):
     "start_times": ["2012-05-01T00:00:00"],
     "wavelength": 420}'
 
-    >>> ict = ImageCollectionTile.from_dict(ict.to_dict())
-    >>> json.dumps(ict.to_dict()) # doctest: +ELLIPSIS
+    >>> rct = RasterCollectionTile.from_dict(rct.to_dict())
+    >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
     '{"data": [[[0.0]]],
     "end_times": ["2012-05-02T00:00:00"],
@@ -495,13 +495,13 @@ class ImageCollectionTile(CollectionTile):
     """
 
     def __init__(self, id, extent, data, wavelength=None, start_times=None, end_times=None):
-        """Constructor of the tile of an image collection
+        """Constructor of the tile of an raster collection
 
         Args:
-            id (str): The unique id of the image collection tile
+            id (str): The unique id of the raster collection tile
             extent (SpatialExtent): The spatial extent with resolution information
             data (numpy.ndarray): The three dimensional numpy.ndarray with indices [t][y][x]
-            wavelength (float): The optional wavelength of the image collection tile
+            wavelength (float): The optional wavelength of the raster collection tile
             start_times (pandas.DateTimeIndex): The vector with start times for each spatial x,y slice
             end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
@@ -551,12 +551,12 @@ class ImageCollectionTile(CollectionTile):
     data = property(fget=get_data, fset=set_data)
 
     def to_dict(self):
-        """Convert this ImageCollectionTile into a dictionary that can be converted into
+        """Convert this RasterCollectionTile into a dictionary that can be converted into
         a valid JSON representation
 
         Returns:
             dict:
-            ImageCollectionTile as a dictionary
+            RasterCollectionTile as a dictionary
         """
 
         d = {"id": self.id}
@@ -575,15 +575,15 @@ class ImageCollectionTile(CollectionTile):
 
     @staticmethod
     def from_dict(ict_dict):
-        """Create a image collection tile from a python dictionary that was created from
-        the JSON definition of the ImageCollectionTile
+        """Create a raster collection tile from a python dictionary that was created from
+        the JSON definition of the RasterCollectionTile
 
         Args:
-            ict_dict (dict): The dictionary that contains the image collection tile definition
+            ict_dict (dict): The dictionary that contains the raster collection tile definition
 
         Returns:
-            ImageCollectionTile:
-            A new ImageCollectionTile object
+            RasterCollectionTile:
+            A new RasterCollectionTile object
 
         """
 
@@ -596,9 +596,9 @@ class ImageCollectionTile(CollectionTile):
         if "extent" not in ict_dict:
             raise Exception("Missing extent in dictionary")
 
-        ict = ImageCollectionTile(id =ict_dict["id"],
-                                  extent=SpatialExtent.from_dict(ict_dict["extent"]),
-                                  data=numpy.asarray(ict_dict["data"]))
+        ict = RasterCollectionTile(id =ict_dict["id"],
+                                   extent=SpatialExtent.from_dict(ict_dict["extent"]),
+                                   data=numpy.asarray(ict_dict["data"]))
 
         if "start_times" in ict_dict:
             ict.set_start_times_from_list(ict_dict["start_times"])
@@ -792,10 +792,10 @@ class UdfData(object):
     >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
     >>> starts = pandas.DatetimeIndex([pandas.Timestamp('2012-05-01')])
     >>> ends = pandas.DatetimeIndex([pandas.Timestamp('2012-05-02')])
-    >>> A = ImageCollectionTile(id="A", extent=extent,
+    >>> A = RasterCollectionTile(id="A", extent=extent,
     ...                         data=data, wavelength=420,
     ...                         start_times=starts, end_times=ends)
-    >>> B = ImageCollectionTile(id="B", extent=extent,
+    >>> B = RasterCollectionTile(id="B", extent=extent,
     ...                         data=data, wavelength=380,
     ...                         start_times=starts, end_times=ends)
     >>> p1 = Point(0,0)
@@ -807,10 +807,10 @@ class UdfData(object):
     >>> data["b"] = ["a","b","c"]
     >>> C = FeatureCollectionTile(id="C", data=data)
     >>> D = FeatureCollectionTile(id="D", data=data)
-    >>> udf_data = UdfData(proj={"EPSG":4326}, image_collection_tiles=[A, B],
+    >>> udf_data = UdfData(proj={"EPSG":4326}, raster_collection_tiles=[A, B],
     ...                        feature_collection_tiles=[C, D])
     >>> udf_data.add_model_path("scikit-learn", "random_forest", "/tmp/model.p")
-    >>> print(udf_data.get_image_collection_tile_by_id("A"))
+    >>> print(udf_data.get_raster_collection_tile_by_id("A"))
     id: A
     extent: north: 100
     south: 0
@@ -822,7 +822,7 @@ class UdfData(object):
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
     data: [[[0.]]]
-    >>> print(udf_data.get_image_collection_tile_by_id("B"))
+    >>> print(udf_data.get_raster_collection_tile_by_id("B"))
     id: B
     extent: north: 100
     south: 0
@@ -834,7 +834,7 @@ class UdfData(object):
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
     data: [[[0.]]]
-    >>> print(udf_data.get_image_collection_tile_by_id("C"))
+    >>> print(udf_data.get_raster_collection_tile_by_id("C"))
     None
     >>> print(udf_data.get_feature_collection_tile_by_id("C"))
     id: C
@@ -854,7 +854,7 @@ class UdfData(object):
     2  3  c    POINT (100 0)
     >>> print(len(udf_data.get_feature_collection_tiles()) == 2)
     True
-    >>> print(len(udf_data.get_image_collection_tiles()) == 2)
+    >>> print(len(udf_data.get_raster_collection_tiles()) == 2)
     True
     >>> print(udf_data.models['scikit-learn']['path'])
     /tmp/model.p
@@ -878,7 +878,9 @@ class UdfData(object):
                                    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
                                     "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
                                     "type": "FeatureCollection"}, "id": "D"}],
-       "image_collection_tiles": [{"data": [[[0.0]]],
+       "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
+       "proj": {"EPSG": 4326},
+       "raster_collection_tiles": [{"data": [[[0.0]]],
                                    "end_times": ["2012-05-02T00:00:00"],
                                    "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
                                    "id": "A",
@@ -889,9 +891,7 @@ class UdfData(object):
                                    "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
                                    "id": "B",
                                    "start_times": ["2012-05-01T00:00:00"],
-                                   "wavelength": 380}],
-       "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
-       "proj": {"EPSG": 4326}}'
+                                   "wavelength": 380}]}'
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
@@ -910,7 +910,9 @@ class UdfData(object):
                                    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
                                     "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
                                     "type": "FeatureCollection"}, "id": "D"}],
-       "image_collection_tiles": [{"data": [[[0.0]]],
+       "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
+       "proj": {"EPSG": 4326},
+       "raster_collection_tiles": [{"data": [[[0.0]]],
                                    "end_times": ["2012-05-02T00:00:00"],
                                    "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
                                    "id": "A",
@@ -921,44 +923,42 @@ class UdfData(object):
                                    "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
                                    "id": "B",
                                    "start_times": ["2012-05-01T00:00:00"],
-                                   "wavelength": 380}],
-       "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
-       "proj": {"EPSG": 4326}}'
+                                   "wavelength": 380}]}'
 
     """
 
-    def __init__(self, proj, image_collection_tiles=None, feature_collection_tiles=None):
+    def __init__(self, proj, raster_collection_tiles=None, feature_collection_tiles=None):
         """The constructor of the UDF argument class that stores all data required by the
         user defined function.
 
         Args:
             proj (dict): A dictionary of form {"proj type string": "projection decription"} i. e. {"EPSG":4326}
-            image_collection_tiles (list[ImageCollectionTile]): A list of ImageCollectionTile objects
+            raster_collection_tiles (list[RasterCollectionTile]): A list of RasterCollectionTile objects
             feature_collection_tiles (list[FeatureCollectionTile]): A list of VectorTile objects
         """
 
-        self._image_tile_list = []
+        self._raster_tile_list = []
         self._feature_tile_list = []
-        self._image_tile_dict = {}
+        self._raster_tile_dict = {}
         self._feature_tile_dict = {}
         self.proj = proj
         self.models = {}
 
-        self.set_image_collection_tiles(image_collection_tiles=image_collection_tiles)
+        self.set_raster_collection_tiles(raster_collection_tiles=raster_collection_tiles)
         self.set_feature_collection_tiles(feature_collection_tiles=feature_collection_tiles)
 
-    def get_image_collection_tile_by_id(self, id):
-        """Get an image collection tile by its id
+    def get_raster_collection_tile_by_id(self, id):
+        """Get an raster collection tile by its id
 
         Args:
-            id (str): The image collection tile id
+            id (str): The raster collection tile id
 
         Returns:
-            ImageCollectionTile: the requested image collection tile of None if not found
+            RasterCollectionTile: the requested raster collection tile of None if not found
 
         """
-        if id in self._image_tile_dict:
-            return self._image_tile_dict[id]
+        if id in self._raster_tile_dict:
+            return self._raster_tile_dict[id]
         return None
 
     def get_feature_collection_tile_by_id(self, id):
@@ -975,27 +975,36 @@ class UdfData(object):
             return self._feature_tile_dict[id]
         return None
 
-    def get_image_collection_tiles(self):
-        """Get all image collection tiles
+    def get_raster_collection_tiles(self):
+        """Get all raster collection tiles
 
         Returns:
-            list[ImageCollectionTile]: The list of image collection tiles
+            list[RasterCollectionTile]: The list of raster collection tiles
 
         """
-        return self._image_tile_list
+        return self._raster_tile_list
 
-    def set_image_collection_tiles(self, image_collection_tiles):
-        """Set the image collection tiles
+    def set_raster_collection_tiles(self, raster_collection_tiles):
+        """Set the raster collection tiles list
+
+        If raster_collection_tiles is None, then the list will be cleared
 
         Args:
-            image_collection_tiles (list[ImageCollectionTile]):
+            raster_collection_tiles (list[RasterCollectionTile]): A list of RasterCollectionTile's
         """
 
-        if image_collection_tiles is None:
+        self.get_raster_collection_tiles()
+        if raster_collection_tiles is None:
             return
 
-        for entry in image_collection_tiles:
-            self.append_ict(entry)
+        for entry in raster_collection_tiles:
+            self.append_raster_collection_tile(entry)
+
+    def del_raster_collection_tiles(self):
+        """Delete all raster collection tiles
+        """
+        self._raster_tile_list.clear()
+        self._raster_tile_dict.clear()
 
     def get_feature_collection_tiles(self):
         """Get all feature collection tiles
@@ -1009,31 +1018,42 @@ class UdfData(object):
     def set_feature_collection_tiles(self, feature_collection_tiles):
         """Set the feature collection tiles
 
+        If feature_collection_tiles is None, then the list will be cleared
+
         Args:
-            image_collection_tiles (list[FeatureCollectionTile]):
+            feature_collection_tiles (list[FeatureCollectionTile]): A list of FeatureCollectionTile's
         """
 
+        self.del_feature_collection_tiles()
         if feature_collection_tiles is None:
             return
 
         for entry in feature_collection_tiles:
-            self.append_fct(entry)
+            self.append_feature_collection_tile(entry)
 
-    image_collection_tiles = property(fget=get_image_collection_tiles, fset=set_image_collection_tiles)
-    feature_collection_tiles = property(fget=get_feature_collection_tiles, fset=set_feature_collection_tiles)
+    def del_feature_collection_tiles(self):
+        """Delete all feature collection tiles
+        """
+        self._feature_tile_list.clear()
+        self._feature_tile_dict.clear()
 
-    def append_ict(self, image_collection_tile):
-        """Append a image collection tile to the list
+    raster_collection_tiles = property(fget=get_raster_collection_tiles,
+                                       fset=set_raster_collection_tiles, fdel=del_raster_collection_tiles)
+    feature_collection_tiles = property(fget=get_feature_collection_tiles,
+                                        fset=set_feature_collection_tiles, fdel=del_feature_collection_tiles)
 
-        It will be automatically added to the dictionary of all image collection tiles
+    def append_raster_collection_tile(self, image_collection_tile):
+        """Append a raster collection tile to the list
+
+        It will be automatically added to the dictionary of all raster collection tiles
 
         Args:
-            image_collection_tile (ImageCollectionTile): The image collection tile to append
+            image_collection_tile (RasterCollectionTile): The raster collection tile to append
         """
-        self._image_tile_list.append(image_collection_tile)
-        self._image_tile_dict[image_collection_tile.id] = image_collection_tile
+        self._raster_tile_list.append(image_collection_tile)
+        self._raster_tile_dict[image_collection_tile.id] = image_collection_tile
 
-    def append_fct(self, feature_collection_tile):
+    def append_feature_collection_tile(self, feature_collection_tile):
         """Append a feature collection tile to the list
 
         It will be automatically added to the dictionary of all feature collection tiles
@@ -1066,14 +1086,13 @@ class UdfData(object):
             UdfData object as a dictionary
         """
 
-
         d = {"proj": self.proj}
 
-        if self._image_tile_list is not None:
+        if self._raster_tile_list is not None:
             l = []
-            for tile in self._image_tile_list:
+            for tile in self._raster_tile_list:
                 l.append(tile.to_dict())
-            d["image_collection_tiles"] = l
+            d["raster_collection_tiles"] = l
 
         if self._feature_tile_list is not None:
             l = []
@@ -1105,17 +1124,17 @@ class UdfData(object):
 
         udf_data = UdfData(proj=udf_dict["proj"])
 
-        if "image_collection_tiles" in udf_dict:
-            l = udf_dict["image_collection_tiles"]
+        if "raster_collection_tiles" in udf_dict:
+            l = udf_dict["raster_collection_tiles"]
             for entry in l:
-                ict = ImageCollectionTile.from_dict(entry)
-                udf_data.append_ict(ict)
+                rct = RasterCollectionTile.from_dict(entry)
+                udf_data.append_raster_collection_tile(rct)
 
         if "feature_collection_tiles" in udf_dict:
             l = udf_dict["feature_collection_tiles"]
             for entry in l:
                 fct = FeatureCollectionTile.from_dict(entry)
-                udf_data.append_fct(fct)
+                udf_data.append_feature_collection_tile(fct)
 
         if "models" in udf_dict:
             udf_data.models = udf_dict["models"]
