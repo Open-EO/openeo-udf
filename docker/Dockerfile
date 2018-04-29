@@ -73,6 +73,7 @@ RUN python3 setup.py install
 
 # Update the code
 RUN git pull
+RUN git status
 RUN python3 setup.py install
 
 WORKDIR /tmp/src/

@@ -103,26 +103,17 @@ class ImageCollectionTile(Schema):
         "id": "test_data",
         "wavelength": 420,
         "start_times": ["2001-01-01T00:00:00",
-                        "2001-01-02T00:00:00",
-                        "2001-01-03T00:00:00"],
+                        "2001-01-02T00:00:00"],
         "end_times": ["2001-01-02T00:00:00",
-                      "2001-01-03T00:00:00",
-                      "2001-01-04T00:00:00"],
+                      "2001-01-03T00:00:00"],
         "data": [
             [
-                [0, 0, 0],
-                [1, 1, 1],
-                [2, 2, 2]
+                [0, 1],
+                [2, 3]
             ],
             [
-                [0, 0, 0],
-                [1, 1, 1],
-                [2, 2, 2]
-            ],
-            [
-                [0, 0, 0],
-                [1, 1, 1],
-                [2, 2, 2]
+                [0, 1],
+                [2, 3]
             ]
         ],
         "extent": {
@@ -171,17 +162,13 @@ class FeatureCollectionTile(Schema):
     example = {
         "id": "test_data",
         "start_times": ["2001-01-01T00:00:00",
-                        "2001-01-02T00:00:00",
-                        "2001-01-03T00:00:00"],
+                        "2001-01-02T00:00:00"],
         "end_times": ["2001-01-02T00:00:00",
-                      "2001-01-03T00:00:00",
-                      "2001-01-04T00:00:00"],
+                      "2001-01-03T00:00:00"],
         "data": {"features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"},
-                               "geometry": {"coordinates": [0.0, 0.0], "type": "Point"}},
+                               "geometry": {"coordinates": [24.0, 50.0], "type": "Point"}},
                               {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"},
-                               "geometry": {"coordinates": [100.0, 100.0], "type": "Point"}},
-                              {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"},
-                               "geometry": {"coordinates": [100.0, 0.0], "type": "Point"}}],
+                               "geometry": {"coordinates": [30.0, 53.0], "type": "Point"}}],
                  "type": "FeatureCollection"}
     }
 
@@ -249,26 +236,17 @@ class UdfData(Schema):
                 "id": "test_data",
                 "wavelength": 420,
                 "start_times": ["2001-01-01T00:00:00",
-                                "2001-01-02T00:00:00",
-                                "2001-01-03T00:00:00"],
+                                "2001-01-02T00:00:00"],
                 "end_times": ["2001-01-02T00:00:00",
-                              "2001-01-03T00:00:00",
-                              "2001-01-04T00:00:00"],
+                              "2001-01-03T00:00:00"],
                 "data": [
                     [
-                        [0, 0, 0],
-                        [1, 1, 1],
-                        [2, 2, 2]
+                        [0, 1],
+                        [2, 3]
                     ],
                     [
-                        [0, 0, 0],
-                        [1, 1, 1],
-                        [2, 2, 2]
-                    ],
-                    [
-                        [0, 0, 0],
-                        [1, 1, 1],
-                        [2, 2, 2]
+                        [0, 1],
+                        [2, 3]
                     ]
                 ],
                 "extent": {
@@ -285,17 +263,13 @@ class UdfData(Schema):
             {
                 "id": "test_data",
                 "start_times": ["2001-01-01T00:00:00",
-                                "2001-01-02T00:00:00",
-                                "2001-01-03T00:00:00"],
+                                "2001-01-02T00:00:00"],
                 "end_times": ["2001-01-02T00:00:00",
-                              "2001-01-03T00:00:00",
-                              "2001-01-04T00:00:00"],
+                              "2001-01-03T00:00:00"],
                 "data": {"features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"},
-                                       "geometry": {"coordinates": [0.0, 0.0], "type": "Point"}},
+                                       "geometry": {"coordinates": [24.0, 50.0], "type": "Point"}},
                                       {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"},
-                                       "geometry": {"coordinates": [100.0, 100.0], "type": "Point"}},
-                                      {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"},
-                                       "geometry": {"coordinates": [100.0, 0.0], "type": "Point"}}],
+                                       "geometry": {"coordinates": [30.0, 53.0], "type": "Point"}}],
                          "type": "FeatureCollection"}
             }
         ]
