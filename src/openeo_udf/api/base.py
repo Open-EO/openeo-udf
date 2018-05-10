@@ -21,23 +21,23 @@ class SpatialExtent(object):
 
     Some basic tests:
 
-    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
     >>> print(extent)
-    north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: 10
-    ewres: 10
+    top: 100
+    bottom: 0
+    right: 100
+    left: 0
+    hight: 10
+    width: 10
 
-    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0)
     >>> print(extent)
-    north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: None
-    ewres: None
+    top: 100
+    bottom: 0
+    right: 100
+    left: 0
+    hight: None
+    width: None
     >>> p = extent.as_polygon()
     >>> print(p)
     POLYGON ((0 100, 100 100, 100 0, 0 0, 0 100))
@@ -46,22 +46,22 @@ class SpatialExtent(object):
     >>> p = loads("POLYGON ((0 100, 100 100, 100 0, 0 0, 0 100))")
     >>> extent = SpatialExtent.from_polygon(p)
     >>> print(extent)
-    north: 100.0
-    south: 0.0
-    east: 100.0
-    west: 0.0
-    nsres: None
-    ewres: None
+    top: 100.0
+    bottom: 0.0
+    right: 100.0
+    left: 0.0
+    hight: None
+    width: None
     
-    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0)
     >>> extent.as_polygon() == extent.as_polygon()
     True
     >>> diff = extent.as_polygon() - extent.as_polygon()
     >>> print(diff)
     GEOMETRYCOLLECTION EMPTY
 
-    >>> extent_1 = SpatialExtent(north=80, south=10, east=80, west=10)
-    >>> extent_2 = SpatialExtent(north=100, south=0, east=100, west=0)
+    >>> extent_1 = SpatialExtent(top=80, bottom=10, right=80, left=10)
+    >>> extent_2 = SpatialExtent(top=100, bottom=0, right=100, left=0)
     >>> extent_1.as_polygon() == extent_2.as_polygon()
     False
     >>> extent_2.as_polygon().contains(extent_2.as_polygon())
@@ -69,34 +69,34 @@ class SpatialExtent(object):
 
     """
 
-    def __init__(self, north, south, east, west, nsres=None, ewres=None):
+    def __init__(self, top, bottom, right, left, hight=None, width=None):
         """Constructor of the axis aligned spatial extent of a collection tile
 
         Args:
-            north (float): The northern border of the data chunk
-            south (float): The southern border of the data chunk
-            east (float): The eastern border of the data chunk
-            west (float): The west border of the data chunk
-            nsres (float): The north-south pixel resolution (ignored in case of vector data chunks)
-            ewres (float): The east-west pixel resolution (ignored in case of vector data chunks)
+            top (float): The top (northern) border of the data chunk
+            bottom (float): The bottom (southern) border of the data chunk
+            right (float): The righ (eastern) border of the data chunk
+            left (float): The left (western) border of the data chunk
+            hight (float): The top-bottom pixel resolution (ignored in case of vector data chunks)
+            width (float): The right-left pixel resolution (ignored in case of vector data chunks)
 
         """
 
-        self.north = north
-        self.south = south
-        self.east = east
-        self.west = west
-        self.nsres = nsres
-        self.ewres = ewres
+        self.top = top
+        self.bottom = bottom
+        self.right = right
+        self.left = left
+        self.hight = hight
+        self.width = width
 
     def __str__(self):
-        return "north: %(n)s\n" \
-               "south: %(s)s\n" \
-               "east: %(e)s\n" \
-               "west: %(w)s\n" \
-               "nsres: %(ns)s\n" \
-               "ewres: %(ew)s"%{"n":self.north, "s":self.south, "e":self.east,
-                                "w":self.west, "ns":self.nsres, "ew":self.ewres}
+        return "top: %(n)s\n" \
+               "bottom: %(s)s\n" \
+               "right: %(e)s\n" \
+               "left: %(w)s\n" \
+               "hight: %(ns)s\n" \
+               "width: %(ew)s"%{"n":self.top, "s":self.bottom, "e":self.right,
+                                "w":self.left, "ns":self.hight, "ew":self.width}
 
     def as_polygon(self):
         """Return the extent as shapely.geometry.Polygon to perform
@@ -107,8 +107,8 @@ class SpatialExtent(object):
 
         """
 
-        return Polygon([(self.west, self.north),(self.east, self.north),
-                        (self.east, self.south),(self.west, self.south)])
+        return Polygon([(self.left, self.top),(self.right, self.top),
+                        (self.right, self.bottom),(self.left, self.bottom)])
 
     @staticmethod
     def from_polygon(polygon):
@@ -124,12 +124,12 @@ class SpatialExtent(object):
 
         coords = list(polygon.exterior.coords)
 
-        north = coords[0][1]
-        south = coords[2][1]
-        east = coords[1][0]
-        west = coords[0][0]
+        top = coords[0][1]
+        bottom = coords[2][1]
+        right = coords[1][0]
+        left = coords[0][0]
 
-        return SpatialExtent(north=north, south=south, east=east, west=west)
+        return SpatialExtent(top=top, bottom=bottom, right=right, left=left)
 
     def to_dict(self):
         """Return the spatial extent as a dict that can be easily converted into JSON
@@ -139,13 +139,13 @@ class SpatialExtent(object):
             Dictionary representation
 
         """
-        d = dict(extent=dict(north=self.north, south=self.south, east=self.east,
-                             west=self.west))
+        d = dict(extent=dict(top=self.top, bottom=self.bottom, right=self.right,
+                             left=self.left))
 
-        if self.ewres:
-            d["extent"].update({"ewres":self.ewres})
-        if self.nsres:
-            d["extent"].update({"nsres":self.nsres})
+        if self.width:
+            d["extent"].update({"width":self.width})
+        if self.hight:
+            d["extent"].update({"hight":self.hight})
 
         return d
 
@@ -163,27 +163,27 @@ class SpatialExtent(object):
 
         """
 
-        north = None
-        south = None
-        east = None
-        west = None
-        ewres = None
-        nsres = None
+        top = None
+        bottom = None
+        right = None
+        left = None
+        width = None
+        hight = None
 
-        if "north" in extent:
-            north = extent["north"]
-        if "south" in extent:
-            south = extent["south"]
-        if "east" in extent:
-            east = extent["east"]
-        if "west" in extent:
-            west = extent["west"]
-        if "ewres" in extent:
-            ewres = extent["ewres"]
-        if "nsres" in extent:
-            nsres = extent["nsres"]
+        if "top" in extent:
+            top = extent["top"]
+        if "bottom" in extent:
+            bottom = extent["bottom"]
+        if "right" in extent:
+            right = extent["right"]
+        if "left" in extent:
+            left = extent["left"]
+        if "width" in extent:
+            width = extent["width"]
+        if "hight" in extent:
+            hight = extent["hight"]
 
-        return SpatialExtent(north=north, south=south, west=west, east=east, nsres=nsres, ewres=ewres)
+        return SpatialExtent(top=top, bottom=bottom, left=left, right=right, hight=hight, width=width)
 
 
 class CollectionTile(object):
@@ -192,21 +192,21 @@ class CollectionTile(object):
 
     Some basic tests:
 
-    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
     >>> coll = CollectionTile(id="test", extent=extent)
     >>> print(coll)
     id: test
-    extent: north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: 10
-    ewres: 10
+    extent: top: 100
+    bottom: 0
+    right: 100
+    left: 0
+    hight: 10
+    width: 10
     start_times: None
     end_times: None
 
     >>> import pandas
-    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
     >>> dates = [pandas.Timestamp('2012-05-01')]
     >>> starts = pandas.DatetimeIndex(dates)
     >>> dates = [pandas.Timestamp('2012-05-02')]
@@ -215,17 +215,17 @@ class CollectionTile(object):
     ...                      start_times=starts, end_times=ends)
     >>> "extent" in rdc.extent_to_dict()
     True
-    >>> rdc.extent_to_dict()["extent"]["west"] == 0
+    >>> rdc.extent_to_dict()["extent"]["left"] == 0
     True
-    >>> rdc.extent_to_dict()["extent"]["east"] == 100
+    >>> rdc.extent_to_dict()["extent"]["right"] == 100
     True
-    >>> rdc.extent_to_dict()["extent"]["north"] == 100
+    >>> rdc.extent_to_dict()["extent"]["top"] == 100
     True
-    >>> rdc.extent_to_dict()["extent"]["south"] == 0
+    >>> rdc.extent_to_dict()["extent"]["bottom"] == 0
     True
-    >>> rdc.extent_to_dict()["extent"]["nsres"] == 10
+    >>> rdc.extent_to_dict()["extent"]["hight"] == 10
     True
-    >>> rdc.extent_to_dict()["extent"]["ewres"] == 10
+    >>> rdc.extent_to_dict()["extent"]["width"] == 10
     True
 
     >>> from flask import json
@@ -235,17 +235,17 @@ class CollectionTile(object):
     '{"end_times": ["2012-05-02T00:00:00"]}'
 
     >>> ct = CollectionTile(id="test")
-    >>> ct.set_extent_from_dict({"north": 53, "south": 50, "east": 30, "west": 24, "nsres": 0.01, "ewres": 0.01})
+    >>> ct.set_extent_from_dict({"top": 53, "bottom": 50, "right": 30, "left": 24, "hight": 0.01, "width": 0.01})
     >>> ct.set_start_times_from_list(["2012-05-01T00:00:00"])
     >>> ct.set_end_times_from_list(["2012-05-02T00:00:00"])
     >>> print(ct)
     id: test
-    extent: north: 53
-    south: 50
-    east: 30
-    west: 24
-    nsres: 0.01
-    ewres: 0.01
+    extent: top: 53
+    bottom: 50
+    right: 30
+    left: 24
+    hight: 0.01
+    width: 0.01
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
 
@@ -438,16 +438,16 @@ class RasterCollectionTile(CollectionTile):
 
     >>> import numpy, pandas
     >>> data = numpy.zeros(shape=(1,1,1))
-    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
     >>> rct = RasterCollectionTile(id="test", extent=extent, data=data, wavelength=420)
     >>> print(rct)
     id: test
-    extent: north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: 10
-    ewres: 10
+    extent: top: 100
+    bottom: 0
+    right: 100
+    left: 0
+    hight: 10
+    width: 10
     wavelength: 420
     start_times: None
     end_times: None
@@ -461,12 +461,12 @@ class RasterCollectionTile(CollectionTile):
     ...                           start_times=starts, end_times=ends)
     >>> print(rct)
     id: test
-    extent: north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: 10
-    ewres: 10
+    extent: top: 100
+    bottom: 0
+    right: 100
+    left: 0
+    hight: 10
+    width: 10
     wavelength: 420
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
@@ -475,22 +475,17 @@ class RasterCollectionTile(CollectionTile):
     >>> from flask import json
     >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"data": [[[0.0]]],
-    "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
-    "id": "test",
-    "start_times": ["2012-05-01T00:00:00"],
-    "wavelength": 420}'
+    '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
+    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10},
+    "id": "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
+
 
     >>> rct = RasterCollectionTile.from_dict(rct.to_dict())
     >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"data": [[[0.0]]],
-    "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
-    "id": "test",
-    "start_times": ["2012-05-01T00:00:00"],
-    "wavelength": 420}'
+    '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
+    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id":
+    "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
 
     """
 
@@ -789,7 +784,7 @@ class UdfData(object):
     >>> import geopandas
     >>> import numpy, pandas
     >>> data = numpy.zeros(shape=(1,1,1))
-    >>> extent = SpatialExtent(north=100, south=0, east=100, west=0, nsres=10, ewres=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
     >>> starts = pandas.DatetimeIndex([pandas.Timestamp('2012-05-01')])
     >>> ends = pandas.DatetimeIndex([pandas.Timestamp('2012-05-02')])
     >>> A = RasterCollectionTile(id="A", extent=extent,
@@ -812,24 +807,24 @@ class UdfData(object):
     >>> udf_data.add_model_path("scikit-learn", "random_forest", "/tmp/model.p")
     >>> print(udf_data.get_raster_collection_tile_by_id("A"))
     id: A
-    extent: north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: 10
-    ewres: 10
+    extent: top: 100
+    bottom: 0
+    right: 100
+    left: 0
+    hight: 10
+    width: 10
     wavelength: 420
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
     data: [[[0.]]]
     >>> print(udf_data.get_raster_collection_tile_by_id("B"))
     id: B
-    extent: north: 100
-    south: 0
-    east: 100
-    west: 0
-    nsres: 10
-    ewres: 10
+    extent: top: 100
+    bottom: 0
+    right: 100
+    left: 0
+    hight: 10
+    width: 10
     wavelength: 380
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
@@ -864,66 +859,56 @@ class UdfData(object):
     >>> from flask import json
     >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
     ...                                # doctest: +NORMALIZE_WHITESPACE
-    '{"feature_collection_tiles": [{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
-                                    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
-                                   {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1",
-                                    "properties": {"a": 2, "b": "b"}, "type": "Feature"},
-                                   {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
-                                    "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
-                                    "type": "FeatureCollection"}, "id": "C"},
-                                   {"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
-                                    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
-                                   {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1",
-                                    "properties": {"a": 2, "b": "b"}, "type": "Feature"},
-                                   {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
-                                    "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
-                                    "type": "FeatureCollection"}, "id": "D"}],
-       "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
-       "proj": {"EPSG": 4326},
-       "raster_collection_tiles": [{"data": [[[0.0]]],
-                                   "end_times": ["2012-05-02T00:00:00"],
-                                   "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
-                                   "id": "A",
-                                   "start_times": ["2012-05-01T00:00:00"],
-                                   "wavelength": 420},
-                                  {"data": [[[0.0]]],
-                                   "end_times": ["2012-05-02T00:00:00"],
-                                   "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
-                                   "id": "B",
-                                   "start_times": ["2012-05-01T00:00:00"],
-                                   "wavelength": 380}]}'
+    '{"feature_collection_tiles": [{"data": {"features":
+    [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
+    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
+    {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"},
+    "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"},
+    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"},
+    "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
+    "type": "FeatureCollection"}, "id": "C"}, {"data": {"features":
+    [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
+    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
+    {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"},
+    "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"},
+    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"},
+    "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
+    "type": "FeatureCollection"}, "id": "D"}], "models":
+    {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
+    "proj": {"EPSG": 4326}, "raster_collection_tiles": [{"data": [[[0.0]]],
+    "end_times": ["2012-05-02T00:00:00"],
+    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id": "A",
+    "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}, {"data": [[[0.0]]],
+    "end_times": ["2012-05-02T00:00:00"],
+    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id": "B",
+    "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}]}'
+
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"feature_collection_tiles": [{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
-                                    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
-                                   {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1",
-                                    "properties": {"a": 2, "b": "b"}, "type": "Feature"},
-                                   {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
-                                    "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
-                                    "type": "FeatureCollection"}, "id": "C"},
-                                   {"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
-                                    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
-                                   {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1",
-                                    "properties": {"a": 2, "b": "b"}, "type": "Feature"},
-                                   {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2",
-                                    "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
-                                    "type": "FeatureCollection"}, "id": "D"}],
-       "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
-       "proj": {"EPSG": 4326},
-       "raster_collection_tiles": [{"data": [[[0.0]]],
-                                   "end_times": ["2012-05-02T00:00:00"],
-                                   "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
-                                   "id": "A",
-                                   "start_times": ["2012-05-01T00:00:00"],
-                                   "wavelength": 420},
-                                  {"data": [[[0.0]]],
-                                   "end_times": ["2012-05-02T00:00:00"],
-                                   "extent": {"east": 100, "ewres": 10, "north": 100, "nsres": 10, "south": 0, "west": 0},
-                                   "id": "B",
-                                   "start_times": ["2012-05-01T00:00:00"],
-                                   "wavelength": 380}]}'
+    '{"feature_collection_tiles": [{"data": {"features":
+    [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
+    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
+    {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"},
+    "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"},
+    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"},
+    "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
+    "type": "FeatureCollection"}, "id": "C"}, {"data": {"features":
+    [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
+    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
+    {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"},
+    "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"},
+    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"},
+    "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
+    "type": "FeatureCollection"}, "id": "D"}], "models":
+    {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}}, "proj": {"EPSG": 4326},
+    "raster_collection_tiles": [{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
+    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10},
+    "id": "A", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}, {"data": [[[0.0]]],
+    "end_times": ["2012-05-02T00:00:00"], "extent":
+    {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100,
+    "width": 10}, "id": "B", "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}]}'
 
     """
 

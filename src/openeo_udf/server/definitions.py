@@ -14,39 +14,39 @@ class SpatialExtent(Schema):
     description = "spatial extent with resolution information"
     type = "object"
     properties = {
-        "north": {
-            "description": "The northern border.",
+        "top": {
+            "description": "The top (north) border.",
             "type": "float"
         },
-        "south": {
-            "description": "The southern border.",
+        "bottom": {
+            "description": "The bottom (south) border.",
             "type": "float"
         },
-        "east": {
-            "description": "The eastern border.",
+        "right": {
+            "description": "The right (eastern) border.",
             "type": "float"
         },
-        "west": {
-            "description": "The western border.",
+        "left": {
+            "description": "The left (wester) border.",
             "type": "float"
         },
-        "nsres": {
-            "description": "The north-south resolution in projection units.",
+        "hight": {
+            "description": "The top-bottom resolution in projection units.",
             "type": "float"
         },
-        "ewres": {
-            "description": "The east-west resolution in projection units.",
+        "width": {
+            "description": "The right-left resolution in projection units.",
             "type": "float"
         }
     }
     example = {
         "extent": {
-            "north": 53,
-            "south": 50,
-            "east": 30,
-            "west": 24,
-            "nsres": 0.01,
-            "ewres": 0.01
+            "top": 53,
+            "bottom": 50,
+            "right": 30,
+            "left": 24,
+            "hight": 0.01,
+            "width": 0.01
         }
     }
 
@@ -117,12 +117,12 @@ class RasterCollectionTile(Schema):
             ]
         ],
         "extent": {
-            "north": 53,
-            "south": 50,
-            "east": 30,
-            "west": 24,
-            "nsres": 0.01,
-            "ewres": 0.01
+            "top": 53,
+            "bottom": 50,
+            "right": 30,
+            "left": 24,
+            "hight": 0.01,
+            "width": 0.01
         }
     }
 
@@ -250,12 +250,12 @@ class UdfData(Schema):
                     ]
                 ],
                 "extent": {
-                    "north": 53,
-                    "south": 50,
-                    "east": 30,
-                    "west": 24,
-                    "nsres": 0.01,
-                    "ewres": 0.01
+                    "top": 53,
+                    "bottom": 50,
+                    "right": 30,
+                    "left": 24,
+                    "hight": 0.01,
+                    "width": 0.01
                 }
             }
         ],

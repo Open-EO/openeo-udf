@@ -15,14 +15,14 @@ __email__ = "soerengebbert@googlemail.com"
 
 
 POST_JOBS_DOC = {
-    "description": "Run a Python user defined function (UDF) with data",
+    "description": "Run a Python user defined function (UDF) on the provided data",
     "tags": ["UDF"],
     "parameters": [
         {
             "name": "data",
             "in": "body",
             'required': True,
-            "description": "The UDF source code and data tp process",
+            "description": "The UDF Python source code and data as JSON definition to process",
             "schema": UdfRequest
         }
     ],

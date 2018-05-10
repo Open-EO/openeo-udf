@@ -36,12 +36,12 @@ PIXEL={
                 "data": [[[5, 4]],
                          [[9, 10]]],
                 "extent": {
-                    "north": 53,
-                    "south": 51,
-                    "east": 30,
-                    "west": 28,
-                    "nsres": 1,
-                    "ewres": 1
+                    "top": 53,
+                    "bottom": 51,
+                    "right": 30,
+                    "left": 28,
+                    "hight": 1,
+                    "width": 1
                 }
             },
             {
@@ -54,12 +54,12 @@ PIXEL={
                 "data": [[[3, 4]],
                          [[9, 8]]],
                 "extent": {
-                    "north": 53,
-                    "south": 51,
-                    "east": 30,
-                    "west": 28,
-                    "nsres": 1,
-                    "ewres": 1
+                    "top": 53,
+                    "bottom": 51,
+                    "right": 30,
+                    "left": 28,
+                    "hight": 1,
+                    "width": 1
                 }
             }
         ]
@@ -97,12 +97,12 @@ PIXEL_FEATURE={
                 "data": [[[5, 4]],
                          [[9, 10]]],
                 "extent": {
-                    "north": 53,
-                    "south": 51,
-                    "east": 30,
-                    "west": 28,
-                    "nsres": 1,
-                    "ewres": 1
+                    "top": 53,
+                    "bottom": 51,
+                    "right": 30,
+                    "left": 28,
+                    "hight": 1,
+                    "width": 1
                 }
             },
             {
@@ -115,12 +115,12 @@ PIXEL_FEATURE={
                 "data": [[[3, 4]],
                          [[9, 8]]],
                 "extent": {
-                    "north": 53,
-                    "south": 51,
-                    "east": 30,
-                    "west": 28,
-                    "nsres": 1,
-                    "ewres": 1
+                    "top": 53,
+                    "bottom": 51,
+                    "right": 30,
+                    "left": 28,
+                    "hight": 1,
+                    "width": 1
                 }
             }
         ],
