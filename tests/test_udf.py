@@ -1,20 +1,13 @@
 # -*- coding: utf-8 -*-
 from flask import json
-
+import os
 import pprint
-import sys
 import unittest
 from openeo_udf.server.app import flask_api
 from openeo_udf.server.endpoints import create_endpoints
 from openeo_udf.server.definitions import UdfData, UdfCode, UdfRequest
-from openeo_udf.api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile
+import openeo_udf.functions
 
-import numpy
-import pandas
-import torch
-import torchvision
-import tensorflow
-import tensorboard
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -45,8 +38,8 @@ PIXEL={
                 }
             },
             {
-                "id": "GREEN",
-                "wavelength": 340,
+                "id": "NIR",
+                "wavelength": 670,
                 "start_times": ["2001-01-01T00:00:00",
                                 "2001-01-02T00:00:00"],
                 "end_times": ["2001-01-02T00:00:00",
@@ -106,8 +99,8 @@ PIXEL_FEATURE={
                 }
             },
             {
-                "id": "GREEN",
-                "wavelength": 340,
+                "id": "NIR",
+                "wavelength": 670,
                 "start_times": ["2001-01-01T00:00:00",
                                 "2001-01-02T00:00:00"],
                 "end_times": ["2001-01-02T00:00:00",
@@ -141,62 +134,6 @@ PIXEL_FEATURE={
     }
 
 
-CODE_SUM="""
-def ict_time_sum(udf_data):
-    tile_results = []
-    for tile in udf_data.raster_collection_tiles:
-        tile_sum = numpy.sum(tile.data, axis=0)
-        rows, cols = tile_sum.shape
-        array3d = numpy.ndarray([1, rows, cols])
-        array3d[0] = tile_sum
-        
-        starts = pandas.DatetimeIndex([tile.start_times[0]])
-        ends = pandas.DatetimeIndex([tile.end_times[-1]])
-        
-        ict = RasterCollectionTile(id=tile.id + "_sum", extent=tile.extent, data=array3d, start_times=starts, end_times=ends)
-        tile_results.append(ict)
-    udf_data.set_raster_collection_tiles(tile_results)
-
-ict_time_sum(data)
-
-"""
-
-CODE_MIN_MEAN_MAX_SUM = """
-def ict_min_mean_max_sum(udf_data):
-    tile_results = []
-    for tile in udf_data.raster_collection_tiles:
-        tile_min  = numpy.min(tile.data, axis=0)
-        tile_mean = numpy.mean(tile.data, axis=0)
-        tile_max  = numpy.max(tile.data, axis=0)
-        tile_sum  = numpy.sum(tile.data, axis=0)
-        rows, cols = tile_sum.shape
-        array3d_min  = numpy.ndarray([1, rows, cols])
-        array3d_mean = numpy.ndarray([1, rows, cols])
-        array3d_max  = numpy.ndarray([1, rows, cols])
-        array3d_sum  = numpy.ndarray([1, rows, cols])
-        array3d_min[0]  = tile_min
-        array3d_mean[0] = tile_mean
-        array3d_max[0]  = tile_max
-        array3d_sum[0]  = tile_sum
-
-        starts = pandas.DatetimeIndex([tile.start_times[0]])
-        ends = pandas.DatetimeIndex([tile.end_times[-1]])
-
-        ict = RasterCollectionTile(id=tile.id + "_min", extent=tile.extent, data=array3d_min, start_times=starts, end_times=ends)
-        tile_results.append(ict)
-        ict = RasterCollectionTile(id=tile.id + "_mean", extent=tile.extent, data=array3d_mean, start_times=starts, end_times=ends)
-        tile_results.append(ict)
-        ict = RasterCollectionTile(id=tile.id + "_max", extent=tile.extent, data=array3d_max, start_times=starts, end_times=ends)
-        tile_results.append(ict)
-        ict = RasterCollectionTile(id=tile.id + "_sum", extent=tile.extent, data=array3d_sum, start_times=starts, end_times=ends)
-        tile_results.append(ict)
-    udf_data.set_raster_collection_tiles(tile_results)
-
-ict_min_mean_max_sum(data)
-
-"""
-
-
 class AllTestCase(unittest.TestCase):
 
     create_endpoints()
@@ -205,9 +142,12 @@ class AllTestCase(unittest.TestCase):
         self.app = flask_api.app.test_client()
 
     def test_pixel_sum(self):
+        """Test the time reduce sum UDF"""
 
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_reduce_time_sum.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-        udf_code = UdfCode(language="python", source=CODE_SUM)
 
         udf_request = UdfRequest(data=udf_data, code=udf_code)
         print(udf_request)
@@ -215,11 +155,18 @@ class AllTestCase(unittest.TestCase):
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
         pprint.pprint(result)
+
+        self.assertEqual(len(result["raster_collection_tiles"]), 2)
+        self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[14.0, 14.0]]])
+        self.assertEqual(result["raster_collection_tiles"][1]["data"], [[[12.0, 12.0]]])
 
     def test_pixel_min_mean_max_sum(self):
+        """Test the time reduce min, max, mean, sum UDF"""
 
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_reduce_time_min_max_mean_sum.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-        udf_code = UdfCode(language="python", source=CODE_MIN_MEAN_MAX_SUM)
 
         udf_request = UdfRequest(data=udf_data, code=udf_code)
         print(udf_request)
@@ -227,6 +174,35 @@ class AllTestCase(unittest.TestCase):
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
         pprint.pprint(result)
+
+        self.assertEqual(len(result["raster_collection_tiles"]), 8)
+        self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[5.0, 4.0]]])
+        self.assertEqual(result["raster_collection_tiles"][1]["data"], [[[9.0, 10.0]]])
+        self.assertEqual(result["raster_collection_tiles"][2]["data"], [[[14.0, 14.0]]])
+        self.assertEqual(result["raster_collection_tiles"][3]["data"], [[[7.0, 7.0]]])
+        self.assertEqual(result["raster_collection_tiles"][4]["data"], [[[3.0, 4.0]]])
+        self.assertEqual(result["raster_collection_tiles"][5]["data"], [[[9.0, 8.0]]])
+        self.assertEqual(result["raster_collection_tiles"][6]["data"], [[[12.0, 12.0]]])
+        self.assertEqual(result["raster_collection_tiles"][7]["data"], [[[6.0, 6.0]]])
+
+    def test_ndvi(self):
+        """Test the time reduce sum UDF"""
+
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_ndvi.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = PIXEL
+
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        print(udf_request)
+
+        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
+        result = json.loads(response.data)
+        pprint.pprint(result)
+
+        self.assertEqual(len(result["raster_collection_tiles"]), 1)
+        self.assertEqual(result["raster_collection_tiles"][0]["data"],
+                         [[[-0.25, 0.0]], [[0.0, -0.1111111111111111]]])
 
 
 if __name__ == "__main__":

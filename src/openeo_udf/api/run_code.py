@@ -27,7 +27,5 @@ def run_json_user_code(json_data):
 
     data = UdfData.from_dict(json_data["data"])
 
-    print(code)
-
     exec(code)
     return data.to_dict()

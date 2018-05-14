@@ -978,7 +978,7 @@ class UdfData(object):
             raster_collection_tiles (list[RasterCollectionTile]): A list of RasterCollectionTile's
         """
 
-        self.get_raster_collection_tiles()
+        self.del_raster_collection_tiles()
         if raster_collection_tiles is None:
             return
 
