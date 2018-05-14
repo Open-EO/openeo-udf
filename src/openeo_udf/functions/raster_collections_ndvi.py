@@ -37,6 +37,7 @@ def rct_ndvi(udf_data):
     # Iterate over each tile
     for tile in udf_data.raster_collection_tiles:
         if "red" in tile.id.lower():
+
             red = tile
         if "nir" in tile.id.lower():
             nir = tile

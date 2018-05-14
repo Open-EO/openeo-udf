@@ -2,6 +2,15 @@
 # -*- coding: utf-8 -*-
 import argparse
 import rasterio
+import numpy
+import pandas
+import torch
+import torchvision
+import tensorflow
+import tensorboard
+from pprint import pprint
+from rasterio._io import RasterReader, RasterUpdater
+from openeo_udf.api.base import RasterCollectionTile, UdfData, SpatialExtent
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -14,18 +23,52 @@ def main():
 
     parser = argparse.ArgumentParser(description='Execute an UDF on the provided data')
 
-    parser.add_argument("raster_inputs", type=str, required=True,
+    parser.add_argument("raster_inputs", type=str,
                         help="Raster files. If several raster files are provided, then each raster file must have"
                              "the same number of bands.")
 
-    parser.add_argument("raster_output_dir", type=str, required=True,
+    parser.add_argument("raster_output_dir", type=str,
                         help="The output directory to store the computed results.")
 
-    parser.add_argument("path_to_udf", type=str, required=True,
+    parser.add_argument("path_to_udf", type=str,
                         help="The UDF file to execute.")
 
     args = parser.parse_args()
 
+    raster_names = args.raster_inputs.split(",")
+    out_dir = args.raster_output_dir
+    udf_path = args.path_to_udf
+
+    code = open(udf_path, "r").read()
+
+    datasets = []
+
+    for raster_name in raster_names:
+
+        ds = rasterio.open(path=raster_name, mode="r")
+        # ds = RasterReader()
+        print("crs", ds.crs)
+        print("width", ds.width)
+        print("hight", ds.height)
+        print("bounds", ds.bounds)
+        print("res", ds.res)
+
+        extent = SpatialExtent(top=ds.bounds.top, bottom=ds.bounds.bottom, left=ds.bounds.left,
+                               right=ds.bounds.right, width=ds.res[0], hight=ds.res[1])
+        # Read the whole array
+        array = ds.read()
+
+        rct = RasterCollectionTile(id=raster_name, data=array, extent=extent)
+
+        datasets.append(rct)
+
+    proj = {ds.crs["init"].split(":")[0]:ds.crs["init"].split(":")[1]}
+
+    data = UdfData(proj=proj, raster_collection_tiles=datasets)
+
+    pprint(data.to_dict())
+    exec(code)
+    pprint(data.to_dict())
 
 if __name__ == '__main__':
     main()
