@@ -26,7 +26,7 @@ def setup_package():
     setup(setup_requires=['pyscaffold>=3.0a0,<3.1a0'] + sphinx,
           entry_points=entry_points,
           use_pyscaffold=True,
-          scripts=['scripts/udf_server.py'])
+          scripts=['scripts/run_udf_server'])
 
 
 if __name__ == "__main__":

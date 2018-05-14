@@ -47,7 +47,7 @@ def rct_ndvi(udf_data):
     if nir is None:
         raise Exception("Nir raster collection tile is missing in input")
 
-    if red.start_times.tolist() == nir.start_times.tolist():
+    if red.start_times is None or red.start_times.tolist() == nir.start_times.tolist():
 
         ndvi = (nir.data - red.data) / (nir.data + red.data)
 
