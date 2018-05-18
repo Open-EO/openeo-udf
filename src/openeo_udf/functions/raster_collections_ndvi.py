@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Uncomment the import only for coding support
-import numpy
-import pandas
+#import numpy
+#import pandas
 #import torch
 #import torchvision
 #import tensorflow
