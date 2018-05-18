@@ -61,4 +61,6 @@ def rct_ndvi(udf_data):
         raise Exception("Time stamps are not equal")
 
 
+# This function call is the entry point for the UDF.
+# The caller will provide all required data in the **data** object.
 rct_ndvi(data)

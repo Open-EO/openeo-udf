@@ -1,5 +1,5 @@
 # Use the official ubuntu:14.04 image as parent image
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # system environment
 ENV DEBIAN_FRONTEND noninteractive
@@ -38,6 +38,7 @@ RUN apt update && apt upgrade -y && \
     libpq-dev \
     proj-data \
     gdal-bin \
+    libgdal-dev \
     libspatialite7 \
     moreutils \
     iotop \
@@ -51,19 +52,17 @@ RUN apt update && apt upgrade -y && \
     wget \
     unzip \
     zip \
-    virtualenv \
+    nginx \
     npm \
     bzip2 -y && \
     apt-get clean && \
     apt-get autoremove
 
 RUN echo LANG="en_US.UTF-8" > /etc/default/locale
-RUN apt-get install nodejs-legacy
+# RUN apt-get install nodejs-legacy
 RUN npm install -g spectacle-docs
 
 WORKDIR /tmp/src
-RUN ls -ls
-
 RUN git clone https://github.com/Open-EO/openeo-udf.git openeo_udf
 WORKDIR /tmp/src/openeo_udf
 RUN pip3 install --upgrade pip
@@ -72,13 +71,12 @@ RUN pip3 install -r requirements.txt
 RUN pip3 install rasterio
 RUN python3 setup.py install
 
-RUN ps -e
-
 # Update the code
-RUN git pull
-RUN python3 setup.py install
+# RUN git pull
+# RUN python3 setup.py install
 
 WORKDIR /tmp/src/
+RUN ls -la
 COPY start.sh /tmp/src/start.sh
 
 CMD bash /tmp/src/start.sh

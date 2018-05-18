@@ -3,13 +3,14 @@
 docker build -t openeo_udf .
 
 # Test it
-docker run -p 5100:5100 -p 5200:5200 -t openeo_udf
+docker run --name "openeo-udf-server" -p 5000:5000 -p 80:80 -t openeo_udf
 
+docker stop "openeo-udf-server" &&  docker rm "openeo-udf-server"
 
 JSON='
 {
   "code": {
-    "code": "print(data)\ndata.get_raster_collection_tiles()\ndata.del_feature_collection_tiles()\n",
+    "source": "print(data)\ndata.del_raster_collection_tiles()\ndata.del_feature_collection_tiles()\n",
     "language": "python"
   },
   "data": {
@@ -110,4 +111,6 @@ JSON='
 }
 '
 
-curl -H "Content-Type: application/json" -X POST -d "${JSON}" http://localhost:5100/udf
+curl -H "Content-Type: application/json" -X POST -d "${JSON}" http://localhost:5000/udf
+curl -X GET http://localhost:80/index.html
+curl -X GET http://localhost:80/api_docs/index.html

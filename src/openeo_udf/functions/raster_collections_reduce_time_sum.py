@@ -55,4 +55,6 @@ def rct_time_sum(udf_data):
     udf_data.set_raster_collection_tiles(tile_results)
 
 
+# This function call is the entry point for the UDF.
+# The caller will provide all required data in the **data** object.
 rct_time_sum(data)
