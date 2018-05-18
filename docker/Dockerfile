@@ -69,6 +69,7 @@ WORKDIR /tmp/src/openeo_udf
 RUN pip3 install --upgrade pip
 RUN pip3 install --upgrade setuptools
 RUN pip3 install -r requirements.txt
+RUN pip3 install rasterio
 RUN python3 setup.py install
 
 RUN ps -e

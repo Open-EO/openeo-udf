@@ -1,8 +1,9 @@
 #!/bin/bash
 # Build it
-#docker build -t openeo_udf .
+docker build -t openeo_udf .
+
 # Test it
-#docker run_json_user_code -p 5100:5100 -p 5200:5200 -it openeo_udf
+docker run -p 5100:5100 -p 5200:5200 -t openeo_udf
 
 
 JSON='
