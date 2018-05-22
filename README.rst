@@ -92,7 +92,7 @@ Local installation
 Docker image
 ------------
 
-The openeo-udf repository contains the build instruction of an openeo-udf docker image:
+The openeo-udf repository contains a Dockerfile to build an openeo-udf docker image:
 
 
 1. Clone the git repository into a specific directory and create the virtual python3 environment:

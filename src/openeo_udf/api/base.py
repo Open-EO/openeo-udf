@@ -21,13 +21,13 @@ class SpatialExtent(object):
 
     Some basic tests:
 
-    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
     >>> print(extent)
     top: 100
     bottom: 0
     right: 100
     left: 0
-    hight: 10
+    height: 10
     width: 10
 
     >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0)
@@ -36,7 +36,7 @@ class SpatialExtent(object):
     bottom: 0
     right: 100
     left: 0
-    hight: None
+    height: None
     width: None
     >>> p = extent.as_polygon()
     >>> print(p)
@@ -50,7 +50,7 @@ class SpatialExtent(object):
     bottom: 0.0
     right: 100.0
     left: 0.0
-    hight: None
+    height: None
     width: None
     
     >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0)
@@ -69,7 +69,7 @@ class SpatialExtent(object):
 
     """
 
-    def __init__(self, top, bottom, right, left, hight=None, width=None):
+    def __init__(self, top, bottom, right, left, height=None, width=None):
         """Constructor of the axis aligned spatial extent of a collection tile
 
         Args:
@@ -77,7 +77,7 @@ class SpatialExtent(object):
             bottom (float): The bottom (southern) border of the data chunk
             right (float): The righ (eastern) border of the data chunk
             left (float): The left (western) border of the data chunk
-            hight (float): The top-bottom pixel resolution (ignored in case of vector data chunks)
+            height (float): The top-bottom pixel resolution (ignored in case of vector data chunks)
             width (float): The right-left pixel resolution (ignored in case of vector data chunks)
 
         """
@@ -86,7 +86,7 @@ class SpatialExtent(object):
         self.bottom = bottom
         self.right = right
         self.left = left
-        self.hight = hight
+        self.height = height
         self.width = width
 
     def __str__(self):
@@ -94,9 +94,9 @@ class SpatialExtent(object):
                "bottom: %(s)s\n" \
                "right: %(e)s\n" \
                "left: %(w)s\n" \
-               "hight: %(ns)s\n" \
+               "height: %(ns)s\n" \
                "width: %(ew)s"%{"n":self.top, "s":self.bottom, "e":self.right,
-                                "w":self.left, "ns":self.hight, "ew":self.width}
+                                "w":self.left, "ns":self.height, "ew":self.width}
 
     def as_polygon(self):
         """Return the extent as shapely.geometry.Polygon to perform
@@ -144,8 +144,8 @@ class SpatialExtent(object):
 
         if self.width:
             d["extent"].update({"width":self.width})
-        if self.hight:
-            d["extent"].update({"hight":self.hight})
+        if self.height:
+            d["extent"].update({"height":self.height})
 
         return d
 
@@ -168,7 +168,7 @@ class SpatialExtent(object):
         right = None
         left = None
         width = None
-        hight = None
+        height = None
 
         if "top" in extent:
             top = extent["top"]
@@ -180,10 +180,10 @@ class SpatialExtent(object):
             left = extent["left"]
         if "width" in extent:
             width = extent["width"]
-        if "hight" in extent:
-            hight = extent["hight"]
+        if "height" in extent:
+            height = extent["height"]
 
-        return SpatialExtent(top=top, bottom=bottom, left=left, right=right, hight=hight, width=width)
+        return SpatialExtent(top=top, bottom=bottom, left=left, right=right, height=height, width=width)
 
 
 class CollectionTile(object):
@@ -192,7 +192,7 @@ class CollectionTile(object):
 
     Some basic tests:
 
-    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
     >>> coll = CollectionTile(id="test", extent=extent)
     >>> print(coll)
     id: test
@@ -200,13 +200,13 @@ class CollectionTile(object):
     bottom: 0
     right: 100
     left: 0
-    hight: 10
+    height: 10
     width: 10
     start_times: None
     end_times: None
 
     >>> import pandas
-    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
     >>> dates = [pandas.Timestamp('2012-05-01')]
     >>> starts = pandas.DatetimeIndex(dates)
     >>> dates = [pandas.Timestamp('2012-05-02')]
@@ -223,7 +223,7 @@ class CollectionTile(object):
     True
     >>> rdc.extent_to_dict()["extent"]["bottom"] == 0
     True
-    >>> rdc.extent_to_dict()["extent"]["hight"] == 10
+    >>> rdc.extent_to_dict()["extent"]["height"] == 10
     True
     >>> rdc.extent_to_dict()["extent"]["width"] == 10
     True
@@ -235,7 +235,7 @@ class CollectionTile(object):
     '{"end_times": ["2012-05-02T00:00:00"]}'
 
     >>> ct = CollectionTile(id="test")
-    >>> ct.set_extent_from_dict({"top": 53, "bottom": 50, "right": 30, "left": 24, "hight": 0.01, "width": 0.01})
+    >>> ct.set_extent_from_dict({"top": 53, "bottom": 50, "right": 30, "left": 24, "height": 0.01, "width": 0.01})
     >>> ct.set_start_times_from_list(["2012-05-01T00:00:00"])
     >>> ct.set_end_times_from_list(["2012-05-02T00:00:00"])
     >>> print(ct)
@@ -244,7 +244,7 @@ class CollectionTile(object):
     bottom: 50
     right: 30
     left: 24
-    hight: 0.01
+    height: 0.01
     width: 0.01
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
@@ -438,7 +438,7 @@ class RasterCollectionTile(CollectionTile):
 
     >>> import numpy, pandas
     >>> data = numpy.zeros(shape=(1,1,1))
-    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
     >>> rct = RasterCollectionTile(id="test", extent=extent, data=data, wavelength=420)
     >>> print(rct)
     id: test
@@ -446,7 +446,7 @@ class RasterCollectionTile(CollectionTile):
     bottom: 0
     right: 100
     left: 0
-    hight: 10
+    height: 10
     width: 10
     wavelength: 420
     start_times: None
@@ -465,7 +465,7 @@ class RasterCollectionTile(CollectionTile):
     bottom: 0
     right: 100
     left: 0
-    hight: 10
+    height: 10
     width: 10
     wavelength: 420
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
@@ -476,7 +476,7 @@ class RasterCollectionTile(CollectionTile):
     >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
     '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10},
+    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10},
     "id": "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
 
 
@@ -484,7 +484,7 @@ class RasterCollectionTile(CollectionTile):
     >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
     '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id":
+    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id":
     "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
 
     """
@@ -784,7 +784,7 @@ class UdfData(object):
     >>> import geopandas
     >>> import numpy, pandas
     >>> data = numpy.zeros(shape=(1,1,1))
-    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, hight=10, width=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
     >>> starts = pandas.DatetimeIndex([pandas.Timestamp('2012-05-01')])
     >>> ends = pandas.DatetimeIndex([pandas.Timestamp('2012-05-02')])
     >>> A = RasterCollectionTile(id="A", extent=extent,
@@ -811,7 +811,7 @@ class UdfData(object):
     bottom: 0
     right: 100
     left: 0
-    hight: 10
+    height: 10
     width: 10
     wavelength: 420
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
@@ -823,7 +823,7 @@ class UdfData(object):
     bottom: 0
     right: 100
     left: 0
-    hight: 10
+    height: 10
     width: 10
     wavelength: 380
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
@@ -877,10 +877,10 @@ class UdfData(object):
     {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
     "proj": {"EPSG": 4326}, "raster_collection_tiles": [{"data": [[[0.0]]],
     "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id": "A",
+    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id": "A",
     "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}, {"data": [[[0.0]]],
     "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id": "B",
+    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id": "B",
     "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}]}'
 
 
@@ -904,10 +904,10 @@ class UdfData(object):
     "type": "FeatureCollection"}, "id": "D"}], "models":
     {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}}, "proj": {"EPSG": 4326},
     "raster_collection_tiles": [{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100, "width": 10},
+    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10},
     "id": "A", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}, {"data": [[[0.0]]],
     "end_times": ["2012-05-02T00:00:00"], "extent":
-    {"bottom": 0, "hight": 10, "left": 0, "right": 100, "top": 100,
+    {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100,
     "width": 10}, "id": "B", "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}]}'
 
     """

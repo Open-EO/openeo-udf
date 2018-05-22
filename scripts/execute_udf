@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import argparse
-import rasterio
+from osgeo import gdal
+from osgeo.gdalconst import *
 import numpy
-import pandas
-import torch
-import torchvision
-import tensorflow
-import tensorboard
+import os
+import math
+# import pandas
+# import torch
+# import torchvision
+# import tensorflow
+# import tensorboard
 from pprint import pprint
-from rasterio._io import RasterReader, RasterUpdater
 from openeo_udf.api.base import RasterCollectionTile, UdfData, SpatialExtent
 
 __license__ = "Apache License, Version 2.0"
@@ -18,14 +20,33 @@ __copyright__  = "Copyright 2018, Soeren Gebbert"
 __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
+gdal.UseExceptions()
+DESCR="""Execute an UDF on the provided data. The following command computed the NDVI on a raster
+image series of three multi-band tiff files. Two bands are provided and names RED and NIR ofr
+the UDF. The resulting tiff are wrtten to the directory /tmp.
+
+Example:
+
+execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
+            /tmp src/openeo_udf/functions/raster_collections_ndvi.py 
+
+execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
+            /tmp src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+
+"""
+
 
 def main():
 
-    parser = argparse.ArgumentParser(description='Execute an UDF on the provided data')
+    parser = argparse.ArgumentParser(description=DESCR)
 
-    parser.add_argument("raster_inputs", type=str,
-                        help="Raster files. If several raster files are provided, then each raster file must have"
+    parser.add_argument("raster_files", type=str,
+                        help="Comma separated list of raster files. If several raster "
+                             "files are provided, then each raster file must have "
                              "the same number of bands.")
+
+    parser.add_argument("band_names", type=str,
+                        help="A comma separated list of band names.")
 
     parser.add_argument("raster_output_dir", type=str,
                         help="The output directory to store the computed results.")
@@ -35,40 +56,201 @@ def main():
 
     args = parser.parse_args()
 
-    raster_names = args.raster_inputs.split(",")
+    raster_names = args.raster_files.split(",")
     out_dir = args.raster_output_dir
     udf_path = args.path_to_udf
+    band_names =  args.band_names.split(",")
 
     code = open(udf_path, "r").read()
+    data_type = None
+    projection = None
+    tranform = None
+    rows = None
+    cols = None
 
+    # Make sure the correct number of raster bands is used
+    num_bands = 0
+    first = True
+    for raster_name in raster_names:
+        ds = gdal.Open(raster_name, GA_ReadOnly)
+
+        if first is True:
+            num_bands = ds.RasterCount
+            # Get the datatype of the array
+            b = ds.GetRasterBand(1)
+            array = b.ReadAsArray(0, 0, 0, 0)
+            data_type = array.dtype
+            # Get extent and projection from the first band and file
+            projection = ds.GetProjection()
+            tranform = ds.GetGeoTransform()
+            rows = ds.RasterYSize
+            cols = ds.RasterXSize
+
+            first = False
+        else:
+            if num_bands - ds.RasterCount != 0:
+                raise Exception("The number of raster bands must be equal for all provided images")
+
+            b = ds.GetRasterBand(1)
+            array = b.ReadAsArray(0, 0, 0, 0)
+
+            if data_type != array.dtype:
+                raise Exception("The raster images must have the same datatype")
+
+    if num_bands != len(band_names):
+        raise Exception("Please provide the same number of band names a bands in the raster image files")
+
+    num_raster = len(raster_names)
     datasets = []
 
-    for raster_name in raster_names:
+    for band in range(num_bands):
+        first = True
+        extent = None
+        array3d = None
+        projection = None
+        tile_count = 0
 
-        ds = rasterio.open(path=raster_name, mode="r")
-        # ds = RasterReader()
-        print("crs", ds.crs)
-        print("width", ds.width)
-        print("hight", ds.height)
-        print("bounds", ds.bounds)
-        print("res", ds.res)
+        for raster_name in raster_names:
 
-        extent = SpatialExtent(top=ds.bounds.top, bottom=ds.bounds.bottom, left=ds.bounds.left,
-                               right=ds.bounds.right, width=ds.res[0], hight=ds.res[1])
-        # Read the whole array
-        array = ds.read()
+            # For code support
+            # ds = gdal.Dataset()
+            ds = gdal.Open(raster_name, GA_ReadOnly)
 
-        rct = RasterCollectionTile(id=raster_name, data=array, extent=extent)
+            # Check if the data is correct
+            if first is True:
+                extent = get_extent_from_dataset(ds)
+                rows = ds.RasterYSize
+                cols = ds.RasterXSize
+                projection = ds.GetProjection()
+                # Create the 3D numpy array
+                array3d = numpy.zeros(shape=[num_raster, rows, cols], dtype=data_type)
+                first = False
+            else:
+                new_extent = get_extent_from_dataset(ds)
+                if new_extent.as_polygon() != extent.as_polygon():
+                    raise Exception("The extents of the provided raster files must be equal")
+
+                if projection != ds.GetProjection():
+                    raise Exception("The provided raster files must have equal projection")
+
+            # For code support
+            # b = gdal.Band()
+
+            b = ds.GetRasterBand(band + 1)
+            # print(raster_name, b.GetStatistics( True, True ))
+
+            # Read the whole raster array as single tile
+            array = b.ReadAsArray()
+            # pprint(array)
+            # Add it to the band
+            array3d[tile_count] = array
+            tile_count += 1
+
+        rct = RasterCollectionTile(id=band_names[band], data=array3d, extent=extent)
 
         datasets.append(rct)
 
-    proj = {ds.crs["init"].split(":")[0]:ds.crs["init"].split(":")[1]}
+        proj = {"WKT":projection}
 
     data = UdfData(proj=proj, raster_collection_tiles=datasets)
 
-    pprint(data.to_dict())
+    #################################################################
+    ########### RUN THE UDF CODE ####################################
     exec(code)
-    pprint(data.to_dict())
+    #################################################################
+    #################################################################
+
+    # Write the output
+    fileformat = "GTiff"
+    driver = gdal.GetDriverByName(fileformat)
+
+    tiles = data.get_raster_collection_tiles()
+
+    if tiles:
+        # Get the number of files that must be created
+        tile = tiles[0]
+        # tile = RasterCollectionTile()
+        # Determine the shape and the datatype for the output
+        num_slices, rows, cols = tile.data.shape
+        numpy_dtype = tile.data.dtype
+        if numpy_dtype == "float64":
+            gdal_dtype = gdal.GDT_Float64
+        else:
+            gdal_dtype = gdal.GDT_Float32
+
+        for slice in range(num_slices):
+            output_path = os.path.join(out_dir, tile.id + "_%i.tif"%slice)
+            print(output_path)
+
+            dst_ds = driver.Create(output_path, xsize=cols, ysize=rows,
+                                   bands=len(tiles), eType=gdal_dtype)
+            transform = extent_to_gdal_transform(tile.extent, rows, cols)
+            dst_ds.SetGeoTransform(transform)
+            dst_ds.SetProjection(data.proj["WKT"])
+            tile_count = 1
+            for tile in tiles:
+                # tile = RasterCollectionTile()
+                dst_ds.GetRasterBand(tile_count).WriteArray(tile.data[slice])
+                tile_count += 1
+
+            dst_ds = None
+
+
+def get_extent_from_dataset(ds):
+    """
+    adfGeoTransform[0] /* top left x */
+    adfGeoTransform[1] /* w-e pixel resolution */
+    adfGeoTransform[2] /* rotation, 0 if image is "north up" */
+    adfGeoTransform[3] /* top left y */
+    adfGeoTransform[4] /* rotation, 0 if image is "north up" */
+    adfGeoTransform[5] /* n-s pixel resolution */
+    """
+
+    transform = ds.GetGeoTransform()
+    rows = ds.RasterYSize
+    cols = ds.RasterXSize
+
+    north = transform[0]
+    ewres = transform[1]
+    west = transform[3]
+    nsres = transform[5]
+
+    south = north + (rows * nsres)
+    east = west + (cols * ewres)
+
+    # print("crs", ds.GetProjection())
+    # print("cols", cols)
+    # print("north", north)
+    # print("south", south)
+    # print("west", west)
+    # print("east", east)
+    # print("ewres", ewres)
+    # print("nsres", nsres)
+
+    extent = SpatialExtent(top=north, bottom=south, left=west,
+                           right=east, width=abs(ewres), height=abs(nsres))
+
+    return extent
+
+def extent_to_gdal_transform(extent, rows, cols):
+    """
+    adfGeoTransform[0] /* top left x */
+    adfGeoTransform[1] /* w-e pixel resolution */
+    adfGeoTransform[2] /* rotation, 0 if image is "north up" */
+    adfGeoTransform[3] /* top left y */
+    adfGeoTransform[4] /* rotation, 0 if image is "north up" */
+    adfGeoTransform[5] /* n-s pixel resolution */
+    """
+
+    # extent = SpatialExtent()
+
+    pixel_height = math.copysign(extent.height, extent.bottom - extent.top)
+    pixel_width  = math.copysign(extent.width, extent.right - extent.left)
+
+    transform = [extent.top, pixel_width, 0, extent.left, 0, pixel_height]
+    return transform
+
+
 
 if __name__ == '__main__':
     main()

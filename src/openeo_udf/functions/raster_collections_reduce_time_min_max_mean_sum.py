@@ -52,8 +52,13 @@ def ict_min_mean_max_sum(udf_data):
         array3d_mean[0] = tile_mean
 
         # Extract the start and end time to set the temporal extent for each tile
-        starts = pandas.DatetimeIndex([tile.start_times[0]])
-        ends = pandas.DatetimeIndex([tile.end_times[-1]])
+        if tile.start_times is not None and tile.end_times is not None:
+            starts = pandas.DatetimeIndex([tile.start_times[0]])
+            ends = pandas.DatetimeIndex([tile.end_times[-1]])
+        else:
+            starts = None
+            ends = None
+
         # Create the new raster collection tiles
         rct = RasterCollectionTile(id=tile.id + "_min", extent=tile.extent, data=array3d_min,
                                    start_times=starts, end_times=ends)
