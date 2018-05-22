@@ -21,24 +21,32 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 gdal.UseExceptions()
-DESCR="""Execute an UDF on the provided data. The following command computed the NDVI on a raster
-image series of three multi-band tiff files. Two bands are provided and names RED and NIR ofr
-the UDF. The resulting tiff are wrtten to the directory /tmp.
+DESCR="""This program reads a list of single- or multi-band GeoTiff files and applies a user defined function (UDF)
+on them. The GeoTiff files must be provided as comma separated list, as well as the band names. The UDF
+must be accessible on the file system. The computed results are single- or multi-band GeoTiff files 
+that are written into a specific output directory.
 
-Example:
+Examples:
 
-execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
-            /tmp src/openeo_udf/functions/raster_collections_ndvi.py 
-
-execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
-            /tmp src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+    The following command computes the NDVI on a raster
+    image series of three multi-band tiff files. Two bands are provided with the names RED and NIR for
+    the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.
+    
+        execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR \\
+                    /tmp src/openeo_udf/functions/raster_collections_ndvi.py 
+    
+    The next command computes the sum of the raster series for each band. A single raster image
+    with two bands is written as GeoTiff file to the directory /tmp.
+    
+        execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\\
+                    /tmp src/openeo_udf/functions/raster_collections_reduce_time_sum.py
 
 """
 
 
 def main():
 
-    parser = argparse.ArgumentParser(description=DESCR)
+    parser = argparse.ArgumentParser(description=DESCR, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument("raster_files", type=str,
                         help="Comma separated list of raster files. If several raster "
@@ -63,10 +71,7 @@ def main():
 
     code = open(udf_path, "r").read()
     data_type = None
-    projection = None
-    tranform = None
-    rows = None
-    cols = None
+    proj = None
 
     # Make sure the correct number of raster bands is used
     num_bands = 0
@@ -80,11 +85,7 @@ def main():
             b = ds.GetRasterBand(1)
             array = b.ReadAsArray(0, 0, 0, 0)
             data_type = array.dtype
-            # Get extent and projection from the first band and file
-            projection = ds.GetProjection()
-            tranform = ds.GetGeoTransform()
-            rows = ds.RasterYSize
-            cols = ds.RasterXSize
+
 
             first = False
         else:
@@ -135,14 +136,9 @@ def main():
 
             # For code support
             # b = gdal.Band()
-
             b = ds.GetRasterBand(band + 1)
-            # print(raster_name, b.GetStatistics( True, True ))
-
-            # Read the whole raster array as single tile
+            # Read the whole raster array as single 2D tile
             array = b.ReadAsArray()
-            # pprint(array)
-            # Add it to the band
             array3d[tile_count] = array
             tile_count += 1
 
@@ -184,7 +180,7 @@ def main():
 
             dst_ds = driver.Create(output_path, xsize=cols, ysize=rows,
                                    bands=len(tiles), eType=gdal_dtype)
-            transform = extent_to_gdal_transform(tile.extent, rows, cols)
+            transform = extent_to_gdal_transform(tile.extent)
             dst_ds.SetGeoTransform(transform)
             dst_ds.SetProjection(data.proj["WKT"])
             tile_count = 1
@@ -192,7 +188,7 @@ def main():
                 # tile = RasterCollectionTile()
                 dst_ds.GetRasterBand(tile_count).WriteArray(tile.data[slice])
                 tile_count += 1
-
+            # Write the data
             dst_ds = None
 
 
@@ -232,7 +228,7 @@ def get_extent_from_dataset(ds):
 
     return extent
 
-def extent_to_gdal_transform(extent, rows, cols):
+def extent_to_gdal_transform(extent):
     """
     adfGeoTransform[0] /* top left x */
     adfGeoTransform[1] /* w-e pixel resolution */

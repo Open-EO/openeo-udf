@@ -64,14 +64,7 @@ Local installation
 
         python3 setup.py install
         python3 setup.py test
-    ..
-
-    Run the doctests of the api reference implementation:
-
-    .. code-block:: bash
-
-        cd src/openeo_udf/api/
-        python3 base.py
+        python3 tests/test_doctests.py
     ..
 
 3. Create the UDF documentation that includes the python3 API description:
@@ -89,10 +82,22 @@ Local installation
         run_udf_server
     ..
 
+5. Run the UDF execution command line tool:
+
+    .. code-block:: bash
+
+        execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
+                    /tmp src/openeo_udf/functions/raster_collections_ndvi.py
+
+        execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
+                    /tmp src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+
+    ..
+
 Docker image
 ------------
 
-The openeo-udf repository contains a Dockerfile to build an openeo-udf docker image:
+The openeo-udf repository contains the build instruction of an openeo-udf docker image:
 
 
 1. Clone the git repository into a specific directory and create the virtual python3 environment:
@@ -142,6 +147,56 @@ download from the repository:
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_min_max_mean_sum.py
 
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+
+Using the UDF command line tool
+-------------------------------
+
+The python3 reference implementation provides a command line tool to run a UDF on raster images that
+are supported by GDAL. At the moment only GeoTiff files are tested. The command line tool
+allows to run any UDF on a list or multi-band GeoTiff files. The command line tool has a simple
+help interface:
+
+    .. code-block:: bash
+
+        (openeo_venv) user@t61:~/src/openeo/openeo-udf$ execute_udf --help
+        usage: execute_udf [-h] raster_files band_names raster_output_dir path_to_udf
+
+        This program reads a list of single- or multi-band GeoTiff files and applies a user defined function (UDF)
+        on them. The GeoTiff files must be provided as comma separated list, as well as the band names. The UDF
+        must be accessible on the file system. The computed results are single- or multi-band GeoTiff files
+        that are written into a specific output directory.
+
+        Examples:
+
+            The following command computes the NDVI on a raster
+            image series of three multi-band tiff files. Two bands are provided with the names RED and NIR for
+            the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.
+
+                execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR \
+                            /tmp src/openeo_udf/functions/raster_collections_ndvi.py
+
+            The next command computes the sum of the raster series for each band. A single raster image
+            with two bands is written as GeoTiff file to the directory /tmp.
+
+                execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
+                            /tmp src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+
+        positional arguments:
+          raster_files       Comma separated list of raster files. If several raster
+                             files are provided, then each raster file must have the
+                             same number of bands.
+          band_names         A comma separated list of band names.
+          raster_output_dir  The output directory to store the computed results.
+          path_to_udf        The UDF file to execute.
+
+        optional arguments:
+          -h, --help         show this help message and exit
+
+    ..
+
+
+Using the UDF server
+--------------------
 
 In case the UDF server is running, it can be feeded with python3 code and JSON data definitions.
 In the following example we run a simple python3 code on the UDF server that gets a simple feature
