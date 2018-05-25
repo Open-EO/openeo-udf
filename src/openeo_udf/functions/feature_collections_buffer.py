@@ -17,7 +17,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def rct_ndvi(udf_data):
+def fct_buffer(udf_data):
     """Compute buffer of size 10 around features
 
     This function creates buffer around all features in the provided vector features in all tiles.
@@ -52,5 +52,5 @@ def rct_ndvi(udf_data):
 
 # This function call is the entry point for the UDF.
 # The caller will provide all required data in the **data** object.
-rct_ndvi(data)
+fct_buffer(data)
 
