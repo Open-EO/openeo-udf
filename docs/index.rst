@@ -22,16 +22,24 @@ These basic data-types are:
     - Multi-dimensional arrays, lists or vectors of floating point values, integer values and date time data-types
     - Maps or dictionaries
 
-The argument of a UDF is a single dictionary or map, that can be represented by a class object as well,
+The argument of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.
 
 
 Installation
 ============
 
-The installation was tested on ubuntu 16.04 and 18.04. It requires python3.6  and pip3. It will install numpy,
-geopandas, pygdal, pytorch, scikit, tensorflow and other libraries
-that require additional development files on the host system.
+The installation was tested on ubuntu 16.04 and 18.04. It requires python3.6  and pip3. It will install
+several python3 libraries like pygdal [#pygdal]_, pytorch [#pytorch]_, scikit-learn [#scikit]_,
+tensorflow [#tensorflow]_ and other libraries that require additional development files on the host system.
+
+
+.. rubric:: Footnotes
+
+.. [#pygdal] https://github.com/nextgis/pygdal
+.. [#pytorch] https://pytorch.org/
+.. [#scikit] http://scikit-learn.org/stable/
+.. [#tensorflow] https://www.tensorflow.org/
 
 
 Local installation
@@ -68,12 +76,13 @@ Local installation
         python3 tests/test_doctests.py
     ..
 
-3. Create the UDF documentation that includes the python3 API description:
+3. Create the UDF documentation that includes the python3 API description and start firefox to read it:
 
     .. code-block:: bash
 
         cd docs
         make html
+        firefox _build/html/index.html
     ..
 
 4. Run the udf server:
@@ -135,13 +144,32 @@ The openeo-udf repository contains the build instruction of an openeo-udf docker
     ..
 
 
-Running an UDF
-==============
+Coding an UDF
+=============
 
 The python3 reference implementation provides an API to implement UDF conveniently. It makes use
-of many python3 libraries that provide functionality to access raster and vector geodata.
-The python3 module numpy should be used to process the raster data. The python3 modules geopandas
-and shapely should be used to process the vector data.
+of many python3 libraries that provide functionality to access raster and vector geo-data.
+
+The following libraries should be used implementations UDF's:
+
+    * The python3 library numpy [#numpy]_ should be used to process the raster data.
+    * The python3 library geopandas [#geopandas]_ and shapely [#shapely]_ should be used to process the vector data.
+    * The python3 library pandas [#pandas]_, specifically pandas.DatetimeIndex should be used to process time-series data
+
+.. rubric:: Footnotes
+
+.. [#numpy] http://www.numpy.org/
+.. [#geopandas] http://geopandas.org/index.html
+.. [#shapely] https://github.com/Toblerity/Shapely
+.. [#pandas] http://pandas.pydata.org/
+
+The python3 API is well documented and fully tested using doctests. The doctests show
+the handling of the API with simple examples. This document and the full API description
+is available when you installed openeo_udf locally or if you use the docker image.
+However, the original python3 file that implements the OpenEO UDF python3 API is available here:
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/base.py
+
 Several UDF were implemented and provide and example howto develop an UDF. The UDF's are directly available for
 download from the repository:
 
@@ -203,7 +231,7 @@ help interface:
 Using the UDF server
 --------------------
 
-**Examples**
+**Raster Example**
 
 In the first example the raster collection tiles are removed from the provided data.
 
@@ -292,6 +320,8 @@ since the provided data object will be used to create the resulting data:
 Hence, a data object that contains the raster and feature collections is provided to the
 user defined function. The UDF code works on the data and stores the result in the same data object.
 
+**Vector Example**
+
 The second examples applies a buffer operation on a feature collection.
 
 The following JSON definition includes the python3 code that applies the buffer operation and
@@ -368,7 +398,7 @@ placed in the shell environmental variable "JSON", should look like this:
         curl -H "Content-Type: application/json" -X POST -d "${JSON}" http://localhost:5000/udf
     ..
 
-The result of the processing are two polygons:
+The result of the processing are two polygons (coordinates are truncated):
 
     .. code-block:: json
 
