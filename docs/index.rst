@@ -30,7 +30,8 @@ Installation
 ============
 
 The installation was tested on ubuntu 16.04 and 18.04. It requires python3.6  and pip3. It will install numpy,
-rasterio, pytorch, scikit, tensorflow and other libraries that require additional development files on the host system.
+geopandas, pygdal, pytorch, scikit, tensorflow and other libraries
+that require additional development files on the host system.
 
 
 Local installation
@@ -138,7 +139,9 @@ Running an UDF
 ==============
 
 The python3 reference implementation provides an API to implement UDF conveniently. It makes use
-of many python3 libraries that provide functionalities to access raster and vector geodata.
+of many python3 libraries that provide functionality to access raster and vector geodata.
+The python3 module numpy should be used to process the raster data. The python3 modules geopandas
+and shapely should be used to process the vector data.
 Several UDF were implemented and provide and example howto develop an UDF. The UDF's are directly available for
 download from the repository:
 
@@ -147,6 +150,8 @@ download from the repository:
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_min_max_mean_sum.py
 
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py
 
 Using the UDF command line tool
 -------------------------------
@@ -198,126 +203,69 @@ help interface:
 Using the UDF server
 --------------------
 
-In case the UDF server is running, it can be feeded with python3 code and JSON data definitions.
-In the following example we run a simple python3 code on the UDF server that gets a simple feature
-and raster collection as input and erases them from the UDF data object that is provided by the
-run environment:
+**Examples**
+
+In the first example the raster collection tiles are removed from the provided data.
+
+The following JSON definition includes the python3 code
+and a simple raster collection with two 2x2 tiles with two start and end time stamps.
 
     .. code-block:: json
 
-        # Remove the feature collection from the data object
-        data.del_raster_collection_tiles()
-        # Remove the raster collections from the data object
-        data.del_feature_collection_tiles()
-    ..
-
-The following JSON definition includes the python3 code, a simple raster collection with two 2x2 tiles,
-two start and end time stamps as well as simple feature collection that contains two points
-with start and end time stamps.
-
-    .. code-block:: json
-
-        {
-          "code": {
-            "source": "data.del_raster_collection_tiles()\ndata.del_feature_collection_tiles()\n",
-            "language": "python"
-          },
-          "data": {
-            "proj": "EPSG:4326",
-            "raster_collection_tiles": [
-              {
-                "data": [
+      {
+        "code": {
+          "source": "data.del_raster_collection_tiles()",
+          "language": "python"
+        },
+        "data": {
+          "proj": "EPSG:4326",
+          "raster_collection_tiles": [
+            {
+              "data": [
+                [
                   [
-                    [
-                      0,
-                      1
-                    ],
-                    [
-                      2,
-                      3
-                    ]
+                    0,
+                    1
                   ],
                   [
-                    [
-                      0,
-                      1
-                    ],
-                    [
-                      2,
-                      3
-                    ]
+                    2,
+                    3
                   ]
                 ],
-                "extent": {
-                  "north": 53,
-                  "south": 50,
-                  "east": 30,
-                  "nsres": 0.01,
-                  "ewres": 0.01,
-                  "west": 24
-                },
-                "end_times": [
-                  "2001-01-02T00:00:00",
-                  "2001-01-03T00:00:00"
-                ],
-                "start_times": [
-                  "2001-01-01T00:00:00",
-                  "2001-01-02T00:00:00"
-                ],
-                "id": "test_data",
-                "wavelength": 420
-              }
-            ],
-            "feature_collection_tiles": [
-              {
-                "id": "test_data",
-                "data": {
-                  "features": [
-                    {
-                      "geometry": {
-                        "coordinates": [
-                          24,
-                          50
-                        ],
-                        "type": "Point"
-                      },
-                      "id": "0",
-                      "type": "Feature",
-                      "properties": {
-                        "a": 1,
-                        "b": "a"
-                      }
-                    },
-                    {
-                      "geometry": {
-                        "coordinates": [
-                          30,
-                          53
-                        ],
-                        "type": "Point"
-                      },
-                      "id": "1",
-                      "type": "Feature",
-                      "properties": {
-                        "a": 2,
-                        "b": "b"
-                      }
-                    }
+                [
+                  [
+                    0,
+                    1
                   ],
-                  "type": "FeatureCollection"
-                },
-                "end_times": [
-                  "2001-01-02T00:00:00",
-                  "2001-01-03T00:00:00"
-                ],
-                "start_times": [
-                  "2001-01-01T00:00:00",
-                  "2001-01-02T00:00:00"
+                  [
+                    2,
+                    3
+                  ]
                 ]
-              }
-            ]
-          }
+              ],
+              "extent": {
+                "north": 53,
+                "south": 50,
+                "east": 30,
+                "nsres": 0.01,
+                "ewres": 0.01,
+                "west": 24
+              },
+              "end_times": [
+                "2001-01-02T00:00:00",
+                "2001-01-03T00:00:00"
+              ],
+              "start_times": [
+                "2001-01-01T00:00:00",
+                "2001-01-02T00:00:00"
+              ],
+              "id": "test_data",
+              "wavelength": 420
+            }
+          ]
         }
+      }
+
     ..
 
 Running the code, with the assumption that the JSON code was
@@ -343,6 +291,164 @@ since the provided data object will be used to create the resulting data:
 
 Hence, a data object that contains the raster and feature collections is provided to the
 user defined function. The UDF code works on the data and stores the result in the same data object.
+
+The second examples applies a buffer operation on a feature collection.
+
+The following JSON definition includes the python3 code that applies the buffer operation and
+a simple feature collection that contains two points with start and end time stamps.
+
+    .. code-block:: json
+
+      {
+        "code": {
+          "source": "tile = data.get_feature_collection_tiles()[0] \nbuf = tile.data.buffer(5) \nnew_data = tile.data.set_geometry(buf) \ndata.set_feature_collection_tiles([FeatureCollectionTile(id=tile.id + \"_buffer\", data=new_data, start_times=tile.start_times, end_times=tile.end_times),])\n",
+          "language": "python"
+        },
+        "data": {
+          "proj": "EPSG:4326",
+          "feature_collection_tiles": [
+            {
+              "id": "test_data",
+              "data": {
+                "features": [
+                  {
+                    "geometry": {
+                      "coordinates": [
+                        24,
+                        50
+                      ],
+                      "type": "Point"
+                    },
+                    "id": "0",
+                    "type": "Feature",
+                    "properties": {
+                      "a": 1,
+                      "b": "a"
+                    }
+                  },
+                  {
+                    "geometry": {
+                      "coordinates": [
+                        30,
+                        53
+                      ],
+                      "type": "Point"
+                    },
+                    "id": "1",
+                    "type": "Feature",
+                    "properties": {
+                      "a": 2,
+                      "b": "b"
+                    }
+                  }
+                ],
+                "type": "FeatureCollection"
+              },
+              "end_times": [
+                "2001-01-02T00:00:00",
+                "2001-01-03T00:00:00"
+              ],
+              "start_times": [
+                "2001-01-01T00:00:00",
+                "2001-01-02T00:00:00"
+              ]
+            }
+          ]
+        }
+      }
+
+    ..
+
+
+Running the code, with the assumption that the JSON code was
+placed in the shell environmental variable "JSON", should look like this:
+
+    .. code-block:: bash
+
+        curl -H "Content-Type: application/json" -X POST -d "${JSON}" http://localhost:5000/udf
+    ..
+
+The result of the processing are two polygons:
+
+    .. code-block:: json
+
+      {
+        "feature_collection_tiles": [
+          {
+            "data": {
+              "features": [
+                {
+                  "geometry": {
+                    "coordinates": [
+                      [
+                        [
+                          29.0,
+                          50.0
+                        ],
+                        [
+                          "..."
+                        ],
+                        [
+                          29.0,
+                          50.0
+                        ]
+                      ]
+                    ],
+                    "type": "Polygon"
+                  },
+                  "id": "0",
+                  "properties": {
+                    "a": 1,
+                    "b": "a"
+                  },
+                  "type": "Feature"
+                },
+                {
+                  "geometry": {
+                    "coordinates": [
+                      [
+                        [
+                          35.0,
+                          53.0
+                        ],
+                        [
+                          "..."
+                        ],
+                        [
+                          35.0,
+                          53.0
+                        ]
+                      ]
+                    ],
+                    "type": "Polygon"
+                  },
+                  "id": "1",
+                  "properties": {
+                    "a": 2,
+                    "b": "b"
+                  },
+                  "type": "Feature"
+                }
+              ],
+              "type": "FeatureCollection"
+            },
+            "end_times": [
+              "2001-01-02T00:00:00",
+              "2001-01-03T00:00:00"
+            ],
+            "id": "test_data_buffer",
+            "start_times": [
+              "2001-01-01T00:00:00",
+              "2001-01-02T00:00:00"
+            ]
+          }
+        ],
+        "models": {},
+        "proj": "EPSG:4326",
+        "raster_collection_tiles": []
+      }
+
+   ..
 
 
 
