@@ -22,7 +22,7 @@ def rct_ndvi(udf_data):
     to all time stamped 2D raster tiles that have equal time stamps.
 
     Args:
-        udf_data (UdfData): The UDF data object that contains raster tiles and vector data
+        udf_data (UdfData): The UDF data object that contains raster and vector tiles
 
     Returns:
         UdfData:

@@ -204,6 +204,26 @@ class AllTestCase(unittest.TestCase):
         self.assertEqual(result["raster_collection_tiles"][0]["data"],
                          [[[-0.25, 0.0]], [[0.0, -0.1111111111111111]]])
 
+    def test_buffer(self):
+        """Test the time reduce sum UDF"""
+
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "feature_collections_buffer.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = FEATURE
+
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        print(udf_request)
+
+        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
+        result = json.loads(response.data)
+        pprint.pprint(result)
+
+        self.assertEqual(len(result["feature_collection_tiles"]), 1)
+        self.assertEqual(len(result["feature_collection_tiles"][0]["data"]["features"]), 2)
+        self.assertEqual(result["feature_collection_tiles"][0]["data"]["features"][0]["properties"], {'a': 1, 'b': 'a'})
+        self.assertEqual(result["feature_collection_tiles"][0]["data"]["features"][1]["properties"], {'a': 2, 'b': 'b'})
+
 
 if __name__ == "__main__":
     unittest.main()

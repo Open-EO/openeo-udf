@@ -23,7 +23,7 @@ def ict_min_mean_max_sum(udf_data):
     computed for each pixel over time.
 
     Args:
-        udf_data (UdfData): The UDF data object that contains raster tiles and vector data
+        udf_data (UdfData): The UDF data object that contains raster and vector tiles
 
     Returns:
         UdfData:
