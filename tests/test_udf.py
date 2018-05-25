@@ -205,7 +205,7 @@ class AllTestCase(unittest.TestCase):
                          [[[-0.25, 0.0]], [[0.0, -0.1111111111111111]]])
 
     def test_buffer(self):
-        """Test the time reduce sum UDF"""
+        """Test the feature collection buffering UDF"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "feature_collections_buffer.py")

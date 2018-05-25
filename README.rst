@@ -233,10 +233,16 @@ Using the UDF server
 
 **Raster Example**
 
-In the first example the raster collection tiles are removed from the provided data.
+The first example removes the raster collection tiles from the provided input data. The code is very simple
+and removes all raster collection tiles in the input object that always has the name **data**:
 
-The following JSON definition includes the python3 code
-and a simple raster collection with two 2x2 tiles with two start and end time stamps.
+    .. code-block:: python
+
+        data.del_raster_collection_tiles()
+    ..
+
+The following JSON definition includes the python3 code and a simple raster collection
+with two 2x2 tiles with two start and end time stamps.
 
     .. code-block:: json
 
@@ -322,7 +328,18 @@ user defined function. The UDF code works on the data and stores the result in t
 
 **Vector Example**
 
-The second examples applies a buffer operation on a feature collection.
+The second examples applies a buffer operation on a feature collection. It computes a buffer of size 5
+on all features of the first feature collection tile and stores the result in the input **data**
+object:
+
+    .. code-block:: python
+
+        tile = data.get_feature_collection_tiles()[0]
+        buf = tile.data.buffer(5)
+        new_data = tile.data.set_geometry(buf)
+        data.set_feature_collection_tiles([FeatureCollectionTile(id=tile.id + "_buffer", data=new_data, start_times=tile.start_times, end_times=tile.end_times),])
+    ..
+
 
 The following JSON definition includes the python3 code that applies the buffer operation and
 a simple feature collection that contains two points with start and end time stamps.

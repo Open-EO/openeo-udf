@@ -7,6 +7,11 @@ docker run --name "openeo-udf-server" -p 5000:5000 -p 80:80 -t openeo_udf
 
 docker stop "openeo-udf-server" &&  docker rm "openeo-udf-server"
 
+# Documentation
+curl -X GET http://localhost:80/index.html
+curl -X GET http://localhost:80/api_docs/index.html
+
+
 JSON='
 {
   "code": {
@@ -64,9 +69,6 @@ JSON='
 '
 
 curl -H "Content-Type: application/json" -X POST -d "${JSON}" http://localhost:5000/udf
-curl -X GET http://localhost:80/index.html
-curl -X GET http://localhost:80/api_docs/index.html
-
 
 JSON='
 {
@@ -129,5 +131,4 @@ JSON='
 '
 
 curl -H "Content-Type: application/json" -X POST -d "${JSON}" http://localhost:5000/udf
-curl -X GET http://localhost:80/index.html
-curl -X GET http://localhost:80/api_docs/index.html
+

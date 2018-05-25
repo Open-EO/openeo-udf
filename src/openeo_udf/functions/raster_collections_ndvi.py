@@ -25,37 +25,31 @@ def rct_ndvi(udf_data):
         udf_data (UdfData): The UDF data object that contains raster and vector tiles
 
     Returns:
-        UdfData:
         This function will not return anything, the UdfData object "udf_data" must be used to store the resulting
         data.
 
     """
-
     red = None
     nir = None
 
     # Iterate over each tile
     for tile in udf_data.raster_collection_tiles:
         if "red" in tile.id.lower():
-
             red = tile
         if "nir" in tile.id.lower():
             nir = tile
-
     if red is None:
         raise Exception("Red raster collection tile is missing in input")
-
     if nir is None:
         raise Exception("Nir raster collection tile is missing in input")
-
     if red.start_times is None or red.start_times.tolist() == nir.start_times.tolist():
-
+        # Compute the NDVI
         ndvi = (nir.data - red.data) / (nir.data + red.data)
-
         # Create the new raster collection tile
-        rct = RasterCollectionTile(id="ndvi", extent=red.extent, data=ndvi, start_times=red.start_times,
-                                   end_times=red.end_times)
-
+        rct = RasterCollectionTile(id="ndvi", extent=red.extent, data=ndvi,
+                                   start_times=red.start_times, end_times=red.end_times)
+        # Insert the new tiles as list of raster collection tiles in the input object. The new tiles will
+        # replace the original input tiles.
         udf_data.set_raster_collection_tiles([rct,])
     else:
         raise Exception("Time stamps are not equal")

@@ -26,12 +26,10 @@ def rct_time_sum(udf_data):
         udf_data (UdfData): The UDF data object that contains raster and vector tiles
 
     Returns:
-        UdfData:
         This function will not return anything, the UdfData object "udf_data" must be used to store the resulting
         data.
 
     """
-
     # The list of tiles that were created
     tile_results = []
 
@@ -42,7 +40,6 @@ def rct_time_sum(udf_data):
         rows, cols = tile_sum.shape
         array3d = numpy.ndarray([1, rows, cols])
         array3d[0] = tile_sum
-
         # Extract the start and end time to set the temporal extent for each tile
         if tile.start_times is not None and tile.end_times is not None:
             starts = pandas.DatetimeIndex([tile.start_times[0]])
@@ -50,12 +47,12 @@ def rct_time_sum(udf_data):
         else:
             starts = None
             ends = None
-
         # Create the new raster collection tile
-        rct = RasterCollectionTile(id=tile.id + "_sum", extent=tile.extent, data=array3d, start_times=starts,
-                                   end_times=ends)
+        rct = RasterCollectionTile(id=tile.id + "_sum", extent=tile.extent, data=array3d,
+                                   start_times=starts, end_times=ends)
         tile_results.append(rct)
-
+    # Insert the new tiles as list of raster collection tiles in the input object. The new tiles will
+    # replace the original input tiles.
     udf_data.set_raster_collection_tiles(tile_results)
 
 

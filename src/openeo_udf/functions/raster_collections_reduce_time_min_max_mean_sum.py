@@ -26,7 +26,6 @@ def ict_min_mean_max_sum(udf_data):
         udf_data (UdfData): The UDF data object that contains raster and vector tiles
 
     Returns:
-        UdfData:
         This function will not return anything, the UdfData object "udf_data" must be used to store the resulting
         data.
 
@@ -50,7 +49,6 @@ def ict_min_mean_max_sum(udf_data):
         array3d_max[0]  = tile_max
         array3d_sum[0]  = tile_sum
         array3d_mean[0] = tile_mean
-
         # Extract the start and end time to set the temporal extent for each tile
         if tile.start_times is not None and tile.end_times is not None:
             starts = pandas.DatetimeIndex([tile.start_times[0]])
@@ -58,7 +56,6 @@ def ict_min_mean_max_sum(udf_data):
         else:
             starts = None
             ends = None
-
         # Create the new raster collection tiles
         rct = RasterCollectionTile(id=tile.id + "_min", extent=tile.extent, data=array3d_min,
                                    start_times=starts, end_times=ends)
@@ -72,9 +69,8 @@ def ict_min_mean_max_sum(udf_data):
         rct = RasterCollectionTile(id=tile.id + "_mean", extent=tile.extent, data=array3d_mean,
                                    start_times=starts, end_times=ends)
         tile_results.append(rct)
-
-    # Insert the new tiles as raster collection tiles in the input object. These output tiles will
-    # replace the input tiles
+    # Insert the new tiles as list of raster collection tiles in the input object. The new tiles will
+    # replace the original input tiles.
     udf_data.set_raster_collection_tiles(tile_results)
 
 
