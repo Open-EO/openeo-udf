@@ -2,12 +2,17 @@
 OpenEO UDF Framework
 ====================
 
-This is the description of the OpenEO User Defined Function (UDF) API that must be applied when implementing
-UDF for the OpenEO backends.
+OpenEO User Defined Functions (UDF) are an approach to run arbitrary code on geographical data
+that is available in an OpenEO processing backend like R, GRASS GIS or GeoTrellis.
+This document describes the UDF interface and provides reference implementation for Python3. The reference
+implementation includes:
 
-This document describes the UDF interface and provides reference implementation for Python. The reference
-implementation includes an UDF REST server, that processes user defined data with user defined functions
-and describes its interface using swagger2.0.
+    - An OpenEO UDF REST server that processes user defined data with user defined functions
+      and describes its interface using swagger2.0.
+    - A command line tool to apply user defined functions on raster and vector data
+    - A Python3 API that specifies how UDF must be implemented in Python3
+    - The UDF server and the command line tool are examples howto implement the
+      UDF approach in a OpenEO processing backend
 
 Basic datatypes
 ===============
@@ -22,7 +27,7 @@ These basic data-types are:
     - Multi-dimensional arrays, lists or vectors of floating point values, integer values and date time data-types
     - Maps or dictionaries
 
-The argument of an UDF is a single dictionary or map, that can be represented by a class object as well,
+The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.
 
 
@@ -82,7 +87,8 @@ Local installation
 
         cd docs
         make html
-        firefox _build/html/index.html
+        firefox _build/html/index.html &
+        cd ..
     ..
 
 4. Run the udf server:
@@ -94,14 +100,34 @@ Local installation
 
 5. Run the UDF execution command line tool:
 
+    The following command computes the NDVI on a raster
+    image series of three multi-band tiff files. Two bands are provided with the names RED and NIR for
+    the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.
+
     .. code-block:: bash
 
-        execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
-                    /tmp src/openeo_udf/functions/raster_collections_ndvi.py
+        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
+                    -b RED,NIR \
+                    -u src/openeo_udf/functions/raster_collections_ndvi.py
+    ..
 
-        execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
-                    /tmp src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+    This command computes the sum of the raster series for each band. A single raster image
+    with two bands is written as GeoTiff file to the directory /tmp.
 
+    .. code-block:: bash
+
+        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
+                    -b RED,NIR \
+                    -u src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+    ..
+
+    This command reads a feature collection stored in a gepackge file
+    and applies the UDF buffer function. The result is a new geopackage
+    that contains the buffers written in directory /tmp:
+
+    .. code-block:: bash
+
+        execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
     ..
 
 Docker image
@@ -192,12 +218,18 @@ help interface:
     .. code-block:: bash
 
         (openeo_venv) user@t61:~/src/openeo/openeo-udf$ execute_udf --help
-        usage: execute_udf [-h] raster_files band_names raster_output_dir path_to_udf
+        usage: execute_udf [-h] [-r RASTER_FILES] [-v VECTOR_FILES]
+                           [-t RASTER_TIME_STAMPS] [-b BAND_NAMES]
+                           [-o RASTER_OUTPUT_DIR] -u PATH_TO_UDF
 
-        This program reads a list of single- or multi-band GeoTiff files and applies a user defined function (UDF)
-        on them. The GeoTiff files must be provided as comma separated list, as well as the band names. The UDF
+        This program reads a list of single- or multi-band GeoTiff files and vector files
+        and applies a user defined function (UDF) on them.
+        The GeoTiff files must be provided as comma separated list, as well as the band names.
+        The vector files must be provides as comma separated list of files as well. The UDF
         must be accessible on the file system. The computed results are single- or multi-band GeoTiff files
-        that are written into a specific output directory.
+        in case of raster output and geopackage vector files in case of vector output
+        that are written into a specific output directory. Raster and vector files can be specified together.
+        However, all provided files must have the same projection.
 
         Examples:
 
@@ -205,25 +237,43 @@ help interface:
             image series of three multi-band tiff files. Two bands are provided with the names RED and NIR for
             the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.
 
-                execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR \
-                            /tmp src/openeo_udf/functions/raster_collections_ndvi.py
+                execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
+                            -b RED,NIR \
+                            -u src/openeo_udf/functions/raster_collections_ndvi.py
 
-            The next command computes the sum of the raster series for each band. A single raster image
+            This command computes the sum of the raster series for each band. A single raster image
             with two bands is written as GeoTiff file to the directory /tmp.
 
-                execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\
-                            /tmp src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+                execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
+                            -b RED,NIR \
+                            -u src/openeo_udf/functions/raster_collections_reduce_time_sum.py
 
-        positional arguments:
-          raster_files       Comma separated list of raster files. If several raster
-                             files are provided, then each raster file must have the
-                             same number of bands.
-          band_names         A comma separated list of band names.
-          raster_output_dir  The output directory to store the computed results.
-          path_to_udf        The UDF file to execute.
+
+            This command reads a feature collection stored in a gepackge file
+            and applies the UDF buffer function. The result is a new geopackage
+            that contains the buffers written in directory /tmp:
+
+                execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
 
         optional arguments:
-          -h, --help         show this help message and exit
+          -h, --help            show this help message and exit
+          -r RASTER_FILES, --raster_files RASTER_FILES
+                                Comma separated list of raster files. If several
+                                raster files are provided, then each raster file must
+                                have the same number of bands.
+          -v VECTOR_FILES, --vector_files VECTOR_FILES
+                                Comma separated list of vector files. Each vector file
+                                will be converted into a vector collection tile.
+          -t RASTER_TIME_STAMPS, --raster_time_stamps RASTER_TIME_STAMPS
+                                A comma separated list of time stamps, that must have
+                                the same number of entries as the list of raster
+                                files.
+          -b BAND_NAMES, --band_names BAND_NAMES
+                                A comma separated list of band names.
+          -o RASTER_OUTPUT_DIR, --raster_output_dir RASTER_OUTPUT_DIR
+                                The output directory to store the computed results.
+          -u PATH_TO_UDF, --path_to_udf PATH_TO_UDF
+                                The UDF file to execute.
 
     ..
 
@@ -496,4 +546,3 @@ The result of the processing are two polygons (coordinates are truncated):
       }
 
    ..
-

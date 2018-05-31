@@ -4,6 +4,8 @@ import argparse
 from osgeo import gdal
 from osgeo.gdalconst import *
 import numpy
+from pandas import DatetimeIndex
+import geopandas
 import os
 import math
 # import pandas
@@ -12,7 +14,7 @@ import math
 # import tensorflow
 # import tensorboard
 from pprint import pprint
-from openeo_udf.api.base import RasterCollectionTile, UdfData, SpatialExtent
+from openeo_udf.api.base import RasterCollectionTile, UdfData, SpatialExtent, FeatureCollectionTile
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -21,10 +23,14 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 gdal.UseExceptions()
-DESCR="""This program reads a list of single- or multi-band GeoTiff files and applies a user defined function (UDF)
-on them. The GeoTiff files must be provided as comma separated list, as well as the band names. The UDF
+DESCR="""This program reads a list of single- or multi-band GeoTiff files and vector files
+and applies a user defined function (UDF) on them. 
+The GeoTiff files must be provided as comma separated list, as well as the band names. 
+The vector files must be provides as comma separated list of files as well. The UDF
 must be accessible on the file system. The computed results are single- or multi-band GeoTiff files 
-that are written into a specific output directory.
+in case of raster output and geopackage vector files in case of vector output
+that are written into a specific output directory. Raster and vector files can be specified together.
+However, all provided files must have the same projection.
 
 Examples:
 
@@ -32,14 +38,23 @@ Examples:
     image series of three multi-band tiff files. Two bands are provided with the names RED and NIR for
     the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.
     
-        execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR \\
-                    /tmp src/openeo_udf/functions/raster_collections_ndvi.py 
-    
-    The next command computes the sum of the raster series for each band. A single raster image
+        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \\
+                    -b RED,NIR \\
+                    -u src/openeo_udf/functions/raster_collections_ndvi.py
+
+    This command computes the sum of the raster series for each band. A single raster image
     with two bands is written as GeoTiff file to the directory /tmp.
     
-        execute_udf data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif RED,NIR\\
-                    /tmp src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \\
+                    -b RED,NIR \\
+                    -u src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+    
+    
+    This command reads a feature collection stored in a gepackge file
+    and applies the UDF buffer function. The result is a new geopackage
+    that contains the buffers written in directory /tmp:
+    
+        execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py 
 
 """
 
@@ -48,26 +63,48 @@ def main():
 
     parser = argparse.ArgumentParser(description=DESCR, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    parser.add_argument("raster_files", type=str,
+    parser.add_argument("-r", "--raster_files", type=str, required=False,
                         help="Comma separated list of raster files. If several raster "
                              "files are provided, then each raster file must have "
                              "the same number of bands.")
 
-    parser.add_argument("band_names", type=str,
+    parser.add_argument("-v", "--vector_files", type=str, required=False,
+                        help="Comma separated list of vector files. Each vector file will be converted into a "
+                             "vector collection tile.")
+
+    parser.add_argument("-t", "--raster_time_stamps", type=str, required=False,
+                        help="A comma separated list of time stamps, that must have the same number of entries "
+                             "as the list of raster files.")
+
+    parser.add_argument("-b", "--band_names", type=str, required=False,
                         help="A comma separated list of band names.")
 
-    parser.add_argument("raster_output_dir", type=str,
+    parser.add_argument("-o", "--raster_output_dir", type=str, required=False, default="/tmp",
                         help="The output directory to store the computed results.")
 
-    parser.add_argument("path_to_udf", type=str,
+    parser.add_argument("-u", "--path_to_udf", type=str, required=True,
                         help="The UDF file to execute.")
 
     args = parser.parse_args()
 
-    raster_names = args.raster_files.split(",")
+    raster_names = []
+    vector_names = []
+    raster_time_stamps= []
+    band_names = []
+
+    if args.raster_files:
+        raster_names = args.raster_files.split(",")
+    if args.vector_files:
+        vector_names = args.vector_files.split(",")
+    if args.raster_time_stamps:
+        raster_time_stamps = args.raster_time_stamps.split(",")
     out_dir = args.raster_output_dir
     udf_path = args.path_to_udf
-    band_names =  args.band_names.split(",")
+    if args.band_names:
+        band_names = args.band_names.split(",")
+
+    if not raster_names and not vector_names:
+        raise Exception("Raster files and/or vector files must be specified.")
 
     code = open(udf_path, "r").read()
     data_type = None
@@ -86,7 +123,6 @@ def main():
             array = b.ReadAsArray(0, 0, 0, 0)
             data_type = array.dtype
 
-
             first = False
         else:
             if num_bands - ds.RasterCount != 0:
@@ -102,7 +138,8 @@ def main():
         raise Exception("Please provide the same number of band names a bands in the raster image files")
 
     num_raster = len(raster_names)
-    datasets = []
+    raster_datasets = []
+    vector_datasets = []
 
     for band in range(num_bands):
         first = True
@@ -144,11 +181,19 @@ def main():
 
         rct = RasterCollectionTile(id=band_names[band], data=array3d, extent=extent)
 
-        datasets.append(rct)
+        raster_datasets.append(rct)
 
         proj = {"WKT":projection}
 
-    data = UdfData(proj=proj, raster_collection_tiles=datasets)
+    for vector_name in vector_names:
+        gdf = geopandas.read_file(filename=vector_name)
+
+        vector_id = os.path.basename(vector_name).split(".")[0]
+        fct = FeatureCollectionTile(id=vector_id, data=gdf)
+        vector_datasets.append(fct)
+        pprint(fct.to_dict())
+
+    data = UdfData(proj=proj, raster_collection_tiles=raster_datasets, feature_collection_tiles=vector_datasets)
 
     #################################################################
     ########### RUN THE UDF CODE ####################################
@@ -191,6 +236,12 @@ def main():
             # Write the data
             dst_ds = None
 
+    tiles = data.get_feature_collection_tiles()
+
+    if tiles:
+        for tile in tiles:
+            output_path = os.path.join(out_dir, tile.id + ".gpkg")
+            tile.data.to_file(filename=output_path, driver='GPKG')
 
 def get_extent_from_dataset(ds):
     """
