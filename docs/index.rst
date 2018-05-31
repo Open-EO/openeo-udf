@@ -210,10 +210,10 @@ download from the repository:
 Using the UDF command line tool
 -------------------------------
 
-The python3 reference implementation provides a command line tool to run a UDF on raster images that
-are supported by GDAL. At the moment only GeoTiff files are tested. The command line tool
-allows to run any UDF on a list or multi-band GeoTiff files. The command line tool has a simple
-help interface:
+The python3 reference implementation provides a command line tool to run an UDF on raster images that
+are supported by GDAL and/or vector files support by OGR.
+The command line tool has a help interface with examples that run on test data available in the
+OpenEO UDF repository:
 
     .. code-block:: bash
 
