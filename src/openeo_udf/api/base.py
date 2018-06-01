@@ -6,7 +6,7 @@
 import geopandas
 import pandas
 import numpy
-from shapely.geometry import Polygon
+from shapely.geometry import Polygon, Point
 from flask import json
 
 __license__ = "Apache License, Version 2.0"
@@ -29,6 +29,12 @@ class SpatialExtent(object):
     left: 0
     height: 10
     width: 10
+    >>> extent.to_index(50, 50)
+    (5, 5)
+    >>> extent.to_index(0, 0)
+    (0, 10)
+    >>> extent.to_index(100, 0)
+    (0, 0)
 
     >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0)
     >>> print(extent)
@@ -52,7 +58,15 @@ class SpatialExtent(object):
     left: 0.0
     height: None
     width: None
-    
+    >>> extent.contains_point(50, 50)
+    True
+    >>> extent.contains_point(150, 50)
+    False
+    >>> extent.contains_point(25, 25)
+    True
+    >>> extent.contains_point(101, 101)
+    False
+
     >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0)
     >>> extent.as_polygon() == extent.as_polygon()
     True
@@ -88,6 +102,37 @@ class SpatialExtent(object):
         self.left = left
         self.height = height
         self.width = width
+        self.polygon = self.as_polygon()
+
+    def contains_point(self, top, left):
+        """Return True if the provided coordinate is located in the spatial extent, False otherwise
+
+        Args:
+           top (float): The top (northern) coordinate of the point
+           left (float): The left (western) coordinate of the point
+
+
+        Returns:
+            bool: True if the coordinates are contained in the extent, False otherwise
+
+        """
+        return self.polygon.contains(Point(left, top))
+        # return self.polygon.intersects(Point(left, top))
+
+    def to_index(self, top, left):
+        """Return True if the provided coordinate is located in the spatial extent, False otherwise
+
+        Args:
+           top (float): The top (northern) coordinate
+           left (float): The left (western) coordinate
+
+        Returns:
+             tuple(int): (x, y) The x, y index
+
+        """
+        x = int(abs((left - self.left)/self.width))
+        y = int(abs((top - self.top)/self.height))
+        return (x, y)
 
     def __str__(self):
         return "top: %(n)s\n" \
@@ -438,16 +483,18 @@ class RasterCollectionTile(CollectionTile):
 
     >>> import numpy, pandas
     >>> data = numpy.zeros(shape=(1,1,1))
-    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=100, width=100)
     >>> rct = RasterCollectionTile(id="test", extent=extent, data=data, wavelength=420)
+    >>> rct.sample(50, 50)
+    [0.0]
     >>> print(rct)
     id: test
     extent: top: 100
     bottom: 0
     right: 100
     left: 0
-    height: 10
-    width: 10
+    height: 100
+    width: 100
     wavelength: 420
     start_times: None
     end_times: None
@@ -457,16 +504,16 @@ class RasterCollectionTile(CollectionTile):
     >>> dates = [pandas.Timestamp('2012-05-02')]
     >>> ends = pandas.DatetimeIndex(dates)
     >>> rct = RasterCollectionTile(id="test", extent=extent,
-    ...                           data=data, wavelength=420,
-    ...                           start_times=starts, end_times=ends)
+    ...                            data=data, wavelength=420,
+    ...                            start_times=starts, end_times=ends)
     >>> print(rct)
     id: test
     extent: top: 100
     bottom: 0
     right: 100
     left: 0
-    height: 10
-    width: 10
+    height: 100
+    width: 100
     wavelength: 420
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
@@ -476,7 +523,7 @@ class RasterCollectionTile(CollectionTile):
     >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
     '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10},
+    "extent": {"bottom": 0, "height": 100, "left": 0, "right": 100, "top": 100, "width": 100},
     "id": "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
 
 
@@ -484,8 +531,33 @@ class RasterCollectionTile(CollectionTile):
     >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
     '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id":
+    "extent": {"bottom": 0, "height": 100, "left": 0, "right": 100, "top": 100, "width": 100}, "id":
     "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
+
+    >>> data = numpy.zeros(shape=(3,10,10))
+    >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
+    >>> rct = RasterCollectionTile(id="test", extent=extent, data=data, wavelength=420)
+    >>> rct.sample(50, 50)
+    [0.0, 0.0, 0.0]
+
+
+    >>> a = numpy.array([[[1., 2., 3., 4.],
+    ...                   [5., 6., 7., 8.],
+    ...                   [1., 2., 3., 4.]],
+    ...                  [[5., 6., 7., 8.],
+    ...                   [1., 2., 3., 4.],
+    ...                   [5., 6., 7., 8.]]])
+    >>>
+    >>> extent = SpatialExtent(top=30, bottom=0, right=40, left=0, height=10, width=10)
+    >>> rct = RasterCollectionTile(id="test", extent=extent, data=a, wavelength=420)
+    >>> rct.sample(20, 15)
+    [6.0, 2.0]
+    >>> rct.sample(29, 1)
+    [1.0, 5.0]
+    >>> rct.sample(20, 21)
+    [7.0, 3.0]
+    >>> rct.sample(1, 39)
+    [4.0, 8.0]
 
     """
 
@@ -515,7 +587,35 @@ class RasterCollectionTile(CollectionTile):
                "start_times: %(start_times)s\n" \
                "end_times: %(end_times)s\n" \
                "data: %(data)s"%{"id":self.id, "extent":self.extent, "wavelength":self.wavelength,
-                                   "start_times":self.start_times, "end_times":self.end_times, "data":self.data}
+                                 "start_times":self.start_times, "end_times":self.end_times, "data":self.data}
+
+    def sample(self, top, left):
+        """Sample the raster tile at specific top, left coordinates.
+
+        If the coordinates are not in the spatial extent of the tile, then None will be returned.
+        Otherwise a list of values, depending on the number of x,y slices are returned.
+
+        The coordinates must be of the same projection as the raster collection.
+
+        Args:
+           top (float): The top (northern) coordinate of the point
+           left (float): The left (western) coordinate of the point
+
+        Returns:
+            numpy.ndarray:
+            A one dimensional array of values
+        """
+        if self.extent.contains_point(top=top, left=left) is True:
+            x, y = self.extent.to_index(top, left)
+
+            values = []
+            for xy_slice in self.data:
+                value = xy_slice[y][x]
+
+                values.append(value)
+            return values
+
+        return None
 
     def get_data(self):
         """Return the three dimensional numpy.ndarray with indices [t][y][x]

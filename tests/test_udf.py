@@ -125,9 +125,9 @@ PIXEL_FEATURE={
                 "end_times": ["2001-01-02T00:00:00",
                               "2001-01-03T00:00:00"],
                 "data": {"features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"},
-                                       "geometry": {"coordinates": [30.0, 53.0], "type": "Point"}},
+                                       "geometry": {"coordinates": [28.5, 51.5], "type": "Point"}},
                                       {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"},
-                                       "geometry": {"coordinates": [30.0, 53.0], "type": "Point"}}],
+                                       "geometry": {"coordinates": [29.5, 52.5], "type": "Point"}}],
                          "type": "FeatureCollection"}
             }
         ]
