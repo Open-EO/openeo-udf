@@ -20,7 +20,7 @@ __email__ = "soerengebbert@googlemail.com"
 def fct_buffer(udf_data):
     """Compute buffer of size 10 around features
 
-    This function creates buffer around all features in the provided vector features in all tiles.
+    This function creates buffer around all features in the provided feature collection tiles.
     The resulting geopandas.GeoDataFrame contains the new geometries and a copy of the original attribute data.
 
     Args:

@@ -275,9 +275,11 @@ class UdfData(Schema):
         ]
     }
 
+# The following classes are used to implement the UDF test server POST endpoint
 
 class UdfCode(Schema):
-    description = "The object that stores the UDF code and language specification."
+    description = "The object that stores the UDF code and language specification. This class is not part of the UDF " \
+                  "API but used to create the UDF test server."
     type = "object"
     required = ["language", "source"]
     properties = {
@@ -300,7 +302,8 @@ class UdfCode(Schema):
 
 
 class UdfRequest(Schema):
-    description = "The udf request JSON specification."
+    description = "The udf request JSON specification.  This class is not part of the UDF " \
+                  "API but used to create the UDF test server."
     type = "object"
     required = ["code", "data"]
     properties = {
@@ -310,7 +313,8 @@ class UdfRequest(Schema):
 
 
 class ErrorResponse(Schema):
-    description = "The error message."
+    description = "The error message. This class is not part of the UDF " \
+                  "API but used to create the UDF test server."
     type = "object"
     required = ["message"]
     properties = {
