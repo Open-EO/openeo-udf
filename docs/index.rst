@@ -237,7 +237,7 @@ The UDF's are directly available for download from the repository:
 
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_sampling.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sampling.py
 
 Several UDF were implemented and provide and example howto develop an UDF. A unittest was implemented for
 each UDF. The tests are available here:
