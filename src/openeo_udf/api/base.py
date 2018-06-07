@@ -875,6 +875,38 @@ class FeatureCollectionTile(CollectionTile):
         return fct
 
 
+class StructuredData(object):
+    """This class represents structured data that is produced by an UDF and can not be represented
+    as a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical
+    computation. The data is self descriptive and supports the basic types dict/map, list and table.
+
+    The data field contains the UDF specific values (argument or return) as dict, list or table:
+
+        * A dict can be as complex as required by the UDF
+        * A list must contain simple data types example {\"list\": [1,2,3,4]}
+        * A table is a list of lists with a header, example {\"table\": [[\"id\",\"value\"],
+                                                                           [1,     10],
+                                                                           [2,     23],
+                                                                           [3,     4]]}
+
+    """
+
+    def __init__(self, description, data, type):
+        self.description = description
+        self.data = data
+        self.type = type
+
+    def to_dict(self):
+        return dict(description=self.description, data=self.data, type=self.type)
+
+    @staticmethod
+    def from_dict(structured_data):
+        description = structured_data["description"]
+        data = structured_data["data"]
+        type = structured_data["type"]
+        return StructuredData(description=description, data=data, type=type)
+
+
 class UdfData(object):
     """The class that stores the arguments for a user defined function (UDF)
 
@@ -981,7 +1013,7 @@ class UdfData(object):
     "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}, {"data": [[[0.0]]],
     "end_times": ["2012-05-02T00:00:00"],
     "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id": "B",
-    "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}]}'
+    "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}], "structured_data_list": []}'
 
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
@@ -1008,11 +1040,20 @@ class UdfData(object):
     "id": "A", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}, {"data": [[[0.0]]],
     "end_times": ["2012-05-02T00:00:00"], "extent":
     {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100,
-    "width": 10}, "id": "B", "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}]}'
+    "width": 10}, "id": "B", "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}], "structured_data_list": []}'
 
+    >>> sd_list = StructuredData(description="Data list", data={"list":[1,2,3]}, type="list")
+    >>> sd_dict = StructuredData(description="Data dict", data={"A":{"B": 1}}, type="dict")
+    >>> udf = UdfData(proj={"EPSG":4326}, structured_data_list=[sd_list, sd_dict])
+    >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
+    ...                           # doctest: +NORMALIZE_WHITESPACE
+    '{"feature_collection_tiles": [], "models": {}, "proj": {"EPSG": 4326},
+    "raster_collection_tiles": [],
+    "structured_data_list": [{"data": {"list": [1, 2, 3]}, "description": "Data list", "type": "list"},
+                             {"data": {"A": {"B": 1}}, "description": "Data dict", "type": "dict"}]}'
     """
 
-    def __init__(self, proj, raster_collection_tiles=None, feature_collection_tiles=None):
+    def __init__(self, proj, raster_collection_tiles=None, feature_collection_tiles=None, structured_data_list=None):
         """The constructor of the UDF argument class that stores all data required by the
         user defined function.
 
@@ -1026,11 +1067,16 @@ class UdfData(object):
         self._feature_tile_list = []
         self._raster_tile_dict = {}
         self._feature_tile_dict = {}
+        self._structured_data_list = []
         self.proj = proj
         self.models = {}
 
-        self.set_raster_collection_tiles(raster_collection_tiles=raster_collection_tiles)
-        self.set_feature_collection_tiles(feature_collection_tiles=feature_collection_tiles)
+        if raster_collection_tiles:
+            self.set_raster_collection_tiles(raster_collection_tiles=raster_collection_tiles)
+        if feature_collection_tiles:
+            self.set_feature_collection_tiles(feature_collection_tiles=feature_collection_tiles)
+        if structured_data_list:
+            self.set_structured_data_list(structured_data_list)
 
     def get_raster_collection_tile_by_id(self, id):
         """Get an raster collection tile by its id
@@ -1122,10 +1168,42 @@ class UdfData(object):
         self._feature_tile_list.clear()
         self._feature_tile_dict.clear()
 
+    def get_structured_data_list(self):
+        """Get all structured data entries
+
+        Returns:
+            (list[StructuredData]): A list of StructuredData objects
+
+        """
+        return self._structured_data_list
+
+    def set_structured_data_list(self, structured_data_list):
+        """Set the list of structured ata
+
+        If feature_collection_tiles is None, then the list will be cleared
+
+        Args:
+            structured_data_list (list[StructuredData]): A list of StructuredData objects
+        """
+
+        self.del_structured_data_list()
+        if structured_data_list is None:
+            return
+
+        for entry in structured_data_list:
+            self._structured_data_list.append(entry)
+
+    def del_structured_data_list(self):
+        """Delete all feature collection tiles
+        """
+        self._structured_data_list.clear()
+
     raster_collection_tiles = property(fget=get_raster_collection_tiles,
                                        fset=set_raster_collection_tiles, fdel=del_raster_collection_tiles)
     feature_collection_tiles = property(fget=get_feature_collection_tiles,
                                         fset=set_feature_collection_tiles, fdel=del_feature_collection_tiles)
+    structured_data_list = property(fget=get_structured_data_list,
+                                    fset=set_structured_data_list, fdel=del_structured_data_list)
 
     def append_raster_collection_tile(self, image_collection_tile):
         """Append a raster collection tile to the list
@@ -1148,6 +1226,14 @@ class UdfData(object):
         """
         self._feature_tile_list.append(feature_collection_tile)
         self._feature_tile_dict[feature_collection_tile.id] = feature_collection_tile
+
+    def append_structured_data(self, structured_data):
+        """Append a structured data object to the list
+
+        Args:
+            structured_data (StructuredData): A StructuredData objects
+        """
+        self._structured_data_list.append(structured_data)
 
     def add_model_path(self, framework, model_id, path):
         """Add a model path to the UDF object
@@ -1185,6 +1271,12 @@ class UdfData(object):
                 l.append(tile.to_dict())
             d["feature_collection_tiles"] = l
 
+        if self._structured_data_list is not None:
+            l = []
+            for entry in self._structured_data_list:
+                l.append(entry.to_dict())
+            d["structured_data_list"] = l
+
         if self.models is not None:
             d["models"] = self.models
 
@@ -1220,6 +1312,12 @@ class UdfData(object):
             for entry in l:
                 fct = FeatureCollectionTile.from_dict(entry)
                 udf_data.append_feature_collection_tile(fct)
+
+        if "structured_data_list" in udf_dict:
+            l = udf_dict["structured_data_list"]
+            for entry in l:
+                sd = StructuredData.from_dict(entry)
+                udf_data.append_structured_data(sd)
 
         if "models" in udf_dict:
             udf_data.models = udf_dict["models"]

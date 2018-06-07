@@ -37,7 +37,7 @@ These basic data-types are:
 The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.
 
-The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, MachineLearnModel
+The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, MachineLearnModel
 and UdfData are a swagger 2.0 based definitions for the UDF API.
 These schemas are implemented as classes with additional functionality in the Python prototype.
 
@@ -250,6 +250,7 @@ driver:
     * SpatialExtent
     * RasterCollectionTile
     * FeatureCollectionTile
+    * StructuredData
     * UdfData
 
 Using the UDF command line tool

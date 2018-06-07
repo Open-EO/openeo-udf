@@ -9,7 +9,7 @@ import torchvision
 import tensorflow
 import tensorboard
 import math
-from .base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, UdfData
+from .base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"

@@ -175,6 +175,45 @@ class FeatureCollectionTile(Schema):
 
 #####################################################################
 
+class StructuredData(Schema):
+    description = "This model represents structured data that is produced by an UDF and can not be represented" \
+                  "as a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical " \
+                  "computation. The data is self descriptive and supports the basic types dict/map, list and table."
+    type = "object"
+    required = ["description", "data", "type"]
+    properties = {
+        "description": {
+            "type": "string",
+            "description": "A detailed description of the output format.",
+        },
+        "data": {
+            "type": dict(),
+            "description": "The structured data. This field contains the UDF specific values (argument or return)"
+                           "as dict, list or table. "
+                           "  * A dict can be as complex as required by the UDF."
+                           "  * A list must contain simple data types example {\"list\": [1,2,3,4]} "
+                           "  * A table is a list of lists with a header, example {\"table\": [[\"id\",\"value\"],"
+                           "                                                                     [1,     10],"
+                           "                                                                     [2,     23],"
+                           "                                                                     [3,     4]]}"
+        },
+        "type": {
+            "type": "string",
+            "description": "The type of the structured data that may be of type dict, table or list. "
+                           "This is just a hint for the user howto interpret the provided data.",
+            "enum": ["dict", "table", "list"]
+        }
+    }
+    example = {"description": "Output of a statistical analysis. The univariate analysis "
+                              "of multiple raster collection tiles. Each entry in the output dict/map contains "
+                              "min, mean and max of all pixels in a raster collection tile. The key "
+                              "is the id of the raster collection tile.",
+               "data": {"RED":{"min":0, "max":100, "mean":50}, "NIR":{"min":0, "max":100, "mean":50}},
+               "type": "dict"}
+
+
+#####################################################################
+
 class MachineLearnModel(Schema):
     description = "A machine learn model that should be downloaded and applied to the UDF data."
     type = "object"
@@ -223,6 +262,12 @@ class UdfData(Schema):
             "type": "array",
             "items": FeatureCollectionTile
         },
+        "structured_data_list": {
+            "description": "A list of structured data objects that contain processing results that cant be represented "
+                           "by raster- or feature collection tiles.",
+            "type": "array",
+            "items": StructuredData
+        },
         "models": {
             "description": "A list of machine learn models.",
             "type": "array",
@@ -233,7 +278,7 @@ class UdfData(Schema):
         "proj": "EPSG:4326",
         "raster_collection_tiles": [
             {
-                "id": "test_data",
+                "id": "RED",
                 "wavelength": 420,
                 "start_times": ["2001-01-01T00:00:00",
                                 "2001-01-02T00:00:00"],
@@ -272,8 +317,24 @@ class UdfData(Schema):
                                        "geometry": {"coordinates": [30.0, 53.0], "type": "Point"}}],
                          "type": "FeatureCollection"}
             }
+        ],
+        "structured_data": [
+            {"description": "Output of a statistical analysis. The univariate analysis "
+                            "of multiple raster collection tiles. Each entry in the output dict/map contains "
+                            "min, mean and max of all pixels in a raster collection tile. The key "
+                            "is the id of the raster collection tile.",
+             "data": {"RED": {"min": 0, "max": 100, "mean": 50},
+                      "NIR": {"min": 0, "max": 100, "mean": 50}},
+             "type": "dict"},
+            {"description": "A list of values.",
+             "data": {"list": [1,2,3,4,5]},
+             "type": "list"},
+            {"description": "A list of values.",
+             "data": {"table": [["id","value"], [1, 10], [2, 23], [3, 4]]},
+             "type": "table"}
         ]
     }
+
 
 # The following classes are used to implement the UDF test server POST endpoint
 
