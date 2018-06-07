@@ -7,17 +7,24 @@ that is available in an OpenEO processing backend like R, GRASS GIS or GeoTrelli
 This document describes the UDF interface and provides reference implementation for Python3. The reference
 implementation includes:
 
-    - An OpenEO UDF REST server that processes user defined data with user defined functions
+    - An OpenEO UDF REST test server that processes user defined data with user defined functions
       and describes its interface using swagger2.0.
     - A command line tool to apply user defined functions on raster and vector data
     - A Python3 API that specifies how UDF must be implemented in Python3
-    - The UDF server and the command line tool are examples howto implement the
-      UDF approach in a OpenEO processing backend
+    - The UDF test server and the command line tool are examples howto implement the
+      UDF approach in an OpenEO processing backend
 
-Basic datatypes
-===============
+Backend integration
+===================
 
-The basis of the interface description are basic data-types that are available in many programming languages.
+This UDF implementation contains an abstract swagger description of schemas that must be used when an API for a specific
+programming language is implemented.
+They are documented in the swagger 2.0 API description that is provided by the UDF test server. However, the
+Python file that defines the swagger description is available here:
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/definitions.py
+
+The basis of the swagger 2.0 API description are basic data-types that are available in many programming languages.
 These basic data-types are:
 
     - Strings
@@ -30,6 +37,18 @@ These basic data-types are:
 The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.
 
+The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, MachineLearnModel
+and UdfData are a swagger 2.0 based definitions for the UDF API.
+These schemas are implemented as classes with additional functionality in the Python prototype.
+
+The schemas UdfCode, UdfRequest and ErrorResponse are used by the UDF test server to provide the POST endpoint.
+They are not part of the UDF API.
+
+To support UDF's in the backend the following approaches can be used:
+  - The backend implements for specific languages the UDF API based on the provided swagger 2.0 API description
+  - The backend uses the Python prototype implementation for Python based UDF's
+  - The backend uses the UDF test server to run Python UDF's
+  - The backend uses the command line tool to execute Python UDF's.
 
 Installation
 ============
@@ -68,7 +87,6 @@ Local installation
         source openeo_venv/bin/activate
         cd openeo-udf
         pip3 install -r requirements.txt
-        pip3 install rasterio
     ..
 
 
@@ -128,6 +146,19 @@ Local installation
     .. code-block:: bash
 
         execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
+    ..
+
+
+    This command reads a series of raster GeoTiff files and a feature collection stored in a gepackge file
+    and applies the UDF sampling function. The result is a new geopackage
+    that contains the sampled attributes written in directory /tmp:
+
+    .. code-block:: bash
+
+        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
+                    -b RED,NIR \
+                    -v data/sampling_points.gpkg \
+                    -u src/openeo_udf/functions/raster_collections_sampling.py
     ..
 
 Docker image
@@ -196,8 +227,7 @@ However, the original python3 file that implements the OpenEO UDF python3 API is
 
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/base.py
 
-Several UDF were implemented and provide and example howto develop an UDF. The UDF's are directly available for
-download from the repository:
+The UDF's are directly available for download from the repository:
 
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_ndvi.py
 
@@ -206,6 +236,21 @@ download from the repository:
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_sum.py
 
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_sampling.py
+
+Several UDF were implemented and provide and example howto develop an UDF. A unittest was implemented for
+each UDF. The tests are available here:
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf.py
+
+The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend
+driver:
+
+    * SpatialExtent
+    * RasterCollectionTile
+    * FeatureCollectionTile
+    * UdfData
 
 Using the UDF command line tool
 -------------------------------
@@ -217,7 +262,7 @@ OpenEO UDF repository:
 
     .. code-block:: bash
 
-        (openeo_venv) user@t61:~/src/openeo/openeo-udf$ execute_udf --help
+        (openeo_venv) soeren@Knecht:~/src/openeo/openeo-udf$ execute_udf --help
         usage: execute_udf [-h] [-r RASTER_FILES] [-v VECTOR_FILES]
                            [-t RASTER_TIME_STAMPS] [-b BAND_NAMES]
                            [-o RASTER_OUTPUT_DIR] -u PATH_TO_UDF
@@ -255,6 +300,15 @@ OpenEO UDF repository:
 
                 execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
 
+            This command reads a series of raster GeoTiff files and a feature collection stored in a gepackge file
+            and applies the UDF sampling function. The result is a new geopackage
+            that contains the sampled attributes written in directory /tmp:
+
+                execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
+                            -b RED,NIR \
+                            -v data/sampling_points.gpkg \
+                            -u src/openeo_udf/functions/raster_collections_sampling.py
+
         optional arguments:
           -h, --help            show this help message and exit
           -r RASTER_FILES, --raster_files RASTER_FILES
@@ -274,7 +328,6 @@ OpenEO UDF repository:
                                 The output directory to store the computed results.
           -u PATH_TO_UDF, --path_to_udf PATH_TO_UDF
                                 The UDF file to execute.
-
     ..
 
 

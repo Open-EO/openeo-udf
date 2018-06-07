@@ -56,6 +56,15 @@ Examples:
     
         execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py 
 
+    This command reads a series of raster GeoTiff files and a feature collection stored in a gepackge file
+    and applies the UDF sampling function. The result is a new geopackage
+    that contains the sampled attributes written in directory /tmp:
+    
+        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \\
+                    -b RED,NIR \\
+                    -v data/sampling_points.gpkg \\
+                    -u src/openeo_udf/functions/raster_collections_sampling.py 
+
 """
 
 
@@ -191,7 +200,6 @@ def main():
         vector_id = os.path.basename(vector_name).split(".")[0]
         fct = FeatureCollectionTile(id=vector_id, data=gdf)
         vector_datasets.append(fct)
-        pprint(fct.to_dict())
 
     data = UdfData(proj=proj, raster_collection_tiles=raster_datasets, feature_collection_tiles=vector_datasets)
 
@@ -243,6 +251,7 @@ def main():
             output_path = os.path.join(out_dir, tile.id + ".gpkg")
             tile.data.to_file(filename=output_path, driver='GPKG')
 
+
 def get_extent_from_dataset(ds):
     """
     adfGeoTransform[0] /* top left x */
@@ -257,9 +266,9 @@ def get_extent_from_dataset(ds):
     rows = ds.RasterYSize
     cols = ds.RasterXSize
 
-    north = transform[0]
+    west = transform[0]
     ewres = transform[1]
-    west = transform[3]
+    north = transform[3]
     nsres = transform[5]
 
     south = north + (rows * nsres)
@@ -278,6 +287,7 @@ def get_extent_from_dataset(ds):
                            right=east, width=abs(ewres), height=abs(nsres))
 
     return extent
+
 
 def extent_to_gdal_transform(extent):
     """
