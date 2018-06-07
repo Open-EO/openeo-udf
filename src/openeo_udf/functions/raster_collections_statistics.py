@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Uncomment the import only for coding support
-import numpy
+#import numpy
 #import pandas
 #import torch
 #import torchvision
@@ -26,18 +26,18 @@ def rct_stats(udf_data):
         data.
 
     """
-    # The list of tiles that were created
+    # The dictionary that stores the statistical data
     stats = {}
-
-    # Iterate over each tile and compute statistical values
+    # Iterate over each raster collection tile and compute statistical values
     for tile in udf_data.raster_collection_tiles:
-        # make sure to cast the values are floats, otherwise they are not serializable
+        # make sure to cast the values to floats, otherwise they are not serializable
         stats[tile.id] = dict(sum=float(tile.data.sum()), mean=float(tile.data.mean()),
                               min=float(tile.data.min()), max=float(tile.data.max()))
-
-    sd = StructuredData(description="Statistical data sum, min, max and mean for each raster collection tile as dict",
-                        data=stats, type="dict")
-
+    # Create the structured data object
+    sd = StructuredData(description="Statistical data sum, min, max and mean "
+                                    "for each raster collection tile as dict",
+                        data=stats,
+                        type="dict")
     # Remove all collections and set the StructuredData list
     udf_data.del_raster_collection_tiles()
     udf_data.del_feature_collection_tiles()
