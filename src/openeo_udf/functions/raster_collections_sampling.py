@@ -19,7 +19,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def fct_buffer(udf_data):
+def fct_sampling(udf_data):
     """Sample any number of raster collection tiles with a single feature collection (the first if several are provided)
     and store the samples values in the input feature collection. Each time-slice of a raster collection is
     stored as a separate column in the feature collection. Hence, the size of the feature collection attributes
@@ -79,7 +79,7 @@ def fct_buffer(udf_data):
         # Attach the sampled attribute data to the GeoDataFrame
         for column_name in column_names:
             features[column_name] = columns[column_name]
-    # Create the outut feature collection
+    # Create the output feature collection
     fct = FeatureCollectionTile(id=fct.id + "_sample", data=features,
                                 start_times=fct.start_times, end_times=fct.end_times)
     # Insert the new tiles as list of feature collection tiles in the input object. The new tiles will
@@ -91,5 +91,5 @@ def fct_buffer(udf_data):
 
 # This function call is the entry point for the UDF.
 # The caller will provide all required data in the **data** object.
-fct_buffer(data)
+fct_sampling(data)
 
