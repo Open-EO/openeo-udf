@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 import numpy
 import pandas
+import geopandas
+import shapely
+from copy import deepcopy
 import torch
 import torchvision
 import tensorflow
 import tensorboard
+import math
 from .base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, UdfData
 
 __license__ = "Apache License, Version 2.0"

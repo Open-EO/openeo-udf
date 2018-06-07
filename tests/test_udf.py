@@ -33,7 +33,7 @@ PIXEL={
                     "bottom": 51,
                     "right": 30,
                     "left": 28,
-                    "hight": 1,
+                    "height": 1,
                     "width": 1
                 }
             },
@@ -51,7 +51,7 @@ PIXEL={
                     "bottom": 51,
                     "right": 30,
                     "left": 28,
-                    "hight": 1,
+                    "height": 1,
                     "width": 1
                 }
             }
@@ -87,14 +87,16 @@ PIXEL_FEATURE={
                                 "2001-01-02T00:00:00"],
                 "end_times": ["2001-01-02T00:00:00",
                               "2001-01-03T00:00:00"],
-                "data": [[[5, 4]],
-                         [[9, 10]]],
+                "data": [[[5, 4],
+                          [3, 2]],
+                         [[9, 10],
+                          [8, 9]]],
                 "extent": {
                     "top": 53,
                     "bottom": 51,
                     "right": 30,
                     "left": 28,
-                    "hight": 1,
+                    "height": 1,
                     "width": 1
                 }
             },
@@ -102,17 +104,23 @@ PIXEL_FEATURE={
                 "id": "NIR",
                 "wavelength": 670,
                 "start_times": ["2001-01-01T00:00:00",
-                                "2001-01-02T00:00:00"],
+                                "2001-01-02T00:00:00",
+                                "2001-01-03T00:00:00"],
                 "end_times": ["2001-01-02T00:00:00",
-                              "2001-01-03T00:00:00"],
-                "data": [[[3, 4]],
-                         [[9, 8]]],
+                              "2001-01-03T00:00:00",
+                              "2001-01-04T00:00:00"],
+                "data": [[[2, 1],
+                          [4, 3]],
+                         [[7, 8],
+                          [6, 7]],
+                         [[1, 0],
+                          [1, 0]]],
                 "extent": {
                     "top": 53,
                     "bottom": 51,
                     "right": 30,
                     "left": 28,
-                    "hight": 1,
+                    "height": 1,
                     "width": 1
                 }
             }
@@ -121,13 +129,17 @@ PIXEL_FEATURE={
             {
                 "id": "test_data",
                 "start_times": ["2001-01-01T00:00:00",
-                                "2001-01-02T00:00:00"],
+                                "2001-01-02T00:00:00",
+                                "2001-01-03T00:00:00"],
                 "end_times": ["2001-01-02T00:00:00",
-                              "2001-01-03T00:00:00"],
-                "data": {"features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"},
+                              "2001-01-03T00:00:00",
+                              "2001-01-04T00:00:00"],
+                "data": {"features": [{"id": "0", "type": "Feature", "properties": {},
                                        "geometry": {"coordinates": [28.5, 51.5], "type": "Point"}},
-                                      {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"},
-                                       "geometry": {"coordinates": [29.5, 52.5], "type": "Point"}}],
+                                      {"id": "1", "type": "Feature", "properties": {},
+                                       "geometry": {"coordinates": [29.5, 52.5], "type": "Point"}},
+                                      {"id": "2", "type": "Feature", "properties": {},
+                                       "geometry": {"coordinates": [25, 55], "type": "Point"}}],
                          "type": "FeatureCollection"}
             }
         ]
@@ -224,6 +236,38 @@ class AllTestCase(unittest.TestCase):
         self.assertEqual(result["feature_collection_tiles"][0]["data"]["features"][0]["properties"], {'a': 1, 'b': 'a'})
         self.assertEqual(result["feature_collection_tiles"][0]["data"]["features"][1]["properties"], {'a': 2, 'b': 'b'})
 
+    def test_sampling(self):
+        """Test the feature collection sampling UDF"""
+
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_sampling.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = PIXEL_FEATURE
+
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        print(udf_request)
+
+        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
+        result = json.loads(response.data)
+        pprint.pprint(result)
+
+        self.assertEqual(len(result["feature_collection_tiles"]), 1)
+        self.assertEqual(len(result["feature_collection_tiles"][0]["data"]["features"]), 3)
+        self.assertEqual(result["feature_collection_tiles"][0]["data"]["features"][0]["properties"], {'NIR_0': 4,
+                                                                                                      'NIR_1': 6,
+                                                                                                      "NIR_2": 1,
+                                                                                                      "RED_0": 3,
+                                                                                                      "RED_1": 8})
+        self.assertEqual(result["feature_collection_tiles"][0]["data"]["features"][1]["properties"], {'NIR_0': 1,
+                                                                                                      'NIR_1': 8,
+                                                                                                      "NIR_2": 0,
+                                                                                                      "RED_0": 4,
+                                                                                                      "RED_1": 10})
+        self.assertEqual(result["feature_collection_tiles"][0]["data"]["features"][2]["properties"], {'NIR_0': None,
+                                                                                                      'NIR_1': None,
+                                                                                                      "NIR_2": None,
+                                                                                                      "RED_0": None,
+                                                                                                      "RED_1": None})
 
 if __name__ == "__main__":
     unittest.main()
