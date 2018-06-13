@@ -109,11 +109,14 @@ Local installation
         cd ..
     ..
 
-4. Run the udf server:
+4. Run the udf server and download the swagger definition:
 
     .. code-block:: bash
 
-        run_udf_server
+        run_udf_server &
+
+        # Download the swagger JSON file
+        wget http://localhost:5000/api/v0/swagger.json
     ..
 
 5. Run the UDF execution command line tool:
@@ -186,7 +189,7 @@ The openeo-udf repository contains the build instruction of an openeo-udf docker
         docker run --name "openeo-udf-server" -p 5000:5000 -p 80:80 -t openeo_udf
     ..
 
-3. have a look at the documentation that is available in the docker deployment. This includes
+3. Have a look at the documentation that is available in the docker deployment. This includes
    this document with the python3 API description, that must be used in the UDF's and the swagger
    documentation of the REST UDF service:
 
@@ -194,10 +197,15 @@ The openeo-udf repository contains the build instruction of an openeo-udf docker
 
         # This document
         firefox http://localhost/index.html
+
         # The python3 API description that must be used in the python3 UDF
         firefox http://localhost/api/openeo_udf.api.html#module-openeo_udf.api.base
+
         # The swagger API description
         firefox http://localhost/api_docs/index.html
+
+        # Download the swagger JSON file
+        wget http://localhost:5000/api/v0/swagger.json
     ..
 
 
