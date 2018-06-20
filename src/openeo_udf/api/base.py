@@ -7,7 +7,8 @@ import geopandas
 import pandas
 import numpy
 from shapely.geometry import Polygon, Point
-from flask import json
+import json
+
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -273,7 +274,7 @@ class CollectionTile(object):
     >>> rdc.extent_to_dict()["extent"]["width"] == 10
     True
 
-    >>> from flask import json
+    >>> import json
     >>> json.dumps(rdc.start_times_to_dict())
     '{"start_times": ["2012-05-01T00:00:00"]}'
     >>> json.dumps(rdc.end_times_to_dict())
@@ -519,20 +520,20 @@ class RasterCollectionTile(CollectionTile):
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
     data: [[[0.]]]
 
-    >>> from flask import json
+    >>> import json
     >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "height": 100, "left": 0, "right": 100, "top": 100, "width": 100},
-    "id": "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
+    '{"id": "test", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"],
+    "end_times": ["2012-05-02T00:00:00"],
+    "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 100, "height": 100}}'
 
 
     >>> rct = RasterCollectionTile.from_dict(rct.to_dict())
     >>> json.dumps(rct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "height": 100, "left": 0, "right": 100, "top": 100, "width": 100}, "id":
-    "test", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}'
+    '{"id": "test", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"],
+    "end_times": ["2012-05-02T00:00:00"],
+    "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 100, "height": 100}}'
 
     >>> data = numpy.zeros(shape=(3,10,10))
     >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
@@ -731,9 +732,14 @@ class FeatureCollectionTile(CollectionTile):
     0  1  a      POINT (0 0)
     1  2  b  POINT (100 100)
     2  3  c    POINT (100 0)
-    >>> from flask import json
-    >>> json.dumps(fct.to_dict())
-    '{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"}, "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"}, {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"}, "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"}, {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"}, "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}], "type": "FeatureCollection"}, "id": "test"}'
+    >>> import json
+    >>> json.dumps(fct.to_dict()) # doctest: +ELLIPSIS
+    ...                           # doctest: +NORMALIZE_WHITESPACE
+    '{"id": "test", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature",
+    "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}},
+    {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point",
+    "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"},
+    "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}'
 
     >>> p1 = Point(0,0)
     >>> pseries = [p1]
@@ -752,25 +758,19 @@ class FeatureCollectionTile(CollectionTile):
     data:    a  b     geometry
     0  1  a  POINT (0 0)
 
-    >>> from flask import json
+    >>> import json
     >>> json.dumps(fct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"}, "id": "0",
-                             "properties": {"a": 1, "b": "a"}, "type": "Feature"}],
-               "type": "FeatureCollection"},
-    "end_times": ["2012-05-02T00:00:00"],
-    "id": "test",
-    "start_times": ["2012-05-01T00:00:00"]}'
+    '{"id": "test", "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"],
+    "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature",
+    "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}]}}'
 
     >>> fct = FeatureCollectionTile.from_dict(fct.to_dict())
     >>> json.dumps(fct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"data": {"features": [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"}, "id": "0",
-                             "properties": {"a": 1, "b": "a"}, "type": "Feature"}],
-               "type": "FeatureCollection"},
-    "end_times": ["2012-05-02T00:00:00"],
-    "id": "test",
-    "start_times": ["2012-05-01T00:00:00"]}'
+    '{"id": "test", "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"],
+    "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature",
+    "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}]}}'
 
     """
 
@@ -988,69 +988,24 @@ class UdfData(object):
     >>> print(udf_data.models['scikit-learn']['model_id'])
     random_forest
 
-    >>> from flask import json
+    >>> import json
     >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
     ...                                # doctest: +NORMALIZE_WHITESPACE
-    '{"feature_collection_tiles": [{"data": {"features":
-    [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
-    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
-    {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"},
-    "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"},
-    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"},
-    "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
-    "type": "FeatureCollection"}, "id": "C"}, {"data": {"features":
-    [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
-    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
-    {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"},
-    "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"},
-    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"},
-    "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
-    "type": "FeatureCollection"}, "id": "D"}], "models":
-    {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}},
-    "proj": {"EPSG": 4326}, "raster_collection_tiles": [{"data": [[[0.0]]],
-    "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id": "A",
-    "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}, {"data": [[[0.0]]],
-    "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10}, "id": "B",
-    "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}], "structured_data_list": []}'
+    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}}}'
 
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"feature_collection_tiles": [{"data": {"features":
-    [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
-    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
-    {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"},
-    "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"},
-    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"},
-    "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
-    "type": "FeatureCollection"}, "id": "C"}, {"data": {"features":
-    [{"geometry": {"coordinates": [0.0, 0.0], "type": "Point"},
-    "id": "0", "properties": {"a": 1, "b": "a"}, "type": "Feature"},
-    {"geometry": {"coordinates": [100.0, 100.0], "type": "Point"},
-    "id": "1", "properties": {"a": 2, "b": "b"}, "type": "Feature"},
-    {"geometry": {"coordinates": [100.0, 0.0], "type": "Point"},
-    "id": "2", "properties": {"a": 3, "b": "c"}, "type": "Feature"}],
-    "type": "FeatureCollection"}, "id": "D"}], "models":
-    {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}}, "proj": {"EPSG": 4326},
-    "raster_collection_tiles": [{"data": [[[0.0]]], "end_times": ["2012-05-02T00:00:00"],
-    "extent": {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100, "width": 10},
-    "id": "A", "start_times": ["2012-05-01T00:00:00"], "wavelength": 420}, {"data": [[[0.0]]],
-    "end_times": ["2012-05-02T00:00:00"], "extent":
-    {"bottom": 0, "height": 10, "left": 0, "right": 100, "top": 100,
-    "width": 10}, "id": "B", "start_times": ["2012-05-01T00:00:00"], "wavelength": 380}], "structured_data_list": []}'
+    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}}}'
 
     >>> sd_list = StructuredData(description="Data list", data={"list":[1,2,3]}, type="list")
     >>> sd_dict = StructuredData(description="Data dict", data={"A":{"B": 1}}, type="dict")
     >>> udf = UdfData(proj={"EPSG":4326}, structured_data_list=[sd_list, sd_dict])
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"feature_collection_tiles": [], "models": {}, "proj": {"EPSG": 4326},
-    "raster_collection_tiles": [],
-    "structured_data_list": [{"data": {"list": [1, 2, 3]}, "description": "Data list", "type": "list"},
-                             {"data": {"A": {"B": 1}}, "description": "Data dict", "type": "dict"}]}'
+    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [], "feature_collection_tiles": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "models": {}}'
+
     """
 
     def __init__(self, proj, raster_collection_tiles=None, feature_collection_tiles=None, structured_data_list=None):
