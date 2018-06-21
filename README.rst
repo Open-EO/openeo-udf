@@ -177,7 +177,7 @@ The openeo-udf repository contains the build instruction of an openeo-udf docker
         mkdir -p ${HOME}/src/openeo
         cd ${HOME}/src/openeo
 
-        git clone https://github.com/Open-EO/openeo-udf.gi
+        git clone https://github.com/Open-EO/openeo-udf.git
     ..
 
 2. Build the docker image and run it:
