@@ -76,7 +76,7 @@ Local installation
         mkdir -p ${HOME}/src/openeo
         cd ${HOME}/src/openeo
 
-        git clone https://github.com/Open-EO/openeo-udf.gi
+        git clone https://github.com/Open-EO/openeo-udf.git
         virtualenv -p python3 openeo_venv
     ..
 
