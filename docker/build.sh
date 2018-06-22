@@ -3,7 +3,7 @@
 docker build -t openeo_udf .
 
 # Test it
-docker run --name "openeo-udf-server" -p 5000:5000 -p 80:80 -t openeo_udf
+docker run -v /tmp:/var/www/http --name "openeo-udf-server" -p 5000:5000 -p 80:80 -t openeo_udf
 
 docker stop "openeo-udf-server" &&  docker rm "openeo-udf-server"
 
