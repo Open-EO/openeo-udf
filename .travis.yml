@@ -6,6 +6,7 @@ python:
 sudo: true
 
 script:
+  - apt-get install npm gdal-bin libgdal-dev
   - rm -rf page
   - mkdir -p page
   - pip3 install -r requirements.txt
@@ -19,7 +20,6 @@ script:
   - run_udf_server --port 5000 --host 0.0.0.0
   - sleep 3
   - wget http://localhost:5000/api/v0/swagger.json -O page/openeo_udf.json
-  - apt-get install npm
   - npm install -g spectacle-docs
   - spectacle page/openeo_udf.json -t page/api_docs
   
