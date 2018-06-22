@@ -1,0 +1,34 @@
+language: python
+
+python:
+  - "3.6"
+
+sudo: true
+
+script:
+  - rm -rf page
+  - mkdir -p page
+  - pip3 install -r requirements.txt
+  - python3 setup.py install
+  - python3 setup.py test
+  - python3 tests/test_doctests.py
+  - cd docs
+  - make html
+  - cd ..
+  - cp -r html/_build/html/* page/.
+  - run_udf_server --port 5000 --host 0.0.0.0
+  - sleep 3
+  - wget http://localhost:5000/api/v0/swagger.json -O page/openeo_udf.json
+  - apt-get install npm
+  - npm install -g spectacle-docs
+  - spectacle page/openeo_udf.json -t page/api_docs
+  
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  local-dir: page
+  committer-from-gh: true
+  keep-history: true
+  on:
+    branch: master
