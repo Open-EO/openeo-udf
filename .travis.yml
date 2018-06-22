@@ -5,30 +5,32 @@ python:
 
 sudo: true
 
-script:
-  - apt-get install npm gdal-bin libgdal-dev
+before_install:
+  - sudo apt-get install -y npm gdal-bin libgdal-dev
+  - pip3 install -r requirements.txt
+  - npm install -g spectacle-docs
   - rm -rf page
   - mkdir -p page
-  - pip3 install -r requirements.txt
+
+install:
   - python3 setup.py install
   - python3 setup.py test
   - python3 tests/test_doctests.py
   - cd docs
   - make html
   - cd ..
-  - cp -r html/_build/html/* page/.
+  - cp -r docs/_build/html/* page/.
   - run_udf_server --port 5000 --host 0.0.0.0
   - sleep 3
   - wget http://localhost:5000/api/v0/swagger.json -O page/openeo_udf.json
-  - npm install -g spectacle-docs
   - spectacle page/openeo_udf.json -t page/api_docs
   
 deploy:
   provider: pages
-  skip-cleanup: true
+  skip-cleanup: false
   github-token: $GITHUB_TOKEN
   local-dir: page
   committer-from-gh: true
-  keep-history: true
+  keep-history: false
   on:
     branch: master
