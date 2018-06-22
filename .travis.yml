@@ -6,6 +6,8 @@ python:
 sudo: true
 
 before_install:
+  - sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable
+  - sudo apt-get update
   - sudo apt-get install -y npm gdal-bin libgdal-dev
   - pip3 install -r requirements.txt
   - npm install -g spectacle-docs
