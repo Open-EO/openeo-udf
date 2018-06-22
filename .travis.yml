@@ -5,27 +5,19 @@ python:
 
 sudo: true
 
+services:
+  - docker
+
 before_install:
-  - sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable
-  - sudo apt-get update
-  - sudo apt-get install -y npm gdal-bin libgdal-dev
-  - pip3 install -r requirements.txt
-  - npm install -g spectacle-docs
   - rm -rf page
   - mkdir -p page
 
-install:
-  - python3 setup.py install
-  - python3 setup.py test
-  - python3 tests/test_doctests.py
-  - cd docs
-  - make html
+script:
+  - cd docker
+  - docker build -t openeo_udf .
+  - docker run --name "openeo-udf-server" -p 5000:5000 -p 80:80 -t openeo_udf
   - cd ..
-  - cp -r docs/_build/html/* page/.
-  - run_udf_server --port 5000 --host 0.0.0.0
-  - sleep 3
-  - wget http://localhost:5000/api/v0/swagger.json -O page/openeo_udf.json
-  - spectacle page/openeo_udf.json -t page/api_docs
+  - "docker cp openeo-udf-server:/var/www/html/. page/"
   
 deploy:
   provider: pages
