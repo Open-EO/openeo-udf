@@ -1,4 +1,6 @@
-language: ruby
+language: python
+python:
+  - "3.6"
 
 sudo: required
 
@@ -8,8 +10,13 @@ services:
 before_install:
   - cd docker
   - docker build -t openeo_udf .
+  - cd -
 
 install:
+  - pip3 install -r requirements.txt
+  - python3 setup.py test
+  - python3 setup.py install
+  - python3 tests/test_doctests.py
   - docker run --name "openeo-udf-server" -t openeo_udf
   - mkdir page
   - "docker cp openeo-udf-server:/var/www/html/. ../page/"
