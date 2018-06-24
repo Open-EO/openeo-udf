@@ -2,50 +2,16 @@ language: python
 python:
   - "3.6"
 
+os: linux
+dist: bionic
 sudo: required
 
 services:
   - docker
 
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq     build-essential \
-    flex \
-    make \
-    bison \
-    gcc \
-    libgcc1 \
-    g++ \
-    python3 \
-    python3-dev \
-    python3-pip \
-    libpython3-all-dev \
-    libgsl0-dev \
-    libncurses5-dev \
-    zlib1g-dev \
-    gettext \
-    libtiff-dev \
-    libpnglite-dev \
-    libcairo2 \
-    libcairo2-dev \
-    sqlite3 \
-    libpq-dev \
-    proj-data \
-    gdal-bin \
-    libgdal-dev \
-    libspatialite7 \
-    moreutils \
-    iotop \
-    atop \
-    htop \
-    iperf \
-    attr \
-    git \
-    vim \
-    curl \
-    wget \
-    unzip \
-    zip 
+  - sudo apt-get update -y
+  - sudo apt-get install -y build-essential flex make bison gcc libgcc1 g++ python3 python3-dev python3-pip libpython3-all-dev libgsl0-dev libncurses5-dev zlib1g-dev gettext libpq-dev proj-data gdal-bin libgdal-dev libspatialite7
     #  - cd docker
     #  - docker build -t openeo_udf .
     #  - cd -
