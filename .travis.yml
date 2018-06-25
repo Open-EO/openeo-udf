@@ -15,7 +15,7 @@ before_install:
 install:
   - docker run --name "openeo-udf-server" -t openeo_udf
   - mkdir page
-  - docker cp openeo-udf-server:/var/www/html/. ../page/
+  - docker cp openeo-udf-server:/var/www/html/. ./page/
   
 deploy:
   provider: pages
