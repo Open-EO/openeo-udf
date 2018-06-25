@@ -17,7 +17,9 @@ install:
   - docker run --name "openeo-udf-server" -t openeo_udf
   - mkdir pages
   - docker cp openeo-udf-server:/var/www/html/. ./pages/
-  
+
+script: true
+
 deploy:
   provider: pages
   github-token: $GITHUB_TOKEN
