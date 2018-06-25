@@ -907,6 +907,84 @@ class StructuredData(object):
         return StructuredData(description=description, data=data, type=type)
 
 
+class MachineLearnModel(object):
+    """This class represents a machine learn model. The model will be loaded
+    at construction, based on the machine learn framework.
+
+    The following frameworks are supported:
+        - sklearn models that are created with sklearn.externals.joblib
+
+    >>> from sklearn.ensemble import RandomForestRegressor
+    >>> from sklearn.externals import joblib
+    >>> model = RandomForestRegressor(n_estimators=10, max_depth=2, verbose=0)
+    >>> path = '/tmp/test.pkl.xz'
+    >>> dummy = joblib.dump(value=model, filename=path, compress=("xz", 3))
+    >>> m = MachineLearnModel(framework="sklearn", name="test",
+    ...                       description="Machine learn model", path=path)
+    >>> m.get_model()# doctest: +ELLIPSIS
+    ...              # doctest: +NORMALIZE_WHITESPACE
+    RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=2,
+               max_features='auto', max_leaf_nodes=None,
+               min_impurity_decrease=0.0, min_impurity_split=None,
+               min_samples_leaf=1, min_samples_split=2,
+               min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+               oob_score=False, random_state=None, verbose=0, warm_start=False)
+    >>> m.to_dict() # doctest: +ELLIPSIS
+    ...             # doctest: +NORMALIZE_WHITESPACE
+    {'description': 'Machine learn model', 'name': 'test', 'framework': 'sklearn', 'path': '/tmp/test.pkl.xz'}
+    >>> d = {'description': 'Machine learn model', 'name': 'test', 'framework': 'sklearn', 'path': '/tmp/test.pkl.xz'}
+    >>> m = MachineLearnModel.from_dict(d)
+    >>> m.get_model() # doctest: +ELLIPSIS
+    ...               # doctest: +NORMALIZE_WHITESPACE
+    RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=2,
+               max_features='auto', max_leaf_nodes=None,
+               min_impurity_decrease=0.0, min_impurity_split=None,
+               min_samples_leaf=1, min_samples_split=2,
+               min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+               oob_score=False, random_state=None, verbose=0, warm_start=False)
+
+    """
+
+    def __init__(self, framework, name, description, path):
+        self.framework = framework
+        self.name = name
+        self.description = description
+        self.path = path
+        self.model = None
+        # Load the model
+        self.load_model()
+
+    def load_model(self):
+        """Load the machine learn model from the path.
+
+        Supported model:
+        - sklearn models that are created with sklearn.externals.joblib
+
+        """
+
+        if self.framework.lower() in "sklearn":
+            from sklearn.externals import joblib
+            self.model = joblib.load(self.path)
+
+    def get_model(self):
+        """Get the loaded machine learn model. This function will return None if the model was not loaded
+
+        :return: the loaded model
+        """
+        return self.model
+
+    def to_dict(self):
+        return dict(description=self.description, name=self.name, framework=self.framework, path=self.path)
+
+    @staticmethod
+    def from_dict(machine_learn_model):
+        description = machine_learn_model["description"]
+        name = machine_learn_model["name"]
+        framework = machine_learn_model["framework"]
+        path = machine_learn_model["path"]
+        return MachineLearnModel(description=description, name=name, framework=framework, path=path)
+
+
 class UdfData(object):
     """The class that stores the arguments for a user defined function (UDF)
 
@@ -915,6 +993,8 @@ class UdfData(object):
     >>> from shapely.geometry import Point
     >>> import geopandas
     >>> import numpy, pandas
+    >>> from sklearn.ensemble import RandomForestRegressor
+    >>> from sklearn.externals import joblib
     >>> data = numpy.zeros(shape=(1,1,1))
     >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
     >>> starts = pandas.DatetimeIndex([pandas.Timestamp('2012-05-01')])
@@ -936,7 +1016,12 @@ class UdfData(object):
     >>> D = FeatureCollectionTile(id="D", data=data)
     >>> udf_data = UdfData(proj={"EPSG":4326}, raster_collection_tiles=[A, B],
     ...                        feature_collection_tiles=[C, D])
-    >>> udf_data.add_model_path("scikit-learn", "random_forest", "/tmp/model.p")
+    >>> model = RandomForestRegressor(n_estimators=10, max_depth=2, verbose=0)
+    >>> path = '/tmp/test.pkl.xz'
+    >>> dummy = joblib.dump(value=model, filename=path, compress=("xz", 3))
+    >>> m = MachineLearnModel(framework="sklearn", name="test",
+    ...                       description="Machine learn model", path=path)
+    >>> udf_data.append_machine_learn_model(m)
     >>> print(udf_data.get_raster_collection_tile_by_id("A"))
     id: A
     extent: top: 100
@@ -983,32 +1068,32 @@ class UdfData(object):
     True
     >>> print(len(udf_data.get_raster_collection_tiles()) == 2)
     True
-    >>> print(udf_data.models['scikit-learn']['path'])
-    /tmp/model.p
-    >>> print(udf_data.models['scikit-learn']['model_id'])
-    random_forest
+    >>> print(udf_data.ml_model_list[0].path)
+    /tmp/test.pkl.xz
+    >>> print(udf_data.ml_model_list[0].framework)
+    sklearn
 
     >>> import json
     >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
     ...                                # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}}}'
-
+    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz"}]}'
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "models": {"scikit-learn": {"model_id": "random_forest", "path": "/tmp/model.p"}}}'
+    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz"}]}'
 
     >>> sd_list = StructuredData(description="Data list", data={"list":[1,2,3]}, type="list")
     >>> sd_dict = StructuredData(description="Data dict", data={"A":{"B": 1}}, type="dict")
     >>> udf = UdfData(proj={"EPSG":4326}, structured_data_list=[sd_list, sd_dict])
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [], "feature_collection_tiles": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "models": {}}'
+    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [], "feature_collection_tiles": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "machine_learn_models": []}'
 
     """
 
-    def __init__(self, proj, raster_collection_tiles=None, feature_collection_tiles=None, structured_data_list=None):
+    def __init__(self, proj, raster_collection_tiles=None, feature_collection_tiles=None,
+                 structured_data_list=None, ml_model_list=None):
         """The constructor of the UDF argument class that stores all data required by the
         user defined function.
 
@@ -1016,6 +1101,8 @@ class UdfData(object):
             proj (dict): A dictionary of form {"proj type string": "projection decription"} i. e. {"EPSG":4326}
             raster_collection_tiles (list[RasterCollectionTile]): A list of RasterCollectionTile objects
             feature_collection_tiles (list[FeatureCollectionTile]): A list of VectorTile objects
+            structured_data_list (list[StructuredData]): A list of structured data objects
+            ml_model_list (list[MachineLearnModel]): A list of machine learn models
         """
 
         self._raster_tile_list = []
@@ -1023,15 +1110,17 @@ class UdfData(object):
         self._raster_tile_dict = {}
         self._feature_tile_dict = {}
         self._structured_data_list = []
+        self._ml_model_list = []
         self.proj = proj
-        self.models = {}
 
         if raster_collection_tiles:
             self.set_raster_collection_tiles(raster_collection_tiles=raster_collection_tiles)
         if feature_collection_tiles:
             self.set_feature_collection_tiles(feature_collection_tiles=feature_collection_tiles)
         if structured_data_list:
-            self.set_structured_data_list(structured_data_list)
+            self.set_structured_data_list(structured_data_list=structured_data_list)
+        if ml_model_list:
+            self.set_ml_model_list(ml_model_list=ml_model_list)
 
     def get_raster_collection_tile_by_id(self, id):
         """Get an raster collection tile by its id
@@ -1133,9 +1222,9 @@ class UdfData(object):
         return self._structured_data_list
 
     def set_structured_data_list(self, structured_data_list):
-        """Set the list of structured ata
+        """Set the list of structured data
 
-        If feature_collection_tiles is None, then the list will be cleared
+        If structured_data_list is None, then the list will be cleared
 
         Args:
             structured_data_list (list[StructuredData]): A list of StructuredData objects
@@ -1149,9 +1238,39 @@ class UdfData(object):
             self._structured_data_list.append(entry)
 
     def del_structured_data_list(self):
-        """Delete all feature collection tiles
+        """Delete all structured data entries
         """
         self._structured_data_list.clear()
+
+    def get_ml_model_list(self):
+        """Get all machine learn models
+
+        Returns:
+            (list[MachineLearnModel]): A list of MachineLearnModel objects
+
+        """
+        return self._ml_model_list
+
+    def set_ml_model_list(self, ml_model_list):
+        """Set the list of machine learn models
+
+        If ml_model_list is None, then the list will be cleared
+
+        Args:
+            ml_model_list (list[MachineLearnModel]): A list of MachineLearnModel objects
+        """
+
+        self.del_ml_model_list()
+        if ml_model_list is None:
+            return
+
+        for entry in ml_model_list:
+            self._ml_model_list.append(entry)
+
+    def del_ml_model_list(self):
+        """Delete all machine learn models
+        """
+        self._ml_model_list.clear()
 
     raster_collection_tiles = property(fget=get_raster_collection_tiles,
                                        fset=set_raster_collection_tiles, fdel=del_raster_collection_tiles)
@@ -1159,6 +1278,8 @@ class UdfData(object):
                                         fset=set_feature_collection_tiles, fdel=del_feature_collection_tiles)
     structured_data_list = property(fget=get_structured_data_list,
                                     fset=set_structured_data_list, fdel=del_structured_data_list)
+    ml_model_list = property(fget=get_ml_model_list,
+                                  fset=set_ml_model_list, fdel=del_ml_model_list)
 
     def append_raster_collection_tile(self, image_collection_tile):
         """Append a raster collection tile to the list
@@ -1190,18 +1311,13 @@ class UdfData(object):
         """
         self._structured_data_list.append(structured_data)
 
-    def add_model_path(self, framework, model_id, path):
-        """Add a model path to the UDF object
+    def append_machine_learn_model(self, machine_learn_model):
+        """Append a machine learn model to the list
 
         Args:
-            framework (str): The name of the framework (scikit-learn, pytorch, tensorflow)
-            model_id (str): The unique od of the model
-            path (str): The path to the model
-
-        Returns:
-
+            machine_learn_model (MachineLearnModel): A MachineLearnModel objects
         """
-        self.models[framework] = dict(model_id=model_id, path=path)
+        self._ml_model_list.append(machine_learn_model)
 
     def to_dict(self):
         """Convert this UdfData object into a dictionary that can be converted into
@@ -1232,8 +1348,17 @@ class UdfData(object):
                 l.append(entry.to_dict())
             d["structured_data_list"] = l
 
-        if self.models is not None:
-            d["models"] = self.models
+        if self._structured_data_list is not None:
+            l = []
+            for entry in self._structured_data_list:
+                l.append(entry.to_dict())
+            d["structured_data_list"] = l
+
+        if self._ml_model_list is not None:
+            l = []
+            for entry in self._ml_model_list:
+                l.append(entry.to_dict())
+            d["machine_learn_models"] = l
 
         return d
 
@@ -1274,8 +1399,11 @@ class UdfData(object):
                 sd = StructuredData.from_dict(entry)
                 udf_data.append_structured_data(sd)
 
-        if "models" in udf_dict:
-            udf_data.models = udf_dict["models"]
+        if "machine_learn_models" in udf_dict:
+            l = udf_dict["machine_learn_models"]
+            for entry in l:
+                mlm = MachineLearnModel.from_dict(entry)
+                udf_data.append_machine_learn_model(mlm)
 
         return udf_data
 

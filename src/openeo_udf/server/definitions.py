@@ -215,27 +215,32 @@ class StructuredData(Schema):
 #####################################################################
 
 class MachineLearnModel(Schema):
-    description = "A machine learn model that should be downloaded and applied to the UDF data."
+    description = "A machine learn model that should be applied to the UDF data."
     type = "object"
-    required = ["proj"]
+    required = ["framework", "model"]
     properties = {
         "framework": {
             "type": "string",
             "description": "The framework that was used to train the model",
-            "enum": ["scikit", "pytorch", "tensorflow", "R"]
+            "enum": ["sklearn", "pytorch", "tensorflow", "R"]
         },
         "name": {
             "type": "string",
             "description": "The name of the machine learn model."
         },
-        "url": {
+        "description": {
             "type": "string",
-            "description": "The url to the model file."
+            "description": "The description of the machine learn model."
+        },
+        "path": {
+            "type": "string",
+            "description": "The path/url to the machine learn model file to which the UDF must have read access."
         }
     }
-    example = {"framework": "sckit",
+    example = {"framework": "sklearn",
                "name": "random_forest",
-               "url": "http://my.model.com/model.p"}
+               "description": "A random forest model",
+               "path": "/tmp/model.pkl.xz"}
 
 
 #####################################################################
@@ -268,7 +273,7 @@ class UdfData(Schema):
             "type": "array",
             "items": StructuredData
         },
-        "models": {
+        "machine_learn_models": {
             "description": "A list of machine learn models.",
             "type": "array",
             "items": MachineLearnModel
@@ -332,6 +337,13 @@ class UdfData(Schema):
             {"description": "A list of values.",
              "data": {"table": [["id","value"], [1, 10], [2, 23], [3, 4]]},
              "type": "table"}
+        ],
+        "machine_learn_models": [
+            {"framework": "sklearn",
+             "name": "random_forest",
+             "description": "A random forest model",
+             "path": "/tmp/model.pkl.xz"
+            }
         ]
     }
 
