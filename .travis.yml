@@ -3,27 +3,19 @@ python:
   - "3.6"
 
 os: linux
-dist: bionic
 sudo: required
 
 services:
   - docker
 
 before_install:
-  - sudo apt-get update -y
-  - sudo apt-get install -y build-essential flex make bison gcc libgcc1 g++ python3 python3-dev libgsl0-dev libncurses5-dev zlib1g-dev gettext libpq-dev proj-data gdal-bin libgdal-dev
-    #  - cd docker
-    #  - docker build -t openeo_udf .
-    #  - cd -
+  - cd docker
+  - docker build -t openeo_udf .
 
 install:
-  - pip3 install -r requirements.txt
-  - python3 setup.py test
-  - python3 setup.py install
-  - python3 tests/test_doctests.py
-#  - docker run --name "openeo-udf-server" -t openeo_udf
-#  - mkdir page
-#  - "docker cp openeo-udf-server:/var/www/html/. ../page/"
+  - docker run --name "openeo-udf-server" -t openeo_udf
+  - mkdir page
+  - docker cp openeo-udf-server:/var/www/html/. ../page/
   
 deploy:
   provider: pages
