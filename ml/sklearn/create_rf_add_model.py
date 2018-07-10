@@ -7,16 +7,13 @@ The two arrays a and b must have values with range [0, 256].
 
 """
 import numpy as np
-import pickle
-from sklearn import tree
-from sklearn.externals.six import StringIO
-from sklearn.cluster import KMeans
 from sklearn.model_selection  import cross_val_score
 from sklearn.model_selection  import cross_val_predict
 from sklearn.metrics import mean_squared_error
 from sklearn.ensemble import RandomForestRegressor
 import pandas as pd
 from sklearn.externals import joblib
+
 
 def compute_efficiency(model_result, measurement):
     diff = model_result - measurement
