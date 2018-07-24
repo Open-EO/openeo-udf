@@ -31,11 +31,12 @@ class SimpleNetwork(nn.Module):
         return x
 
     def num_flat_features(self, x):
-        size = x.size()[1:] # Without bias
+        size = x.size()[1:]  # Without bias
         num = 1
         for i in size:
             num *= i
         return num
+
 
 net = SimpleNetwork()
 
