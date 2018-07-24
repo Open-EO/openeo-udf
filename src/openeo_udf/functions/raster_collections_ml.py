@@ -16,8 +16,11 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def rct_ml(udf_data):
-    """Apply a pre-trained machine learn model on RED and NIR tiles
+def rct_sklearn_ml(udf_data):
+    """Apply a pre-trained sklearn machine learn model on RED and NIR tiles
+
+    The model must be a sklearn model that has a prediction method: m.predict(X)
+    The prediction method must accept a pandas.DataFrame as input.
 
     Tiles with ids "red" and "nir" are required. The machine learn model will be applied to all spatio-temporal pixel
     of the two input raster collections.
