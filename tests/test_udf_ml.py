@@ -9,7 +9,7 @@ from openeo_udf.server.definitions import UdfData, UdfCode, UdfRequest
 import openeo_udf.functions
 import numpy as np
 from sklearn.metrics import mean_squared_error
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
 import pandas as pd
 from sklearn.externals import joblib
 
@@ -82,9 +82,12 @@ class MachineLearningTestCase(unittest.TestCase):
         self.app = flask_api.app.test_client()
 
     @staticmethod
-    def train_sklearn_random_forest():
+    def train_sklearn_model(model):
         """This method trains a sklearn random forest regressor to add two numbers that must be
         in range [1,2,3]. The input arrays into the model must have the names *red* and *nir*.
+
+        Args:
+            model: The machine learn model to be used for training
 
         Returns:
             str:
@@ -98,12 +101,7 @@ class MachineLearningTestCase(unittest.TestCase):
         # Create the predicting data that is used for training
         y = (a + b)
 
-        print("Train random forest model")
-        model = RandomForestRegressor(n_estimators=100, max_depth=7,
-                                      max_features="log2", n_jobs=16,
-                                      min_samples_split=2,
-                                      min_samples_leaf=1,
-                                      verbose=0)
+        print("Train model ", model.__class__)
         # This is the training data with two arrays
         X = pd.DataFrame()
 
@@ -123,13 +121,20 @@ class MachineLearningTestCase(unittest.TestCase):
         print("Save the model as compressed joblib object")
 
         # Save the model with compression
-        filename = '/tmp/rf_add_model.pkl.xz'
-        joblib.dump(value=model, filename=filename, compress=("xz", 3))
+        file_name = '/tmp/rf_add_model.pkl.xz'
+        joblib.dump(value=model, filename=file_name, compress=("xz", 3))
+        return file_name
 
     def test_sklearn_random_forest(self):
-        """Test the time reduce sum UDF"""
+        """Test random forest model training and UDF application"""
 
-        MachineLearningTestCase.train_sklearn_random_forest()
+        model = RandomForestRegressor(n_estimators=100, max_depth=7,
+                                      max_features="log2", n_jobs=16,
+                                      min_samples_split=2,
+                                      min_samples_leaf=1,
+                                      verbose=0)
+
+        MachineLearningTestCase.train_sklearn_model(model=model)
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_ml.py")
@@ -143,6 +148,58 @@ class MachineLearningTestCase(unittest.TestCase):
         pprint.pprint(result)
 
         self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[3.0, 3.0]], [[5.0, 5.0]]])
+
+    def test_sklearn_gradient_boost(self):
+        """Test gradent boost model training and UDF application"""
+
+        model = GradientBoostingRegressor(n_estimators=100, max_depth=7,
+                                          max_features="log2",
+                                          min_samples_split=2,
+                                          min_samples_leaf=1,
+                                          verbose=0)
+
+        MachineLearningTestCase.train_sklearn_model(model=model)
+
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_ml.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = PIXEL
+
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+
+        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
+        result = json.loads(response.data)
+        pprint.pprint(result)
+
+        # self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[3.0, 3.0]], [[5.0, 5.0]]])
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][0][0][0], 3.0, 2)
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][1][0][0], 5.0, 2)
+
+    def test_sklearn_extra_tree(self):
+        """Test extra tree training and UDF application"""
+
+        model = ExtraTreesRegressor(n_estimators=100, max_depth=7,
+                                    max_features="log2",
+                                    min_samples_split=2,
+                                    min_samples_leaf=1,
+                                    verbose=0)
+
+        MachineLearningTestCase.train_sklearn_model(model=model)
+
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_ml.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = PIXEL
+
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+
+        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
+        result = json.loads(response.data)
+        pprint.pprint(result)
+
+        # self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[3.0, 3.0]], [[5.0, 5.0]]])
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][0][0][0], 3.0, 2)
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][1][0][0], 5.0, 2)
 
 
 if __name__ == "__main__":

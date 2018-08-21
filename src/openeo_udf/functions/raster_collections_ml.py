@@ -77,4 +77,4 @@ def rct_sklearn_ml(udf_data):
 
 # This function call is the entry point for the UDF.
 # The caller will provide all required data in the **data** object.
-rct_ml(data)
+rct_sklearn_ml(data)
