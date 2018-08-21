@@ -62,7 +62,7 @@ PIXEL = {
     "machine_learn_models": [
         {"framework": "sklearn",
          "name": "random_forest",
-         "description": "A random forest model that adds two numbers in range of [1,3]",
+         "description": "A sklearn model that adds two numbers in range of [1,3]",
          "path": "/tmp/rf_add_model.pkl.xz"
          }
     ]
@@ -137,7 +137,7 @@ class MachineLearningTestCase(unittest.TestCase):
         MachineLearningTestCase.train_sklearn_model(model=model)
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
-        file_name = os.path.join(dir, "raster_collections_ml.py")
+        file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
         udf_code = UdfCode(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
 
@@ -161,7 +161,7 @@ class MachineLearningTestCase(unittest.TestCase):
         MachineLearningTestCase.train_sklearn_model(model=model)
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
-        file_name = os.path.join(dir, "raster_collections_ml.py")
+        file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
         udf_code = UdfCode(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
 
@@ -187,7 +187,7 @@ class MachineLearningTestCase(unittest.TestCase):
         MachineLearningTestCase.train_sklearn_model(model=model)
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
-        file_name = os.path.join(dir, "raster_collections_ml.py")
+        file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
         udf_code = UdfCode(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
 
