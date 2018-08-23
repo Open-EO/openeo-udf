@@ -11,20 +11,19 @@ services:
 before_install:
   - cd docker
   - docker build -t openeo_udf .
-  - cd -
 
 install:
   - docker run --name "openeo-udf-server" -t openeo_udf
   - mkdir page
-  - docker cp openeo-udf-server:/var/www/html/. ./page/
+  - cd page
+  - ls
+  - docker cp openeo-udf-server:/var/www/html/. .
 
 script: true
 
 deploy:
   provider: pages
-  skip-cleanup: true
   github-token: $GITHUB_TOKEN
-  local-dir: page
   committer-from-gh: true
   keep-history: false
   on:
