@@ -1,0 +1,1659 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenEO UDF API | API Reference</title>
+    <link rel="stylesheet" href="stylesheets/foundation.min.css" />
+    <link rel="stylesheet" href="stylesheets/spectacle.min.css" />
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- <script src="javascripts/foundation.js"></script> -->
+    <script src="javascripts/spectacle.min.js"></script>
+  </head>
+  <body id="spectacle">
+    <div id="page" class="drawer-layout drawer-slide-right-large">
+      <div id="sidebar">
+        <button class="close-button" aria-label="Close menu" type="button" data-drawer-close>
+          <span aria-hidden="true">×</span>
+        </button>
+        <nav id="nav" role="navigation">
+          <h5>Topics</h5>
+          <a href="#introduction">Introduction</a>
+          <a href="#authentication">Authentication</a>
+          <h5>Paths</h5>
+          <!-- <section>
+                <a href="#path--udf">/udf</a>
+                <ul> -->
+          <!-- <li> -->
+          <a href="#operation--udf-post"> POST /udf </a>
+          <!-- </li> -->
+          <!-- </ul>
+              </section> -->
+          <h5>Schema Definitions</h5>
+          <a href="#definition-UdfRequest"> UdfRequest </a>
+          <a href="#definition-UdfCode"> UdfCode </a>
+          <a href="#definition-UdfData"> UdfData </a>
+          <a href="#definition-RasterCollectionTile"> RasterCollectionTile </a>
+          <a href="#definition-SpatialExtent"> SpatialExtent </a>
+          <a href="#definition-FeatureCollectionTile"> FeatureCollectionTile </a>
+          <a href="#definition-StructuredData"> StructuredData </a>
+          <a href="#definition-MachineLearnModel"> MachineLearnModel </a>
+          <a href="#definition-ErrorResponse"> ErrorResponse </a>
+        </nav>
+      </div>
+      <div id="docs" class="row collapse expanded drawer" data-drawer>
+        <button class="floating-menu-icon" type="button" data-drawer-slide="right">
+          <span class="hamburger"></span>
+        </button>
+        <div class="example-box doc-content"></div>
+        <article>
+          <h1 class="doc-title">OpenEO UDF API
+            <span>API Reference</span>
+          </h1>
+          <div id="introduction" data-traverse-target="introduction">
+            <div class="doc-row">
+              <div class="doc-copy">
+                <p>The OpenEO UDF API specification</p>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Request Content-Types:
+                    <span>application/json</span>
+                  </h5>
+                  <h5>Schemes:
+                    <span>http, https</span>
+                  </h5>
+                  <h5>Version:
+                    <span>0.1pre-alpha</span>
+                  </h5>
+                </section>
+              </div>
+            </div>
+          </div>
+          <!-- <h1 id="security" data-traverse-target="security">Security</h1> -->
+          <h1 id="authentication" data-traverse-target="authentication">Authentication</h1>
+          <div id="security-definition-basicAuth" class="panel">
+            <div class="doc-row">
+              <div class="doc-copy">
+                <h3 class="security-definition-title">
+                  <span class="security-name">basicAuth</span>
+                  <span class="swagger-security-definition-basic"></span>
+                </h3>
+                <section class="swagger-security-definition-properties">
+                  <div class="prop-row security-definition-property">
+                    <div class="prop-name">
+                      <div class="prop-title security-definition-property-name">type</div>
+                    </div>
+                    <div class="prop-value security-definition-property-type"> basic </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <h1>Paths</h1>
+          <span id="path--udf"></span>
+          <div id="operation--udf-post" class="operation panel" data-traverse-target="operation--udf-post">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-UDF">UDF</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-name">
+                <span class="operation-name">POST</span>
+                <span class="operation-path">/udf</span>
+              </span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Run a Python user defined function (UDF) on the provided data</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-body">
+                  <div class="prop-row">
+                    <div class="prop-name">
+                      <div class="swagger-request-model">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/UdfRequest">UdfRequest</a>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="prop-value columns small-6">
+                      <!-- <div class="swagger-request-description"> -->
+                      <p>The UDF Python source code and data as JSON definition to process</p>
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Request Content-Types:
+                    <span>application/json</span>
+                  </h5>
+                  <h5>Request Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;code&quot;</span>: {
+    <span class="hljs-attr">&quot;language&quot;</span>: <span class="hljs-string">&quot;python&quot;</span>,
+    <span class="hljs-attr">&quot;source&quot;</span>: <span class="hljs-string">&quot;import numpy as np \n \ndef udf(data): \n    pass\n&quot;</span>
+  },
+  <span class="hljs-attr">&quot;data&quot;</span>: {
+    <span class="hljs-attr">&quot;proj&quot;</span>: <span class="hljs-string">&quot;EPSG:4326&quot;</span>,
+    <span class="hljs-attr">&quot;raster_collection_tiles&quot;</span>: [
+      {
+        <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;RED&quot;</span>,
+        <span class="hljs-attr">&quot;wavelength&quot;</span>: <span class="hljs-number">420</span>,
+        <span class="hljs-attr">&quot;start_times&quot;</span>: [
+          <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+          <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+        ],
+        <span class="hljs-attr">&quot;end_times&quot;</span>: [
+          <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+          <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+        ],
+        <span class="hljs-attr">&quot;data&quot;</span>: [
+          [
+            [
+              <span class="hljs-number">0</span>,
+              <span class="hljs-number">1</span>
+            ],
+            [
+              <span class="hljs-number">2</span>,
+              <span class="hljs-number">3</span>
+            ]
+          ],
+          [
+            [
+              <span class="hljs-number">0</span>,
+              <span class="hljs-number">1</span>
+            ],
+            [
+              <span class="hljs-number">2</span>,
+              <span class="hljs-number">3</span>
+            ]
+          ]
+        ],
+        <span class="hljs-attr">&quot;extent&quot;</span>: {
+          <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
+          <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+          <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
+          <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
+          <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
+          <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+        }
+      }
+    ],
+    <span class="hljs-attr">&quot;feature_collection_tiles&quot;</span>: [
+      {
+        <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;test_data&quot;</span>,
+        <span class="hljs-attr">&quot;start_times&quot;</span>: [
+          <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+          <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+        ],
+        <span class="hljs-attr">&quot;end_times&quot;</span>: [
+          <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+          <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+        ],
+        <span class="hljs-attr">&quot;data&quot;</span>: {
+          <span class="hljs-attr">&quot;features&quot;</span>: [
+            {
+              <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;0&quot;</span>,
+              <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+              <span class="hljs-attr">&quot;properties&quot;</span>: {
+                <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">1</span>,
+                <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;a&quot;</span>
+              },
+              <span class="hljs-attr">&quot;geometry&quot;</span>: {
+                <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+                  <span class="hljs-number">24</span>,
+                  <span class="hljs-number">50</span>
+                ],
+                <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+              }
+            },
+            {
+              <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;1&quot;</span>,
+              <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+              <span class="hljs-attr">&quot;properties&quot;</span>: {
+                <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">2</span>,
+                <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;b&quot;</span>
+              },
+              <span class="hljs-attr">&quot;geometry&quot;</span>: {
+                <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+                  <span class="hljs-number">30</span>,
+                  <span class="hljs-number">53</span>
+                ],
+                <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+              }
+            }
+          ],
+          <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;FeatureCollection&quot;</span>
+        }
+      }
+    ],
+    <span class="hljs-attr">&quot;structured_data&quot;</span>: [
+      {
+        <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.&quot;</span>,
+        <span class="hljs-attr">&quot;data&quot;</span>: {
+          <span class="hljs-attr">&quot;RED&quot;</span>: {
+            <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+            <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+          },
+          <span class="hljs-attr">&quot;NIR&quot;</span>: {
+            <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+            <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+          }
+        },
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;dict&quot;</span>
+      },
+      {
+        <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A list of values.&quot;</span>,
+        <span class="hljs-attr">&quot;data&quot;</span>: {
+          <span class="hljs-attr">&quot;list&quot;</span>: [
+            <span class="hljs-number">1</span>,
+            <span class="hljs-number">2</span>,
+            <span class="hljs-number">3</span>,
+            <span class="hljs-number">4</span>,
+            <span class="hljs-number">5</span>
+          ]
+        },
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;list&quot;</span>
+      },
+      {
+        <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A list of values.&quot;</span>,
+        <span class="hljs-attr">&quot;data&quot;</span>: {
+          <span class="hljs-attr">&quot;table&quot;</span>: [
+            [
+              <span class="hljs-string">&quot;id&quot;</span>,
+              <span class="hljs-string">&quot;value&quot;</span>
+            ],
+            [
+              <span class="hljs-number">1</span>,
+              <span class="hljs-number">10</span>
+            ],
+            [
+              <span class="hljs-number">2</span>,
+              <span class="hljs-number">23</span>
+            ],
+            [
+              <span class="hljs-number">3</span>,
+              <span class="hljs-number">4</span>
+            ]
+          ]
+        },
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;table&quot;</span>
+      }
+    ],
+    <span class="hljs-attr">&quot;machine_learn_models&quot;</span>: [
+      {
+        <span class="hljs-attr">&quot;framework&quot;</span>: <span class="hljs-string">&quot;sklearn&quot;</span>,
+        <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;random_forest&quot;</span>,
+        <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A random forest model&quot;</span>,
+        <span class="hljs-attr">&quot;path&quot;</span>: <span class="hljs-string">&quot;/tmp/model.pkl.xz&quot;</span>
+      }
+    ]
+  }
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/UdfData">UdfData</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>The result of the UDF computation.</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">400 Bad Request</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>The error message.</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <h5>Response Content-Types:
+                  <span>application/json</span>
+                </h5>
+                <section>
+                  <h5>Response Example
+                    <span>(200 OK)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;proj&quot;</span>: <span class="hljs-string">&quot;EPSG:4326&quot;</span>,
+  <span class="hljs-attr">&quot;raster_collection_tiles&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;RED&quot;</span>,
+      <span class="hljs-attr">&quot;wavelength&quot;</span>: <span class="hljs-number">420</span>,
+      <span class="hljs-attr">&quot;start_times&quot;</span>: [
+        <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+        <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;end_times&quot;</span>: [
+        <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+        <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;data&quot;</span>: [
+        [
+          [
+            <span class="hljs-number">0</span>,
+            <span class="hljs-number">1</span>
+          ],
+          [
+            <span class="hljs-number">2</span>,
+            <span class="hljs-number">3</span>
+          ]
+        ],
+        [
+          [
+            <span class="hljs-number">0</span>,
+            <span class="hljs-number">1</span>
+          ],
+          [
+            <span class="hljs-number">2</span>,
+            <span class="hljs-number">3</span>
+          ]
+        ]
+      ],
+      <span class="hljs-attr">&quot;extent&quot;</span>: {
+        <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
+        <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+        <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
+        <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
+        <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
+        <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+      }
+    }
+  ],
+  <span class="hljs-attr">&quot;feature_collection_tiles&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;test_data&quot;</span>,
+      <span class="hljs-attr">&quot;start_times&quot;</span>: [
+        <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+        <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;end_times&quot;</span>: [
+        <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+        <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;data&quot;</span>: {
+        <span class="hljs-attr">&quot;features&quot;</span>: [
+          {
+            <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;0&quot;</span>,
+            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+            <span class="hljs-attr">&quot;properties&quot;</span>: {
+              <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">1</span>,
+              <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;a&quot;</span>
+            },
+            <span class="hljs-attr">&quot;geometry&quot;</span>: {
+              <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+                <span class="hljs-number">24</span>,
+                <span class="hljs-number">50</span>
+              ],
+              <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+            }
+          },
+          {
+            <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;1&quot;</span>,
+            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+            <span class="hljs-attr">&quot;properties&quot;</span>: {
+              <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">2</span>,
+              <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;b&quot;</span>
+            },
+            <span class="hljs-attr">&quot;geometry&quot;</span>: {
+              <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+                <span class="hljs-number">30</span>,
+                <span class="hljs-number">53</span>
+              ],
+              <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+            }
+          }
+        ],
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;FeatureCollection&quot;</span>
+      }
+    }
+  ],
+  <span class="hljs-attr">&quot;structured_data&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.&quot;</span>,
+      <span class="hljs-attr">&quot;data&quot;</span>: {
+        <span class="hljs-attr">&quot;RED&quot;</span>: {
+          <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+          <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+          <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+        },
+        <span class="hljs-attr">&quot;NIR&quot;</span>: {
+          <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+          <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+          <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+        }
+      },
+      <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;dict&quot;</span>
+    },
+    {
+      <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A list of values.&quot;</span>,
+      <span class="hljs-attr">&quot;data&quot;</span>: {
+        <span class="hljs-attr">&quot;list&quot;</span>: [
+          <span class="hljs-number">1</span>,
+          <span class="hljs-number">2</span>,
+          <span class="hljs-number">3</span>,
+          <span class="hljs-number">4</span>,
+          <span class="hljs-number">5</span>
+        ]
+      },
+      <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;list&quot;</span>
+    },
+    {
+      <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A list of values.&quot;</span>,
+      <span class="hljs-attr">&quot;data&quot;</span>: {
+        <span class="hljs-attr">&quot;table&quot;</span>: [
+          [
+            <span class="hljs-string">&quot;id&quot;</span>,
+            <span class="hljs-string">&quot;value&quot;</span>
+          ],
+          [
+            <span class="hljs-number">1</span>,
+            <span class="hljs-number">10</span>
+          ],
+          [
+            <span class="hljs-number">2</span>,
+            <span class="hljs-number">23</span>
+          ],
+          [
+            <span class="hljs-number">3</span>,
+            <span class="hljs-number">4</span>
+          ]
+        ]
+      },
+      <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;table&quot;</span>
+    }
+  ],
+  <span class="hljs-attr">&quot;machine_learn_models&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;framework&quot;</span>: <span class="hljs-string">&quot;sklearn&quot;</span>,
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;random_forest&quot;</span>,
+      <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A random forest model&quot;</span>,
+      <span class="hljs-attr">&quot;path&quot;</span>: <span class="hljs-string">&quot;/tmp/model.pkl.xz&quot;</span>
+    }
+  ]
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+                <section>
+                  <h5>Response Example
+                    <span>(400 Bad Request)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <h1>Schema Definitions</h1>
+          <div id="definition-UdfRequest" class="definition panel" data-traverse-target="definition-UdfRequest">
+            <h2 class="panel-title">
+              <a name="/definitions/UdfRequest"></a>UdfRequest: object
+              <!-- <span class="json-property-type">
+              <span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The udf request JSON specification. This class is not part of the UDF API but used to create the UDF test server.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="code">
+                      <span class="json-property-name">code:</span>
+                      <span class="json-property-type">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/UdfCode">UdfCode</a>
+                        </span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dt data-property-name="data">
+                      <span class="json-property-name">data:</span>
+                      <span class="json-property-type">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/UdfData">UdfData</a>
+                        </span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;code&quot;</span>: {
+    <span class="hljs-attr">&quot;language&quot;</span>: <span class="hljs-string">&quot;python&quot;</span>,
+    <span class="hljs-attr">&quot;source&quot;</span>: <span class="hljs-string">&quot;import numpy as np \n \ndef udf(data): \n    pass\n&quot;</span>
+  },
+  <span class="hljs-attr">&quot;data&quot;</span>: {
+    <span class="hljs-attr">&quot;proj&quot;</span>: <span class="hljs-string">&quot;EPSG:4326&quot;</span>,
+    <span class="hljs-attr">&quot;raster_collection_tiles&quot;</span>: [
+      {
+        <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;RED&quot;</span>,
+        <span class="hljs-attr">&quot;wavelength&quot;</span>: <span class="hljs-number">420</span>,
+        <span class="hljs-attr">&quot;start_times&quot;</span>: [
+          <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+          <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+        ],
+        <span class="hljs-attr">&quot;end_times&quot;</span>: [
+          <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+          <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+        ],
+        <span class="hljs-attr">&quot;data&quot;</span>: [
+          [
+            [
+              <span class="hljs-number">0</span>,
+              <span class="hljs-number">1</span>
+            ],
+            [
+              <span class="hljs-number">2</span>,
+              <span class="hljs-number">3</span>
+            ]
+          ],
+          [
+            [
+              <span class="hljs-number">0</span>,
+              <span class="hljs-number">1</span>
+            ],
+            [
+              <span class="hljs-number">2</span>,
+              <span class="hljs-number">3</span>
+            ]
+          ]
+        ],
+        <span class="hljs-attr">&quot;extent&quot;</span>: {
+          <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
+          <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+          <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
+          <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
+          <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
+          <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+        }
+      }
+    ],
+    <span class="hljs-attr">&quot;feature_collection_tiles&quot;</span>: [
+      {
+        <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;test_data&quot;</span>,
+        <span class="hljs-attr">&quot;start_times&quot;</span>: [
+          <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+          <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+        ],
+        <span class="hljs-attr">&quot;end_times&quot;</span>: [
+          <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+          <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+        ],
+        <span class="hljs-attr">&quot;data&quot;</span>: {
+          <span class="hljs-attr">&quot;features&quot;</span>: [
+            {
+              <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;0&quot;</span>,
+              <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+              <span class="hljs-attr">&quot;properties&quot;</span>: {
+                <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">1</span>,
+                <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;a&quot;</span>
+              },
+              <span class="hljs-attr">&quot;geometry&quot;</span>: {
+                <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+                  <span class="hljs-number">24</span>,
+                  <span class="hljs-number">50</span>
+                ],
+                <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+              }
+            },
+            {
+              <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;1&quot;</span>,
+              <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+              <span class="hljs-attr">&quot;properties&quot;</span>: {
+                <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">2</span>,
+                <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;b&quot;</span>
+              },
+              <span class="hljs-attr">&quot;geometry&quot;</span>: {
+                <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+                  <span class="hljs-number">30</span>,
+                  <span class="hljs-number">53</span>
+                ],
+                <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+              }
+            }
+          ],
+          <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;FeatureCollection&quot;</span>
+        }
+      }
+    ],
+    <span class="hljs-attr">&quot;structured_data&quot;</span>: [
+      {
+        <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.&quot;</span>,
+        <span class="hljs-attr">&quot;data&quot;</span>: {
+          <span class="hljs-attr">&quot;RED&quot;</span>: {
+            <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+            <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+          },
+          <span class="hljs-attr">&quot;NIR&quot;</span>: {
+            <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+            <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+          }
+        },
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;dict&quot;</span>
+      },
+      {
+        <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A list of values.&quot;</span>,
+        <span class="hljs-attr">&quot;data&quot;</span>: {
+          <span class="hljs-attr">&quot;list&quot;</span>: [
+            <span class="hljs-number">1</span>,
+            <span class="hljs-number">2</span>,
+            <span class="hljs-number">3</span>,
+            <span class="hljs-number">4</span>,
+            <span class="hljs-number">5</span>
+          ]
+        },
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;list&quot;</span>
+      },
+      {
+        <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A list of values.&quot;</span>,
+        <span class="hljs-attr">&quot;data&quot;</span>: {
+          <span class="hljs-attr">&quot;table&quot;</span>: [
+            [
+              <span class="hljs-string">&quot;id&quot;</span>,
+              <span class="hljs-string">&quot;value&quot;</span>
+            ],
+            [
+              <span class="hljs-number">1</span>,
+              <span class="hljs-number">10</span>
+            ],
+            [
+              <span class="hljs-number">2</span>,
+              <span class="hljs-number">23</span>
+            ],
+            [
+              <span class="hljs-number">3</span>,
+              <span class="hljs-number">4</span>
+            ]
+          ]
+        },
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;table&quot;</span>
+      }
+    ],
+    <span class="hljs-attr">&quot;machine_learn_models&quot;</span>: [
+      {
+        <span class="hljs-attr">&quot;framework&quot;</span>: <span class="hljs-string">&quot;sklearn&quot;</span>,
+        <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;random_forest&quot;</span>,
+        <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A random forest model&quot;</span>,
+        <span class="hljs-attr">&quot;path&quot;</span>: <span class="hljs-string">&quot;/tmp/model.pkl.xz&quot;</span>
+      }
+    ]
+  }
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-UdfCode" class="definition panel" data-traverse-target="definition-UdfCode">
+            <h2 class="panel-title">
+              <a name="/definitions/UdfCode"></a>UdfCode: object
+              <!-- <span class="json-property-type">
+              <span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The object that stores the UDF code and language specification. This class is not part of the UDF API but used to create the UDF test server.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="language" class="has-description">
+                      <span class="json-property-name">language:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The language of UDF code</p>
+                    </dd>
+                    <dt data-property-name="source" class="has-description">
+                      <span class="json-property-name">source:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The UDF source code as a string</p>
+                    </dd>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;language&quot;</span>: <span class="hljs-string">&quot;python&quot;</span>,
+  <span class="hljs-attr">&quot;source&quot;</span>: <span class="hljs-string">&quot;import numpy as np \n \ndef udf(data): \n    pass\n&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-UdfData" class="definition panel" data-traverse-target="definition-UdfData">
+            <h2 class="panel-title">
+              <a name="/definitions/UdfData"></a>UdfData: object
+              <!-- <span class="json-property-type">
+              <span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The UDF data object that stores raster collection tiles, feature collection tiles,projection information and machine learn models. This object is argument for the UDF as well as their return value.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="proj" class="has-description">
+                      <span class="json-property-name">proj:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The EPSG code or WKT projection string. eg: EPSG:4326</p>
+                    </dd>
+                    <dt data-property-name="raster_collection_tiles" class="has-description">
+                      <span class="json-property-name">raster_collection_tiles:</span>
+                      <span class="json-property-type">
+                        <span class="json-schema-ref-array">
+                          <a class="json-schema-ref" href="#/definitions/RasterCollectionTile">RasterCollectionTile</a>
+                        </span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>A list of raster collection tiles. Each tile represents a single image band or other scalar values like temperature.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">
+                          <span class="">
+                            <a class="json-schema-ref" href="#/definitions/RasterCollectionTile">RasterCollectionTile</a>
+                          </span>
+                        </span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                    <dt data-property-name="feature_collection_tiles" class="has-description">
+                      <span class="json-property-name">feature_collection_tiles:</span>
+                      <span class="json-property-type">
+                        <span class="json-schema-ref-array">
+                          <a class="json-schema-ref" href="#/definitions/FeatureCollectionTile">FeatureCollectionTile</a>
+                        </span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>A list of feature collection tiles.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">
+                          <span class="">
+                            <a class="json-schema-ref" href="#/definitions/FeatureCollectionTile">FeatureCollectionTile</a>
+                          </span>
+                        </span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                    <dt data-property-name="structured_data_list" class="has-description">
+                      <span class="json-property-name">structured_data_list:</span>
+                      <span class="json-property-type">
+                        <span class="json-schema-ref-array">
+                          <a class="json-schema-ref" href="#/definitions/StructuredData">StructuredData</a>
+                        </span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>A list of structured data objects that contain processing results that cant be represented by raster- or feature collection tiles.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">
+                          <span class="">
+                            <a class="json-schema-ref" href="#/definitions/StructuredData">StructuredData</a>
+                          </span>
+                        </span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                    <dt data-property-name="machine_learn_models" class="has-description">
+                      <span class="json-property-name">machine_learn_models:</span>
+                      <span class="json-property-type">
+                        <span class="json-schema-ref-array">
+                          <a class="json-schema-ref" href="#/definitions/MachineLearnModel">MachineLearnModel</a>
+                        </span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>A list of machine learn models.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">
+                          <span class="">
+                            <a class="json-schema-ref" href="#/definitions/MachineLearnModel">MachineLearnModel</a>
+                          </span>
+                        </span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;proj&quot;</span>: <span class="hljs-string">&quot;EPSG:4326&quot;</span>,
+  <span class="hljs-attr">&quot;raster_collection_tiles&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;RED&quot;</span>,
+      <span class="hljs-attr">&quot;wavelength&quot;</span>: <span class="hljs-number">420</span>,
+      <span class="hljs-attr">&quot;start_times&quot;</span>: [
+        <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+        <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;end_times&quot;</span>: [
+        <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+        <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;data&quot;</span>: [
+        [
+          [
+            <span class="hljs-number">0</span>,
+            <span class="hljs-number">1</span>
+          ],
+          [
+            <span class="hljs-number">2</span>,
+            <span class="hljs-number">3</span>
+          ]
+        ],
+        [
+          [
+            <span class="hljs-number">0</span>,
+            <span class="hljs-number">1</span>
+          ],
+          [
+            <span class="hljs-number">2</span>,
+            <span class="hljs-number">3</span>
+          ]
+        ]
+      ],
+      <span class="hljs-attr">&quot;extent&quot;</span>: {
+        <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
+        <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+        <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
+        <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
+        <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
+        <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+      }
+    }
+  ],
+  <span class="hljs-attr">&quot;feature_collection_tiles&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;test_data&quot;</span>,
+      <span class="hljs-attr">&quot;start_times&quot;</span>: [
+        <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+        <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;end_times&quot;</span>: [
+        <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+        <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;data&quot;</span>: {
+        <span class="hljs-attr">&quot;features&quot;</span>: [
+          {
+            <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;0&quot;</span>,
+            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+            <span class="hljs-attr">&quot;properties&quot;</span>: {
+              <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">1</span>,
+              <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;a&quot;</span>
+            },
+            <span class="hljs-attr">&quot;geometry&quot;</span>: {
+              <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+                <span class="hljs-number">24</span>,
+                <span class="hljs-number">50</span>
+              ],
+              <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+            }
+          },
+          {
+            <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;1&quot;</span>,
+            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+            <span class="hljs-attr">&quot;properties&quot;</span>: {
+              <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">2</span>,
+              <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;b&quot;</span>
+            },
+            <span class="hljs-attr">&quot;geometry&quot;</span>: {
+              <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+                <span class="hljs-number">30</span>,
+                <span class="hljs-number">53</span>
+              ],
+              <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+            }
+          }
+        ],
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;FeatureCollection&quot;</span>
+      }
+    }
+  ],
+  <span class="hljs-attr">&quot;structured_data&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.&quot;</span>,
+      <span class="hljs-attr">&quot;data&quot;</span>: {
+        <span class="hljs-attr">&quot;RED&quot;</span>: {
+          <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+          <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+          <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+        },
+        <span class="hljs-attr">&quot;NIR&quot;</span>: {
+          <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+          <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+          <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+        }
+      },
+      <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;dict&quot;</span>
+    },
+    {
+      <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A list of values.&quot;</span>,
+      <span class="hljs-attr">&quot;data&quot;</span>: {
+        <span class="hljs-attr">&quot;list&quot;</span>: [
+          <span class="hljs-number">1</span>,
+          <span class="hljs-number">2</span>,
+          <span class="hljs-number">3</span>,
+          <span class="hljs-number">4</span>,
+          <span class="hljs-number">5</span>
+        ]
+      },
+      <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;list&quot;</span>
+    },
+    {
+      <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A list of values.&quot;</span>,
+      <span class="hljs-attr">&quot;data&quot;</span>: {
+        <span class="hljs-attr">&quot;table&quot;</span>: [
+          [
+            <span class="hljs-string">&quot;id&quot;</span>,
+            <span class="hljs-string">&quot;value&quot;</span>
+          ],
+          [
+            <span class="hljs-number">1</span>,
+            <span class="hljs-number">10</span>
+          ],
+          [
+            <span class="hljs-number">2</span>,
+            <span class="hljs-number">23</span>
+          ],
+          [
+            <span class="hljs-number">3</span>,
+            <span class="hljs-number">4</span>
+          ]
+        ]
+      },
+      <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;table&quot;</span>
+    }
+  ],
+  <span class="hljs-attr">&quot;machine_learn_models&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;framework&quot;</span>: <span class="hljs-string">&quot;sklearn&quot;</span>,
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;random_forest&quot;</span>,
+      <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A random forest model&quot;</span>,
+      <span class="hljs-attr">&quot;path&quot;</span>: <span class="hljs-string">&quot;/tmp/model.pkl.xz&quot;</span>
+    }
+  ]
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-RasterCollectionTile" class="definition panel" data-traverse-target="definition-RasterCollectionTile">
+            <h2 class="panel-title">
+              <a name="/definitions/RasterCollectionTile"></a>RasterCollectionTile: object
+              <!-- <span class="json-property-type">
+              <span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>A three dimensional tile of data that represents a spatio-temporal subset of a spatio-temporal raster collection. </p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="id" class="has-description">
+                      <span class="json-property-name">id:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The identifier of this raster collection tile.</p>
+                    </dd>
+                    <dt data-property-name="wavelength" class="has-description">
+                      <span class="json-property-name">wavelength:</span>
+                      <span class="json-property-type">float</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The wavelength of the raster collection tile.</p>
+                    </dd>
+                    <dt data-property-name="data" class="has-description">
+                      <span class="json-property-name">data:</span>
+                      <span class="json-property-type">float[][][]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>A three dimensional array fo integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">float[][]</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema">
+                          <section class="json-schema-array-items">
+                            <span class="json-property-type">float[]</span>
+                            <span class="json-property-range" title="Value limits"></span>
+                            <div class="json-inner-schema">
+                              <section class="json-schema-array-items">
+                                <span class="json-property-type">float</span>
+                                <span class="json-property-range" title="Value limits"></span>
+                                <div class="json-inner-schema"> </div>
+                              </section>
+                            </div>
+                          </section>
+                        </div>
+                      </section>
+                    </dt>
+                    <dt data-property-name="start_times" class="has-description">
+                      <span class="json-property-name">start_times:</span>
+                      <span class="json-property-type">string[]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The array that contains that start time values for each x,y slice.As date-time string format ISO 8601 must be supported.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                    <dt data-property-name="end_times" class="has-description">
+                      <span class="json-property-name">end_times:</span>
+                      <span class="json-property-type">string[]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The vector that contains that end time values for each x,y slice, in case the the time stamps for all or a subset of slices are intervals. For time instances the from and to time stamps must be equal or empty. As date-time string format ISO 8601 must be supported</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                    <dt data-property-name="extent">
+                      <span class="json-property-name">extent:</span>
+                      <span class="json-property-type">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/SpatialExtent">SpatialExtent</a>
+                        </span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;test_data&quot;</span>,
+  <span class="hljs-attr">&quot;wavelength&quot;</span>: <span class="hljs-number">420</span>,
+  <span class="hljs-attr">&quot;start_times&quot;</span>: [
+    <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+    <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+  ],
+  <span class="hljs-attr">&quot;end_times&quot;</span>: [
+    <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+    <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+  ],
+  <span class="hljs-attr">&quot;data&quot;</span>: [
+    [
+      [
+        <span class="hljs-number">0</span>,
+        <span class="hljs-number">1</span>
+      ],
+      [
+        <span class="hljs-number">2</span>,
+        <span class="hljs-number">3</span>
+      ]
+    ],
+    [
+      [
+        <span class="hljs-number">0</span>,
+        <span class="hljs-number">1</span>
+      ],
+      [
+        <span class="hljs-number">2</span>,
+        <span class="hljs-number">3</span>
+      ]
+    ]
+  ],
+  <span class="hljs-attr">&quot;extent&quot;</span>: {
+    <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
+    <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+    <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
+    <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
+    <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+  }
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-SpatialExtent" class="definition panel" data-traverse-target="definition-SpatialExtent">
+            <h2 class="panel-title">
+              <a name="/definitions/SpatialExtent"></a>SpatialExtent: object
+              <!-- <span class="json-property-type">
+              <span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>spatial extent with resolution information</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="top" class="has-description">
+                      <span class="json-property-name">top:</span>
+                      <span class="json-property-type">float</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The top (north) border.</p>
+                    </dd>
+                    <dt data-property-name="bottom" class="has-description">
+                      <span class="json-property-name">bottom:</span>
+                      <span class="json-property-type">float</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The bottom (south) border.</p>
+                    </dd>
+                    <dt data-property-name="right" class="has-description">
+                      <span class="json-property-name">right:</span>
+                      <span class="json-property-type">float</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The right (eastern) border.</p>
+                    </dd>
+                    <dt data-property-name="left" class="has-description">
+                      <span class="json-property-name">left:</span>
+                      <span class="json-property-type">float</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The left (wester) border.</p>
+                    </dd>
+                    <dt data-property-name="hight" class="has-description">
+                      <span class="json-property-name">hight:</span>
+                      <span class="json-property-type">float</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The top-bottom resolution in projection units.</p>
+                    </dd>
+                    <dt data-property-name="width" class="has-description">
+                      <span class="json-property-name">width:</span>
+                      <span class="json-property-type">float</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The right-left resolution in projection units.</p>
+                    </dd>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;extent&quot;</span>: {
+    <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
+    <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+    <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
+    <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
+    <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+  }
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-FeatureCollectionTile" class="definition panel" data-traverse-target="definition-FeatureCollectionTile">
+            <h2 class="panel-title">
+              <a name="/definitions/FeatureCollectionTile"></a>FeatureCollectionTile: object
+              <!-- <span class="json-property-type">
+              <span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>A tile of vector data that represents a spatio-temporal subset of a spatio-temporal vector dataset. </p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="id" class="has-description">
+                      <span class="json-property-name">id:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The identifier of this vector tile.</p>
+                    </dd>
+                    <dt data-property-name="data" class="has-description">
+                      <span class="json-property-name">data:</span>
+                      <span class="json-property-type">[object Object]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>A GeoJSON FeatureCollection.</p>
+                    </dd>
+                    <dt data-property-name="start_times" class="has-description">
+                      <span class="json-property-name">start_times:</span>
+                      <span class="json-property-type">string[]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The array that contains that start time values for each vector feature.As date-time string format ISO 8601 must be supported.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                    <dt data-property-name="end_times" class="has-description">
+                      <span class="json-property-name">end_times:</span>
+                      <span class="json-property-type">string[]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The vector that contains that end time values for each vector feature, in case the the time stamps for all or a subset of slices are intervals. For time instances the from and to time stamps must be equal or empty. As date-time string format ISO 8601 must be supported.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;test_data&quot;</span>,
+  <span class="hljs-attr">&quot;start_times&quot;</span>: [
+    <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
+    <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>
+  ],
+  <span class="hljs-attr">&quot;end_times&quot;</span>: [
+    <span class="hljs-string">&quot;2001-01-02T00:00:00&quot;</span>,
+    <span class="hljs-string">&quot;2001-01-03T00:00:00&quot;</span>
+  ],
+  <span class="hljs-attr">&quot;data&quot;</span>: {
+    <span class="hljs-attr">&quot;features&quot;</span>: [
+      {
+        <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;0&quot;</span>,
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+        <span class="hljs-attr">&quot;properties&quot;</span>: {
+          <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">1</span>,
+          <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;a&quot;</span>
+        },
+        <span class="hljs-attr">&quot;geometry&quot;</span>: {
+          <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+            <span class="hljs-number">24</span>,
+            <span class="hljs-number">50</span>
+          ],
+          <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+        }
+      },
+      {
+        <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;1&quot;</span>,
+        <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Feature&quot;</span>,
+        <span class="hljs-attr">&quot;properties&quot;</span>: {
+          <span class="hljs-attr">&quot;a&quot;</span>: <span class="hljs-number">2</span>,
+          <span class="hljs-attr">&quot;b&quot;</span>: <span class="hljs-string">&quot;b&quot;</span>
+        },
+        <span class="hljs-attr">&quot;geometry&quot;</span>: {
+          <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+            <span class="hljs-number">30</span>,
+            <span class="hljs-number">53</span>
+          ],
+          <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;Point&quot;</span>
+        }
+      }
+    ],
+    <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;FeatureCollection&quot;</span>
+  }
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-StructuredData" class="definition panel" data-traverse-target="definition-StructuredData">
+            <h2 class="panel-title">
+              <a name="/definitions/StructuredData"></a>StructuredData: object
+              <!-- <span class="json-property-type">
+              <span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>This model represents structured data that is produced by an UDF and can not be representedas a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical computation. The data is self descriptive and supports the basic types dict/map, list and table.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="description" class="has-description">
+                      <span class="json-property-name">description:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>A detailed description of the output format.</p>
+                    </dd>
+                    <dt data-property-name="data" class="has-description">
+                      <span class="json-property-name">data:</span>
+                      <span class="json-property-type">[object Object]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The structured data. This field contains the UDF specific values (argument or return)as dict, list or table.
+                        <em> A dict can be as complex as required by the UDF. </em> A list must contain simple data types example {&quot;list&quot;: [1,2,3,4]} * A table is a list of lists with a header, example {&quot;table&quot;: [[&quot;id&quot;,&quot;value&quot;], [1, 10], [2, 23], [3, 4]]}</p>
+                    </dd>
+                    <dt data-property-name="type" class="has-description">
+                      <span class="json-property-name">type:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-enum" title="Possible values">
+                        <span class="json-property-enum-item">dict</span>,
+                        <span class="json-property-enum-item">table</span>,
+                        <span class="json-property-enum-item">list</span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The type of the structured data that may be of type dict, table or list. This is just a hint for the user howto interpret the provided data.</p>
+                    </dd>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.&quot;</span>,
+  <span class="hljs-attr">&quot;data&quot;</span>: {
+    <span class="hljs-attr">&quot;RED&quot;</span>: {
+      <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+      <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+    },
+    <span class="hljs-attr">&quot;NIR&quot;</span>: {
+      <span class="hljs-attr">&quot;min&quot;</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">&quot;max&quot;</span>: <span class="hljs-number">100</span>,
+      <span class="hljs-attr">&quot;mean&quot;</span>: <span class="hljs-number">50</span>
+    }
+  },
+  <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;dict&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-MachineLearnModel" class="definition panel" data-traverse-target="definition-MachineLearnModel">
+            <h2 class="panel-title">
+              <a name="/definitions/MachineLearnModel"></a>MachineLearnModel: object
+              <!-- <span class="json-property-type">
+              <span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>A machine learn model that should be applied to the UDF data.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="framework" class="has-description">
+                      <span class="json-property-name">framework:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-enum" title="Possible values">
+                        <span class="json-property-enum-item">sklearn</span>,
+                        <span class="json-property-enum-item">pytorch</span>,
+                        <span class="json-property-enum-item">tensorflow</span>,
+                        <span class="json-property-enum-item">R</span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The framework that was used to train the model</p>
+                    </dd>
+                    <dt data-property-name="name" class="has-description">
+                      <span class="json-property-name">name:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The name of the machine learn model.</p>
+                    </dd>
+                    <dt data-property-name="description" class="has-description">
+                      <span class="json-property-name">description:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The description of the machine learn model.</p>
+                    </dd>
+                    <dt data-property-name="path" class="has-description">
+                      <span class="json-property-name">path:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The path/url to the machine learn model file to which the UDF must have read access.</p>
+                    </dd>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;framework&quot;</span>: <span class="hljs-string">&quot;sklearn&quot;</span>,
+  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;random_forest&quot;</span>,
+  <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A random forest model&quot;</span>,
+  <span class="hljs-attr">&quot;path&quot;</span>: <span class="hljs-string">&quot;/tmp/model.pkl.xz&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-ErrorResponse" class="definition panel" data-traverse-target="definition-ErrorResponse">
+            <h2 class="panel-title">
+              <a name="/definitions/ErrorResponse"></a>ErrorResponse: object
+              <!-- <span class="json-property-type">
+              <span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The error message. This class is not part of the UDF API but used to create the UDF test server.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="message" class="has-description">
+                      <span class="json-property-name">message:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The error message</p>
+                    </dd>
+                    <dt data-property-name="traceback" class="has-description">
+                      <span class="json-property-name">traceback:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The optional python traceback</p>
+                    </dd>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div class="doc-row no-margin">
+            <div class="doc-copy doc-separator">
+              <a class="powered-by" href="https://sourcey.com/spectacle">Documentation by
+                <span>Spectacle</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>

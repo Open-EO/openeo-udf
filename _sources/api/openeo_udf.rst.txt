@@ -1,0 +1,19 @@
+openeo\_udf package
+===================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    openeo_udf.api
+    openeo_udf.functions
+    openeo_udf.server
+
+Module contents
+---------------
+
+.. automodule:: openeo_udf
+    :members:
+    :undoc-members:
+    :show-inheritance:

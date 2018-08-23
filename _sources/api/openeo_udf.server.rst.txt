@@ -1,0 +1,54 @@
+openeo\_udf.server package
+==========================
+
+Submodules
+----------
+
+openeo\_udf.server.app module
+-----------------------------
+
+.. automodule:: openeo_udf.server.app
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.definitions module
+-------------------------------------
+
+.. automodule:: openeo_udf.server.definitions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.endpoints module
+-----------------------------------
+
+.. automodule:: openeo_udf.server.endpoints
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.main module
+------------------------------
+
+.. automodule:: openeo_udf.server.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.udf module
+-----------------------------
+
+.. automodule:: openeo_udf.server.udf
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: openeo_udf.server
+    :members:
+    :undoc-members:
+    :show-inheritance:

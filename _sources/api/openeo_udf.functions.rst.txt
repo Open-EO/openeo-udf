@@ -1,0 +1,70 @@
+openeo\_udf.functions package
+=============================
+
+Submodules
+----------
+
+openeo\_udf.functions.feature\_collections\_buffer module
+---------------------------------------------------------
+
+.. automodule:: openeo_udf.functions.feature_collections_buffer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.functions.raster\_collections\_ndvi module
+------------------------------------------------------
+
+.. automodule:: openeo_udf.functions.raster_collections_ndvi
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.functions.raster\_collections\_reduce\_time\_min\_max\_mean\_sum module
+-----------------------------------------------------------------------------------
+
+.. automodule:: openeo_udf.functions.raster_collections_reduce_time_min_max_mean_sum
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.functions.raster\_collections\_reduce\_time\_sum module
+-------------------------------------------------------------------
+
+.. automodule:: openeo_udf.functions.raster_collections_reduce_time_sum
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.functions.raster\_collections\_sampling module
+----------------------------------------------------------
+
+.. automodule:: openeo_udf.functions.raster_collections_sampling
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.functions.raster\_collections\_sklearn\_ml module
+-------------------------------------------------------------
+
+.. automodule:: openeo_udf.functions.raster_collections_sklearn_ml
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.functions.raster\_collections\_statistics module
+------------------------------------------------------------
+
+.. automodule:: openeo_udf.functions.raster_collections_statistics
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: openeo_udf.functions
+    :members:
+    :undoc-members:
+    :show-inheritance:

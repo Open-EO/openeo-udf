@@ -1,0 +1,771 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>OpenEO UDF Framework &#8212; openeo-udf 0.0.post0.dev86+g0475178 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="license.html" title="License"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev86+g0475178 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="openeo-udf-framework">
+<h1>OpenEO UDF Framework<a class="headerlink" href="#openeo-udf-framework" title="Permalink to this headline">¶</a></h1>
+<p>OpenEO User Defined Functions (UDF) are an approach to run arbitrary code on geographical data
+that is available in an OpenEO processing backend like R, GRASS GIS or GeoTrellis.
+This document describes the UDF interface and provides reference implementation for Python3. The reference
+implementation includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>An OpenEO UDF REST test server that processes user defined data with user defined functions
+and describes its interface using swagger2.0.</li>
+<li>A command line tool to apply user defined functions on raster and vector data</li>
+<li>A Python3 API that specifies how UDF must be implemented in Python3</li>
+<li>The UDF test server and the command line tool are examples howto implement the
+UDF approach in an OpenEO processing backend</li>
+</ul>
+</div></blockquote>
+<div class="section" id="backend-integration">
+<h2>Backend integration<a class="headerlink" href="#backend-integration" title="Permalink to this headline">¶</a></h2>
+<p>This UDF implementation contains an abstract swagger description of schemas that must be used when an API for a specific
+programming language is implemented.
+They are documented in the swagger 2.0 API description that is provided by the UDF test server. However, the
+Python file that defines the swagger description is available here:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/definitions.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/definitions.py</a></li>
+</ul>
+</div></blockquote>
+<p>The basis of the swagger 2.0 API description are basic data-types that are available in many programming languages.
+These basic data-types are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Strings</li>
+<li>Floating point values</li>
+<li>Integer values</li>
+<li>Date and time data-types</li>
+<li>Multi-dimensional arrays, lists or vectors of floating point values, integer values and date time data-types</li>
+<li>Maps or dictionaries</li>
+</ul>
+</div></blockquote>
+<p>The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
+depending on the programming language.</p>
+<p>The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, MachineLearnModel
+and UdfData are a swagger 2.0 based definitions for the UDF API.
+These schemas are implemented as classes with additional functionality in the Python prototype.</p>
+<p>The schemas UdfCode, UdfRequest and ErrorResponse are used by the UDF test server to provide the POST endpoint.
+They are not part of the UDF API.</p>
+<dl class="docutils">
+<dt>To support UDF's in the backend the following approaches can be used:</dt>
+<dd><ul class="first last simple">
+<li>The backend implements for specific languages the UDF API based on the provided swagger 2.0 API description</li>
+<li>The backend uses the Python prototype implementation for Python based UDF's</li>
+<li>The backend uses the UDF test server to run Python UDF's</li>
+<li>The backend uses the command line tool to execute Python UDF's.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The installation was tested on ubuntu 16.04 and 18.04. It requires python3.6  and pip3. It will install
+several python3 libraries like pygdal <a class="footnote-reference" href="#pygdal" id="id1">[1]</a>, pytorch <a class="footnote-reference" href="#pytorch" id="id2">[2]</a>, scikit-learn <a class="footnote-reference" href="#scikit" id="id3">[3]</a>,
+tensorflow <a class="footnote-reference" href="#tensorflow" id="id4">[4]</a> and other libraries that require additional development files on the host system.</p>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="pygdal" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="https://github.com/nextgis/pygdal">https://github.com/nextgis/pygdal</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="pytorch" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="https://pytorch.org/">https://pytorch.org/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="scikit" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://scikit-learn.org/stable/">http://scikit-learn.org/stable/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="tensorflow" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td><a class="reference external" href="https://www.tensorflow.org/">https://www.tensorflow.org/</a></td></tr>
+</tbody>
+</table>
+<div class="section" id="local-installation">
+<h3>Local installation<a class="headerlink" href="#local-installation" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Clone the git repository into a specific directory and create the virtual python3 environment:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir -p <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
+
+git clone https://github.com/Open-EO/openeo-udf.gi
+virtualenv -p python3 openeo_venv
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Install are requirements in the virtual environment:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> openeo_venv/bin/activate
+<span class="nb">cd</span> openeo-udf
+pip3 install -r requirements.txt
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Install the openeo-udf software and run the tests:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 setup.py install
+python3 setup.py <span class="nb">test</span>
+python3 tests/test_doctests.py
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic" start="3">
+<li><p class="first">Create the UDF documentation that includes the python3 API description and start firefox to read it:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> docs
+make html
+firefox _build/html/index.html <span class="p">&amp;</span>
+<span class="nb">cd</span> ..
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Run the udf server and download the swagger definition:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>run_udf_server <span class="p">&amp;</span>
+
+<span class="c1"># Download the swagger JSON file</span>
+wget http://localhost:5000/api/v0/swagger.json
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Run the UDF execution command line tool:</p>
+<blockquote>
+<div><p>The following command computes the NDVI on a raster
+image series of three multi-band tiff files. Two bands are provided with the names RED and NIR for
+the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
+            -b RED,NIR <span class="se">\</span>
+            -u src/openeo_udf/functions/raster_collections_ndvi.py
+</pre></div>
+</div>
+<p>This command computes the sum of the raster series for each band. A single raster image
+with two bands is written as GeoTiff file to the directory /tmp.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
+            -b RED,NIR <span class="se">\</span>
+            -u src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+</pre></div>
+</div>
+<p>This command reads a feature collection stored in a gepackge file
+and applies the UDF buffer function. The result is a new geopackage
+that contains the buffers written in directory /tmp:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
+</pre></div>
+</div>
+<p>This command reads a series of raster GeoTiff files and a feature collection stored in a gepackge file
+and applies the UDF sampling function. The result is a new geopackage
+that contains the sampled attributes written in directory /tmp:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
+            -b RED,NIR <span class="se">\</span>
+            -v data/sampling_points.gpkg <span class="se">\</span>
+            -u src/openeo_udf/functions/raster_collections_sampling.py
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="docker-image">
+<h3>Docker image<a class="headerlink" href="#docker-image" title="Permalink to this headline">¶</a></h3>
+<p>The openeo-udf repository contains the build instruction of an openeo-udf docker image:</p>
+<ol class="arabic">
+<li><p class="first">Clone the git repository into a specific directory and create the virtual python3 environment:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir -p <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
+
+git clone https://github.com/Open-EO/openeo-udf.gi
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Build the docker image and run it:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> openeo-udf/docker
+docker build -t openeo_udf .
+docker run --name <span class="s2">&quot;openeo-udf-server&quot;</span> -p <span class="m">5000</span>:5000 -p <span class="m">80</span>:80 -t openeo_udf
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Have a look at the documentation that is available in the docker deployment. This includes
+this document with the python3 API description, that must be used in the UDF's and the swagger
+documentation of the REST UDF service:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># This document</span>
+firefox http://localhost/index.html
+
+<span class="c1"># The python3 API description that must be used in the python3 UDF</span>
+firefox http://localhost/api/openeo_udf.api.html#module-openeo_udf.api.base
+
+<span class="c1"># The swagger API description</span>
+firefox http://localhost/api_docs/index.html
+
+<span class="c1"># Download the swagger JSON file</span>
+wget http://localhost:5000/api/v0/swagger.json
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="coding-an-udf">
+<h2>Coding an UDF<a class="headerlink" href="#coding-an-udf" title="Permalink to this headline">¶</a></h2>
+<p>The python3 reference implementation provides an API to implement UDF conveniently. It makes use
+of many python3 libraries that provide functionality to access raster and vector geo-data.</p>
+<p>The following libraries should be used implementations UDF's:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The python3 library numpy <a class="footnote-reference" href="#numpy" id="id5">[5]</a> should be used to process the raster data.</li>
+<li>The python3 library geopandas <a class="footnote-reference" href="#geopandas" id="id6">[6]</a> and shapely <a class="footnote-reference" href="#shapely" id="id7">[7]</a> should be used to process the vector data.</li>
+<li>The python3 library pandas <a class="footnote-reference" href="#pandas" id="id8">[8]</a>, specifically pandas.DatetimeIndex should be used to process time-series data</li>
+</ul>
+</div></blockquote>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="numpy" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><a class="reference external" href="http://www.numpy.org/">http://www.numpy.org/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="geopandas" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td><a class="reference external" href="http://geopandas.org/index.html">http://geopandas.org/index.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="shapely" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td><a class="reference external" href="https://github.com/Toblerity/Shapely">https://github.com/Toblerity/Shapely</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="pandas" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td><a class="reference external" href="http://pandas.pydata.org/">http://pandas.pydata.org/</a></td></tr>
+</tbody>
+</table>
+<p>The python3 API is well documented and fully tested using doctests. The doctests show
+the handling of the API with simple examples. This document and the full API description
+is available when you installed openeo_udf locally or if you use the docker image.
+However, the original python3 file that implements the OpenEO UDF python3 API is available here:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/base.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/base.py</a></li>
+</ul>
+</div></blockquote>
+<p>The UDF's are directly available for download from the repository:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_ndvi.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_ndvi.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_min_max_mean_sum.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_min_max_mean_sum.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_sum.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_sum.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sampling.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sampling.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_statistics.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_statistics.py</a></li>
+</ul>
+</div></blockquote>
+<p>Several UDF were implemented and provide and example howto develop an UDF. A unittest was implemented for
+each UDF. The tests are available here:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf.py</a></li>
+</ul>
+</div></blockquote>
+<p>The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend
+driver:</p>
+<blockquote>
+<div><ul class="simple">
+<li>SpatialExtent</li>
+<li>RasterCollectionTile</li>
+<li>FeatureCollectionTile</li>
+<li>StructuredData</li>
+<li>UdfData</li>
+</ul>
+</div></blockquote>
+<div class="section" id="using-the-udf-command-line-tool">
+<h3>Using the UDF command line tool<a class="headerlink" href="#using-the-udf-command-line-tool" title="Permalink to this headline">¶</a></h3>
+<p>The python3 reference implementation provides a command line tool to run an UDF on raster images that
+are supported by GDAL and/or vector files support by OGR.
+The command line tool has a help interface with examples that run on test data available in the
+OpenEO UDF repository:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>openeo_venv<span class="o">)</span> soeren@Knecht:~/src/openeo/openeo-udf$ execute_udf --help
+usage: execute_udf <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-r RASTER_FILES<span class="o">]</span> <span class="o">[</span>-v VECTOR_FILES<span class="o">]</span>
+                   <span class="o">[</span>-t RASTER_TIME_STAMPS<span class="o">]</span> <span class="o">[</span>-b BAND_NAMES<span class="o">]</span>
+                   <span class="o">[</span>-o RASTER_OUTPUT_DIR<span class="o">]</span> -u PATH_TO_UDF
+
+This program reads a list of single- or multi-band GeoTiff files and vector files
+and applies a user defined <span class="k">function</span> <span class="o">(</span>UDF<span class="o">)</span> on them.
+The GeoTiff files must be provided as comma separated list, as well as the band names.
+The vector files must be provides as comma separated list of files as well. The UDF
+must be accessible on the file system. The computed results are single- or multi-band GeoTiff files
+in <span class="k">case</span> of raster output and geopackage vector files in <span class="k">case</span> of vector output
+that are written into a specific output directory. Raster and vector files can be specified together.
+However, all provided files must have the same projection.
+
+Examples:
+
+    The following <span class="nb">command</span> computes the NDVI on a raster
+    image series of three multi-band tiff files. Two bands are provided with the names RED and NIR <span class="k">for</span>
+    the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.
+
+        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
+                    -b RED,NIR <span class="se">\</span>
+                    -u src/openeo_udf/functions/raster_collections_ndvi.py
+
+    This <span class="nb">command</span> computes the sum of the raster series <span class="k">for</span> each band. A single raster image
+    with two bands is written as GeoTiff file to the directory /tmp.
+
+        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
+                    -b RED,NIR <span class="se">\</span>
+                    -u src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+
+
+    This <span class="nb">command</span> reads a feature collection stored in a gepackge file
+    and applies the UDF buffer <span class="k">function</span>. The result is a new geopackage
+    that contains the buffers written in directory /tmp:
+
+        execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
+
+    This <span class="nb">command</span> reads a series of raster GeoTiff files and a feature collection stored in a gepackge file
+    and applies the UDF sampling <span class="k">function</span>. The result is a new geopackage
+    that contains the sampled attributes written in directory /tmp:
+
+        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
+                    -b RED,NIR <span class="se">\</span>
+                    -v data/sampling_points.gpkg <span class="se">\</span>
+                    -u src/openeo_udf/functions/raster_collections_sampling.py
+
+optional arguments:
+  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  -r RASTER_FILES, --raster_files RASTER_FILES
+                        Comma separated list of raster files. If several
+                        raster files are provided, <span class="k">then</span> each raster file must
+                        have the same number of bands.
+  -v VECTOR_FILES, --vector_files VECTOR_FILES
+                        Comma separated list of vector files. Each vector file
+                        will be converted into a vector collection tile.
+  -t RASTER_TIME_STAMPS, --raster_time_stamps RASTER_TIME_STAMPS
+                        A comma separated list of <span class="nb">time</span> stamps, that must have
+                        the same number of entries as the list of raster
+                        files.
+  -b BAND_NAMES, --band_names BAND_NAMES
+                        A comma separated list of band names.
+  -o RASTER_OUTPUT_DIR, --raster_output_dir RASTER_OUTPUT_DIR
+                        The output directory to store the computed results.
+  -u PATH_TO_UDF, --path_to_udf PATH_TO_UDF
+                        The UDF file to execute.
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="using-the-udf-server">
+<h3>Using the UDF server<a class="headerlink" href="#using-the-udf-server" title="Permalink to this headline">¶</a></h3>
+<p><strong>Raster Example</strong></p>
+<p>The first example removes the raster collection tiles from the provided input data. The code is very simple
+and removes all raster collection tiles in the input object that always has the name <strong>data</strong>:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">del_raster_collection_tiles</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The following JSON definition includes the python3 code and a simple raster collection
+with two 2x2 tiles with two start and end time stamps.</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;code&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;data.del_raster_collection_tiles()&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;python&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;proj&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;raster_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">[</span>
+            <span class="p">[</span>
+              <span class="mi">0</span><span class="p">,</span>
+              <span class="mi">1</span>
+            <span class="p">],</span>
+            <span class="p">[</span>
+              <span class="mi">2</span><span class="p">,</span>
+              <span class="mi">3</span>
+            <span class="p">]</span>
+          <span class="p">],</span>
+          <span class="p">[</span>
+            <span class="p">[</span>
+              <span class="mi">0</span><span class="p">,</span>
+              <span class="mi">1</span>
+            <span class="p">],</span>
+            <span class="p">[</span>
+              <span class="mi">2</span><span class="p">,</span>
+              <span class="mi">3</span>
+            <span class="p">]</span>
+          <span class="p">]</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;extent&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;north&quot;</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span>
+          <span class="nt">&quot;south&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+          <span class="nt">&quot;east&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+          <span class="nt">&quot;nsres&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="nt">&quot;ewres&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="nt">&quot;west&quot;</span><span class="p">:</span> <span class="mi">24</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;end_times&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;2001-01-02T00:00:00&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;2001-01-03T00:00:00&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;start_times&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;2001-01-01T00:00:00&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;2001-01-02T00:00:00&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;test_data&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;wavelength&quot;</span><span class="p">:</span> <span class="mi">420</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Running the code, with the assumption that the JSON code was
+placed in the shell environmental variable &quot;JSON&quot;, should look like this:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -X POST -d <span class="s2">&quot;</span><span class="si">${</span><span class="nv">JSON</span><span class="si">}</span><span class="s2">&quot;</span> http://localhost:5000/udf
+</pre></div>
+</div>
+</div></blockquote>
+<p>The result of the processing should be the elimination of the raster and feature collections,
+since the provided data object will be used to create the resulting data:</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;feature_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[],</span>
+  <span class="nt">&quot;models&quot;</span><span class="p">:</span> <span class="p">{},</span>
+  <span class="nt">&quot;proj&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;raster_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Hence, a data object that contains the raster and feature collections is provided to the
+user defined function. The UDF code works on the data and stores the result in the same data object.</p>
+<p><strong>Vector Example</strong></p>
+<p>The second examples applies a buffer operation on a feature collection. It computes a buffer of size 5
+on all features of the first feature collection tile and stores the result in the input <strong>data</strong>
+object:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tile</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get_feature_collection_tiles</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">buf</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">new_data</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">set_feature_collection_tiles</span><span class="p">([</span><span class="n">FeatureCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">tile</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;_buffer&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">new_data</span><span class="p">,</span> <span class="n">start_times</span><span class="o">=</span><span class="n">tile</span><span class="o">.</span><span class="n">start_times</span><span class="p">,</span> <span class="n">end_times</span><span class="o">=</span><span class="n">tile</span><span class="o">.</span><span class="n">end_times</span><span class="p">),])</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The following JSON definition includes the python3 code that applies the buffer operation and
+a simple feature collection that contains two points with start and end time stamps.</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;code&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;tile = data.get_feature_collection_tiles()[0] \nbuf = tile.data.buffer(5) \nnew_data = tile.data.set_geometry(buf) \ndata.set_feature_collection_tiles([FeatureCollectionTile(id=tile.id + \&quot;_buffer\&quot;, data=new_data, start_times=tile.start_times, end_times=tile.end_times),])\n&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;python&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;proj&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;feature_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;test_data&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="nt">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+                  <span class="mi">24</span><span class="p">,</span>
+                  <span class="mi">50</span>
+                <span class="p">],</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Point&quot;</span>
+              <span class="p">},</span>
+              <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span>
+              <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+              <span class="nt">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+                  <span class="mi">30</span><span class="p">,</span>
+                  <span class="mi">53</span>
+                <span class="p">],</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Point&quot;</span>
+              <span class="p">},</span>
+              <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span>
+              <span class="p">}</span>
+            <span class="p">}</span>
+          <span class="p">],</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;end_times&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;2001-01-02T00:00:00&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;2001-01-03T00:00:00&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;start_times&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;2001-01-01T00:00:00&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;2001-01-02T00:00:00&quot;</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Running the code, with the assumption that the JSON code was
+placed in the shell environmental variable &quot;JSON&quot;, should look like this:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -X POST -d <span class="s2">&quot;</span><span class="si">${</span><span class="nv">JSON</span><span class="si">}</span><span class="s2">&quot;</span> http://localhost:5000/udf
+</pre></div>
+</div>
+</div></blockquote>
+<p>The result of the processing are two polygons (coordinates are truncated):</p>
+<blockquote>
+<div><blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;feature_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">[</span>
+                  <span class="p">[</span>
+                    <span class="mf">29.0</span><span class="p">,</span>
+                    <span class="mf">50.0</span>
+                  <span class="p">],</span>
+                  <span class="p">[</span>
+                    <span class="s2">&quot;...&quot;</span>
+                  <span class="p">],</span>
+                  <span class="p">[</span>
+                    <span class="mf">29.0</span><span class="p">,</span>
+                    <span class="mf">50.0</span>
+                  <span class="p">]</span>
+                <span class="p">]</span>
+              <span class="p">],</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Polygon&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">[</span>
+                  <span class="p">[</span>
+                    <span class="mf">35.0</span><span class="p">,</span>
+                    <span class="mf">53.0</span>
+                  <span class="p">],</span>
+                  <span class="p">[</span>
+                    <span class="s2">&quot;...&quot;</span>
+                  <span class="p">],</span>
+                  <span class="p">[</span>
+                    <span class="mf">35.0</span><span class="p">,</span>
+                    <span class="mf">53.0</span>
+                  <span class="p">]</span>
+                <span class="p">]</span>
+              <span class="p">],</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Polygon&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+              <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;end_times&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;2001-01-02T00:00:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2001-01-03T00:00:00&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;test_data_buffer&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;start_times&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;2001-01-01T00:00:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2001-01-02T00:00:00&quot;</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;models&quot;</span><span class="p">:</span> <span class="p">{},</span>
+  <span class="nt">&quot;proj&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;raster_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">    License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">    Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">    Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-1">Version 0.1</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">    Module Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/openeo_udf.html">openeo_udf package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">OpenEO UDF Framework</a><ul>
+<li><a class="reference internal" href="#backend-integration">Backend integration</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#local-installation">Local installation</a></li>
+<li><a class="reference internal" href="#docker-image">Docker image</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#coding-an-udf">Coding an UDF</a><ul>
+<li><a class="reference internal" href="#using-the-udf-command-line-tool">Using the UDF command line tool</a></li>
+<li><a class="reference internal" href="#using-the-udf-server">Using the UDF server</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="license.html"
+                        title="next chapter">License</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="license.html" title="License"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev86+g0475178 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Soeren Gebbert.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+    </div>
+  </body>
+</html>

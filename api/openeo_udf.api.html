@@ -1,0 +1,1568 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>openeo_udf.api package &#8212; openeo-udf 0.0.post0.dev86+g0475178 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="openeo_udf.functions package" href="openeo_udf.functions.html" />
+    <link rel="prev" title="openeo_udf package" href="openeo_udf.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="openeo_udf.functions.html" title="openeo_udf.functions package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="openeo_udf.html" title="openeo_udf package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev86+g0475178 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="openeo_udf.html" accesskey="U">openeo_udf package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="openeo-udf-api-package">
+<h1>openeo_udf.api package<a class="headerlink" href="#openeo-udf-api-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-openeo_udf.api.base">
+<span id="openeo-udf-api-base-module"></span><h2>openeo_udf.api.base module<a class="headerlink" href="#module-openeo_udf.api.base" title="Permalink to this headline">¶</a></h2>
+<p>Base classes of the OpenEO Python UDF interface</p>
+<dl class="class">
+<dt id="openeo_udf.api.base.CollectionTile">
+<em class="property">class </em><code class="descclassname">openeo_udf.api.base.</code><code class="descname">CollectionTile</code><span class="sig-paren">(</span><em>id</em>, <em>extent=None</em>, <em>start_times=None</em>, <em>end_times=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This is the base class for image and vector collection tiles. It implements
+start time, end time and spatial extent handling.</p>
+<p>Some basic tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">CollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">coll</span><span class="p">)</span>
+<span class="go">id: test</span>
+<span class="go">extent: top: 100</span>
+<span class="go">bottom: 0</span>
+<span class="go">right: 100</span>
+<span class="go">left: 0</span>
+<span class="go">height: 10</span>
+<span class="go">width: 10</span>
+<span class="go">start_times: None</span>
+<span class="go">end_times: None</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2012-05-01&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">starts</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2012-05-02&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ends</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdc</span> <span class="o">=</span> <span class="n">CollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span>
+<span class="gp">... </span>                     <span class="n">start_times</span><span class="o">=</span><span class="n">starts</span><span class="p">,</span> <span class="n">end_times</span><span class="o">=</span><span class="n">ends</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;extent&quot;</span> <span class="ow">in</span> <span class="n">rdc</span><span class="o">.</span><span class="n">extent_to_dict</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdc</span><span class="o">.</span><span class="n">extent_to_dict</span><span class="p">()[</span><span class="s2">&quot;extent&quot;</span><span class="p">][</span><span class="s2">&quot;left&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdc</span><span class="o">.</span><span class="n">extent_to_dict</span><span class="p">()[</span><span class="s2">&quot;extent&quot;</span><span class="p">][</span><span class="s2">&quot;right&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">100</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdc</span><span class="o">.</span><span class="n">extent_to_dict</span><span class="p">()[</span><span class="s2">&quot;extent&quot;</span><span class="p">][</span><span class="s2">&quot;top&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">100</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdc</span><span class="o">.</span><span class="n">extent_to_dict</span><span class="p">()[</span><span class="s2">&quot;extent&quot;</span><span class="p">][</span><span class="s2">&quot;bottom&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdc</span><span class="o">.</span><span class="n">extent_to_dict</span><span class="p">()[</span><span class="s2">&quot;extent&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdc</span><span class="o">.</span><span class="n">extent_to_dict</span><span class="p">()[</span><span class="s2">&quot;extent&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">rdc</span><span class="o">.</span><span class="n">start_times_to_dict</span><span class="p">())</span>
+<span class="go">&#39;{&quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;]}&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">rdc</span><span class="o">.</span><span class="n">end_times_to_dict</span><span class="p">())</span>
+<span class="go">&#39;{&quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;]}&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ct</span> <span class="o">=</span> <span class="n">CollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ct</span><span class="o">.</span><span class="n">set_extent_from_dict</span><span class="p">({</span><span class="s2">&quot;top&quot;</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ct</span><span class="o">.</span><span class="n">set_start_times_from_list</span><span class="p">([</span><span class="s2">&quot;2012-05-01T00:00:00&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ct</span><span class="o">.</span><span class="n">set_end_times_from_list</span><span class="p">([</span><span class="s2">&quot;2012-05-02T00:00:00&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
+<span class="go">id: test</span>
+<span class="go">extent: top: 53</span>
+<span class="go">bottom: 50</span>
+<span class="go">right: 30</span>
+<span class="go">left: 24</span>
+<span class="go">height: 0.01</span>
+<span class="go">width: 0.01</span>
+<span class="go">start_times: DatetimeIndex([&#39;2012-05-01&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="go">end_times: DatetimeIndex([&#39;2012-05-02&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.check_data_with_time">
+<code class="descname">check_data_with_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.check_data_with_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.check_data_with_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the start and end date vectors have the same size as the data</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.api.base.CollectionTile.end_times">
+<code class="descname">end_times</code><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.end_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the end time vector</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">End time vector</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v0.23.4)">pandas.DatetimeIndex</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.end_times_to_dict">
+<code class="descname">end_times_to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.end_times_to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.end_times_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the end times vector into a dictionary representation that can be converted to JSON</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The end times vector</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.api.base.CollectionTile.extent">
+<code class="descname">extent</code><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.extent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the spatial extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The spatial extent</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#openeo_udf.api.base.SpatialExtent" title="openeo_udf.api.base.SpatialExtent">SpatialExtent</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.extent_to_dict">
+<code class="descname">extent_to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.extent_to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.extent_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the extent into a dictionary representation that can be converted to JSON</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The spatial extent</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.get_end_times">
+<code class="descname">get_end_times</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.get_end_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.get_end_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the end time vector</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">End time vector</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v0.23.4)">pandas.DatetimeIndex</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.get_extent">
+<code class="descname">get_extent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.get_extent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.get_extent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the spatial extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The spatial extent</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#openeo_udf.api.base.SpatialExtent" title="openeo_udf.api.base.SpatialExtent">SpatialExtent</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.get_start_times">
+<code class="descname">get_start_times</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.get_start_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.get_start_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the start time vector</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Start time vector</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v0.23.4)">pandas.DatetimeIndex</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.set_end_times">
+<code class="descname">set_end_times</code><span class="sig-paren">(</span><em>end_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.set_end_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.set_end_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the end times vector</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>end_times</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v0.23.4)"><em>pandas.DatetimeIndex</em></a>) -- The  end times vector</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.set_end_times_from_list">
+<code class="descname">set_end_times_from_list</code><span class="sig-paren">(</span><em>end_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.set_end_times_from_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.set_end_times_from_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the end times vector from a dictionary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>end_times</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) -- The dictionary with the layout of the JSON end times vector definition</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.set_extent">
+<code class="descname">set_extent</code><span class="sig-paren">(</span><em>extent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.set_extent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.set_extent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the spatial extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>extent</strong> (<a class="reference internal" href="#openeo_udf.api.base.SpatialExtent" title="openeo_udf.api.base.SpatialExtent"><em>SpatialExtent</em></a>) -- The spatial extent with resolution information, must be of type SpatialExtent</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.set_extent_from_dict">
+<code class="descname">set_extent_from_dict</code><span class="sig-paren">(</span><em>extent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.set_extent_from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.set_extent_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the spatial extent from a dictionary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>extent</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) -- The dictionary with the layout of the JSON SpatialExtent definition</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.set_start_times">
+<code class="descname">set_start_times</code><span class="sig-paren">(</span><em>start_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.set_start_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.set_start_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the start times vector</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>start_times</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v0.23.4)"><em>pandas.DatetimeIndex</em></a>) -- The start times vector</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.set_start_times_from_list">
+<code class="descname">set_start_times_from_list</code><span class="sig-paren">(</span><em>start_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.set_start_times_from_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.set_start_times_from_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the start times vector from a dictionary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>start_times</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) -- The dictionary with the layout of the JSON start times vector definition</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.api.base.CollectionTile.start_times">
+<code class="descname">start_times</code><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.start_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the start time vector</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Start time vector</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v0.23.4)">pandas.DatetimeIndex</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.CollectionTile.start_times_to_dict">
+<code class="descname">start_times_to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#CollectionTile.start_times_to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.CollectionTile.start_times_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the start times vector into a dictionary representation that can be converted to JSON</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The start times vector</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openeo_udf.api.base.FeatureCollectionTile">
+<em class="property">class </em><code class="descclassname">openeo_udf.api.base.</code><code class="descname">FeatureCollectionTile</code><span class="sig-paren">(</span><em>id</em>, <em>data</em>, <em>start_times=None</em>, <em>end_times=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#FeatureCollectionTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.FeatureCollectionTile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#openeo_udf.api.base.CollectionTile" title="openeo_udf.api.base.CollectionTile"><code class="xref py py-class docutils literal notranslate"><span class="pre">openeo_udf.api.base.CollectionTile</span></code></a></p>
+<p>A feature collection tile that represents a subset or a whole feature collection
+where single vector features may have time stamps assigned.</p>
+<p>Some basic tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">Point</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">geopandas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pseries</span> <span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">pseries</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fct</span> <span class="o">=</span> <span class="n">FeatureCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fct</span><span class="p">)</span>
+<span class="go">id: test</span>
+<span class="go">start_times: None</span>
+<span class="go">end_times: None</span>
+<span class="go">data:    a  b         geometry</span>
+<span class="go">0  1  a      POINT (0 0)</span>
+<span class="go">1  2  b  POINT (100 100)</span>
+<span class="go">2  3  c    POINT (100 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">fct</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span> 
+<span class="gp">... </span>                          
+<span class="go">&#39;{&quot;id&quot;: &quot;test&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;,</span>
+<span class="go">&quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}},</span>
+<span class="go">{&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;,</span>
+<span class="go">&quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;},</span>
+<span class="go">&quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pseries</span> <span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">pseries</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2012-05-01&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">starts</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2012-05-02&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ends</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fct</span> <span class="o">=</span> <span class="n">FeatureCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">start_times</span><span class="o">=</span><span class="n">starts</span><span class="p">,</span> <span class="n">end_times</span><span class="o">=</span><span class="n">ends</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fct</span><span class="p">)</span>
+<span class="go">id: test</span>
+<span class="go">start_times: DatetimeIndex([&#39;2012-05-01&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="go">end_times: DatetimeIndex([&#39;2012-05-02&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="go">data:    a  b     geometry</span>
+<span class="go">0  1  a  POINT (0 0)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">fct</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span> 
+<span class="gp">... </span>                          
+<span class="go">&#39;{&quot;id&quot;: &quot;test&quot;, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;],</span>
+<span class="go">&quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;,</span>
+<span class="go">&quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}]}}&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fct</span> <span class="o">=</span> <span class="n">FeatureCollectionTile</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">fct</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">fct</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span> 
+<span class="gp">... </span>                          
+<span class="go">&#39;{&quot;id&quot;: &quot;test&quot;, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;],</span>
+<span class="go">&quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;,</span>
+<span class="go">&quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}]}}&#39;</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="openeo_udf.api.base.FeatureCollectionTile.data">
+<code class="descname">data</code><a class="headerlink" href="#openeo_udf.api.base.FeatureCollectionTile.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A data frame that contains the geometry column and any number of attribute columns</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://geopandas.org/reference/geopandas.GeoDataFrame.html#geopandas.GeoDataFrame" title="(in GeoPandas v0.4.0)">geopandas.GeoDataFrame</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="openeo_udf.api.base.FeatureCollectionTile.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#FeatureCollectionTile.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.FeatureCollectionTile.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a feature collection tile from a python dictionary that was created from
+the JSON definition of the FeatureCollectionTile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fct_dict</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) -- The dictionary that contains the feature collection tile definition</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new FeatureCollectionTile object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#openeo_udf.api.base.FeatureCollectionTile" title="openeo_udf.api.base.FeatureCollectionTile">FeatureCollectionTile</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.FeatureCollectionTile.get_data">
+<code class="descname">get_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#FeatureCollectionTile.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.FeatureCollectionTile.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A data frame that contains the geometry column and any number of attribute columns</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://geopandas.org/reference/geopandas.GeoDataFrame.html#geopandas.GeoDataFrame" title="(in GeoPandas v0.4.0)">geopandas.GeoDataFrame</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.FeatureCollectionTile.set_data">
+<code class="descname">set_data</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#FeatureCollectionTile.set_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.FeatureCollectionTile.set_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns</p>
+<p>This function will check if the provided data is a geopandas.GeoDataFrame and raises
+an Exception</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="http://geopandas.org/reference/geopandas.GeoDataFrame.html#geopandas.GeoDataFrame" title="(in GeoPandas v0.4.0)"><em>geopandas.GeoDataFrame</em></a>) -- A GeoDataFrame with geometry column and attribute data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.FeatureCollectionTile.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#FeatureCollectionTile.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.FeatureCollectionTile.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this FeatureCollectionTile into a dictionary that can be converted into
+a valid JSON representation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">FeatureCollectionTile as a dictionary</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openeo_udf.api.base.MachineLearnModel">
+<em class="property">class </em><code class="descclassname">openeo_udf.api.base.</code><code class="descname">MachineLearnModel</code><span class="sig-paren">(</span><em>framework</em>, <em>name</em>, <em>description</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#MachineLearnModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.MachineLearnModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class represents a machine learn model. The model will be loaded
+at construction, based on the machine learn framework.</p>
+<dl class="docutils">
+<dt>The following frameworks are supported:</dt>
+<dd><ul class="first last simple">
+<li>sklearn models that are created with sklearn.externals.joblib</li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.externals</span> <span class="k">import</span> <span class="n">joblib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/tmp/test.pkl.xz&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dummy</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;xz&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">MachineLearnModel</span><span class="p">(</span><span class="n">framework</span><span class="o">=</span><span class="s2">&quot;sklearn&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                      <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Machine learn model&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">get_model</span><span class="p">()</span>
+<span class="gp">... </span>             
+<span class="go">RandomForestRegressor(bootstrap=True, criterion=&#39;mse&#39;, max_depth=2,</span>
+<span class="go">           max_features=&#39;auto&#39;, max_leaf_nodes=None,</span>
+<span class="go">           min_impurity_decrease=0.0, min_impurity_split=None,</span>
+<span class="go">           min_samples_leaf=1, min_samples_split=2,</span>
+<span class="go">           min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,</span>
+<span class="go">           oob_score=False, random_state=None, verbose=0, warm_start=False)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> 
+<span class="gp">... </span>            
+<span class="go">{&#39;description&#39;: &#39;Machine learn model&#39;, &#39;name&#39;: &#39;test&#39;, &#39;framework&#39;: &#39;sklearn&#39;, &#39;path&#39;: &#39;/tmp/test.pkl.xz&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Machine learn model&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;framework&#39;</span><span class="p">:</span> <span class="s1">&#39;sklearn&#39;</span><span class="p">,</span> <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="s1">&#39;/tmp/test.pkl.xz&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">MachineLearnModel</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">get_model</span><span class="p">()</span> 
+<span class="gp">... </span>              
+<span class="go">RandomForestRegressor(bootstrap=True, criterion=&#39;mse&#39;, max_depth=2,</span>
+<span class="go">           max_features=&#39;auto&#39;, max_leaf_nodes=None,</span>
+<span class="go">           min_impurity_decrease=0.0, min_impurity_split=None,</span>
+<span class="go">           min_samples_leaf=1, min_samples_split=2,</span>
+<span class="go">           min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,</span>
+<span class="go">           oob_score=False, random_state=None, verbose=0, warm_start=False)</span>
+</pre></div>
+</div>
+<dl class="staticmethod">
+<dt id="openeo_udf.api.base.MachineLearnModel.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#MachineLearnModel.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.MachineLearnModel.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.MachineLearnModel.get_model">
+<code class="descname">get_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#MachineLearnModel.get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.MachineLearnModel.get_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the loaded machine learn model. This function will return None if the model was not loaded</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the loaded model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.MachineLearnModel.load_model">
+<code class="descname">load_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#MachineLearnModel.load_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.MachineLearnModel.load_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the machine learn model from the path.</p>
+<p>Supported model:
+- sklearn models that are created with sklearn.externals.joblib</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.MachineLearnModel.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#MachineLearnModel.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.MachineLearnModel.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openeo_udf.api.base.RasterCollectionTile">
+<em class="property">class </em><code class="descclassname">openeo_udf.api.base.</code><code class="descname">RasterCollectionTile</code><span class="sig-paren">(</span><em>id</em>, <em>extent</em>, <em>data</em>, <em>wavelength=None</em>, <em>start_times=None</em>, <em>end_times=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#RasterCollectionTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.RasterCollectionTile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#openeo_udf.api.base.CollectionTile" title="openeo_udf.api.base.CollectionTile"><code class="xref py py-class docutils literal notranslate"><span class="pre">openeo_udf.api.base.CollectionTile</span></code></a></p>
+<p>This class represents a three dimensional raster collection tile with
+time information and x,y slices with a single scalar value for each pixel.
+A tile represents a scalar field in space and time,
+for example a time series of a single Landsat 8 or Sentinel2A band. A tile may be a
+spatio-temporal subset of a scalar time series or a whole time series.</p>
+<p>Some basic tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">pandas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span> <span class="o">=</span> <span class="n">RasterCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mi">420</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="go">[0.0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">rct</span><span class="p">)</span>
+<span class="go">id: test</span>
+<span class="go">extent: top: 100</span>
+<span class="go">bottom: 0</span>
+<span class="go">right: 100</span>
+<span class="go">left: 0</span>
+<span class="go">height: 100</span>
+<span class="go">width: 100</span>
+<span class="go">wavelength: 420</span>
+<span class="go">start_times: None</span>
+<span class="go">end_times: None</span>
+<span class="go">data: [[[0.]]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2012-05-01&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">starts</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2012-05-02&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ends</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span> <span class="o">=</span> <span class="n">RasterCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mi">420</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">start_times</span><span class="o">=</span><span class="n">starts</span><span class="p">,</span> <span class="n">end_times</span><span class="o">=</span><span class="n">ends</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">rct</span><span class="p">)</span>
+<span class="go">id: test</span>
+<span class="go">extent: top: 100</span>
+<span class="go">bottom: 0</span>
+<span class="go">right: 100</span>
+<span class="go">left: 0</span>
+<span class="go">height: 100</span>
+<span class="go">width: 100</span>
+<span class="go">wavelength: 420</span>
+<span class="go">start_times: DatetimeIndex([&#39;2012-05-01&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="go">end_times: DatetimeIndex([&#39;2012-05-02&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="go">data: [[[0.]]]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">rct</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span> 
+<span class="gp">... </span>                          
+<span class="go">&#39;{&quot;id&quot;: &quot;test&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 420, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;],</span>
+<span class="go">&quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;],</span>
+<span class="go">&quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 100, &quot;height&quot;: 100}}&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span> <span class="o">=</span> <span class="n">RasterCollectionTile</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">rct</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">rct</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span> 
+<span class="gp">... </span>                          
+<span class="go">&#39;{&quot;id&quot;: &quot;test&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 420, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;],</span>
+<span class="go">&quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;],</span>
+<span class="go">&quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 100, &quot;height&quot;: 100}}&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span> <span class="o">=</span> <span class="n">RasterCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mi">420</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="go">[0.0, 0.0, 0.0]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">]],</span>
+<span class="gp">... </span>                 <span class="p">[[</span><span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">]]])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span> <span class="o">=</span> <span class="n">RasterCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mi">420</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="go">[6.0, 2.0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">[1.0, 5.0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+<span class="go">[7.0, 3.0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rct</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">39</span><span class="p">)</span>
+<span class="go">[4.0, 8.0]</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="openeo_udf.api.base.RasterCollectionTile.data">
+<code class="descname">data</code><a class="headerlink" href="#openeo_udf.api.base.RasterCollectionTile.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the three dimensional numpy.ndarray with indices [t][y][x]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The three dimensional numpy.ndarray with indices [t][y][x]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)">numpy.ndarray</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="openeo_udf.api.base.RasterCollectionTile.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#RasterCollectionTile.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.RasterCollectionTile.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a raster collection tile from a python dictionary that was created from
+the JSON definition of the RasterCollectionTile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ict_dict</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) -- The dictionary that contains the raster collection tile definition</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new RasterCollectionTile object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#openeo_udf.api.base.RasterCollectionTile" title="openeo_udf.api.base.RasterCollectionTile">RasterCollectionTile</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.RasterCollectionTile.get_data">
+<code class="descname">get_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#RasterCollectionTile.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.RasterCollectionTile.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the three dimensional numpy.ndarray with indices [t][y][x]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The three dimensional numpy.ndarray with indices [t][y][x]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)">numpy.ndarray</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.RasterCollectionTile.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>top</em>, <em>left</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#RasterCollectionTile.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.RasterCollectionTile.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the raster tile at specific top, left coordinates.</p>
+<p>If the coordinates are not in the spatial extent of the tile, then None will be returned.
+Otherwise a list of values, depending on the number of x,y slices are returned.</p>
+<p>The coordinates must be of the same projection as the raster collection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>top</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) -- The top (northern) coordinate of the point</li>
+<li><strong>left</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) -- The left (western) coordinate of the point</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A one dimensional array of values</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)">numpy.ndarray</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.RasterCollectionTile.set_data">
+<code class="descname">set_data</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#RasterCollectionTile.set_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.RasterCollectionTile.set_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the three dimensional numpy.ndarray with indices [t][y][x]</p>
+<p>This function will check if the provided data is a numpy.ndarray with three dimensions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><em>numpy.ndarray</em></a>) -- The three dimensional numpy.ndarray with indices [t][y][x]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.RasterCollectionTile.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#RasterCollectionTile.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.RasterCollectionTile.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this RasterCollectionTile into a dictionary that can be converted into
+a valid JSON representation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">RasterCollectionTile as a dictionary</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openeo_udf.api.base.SpatialExtent">
+<em class="property">class </em><code class="descclassname">openeo_udf.api.base.</code><code class="descname">SpatialExtent</code><span class="sig-paren">(</span><em>top</em>, <em>bottom</em>, <em>right</em>, <em>left</em>, <em>height=None</em>, <em>width=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#SpatialExtent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.SpatialExtent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The axis aligned spatial extent of a collection tile</p>
+<p>Some basic tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">extent</span><span class="p">)</span>
+<span class="go">top: 100</span>
+<span class="go">bottom: 0</span>
+<span class="go">right: 100</span>
+<span class="go">left: 0</span>
+<span class="go">height: 10</span>
+<span class="go">width: 10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span><span class="o">.</span><span class="n">to_index</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="go">(5, 5)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span><span class="o">.</span><span class="n">to_index</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">(0, 10)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span><span class="o">.</span><span class="n">to_index</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">(0, 0)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">extent</span><span class="p">)</span>
+<span class="go">top: 100</span>
+<span class="go">bottom: 0</span>
+<span class="go">right: 100</span>
+<span class="go">left: 0</span>
+<span class="go">height: None</span>
+<span class="go">width: None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">extent</span><span class="o">.</span><span class="n">as_polygon</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">POLYGON ((0 100, 100 100, 100 0, 0 0, 0 100))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.wkt</span> <span class="k">import</span> <span class="n">loads</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="s2">&quot;POLYGON ((0 100, 100 100, 100 0, 0 0, 0 100))&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="o">.</span><span class="n">from_polygon</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">extent</span><span class="p">)</span>
+<span class="go">top: 100.0</span>
+<span class="go">bottom: 0.0</span>
+<span class="go">right: 100.0</span>
+<span class="go">left: 0.0</span>
+<span class="go">height: None</span>
+<span class="go">width: None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span><span class="o">.</span><span class="n">as_polygon</span><span class="p">()</span> <span class="o">==</span> <span class="n">extent</span><span class="o">.</span><span class="n">as_polygon</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span> <span class="o">=</span> <span class="n">extent</span><span class="o">.</span><span class="n">as_polygon</span><span class="p">()</span> <span class="o">-</span> <span class="n">extent</span><span class="o">.</span><span class="n">as_polygon</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+<span class="go">GEOMETRYCOLLECTION EMPTY</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">extent_1</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent_2</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent_1</span><span class="o">.</span><span class="n">as_polygon</span><span class="p">()</span> <span class="o">==</span> <span class="n">extent_2</span><span class="o">.</span><span class="n">as_polygon</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent_2</span><span class="o">.</span><span class="n">as_polygon</span><span class="p">()</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">extent_2</span><span class="o">.</span><span class="n">as_polygon</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="openeo_udf.api.base.SpatialExtent.as_polygon">
+<code class="descname">as_polygon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#SpatialExtent.as_polygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.SpatialExtent.as_polygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the extent as shapely.geometry.Polygon to perform
+comparison operations between other extents like equal, intersect and so on</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The polygon representing the spatial extent</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://toblerity.org/shapely/shapely.geometry.html#shapely.geometry.Polygon" title="(in Shapely v1.3.0)">shapely.geometry.Polygon</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.SpatialExtent.contains_point">
+<code class="descname">contains_point</code><span class="sig-paren">(</span><em>top</em>, <em>left</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#SpatialExtent.contains_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.SpatialExtent.contains_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the provided coordinate is located in the spatial extent, False otherwise</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>top</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) -- The top (northern) coordinate of the point</li>
+<li><strong>left</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) -- The left (western) coordinate of the point</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if the coordinates are contained in the extent, False otherwise</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="openeo_udf.api.base.SpatialExtent.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#SpatialExtent.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.SpatialExtent.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a SpatialExtent from a python dictionary that was created from
+the JSON definition of the SpatialExtent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>extent</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) -- The dictionary that contains the spatial extent definition</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new SpatialExtent object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#openeo_udf.api.base.SpatialExtent" title="openeo_udf.api.base.SpatialExtent">SpatialExtent</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="openeo_udf.api.base.SpatialExtent.from_polygon">
+<em class="property">static </em><code class="descname">from_polygon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#SpatialExtent.from_polygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.SpatialExtent.from_polygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a polygon with rectangular shape into a spatial extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>polygon</strong> (<a class="reference external" href="http://toblerity.org/shapely/shapely.geometry.html#shapely.geometry.Polygon" title="(in Shapely v1.3.0)"><em>shapely.geometry.Polygon</em></a>) -- The polygon that should be converted into a spatial extent</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The spatial extent</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#openeo_udf.api.base.SpatialExtent" title="openeo_udf.api.base.SpatialExtent">SpatialExtent</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.SpatialExtent.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#SpatialExtent.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.SpatialExtent.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the spatial extent as a dict that can be easily converted into JSON</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Dictionary representation</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.SpatialExtent.to_index">
+<code class="descname">to_index</code><span class="sig-paren">(</span><em>top</em>, <em>left</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#SpatialExtent.to_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.SpatialExtent.to_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the provided coordinate is located in the spatial extent, False otherwise</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>top</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) -- The top (northern) coordinate</li>
+<li><strong>left</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) -- The left (western) coordinate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(x, y) The x, y index</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>(<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openeo_udf.api.base.StructuredData">
+<em class="property">class </em><code class="descclassname">openeo_udf.api.base.</code><code class="descname">StructuredData</code><span class="sig-paren">(</span><em>description</em>, <em>data</em>, <em>type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#StructuredData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.StructuredData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class represents structured data that is produced by an UDF and can not be represented
+as a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical
+computation. The data is self descriptive and supports the basic types dict/map, list and table.</p>
+<p>The data field contains the UDF specific values (argument or return) as dict, list or table:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A dict can be as complex as required by the UDF</li>
+<li>A list must contain simple data types example {&quot;list&quot;: [1,2,3,4]}</li>
+<li><dl class="first docutils">
+<dt>A table is a list of lists with a header, example {&quot;table&quot;: [[&quot;id&quot;,&quot;value&quot;],</dt>
+<dd>[1,     10],
+[2,     23],
+[3,     4]]}</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<dl class="staticmethod">
+<dt id="openeo_udf.api.base.StructuredData.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#StructuredData.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.StructuredData.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.StructuredData.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#StructuredData.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.StructuredData.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openeo_udf.api.base.UdfData">
+<em class="property">class </em><code class="descclassname">openeo_udf.api.base.</code><code class="descname">UdfData</code><span class="sig-paren">(</span><em>proj</em>, <em>raster_collection_tiles=None</em>, <em>feature_collection_tiles=None</em>, <em>structured_data_list=None</em>, <em>ml_model_list=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The class that stores the arguments for a user defined function (UDF)</p>
+<p>Some basic tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">Point</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">geopandas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">pandas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.externals</span> <span class="k">import</span> <span class="n">joblib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">SpatialExtent</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">starts</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">([</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2012-05-01&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ends</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">([</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2012-05-02&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">RasterCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mi">420</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="n">start_times</span><span class="o">=</span><span class="n">starts</span><span class="p">,</span> <span class="n">end_times</span><span class="o">=</span><span class="n">ends</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">RasterCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mi">380</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="n">start_times</span><span class="o">=</span><span class="n">starts</span><span class="p">,</span> <span class="n">end_times</span><span class="o">=</span><span class="n">ends</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pseries</span> <span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">pseries</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">FeatureCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">FeatureCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">udf_data</span> <span class="o">=</span> <span class="n">UdfData</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;EPSG&quot;</span><span class="p">:</span><span class="mi">4326</span><span class="p">},</span> <span class="n">raster_collection_tiles</span><span class="o">=</span><span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="n">feature_collection_tiles</span><span class="o">=</span><span class="p">[</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/tmp/test.pkl.xz&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dummy</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;xz&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">MachineLearnModel</span><span class="p">(</span><span class="n">framework</span><span class="o">=</span><span class="s2">&quot;sklearn&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                      <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Machine learn model&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">udf_data</span><span class="o">.</span><span class="n">append_machine_learn_model</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">get_raster_collection_tile_by_id</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">))</span>
+<span class="go">id: A</span>
+<span class="go">extent: top: 100</span>
+<span class="go">bottom: 0</span>
+<span class="go">right: 100</span>
+<span class="go">left: 0</span>
+<span class="go">height: 10</span>
+<span class="go">width: 10</span>
+<span class="go">wavelength: 420</span>
+<span class="go">start_times: DatetimeIndex([&#39;2012-05-01&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="go">end_times: DatetimeIndex([&#39;2012-05-02&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="go">data: [[[0.]]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">get_raster_collection_tile_by_id</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">))</span>
+<span class="go">id: B</span>
+<span class="go">extent: top: 100</span>
+<span class="go">bottom: 0</span>
+<span class="go">right: 100</span>
+<span class="go">left: 0</span>
+<span class="go">height: 10</span>
+<span class="go">width: 10</span>
+<span class="go">wavelength: 380</span>
+<span class="go">start_times: DatetimeIndex([&#39;2012-05-01&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="go">end_times: DatetimeIndex([&#39;2012-05-02&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="go">data: [[[0.]]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">get_raster_collection_tile_by_id</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">))</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">get_feature_collection_tile_by_id</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">))</span>
+<span class="go">id: C</span>
+<span class="go">start_times: None</span>
+<span class="go">end_times: None</span>
+<span class="go">data:    a  b         geometry</span>
+<span class="go">0  1  a      POINT (0 0)</span>
+<span class="go">1  2  b  POINT (100 100)</span>
+<span class="go">2  3  c    POINT (100 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">get_feature_collection_tile_by_id</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">))</span>
+<span class="go">id: D</span>
+<span class="go">start_times: None</span>
+<span class="go">end_times: None</span>
+<span class="go">data:    a  b         geometry</span>
+<span class="go">0  1  a      POINT (0 0)</span>
+<span class="go">1  2  b  POINT (100 100)</span>
+<span class="go">2  3  c    POINT (100 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">get_feature_collection_tiles</span><span class="p">())</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">get_raster_collection_tiles</span><span class="p">())</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">ml_model_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+<span class="go">/tmp/test.pkl.xz</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">ml_model_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">framework</span><span class="p">)</span>
+<span class="go">sklearn</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span> 
+<span class="gp">... </span>                               
+<span class="go">&#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;raster_collection_tiles&quot;: [{&quot;id&quot;: &quot;A&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 420, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;], &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 10, &quot;height&quot;: 10}}, {&quot;id&quot;: &quot;B&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 380, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;], &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 10, &quot;height&quot;: 10}}], &quot;feature_collection_tiles&quot;: [{&quot;id&quot;: &quot;C&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}, {&quot;id&quot;: &quot;D&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: [{&quot;description&quot;: &quot;Machine learn model&quot;, &quot;name&quot;: &quot;test&quot;, &quot;framework&quot;: &quot;sklearn&quot;, &quot;path&quot;: &quot;/tmp/test.pkl.xz&quot;}]}&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">udf</span> <span class="o">=</span> <span class="n">UdfData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">udf_data</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">udf</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span> 
+<span class="gp">... </span>                          
+<span class="go">&#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;raster_collection_tiles&quot;: [{&quot;id&quot;: &quot;A&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 420, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;], &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 10, &quot;height&quot;: 10}}, {&quot;id&quot;: &quot;B&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 380, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;], &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 10, &quot;height&quot;: 10}}], &quot;feature_collection_tiles&quot;: [{&quot;id&quot;: &quot;C&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}, {&quot;id&quot;: &quot;D&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: [{&quot;description&quot;: &quot;Machine learn model&quot;, &quot;name&quot;: &quot;test&quot;, &quot;framework&quot;: &quot;sklearn&quot;, &quot;path&quot;: &quot;/tmp/test.pkl.xz&quot;}]}&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sd_list</span> <span class="o">=</span> <span class="n">StructuredData</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data list&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;list&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]},</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sd_dict</span> <span class="o">=</span> <span class="n">StructuredData</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data dict&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;A&quot;</span><span class="p">:{</span><span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}},</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;dict&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">udf</span> <span class="o">=</span> <span class="n">UdfData</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;EPSG&quot;</span><span class="p">:</span><span class="mi">4326</span><span class="p">},</span> <span class="n">structured_data_list</span><span class="o">=</span><span class="p">[</span><span class="n">sd_list</span><span class="p">,</span> <span class="n">sd_dict</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">udf</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span> 
+<span class="gp">... </span>                          
+<span class="go">&#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;raster_collection_tiles&quot;: [], &quot;feature_collection_tiles&quot;: [], &quot;structured_data_list&quot;: [{&quot;description&quot;: &quot;Data list&quot;, &quot;data&quot;: {&quot;list&quot;: [1, 2, 3]}, &quot;type&quot;: &quot;list&quot;}, {&quot;description&quot;: &quot;Data dict&quot;, &quot;data&quot;: {&quot;A&quot;: {&quot;B&quot;: 1}}, &quot;type&quot;: &quot;dict&quot;}], &quot;machine_learn_models&quot;: []}&#39;</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.append_feature_collection_tile">
+<code class="descname">append_feature_collection_tile</code><span class="sig-paren">(</span><em>feature_collection_tile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.append_feature_collection_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.append_feature_collection_tile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a feature collection tile to the list</p>
+<p>It will be automatically added to the dictionary of all feature collection tiles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feature_collection_tile</strong> (<a class="reference internal" href="#openeo_udf.api.base.FeatureCollectionTile" title="openeo_udf.api.base.FeatureCollectionTile"><em>FeatureCollectionTile</em></a>) -- The feature collection tile to append</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.append_machine_learn_model">
+<code class="descname">append_machine_learn_model</code><span class="sig-paren">(</span><em>machine_learn_model</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.append_machine_learn_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.append_machine_learn_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a machine learn model to the list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>machine_learn_model</strong> (<a class="reference internal" href="#openeo_udf.api.base.MachineLearnModel" title="openeo_udf.api.base.MachineLearnModel"><em>MachineLearnModel</em></a>) -- A MachineLearnModel objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.append_raster_collection_tile">
+<code class="descname">append_raster_collection_tile</code><span class="sig-paren">(</span><em>image_collection_tile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.append_raster_collection_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.append_raster_collection_tile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a raster collection tile to the list</p>
+<p>It will be automatically added to the dictionary of all raster collection tiles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>image_collection_tile</strong> (<a class="reference internal" href="#openeo_udf.api.base.RasterCollectionTile" title="openeo_udf.api.base.RasterCollectionTile"><em>RasterCollectionTile</em></a>) -- The raster collection tile to append</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.append_structured_data">
+<code class="descname">append_structured_data</code><span class="sig-paren">(</span><em>structured_data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.append_structured_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.append_structured_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a structured data object to the list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>structured_data</strong> (<a class="reference internal" href="#openeo_udf.api.base.StructuredData" title="openeo_udf.api.base.StructuredData"><em>StructuredData</em></a>) -- A StructuredData objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.del_feature_collection_tiles">
+<code class="descname">del_feature_collection_tiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.del_feature_collection_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.del_feature_collection_tiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all feature collection tiles</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.del_ml_model_list">
+<code class="descname">del_ml_model_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.del_ml_model_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.del_ml_model_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all machine learn models</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.del_raster_collection_tiles">
+<code class="descname">del_raster_collection_tiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.del_raster_collection_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.del_raster_collection_tiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all raster collection tiles</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.del_structured_data_list">
+<code class="descname">del_structured_data_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.del_structured_data_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.del_structured_data_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all structured data entries</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.api.base.UdfData.feature_collection_tiles">
+<code class="descname">feature_collection_tiles</code><a class="headerlink" href="#openeo_udf.api.base.UdfData.feature_collection_tiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all feature collection tiles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of feature collection tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="#openeo_udf.api.base.FeatureCollectionTile" title="openeo_udf.api.base.FeatureCollectionTile">FeatureCollectionTile</a>]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="openeo_udf.api.base.UdfData.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a udf data object from a python dictionary that was created from
+the JSON definition of the UdfData class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>udf_dict</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) -- The dictionary that contains the udf data definition</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new UdfData object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#openeo_udf.api.base.UdfData" title="openeo_udf.api.base.UdfData">UdfData</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.get_feature_collection_tile_by_id">
+<code class="descname">get_feature_collection_tile_by_id</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.get_feature_collection_tile_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.get_feature_collection_tile_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a vector tile by its id</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) -- The vector tile id</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the requested vector tile of None if not found</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#openeo_udf.api.base.FeatureCollectionTile" title="openeo_udf.api.base.FeatureCollectionTile">FeatureCollectionTile</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.get_feature_collection_tiles">
+<code class="descname">get_feature_collection_tiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.get_feature_collection_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.get_feature_collection_tiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all feature collection tiles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of feature collection tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="#openeo_udf.api.base.FeatureCollectionTile" title="openeo_udf.api.base.FeatureCollectionTile">FeatureCollectionTile</a>]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.get_ml_model_list">
+<code class="descname">get_ml_model_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.get_ml_model_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.get_ml_model_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all machine learn models</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of MachineLearnModel objects</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">(<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="#openeo_udf.api.base.MachineLearnModel" title="openeo_udf.api.base.MachineLearnModel">MachineLearnModel</a>])</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.get_raster_collection_tile_by_id">
+<code class="descname">get_raster_collection_tile_by_id</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.get_raster_collection_tile_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.get_raster_collection_tile_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an raster collection tile by its id</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) -- The raster collection tile id</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the requested raster collection tile of None if not found</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#openeo_udf.api.base.RasterCollectionTile" title="openeo_udf.api.base.RasterCollectionTile">RasterCollectionTile</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.get_raster_collection_tiles">
+<code class="descname">get_raster_collection_tiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.get_raster_collection_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.get_raster_collection_tiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all raster collection tiles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of raster collection tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="#openeo_udf.api.base.RasterCollectionTile" title="openeo_udf.api.base.RasterCollectionTile">RasterCollectionTile</a>]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.get_structured_data_list">
+<code class="descname">get_structured_data_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.get_structured_data_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.get_structured_data_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all structured data entries</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of StructuredData objects</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">(<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="#openeo_udf.api.base.StructuredData" title="openeo_udf.api.base.StructuredData">StructuredData</a>])</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.api.base.UdfData.ml_model_list">
+<code class="descname">ml_model_list</code><a class="headerlink" href="#openeo_udf.api.base.UdfData.ml_model_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all machine learn models</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of MachineLearnModel objects</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">(<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="#openeo_udf.api.base.MachineLearnModel" title="openeo_udf.api.base.MachineLearnModel">MachineLearnModel</a>])</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.api.base.UdfData.raster_collection_tiles">
+<code class="descname">raster_collection_tiles</code><a class="headerlink" href="#openeo_udf.api.base.UdfData.raster_collection_tiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all raster collection tiles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of raster collection tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="#openeo_udf.api.base.RasterCollectionTile" title="openeo_udf.api.base.RasterCollectionTile">RasterCollectionTile</a>]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.set_feature_collection_tiles">
+<code class="descname">set_feature_collection_tiles</code><span class="sig-paren">(</span><em>feature_collection_tiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.set_feature_collection_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.set_feature_collection_tiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the feature collection tiles</p>
+<p>If feature_collection_tiles is None, then the list will be cleared</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feature_collection_tiles</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#openeo_udf.api.base.FeatureCollectionTile" title="openeo_udf.api.base.FeatureCollectionTile"><em>FeatureCollectionTile</em></a><em>]</em>) -- A list of FeatureCollectionTile's</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.set_ml_model_list">
+<code class="descname">set_ml_model_list</code><span class="sig-paren">(</span><em>ml_model_list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.set_ml_model_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.set_ml_model_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the list of machine learn models</p>
+<p>If ml_model_list is None, then the list will be cleared</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ml_model_list</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#openeo_udf.api.base.MachineLearnModel" title="openeo_udf.api.base.MachineLearnModel"><em>MachineLearnModel</em></a><em>]</em>) -- A list of MachineLearnModel objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.set_raster_collection_tiles">
+<code class="descname">set_raster_collection_tiles</code><span class="sig-paren">(</span><em>raster_collection_tiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.set_raster_collection_tiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.set_raster_collection_tiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the raster collection tiles list</p>
+<p>If raster_collection_tiles is None, then the list will be cleared</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>raster_collection_tiles</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#openeo_udf.api.base.RasterCollectionTile" title="openeo_udf.api.base.RasterCollectionTile"><em>RasterCollectionTile</em></a><em>]</em>) -- A list of RasterCollectionTile's</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.set_structured_data_list">
+<code class="descname">set_structured_data_list</code><span class="sig-paren">(</span><em>structured_data_list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.set_structured_data_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.set_structured_data_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the list of structured data</p>
+<p>If structured_data_list is None, then the list will be cleared</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>structured_data_list</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#openeo_udf.api.base.StructuredData" title="openeo_udf.api.base.StructuredData"><em>StructuredData</em></a><em>]</em>) -- A list of StructuredData objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.api.base.UdfData.structured_data_list">
+<code class="descname">structured_data_list</code><a class="headerlink" href="#openeo_udf.api.base.UdfData.structured_data_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all structured data entries</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of StructuredData objects</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">(<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)">list</a>[<a class="reference internal" href="#openeo_udf.api.base.StructuredData" title="openeo_udf.api.base.StructuredData">StructuredData</a>])</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.api.base.UdfData.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/base.html#UdfData.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.base.UdfData.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this UdfData object into a dictionary that can be converted into
+a valid JSON representation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">UdfData object as a dictionary</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openeo_udf.api.run_code">
+<span id="openeo-udf-api-run-code-module"></span><h2>openeo_udf.api.run_code module<a class="headerlink" href="#module-openeo_udf.api.run_code" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.api.run_code.run_json_user_code">
+<code class="descclassname">openeo_udf.api.run_code.</code><code class="descname">run_json_user_code</code><span class="sig-paren">(</span><em>json_data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/api/run_code.html#run_json_user_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.api.run_code.run_json_user_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the user defined python code</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_data</strong> -- the udf request object with code and data</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-openeo_udf.api">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-openeo_udf.api" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">openeo_udf.api package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.api.base">openeo_udf.api.base module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.api.run_code">openeo_udf.api.run_code module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.api">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="openeo_udf.html"
+                        title="previous chapter">openeo_udf package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="openeo_udf.functions.html"
+                        title="next chapter">openeo_udf.functions package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/openeo_udf.api.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="openeo_udf.functions.html" title="openeo_udf.functions package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="openeo_udf.html" title="openeo_udf package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev86+g0475178 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="openeo_udf.html" >openeo_udf package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Soeren Gebbert.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+    </div>
+  </body>
+</html>

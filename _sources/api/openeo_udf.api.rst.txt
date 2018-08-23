@@ -1,0 +1,30 @@
+openeo\_udf.api package
+=======================
+
+Submodules
+----------
+
+openeo\_udf.api.base module
+---------------------------
+
+.. automodule:: openeo_udf.api.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.run\_code module
+--------------------------------
+
+.. automodule:: openeo_udf.api.run_code
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: openeo_udf.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
