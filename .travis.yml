@@ -22,6 +22,7 @@ script: true
 
 deploy:
   provider: pages
+  skip-cleanup: true
   github-token: $GITHUB_TOKEN
   local-dir: page
   committer-from-gh: true
