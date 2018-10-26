@@ -1,0 +1,33 @@
+Here is a list of scientific paper that make use of PyTorch to analyze satellite images:
+
+Some of them are using pre-trained CNN like the VGG19 and VGG 16 NN available in pytorch.
+
+There are training dataset available for land classification training:
+    http://weegee.vision.ucmerced.edu/datasets/landuse.html
+    https://captain-whu.github.io/DOTA/index.html
+
+Paper:
+
+1. Satellite Image Scene Classification via ConvNet with Context Aggregation
+   https://arxiv.org/abs/1802.00631
+
+2. Tile2Vec: Unsupervised representation learning for spatially distributed data
+   https://arxiv.org/abs/1805.02855
+   https://github.com/ermongroup/tile2vec
+
+3. Very Deep Convolutional Networks for Large-Scale Image Recognition
+   https://arxiv.org/abs/1409.1556
+
+3. Mask R-CNN from facebook research
+   https://arxiv.org/abs/1703.06870
+   https://github.com/facebookresearch/Detectron
+
+Git repos:
+    https://github.com/adnanardhian/CNN-Ensemble-Classifier-Land-Use-Classification
+    https://github.com/gregbehm/UC-Merced-Pretrained-CNN
+    https://github.com/chrieke/awesome-satellite-imagery-competitions
+
+
+PyTorch models:
+    https://pytorch.org/docs/stable/torchvision/models.html
+
