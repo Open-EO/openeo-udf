@@ -11,20 +11,24 @@ services:
 before_install:
   - cd docker
   - docker build -t openeo_udf .
+  - cd ..
 
 install:
   - docker run --name "openeo-udf-server" -t openeo_udf
 
 script:
   - mkdir page
+#  olders whose names start with _ are ignored by GH Pages as per Jekyll processing rules.
+# As we don't use Jekyll, the workaround is to place a file named .nojekyll in the root directory.
+  - touch ./page/.nojekyll
   - docker cp openeo-udf-server:/var/www/html/. ./page/
-  - ls ./page/
 
 deploy:
   provider: pages
+  skip-cleanup: true
   github-token: $GITHUB_TOKEN
   local-dir: page
   committer-from-gh: true
-  keep-history: false
+  keep-history: true
   on:
     branch: master
