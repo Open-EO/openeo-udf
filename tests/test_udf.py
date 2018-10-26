@@ -150,6 +150,25 @@ class AllTestCase(unittest.TestCase):
     def setUp(self):
         self.app = flask_api.app.test_client()
 
+    def test_pixel_median(self):
+        """Test the time reduce sum UDF"""
+
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_reduce_time_median.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = PIXEL
+
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        print(udf_request)
+
+        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
+        result = json.loads(response.data)
+        pprint.pprint(result)
+
+        self.assertEqual(len(result["raster_collection_tiles"]), 2)
+        self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[7.0, 7.0]]])
+        self.assertEqual(result["raster_collection_tiles"][1]["data"], [[[6.0, 6.0]]])
+
     def test_pixel_sum(self):
         """Test the time reduce sum UDF"""
 
