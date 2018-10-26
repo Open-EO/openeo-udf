@@ -1,4 +1,4 @@
-Here is a list of scientific paper that make use of PyTorch to analyze satellite images:
+Here is a list of scientific paper that make use of neuronal networks to analyze satellite images:
 
 Some of them are using pre-trained CNN like the VGG19 and VGG 16 NN available in pytorch.
 
@@ -21,6 +21,15 @@ Paper:
 3. Mask R-CNN from facebook research
    https://arxiv.org/abs/1703.06870
    https://github.com/facebookresearch/Detectron
+
+4. Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks
+   https://arxiv.org/abs/1511.06434
+
+5. Learning Transferable Deep Models for Land-Use Classification with High-Resolution Remote Sensing Images
+   https://arxiv.org/abs/1807.05713
+
+6. Machine learning based hyperspectral image analysis: A survey
+   https://arxiv.org/abs/1802.08701
 
 Git repos:
     https://github.com/adnanardhian/CNN-Ensemble-Classifier-Land-Use-Classification
