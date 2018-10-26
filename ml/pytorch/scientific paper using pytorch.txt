@@ -34,6 +34,9 @@ Paper:
 7. DeepGlobe 2018: A Challenge to Parse the Earth through Satellite Images
    https://arxiv.org/abs/1805.06561
 
+8. Aerial Imagery for Roof Segmentation: A Large-Scale Dataset towards Automatic Mapping of Buildings
+   https://arxiv.org/abs/1807.09532
+
 Git repos:
     https://github.com/adnanardhian/CNN-Ensemble-Classifier-Land-Use-Classification
     https://github.com/gregbehm/UC-Merced-Pretrained-CNN
