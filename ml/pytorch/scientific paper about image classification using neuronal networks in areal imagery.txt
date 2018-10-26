@@ -40,6 +40,13 @@ Paper:
 9. Land cover mapping at very high resolution with rotation equivariant CNNs: towards small yet accurate models
    https://arxiv.org/abs/1803.06253
 
+10. High-Resolution Semantic Labeling with Convolutional Neural Networks
+   https://arxiv.org/abs/1611.01962
+
+11. Deforestation Prediction Using Neural Networks and Satellite Imagery in a Spatial Information System
+   https://arxiv.org/abs/1803.02489
+
+
 Git repos:
     https://github.com/adnanardhian/CNN-Ensemble-Classifier-Land-Use-Classification
     https://github.com/gregbehm/UC-Merced-Pretrained-CNN
