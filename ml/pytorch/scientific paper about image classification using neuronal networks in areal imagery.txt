@@ -31,6 +31,10 @@ Paper:
 6. Machine learning based hyperspectral image analysis: A survey
    https://arxiv.org/abs/1802.08701
 
+   Cite: "A bias-variance analysis in [201] found that random
+          forest with embedded feature selection and Markov random field (MRF)
+          based post-processing are best suited for hyperspectral data."
+
 7. DeepGlobe 2018: A Challenge to Parse the Earth through Satellite Images
    https://arxiv.org/abs/1805.06561
 
