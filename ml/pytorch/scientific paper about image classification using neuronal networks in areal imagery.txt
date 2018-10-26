@@ -35,6 +35,26 @@ Paper:
           forest with embedded feature selection and Markov random field (MRF)
           based post-processing are best suited for hyperspectral data."
 
+   Cite: "Wu et al. [302] showed that a convolutional RNN [332] (a network that
+          has few convolutional layers followed by RNN) is better choice for spectra
+          classification than LSTM and baseline CNN."
+
+   Cite: "Generative adversarial networks (GANs) and variational autoencoders (VAs)
+          look very promising for modeling unlabeled hyperspectral data."
+
+          "Deep learning based spatial prior could turn out to be better than
+           Markov random fields based prior for land cover classification.
+           GANs and VAs models for hyperspectral images should also prove to be good
+           for image processing tasks, such as pansharpening, superresolution, denoising, and inpainting."
+
+   Cite: "Another kind of data fusion would be to incorporate
+          non-imaging data with imaging data. For instance, information from digital maps and geotagged user
+          data could be used alongside information from remotely observed hyperspectral images for land cover
+          mapping of urban areas. Due to their capabilities to model semantic relationships between different
+          variables, conditional random models (CRFs) could be the best for this kind of fusion of information.
+          In fact, recently a higher order CRF was used to model the dependencies between land use and land cover
+          of a remotely imaged area [6]."
+
 7. DeepGlobe 2018: A Challenge to Parse the Earth through Satellite Images
    https://arxiv.org/abs/1805.06561
 
