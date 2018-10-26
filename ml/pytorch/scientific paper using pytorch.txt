@@ -37,6 +37,9 @@ Paper:
 8. Aerial Imagery for Roof Segmentation: A Large-Scale Dataset towards Automatic Mapping of Buildings
    https://arxiv.org/abs/1807.09532
 
+9. Land cover mapping at very high resolution with rotation equivariant CNNs: towards small yet accurate models
+   https://arxiv.org/abs/1803.06253
+
 Git repos:
     https://github.com/adnanardhian/CNN-Ensemble-Classifier-Land-Use-Classification
     https://github.com/gregbehm/UC-Merced-Pretrained-CNN
