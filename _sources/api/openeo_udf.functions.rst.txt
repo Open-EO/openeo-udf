@@ -20,6 +20,14 @@ openeo\_udf.functions.raster\_collections\_ndvi module
     :undoc-members:
     :show-inheritance:
 
+openeo\_udf.functions.raster\_collections\_reduce\_time\_median module
+----------------------------------------------------------------------
+
+.. automodule:: openeo_udf.functions.raster_collections_reduce_time_median
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 openeo\_udf.functions.raster\_collections\_reduce\_time\_min\_max\_mean\_sum module
 -----------------------------------------------------------------------------------
 
