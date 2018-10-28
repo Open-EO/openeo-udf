@@ -943,6 +943,24 @@ class MachineLearnModel(object):
                min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
                oob_score=False, random_state=None, verbose=0, warm_start=False)
 
+    >>> import torch
+    >>> import torch.nn as nn
+    >>> model = nn.Module
+    >>> path = '/tmp/test.pt'
+    >>> torch.save(model, path)
+    >>> m = MachineLearnModel(framework="pytorch", name="test",
+    ...                       description="Machine learn model", path=path)
+    >>> m.get_model()# doctest: +ELLIPSIS
+    ...              # doctest: +NORMALIZE_WHITESPACE
+    <class 'torch.nn.modules.module.Module'>
+    >>> m.to_dict() # doctest: +ELLIPSIS
+    ...             # doctest: +NORMALIZE_WHITESPACE
+    {'description': 'Machine learn model', 'name': 'test', 'framework': 'pytorch', 'path': '/tmp/test.pt'}
+    >>> d = {'description': 'Machine learn model', 'name': 'test', 'framework': 'pytorch', 'path': '/tmp/test.pt'}
+    >>> m = MachineLearnModel.from_dict(d)
+    >>> m.get_model() # doctest: +ELLIPSIS
+    ...               # doctest: +NORMALIZE_WHITESPACE
+    <class 'torch.nn.modules.module.Module'>
     """
 
     def __init__(self, framework, name, description, path):
@@ -965,6 +983,9 @@ class MachineLearnModel(object):
         if self.framework.lower() in "sklearn":
             from sklearn.externals import joblib
             self.model = joblib.load(self.path)
+        if self.framework.lower() in "pytorch":
+            import torch
+            self.model = torch.load(self.path)
 
     def get_model(self):
         """Get the loaded machine learn model. This function will return None if the model was not loaded
