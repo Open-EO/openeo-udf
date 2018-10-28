@@ -79,6 +79,12 @@ Paper:
 14. Exploiting Deep Features for Remote Sensing Image Retrieval: A Systematic Investigation
     https://arxiv.org/abs/1707.07321
 
+    Cite: "Even  though  some  literatures  have  made  advantages  of  deep  features  for
+           RS  retrieval  task,  there  still  no comprehensive research on how to optimize
+           the transferability of CNN models to RS retrieval.  With this in mind, we investigate
+           almost all variables concerned to the property of CNN representations on several public
+           HRRS datasets and analyze the effects of each factor."
+
 Git repos:
     https://github.com/adnanardhian/CNN-Ensemble-Classifier-Land-Use-Classification
     https://github.com/gregbehm/UC-Merced-Pretrained-CNN
