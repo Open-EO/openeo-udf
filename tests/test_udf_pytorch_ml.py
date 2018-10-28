@@ -15,7 +15,6 @@ from openeo_udf.server.app import flask_api
 from openeo_udf.server.endpoints import create_endpoints
 from openeo_udf.server.definitions import UdfData, UdfCode, UdfRequest
 import openeo_udf.functions
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
 
 
 __license__ = "Apache License, Version 2.0"
@@ -131,7 +130,6 @@ class MachineLearningPytorchTestCase(unittest.TestCase):
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
         pprint.pprint(result)
-
 
 
 if __name__ == "__main__":
