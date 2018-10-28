@@ -98,15 +98,10 @@ class MachineLearningPytorchTestCase(unittest.TestCase):
         a = numpy.random.randint(1, 4, 10)
         a = a.reshape([5, 2])
         input = Variable(torch.Tensor(a))
-        target = Variable(torch.Tensor(a + a))
-        for i in range(20):
+        target = Variable(torch.Tensor(a))
+        for i in range(200):
             output = model(input)
             loss = criterion(output, target)
-
-            print(i, loss.tolist())
-            if loss.tolist() < 0.000001:
-                print("Break at", i)
-                break
             model.zero_grad()
             loss.backward()
             optimizer = optim.SGD(model.parameters(), lr=0.1)
