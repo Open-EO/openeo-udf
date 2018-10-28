@@ -913,6 +913,7 @@ class MachineLearnModel(object):
 
     The following frameworks are supported:
         - sklearn models that are created with sklearn.externals.joblib
+        - pytorch models that are created with torch.save
 
     >>> from sklearn.ensemble import RandomForestRegressor
     >>> from sklearn.externals import joblib
@@ -969,7 +970,6 @@ class MachineLearnModel(object):
         self.description = description
         self.path = path
         self.model = None
-        # Load the model
         self.load_model()
 
     def load_model(self):
@@ -977,9 +977,9 @@ class MachineLearnModel(object):
 
         Supported model:
         - sklearn models that are created with sklearn.externals.joblib
+        - pytorch models that are created with torch.save
 
         """
-
         if self.framework.lower() in "sklearn":
             from sklearn.externals import joblib
             self.model = joblib.load(self.path)
