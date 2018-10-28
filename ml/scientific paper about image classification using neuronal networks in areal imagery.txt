@@ -76,6 +76,9 @@ Paper:
 13. DOTA: A Large-scale Dataset for Object Detection in Aerial Images
     https://arxiv.org/abs/1711.10398
 
+14. Exploiting Deep Features for Remote Sensing Image Retrieval: A Systematic Investigation
+    https://arxiv.org/abs/1707.07321
+
 Git repos:
     https://github.com/adnanardhian/CNN-Ensemble-Classifier-Land-Use-Classification
     https://github.com/gregbehm/UC-Merced-Pretrained-CNN
