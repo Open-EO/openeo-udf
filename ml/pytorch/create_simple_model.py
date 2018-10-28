@@ -58,6 +58,7 @@ for i in range(100):
 
     # Compute the output
     output = net(input)
+    print(output)
     # Compute the MSE based loss
     loss = criterion(output, target)
 
