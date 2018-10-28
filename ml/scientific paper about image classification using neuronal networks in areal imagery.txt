@@ -88,6 +88,9 @@ Paper:
 15. Large-scale Land Cover Classification in GaoFen-2 Satellite Imagery
     https://arxiv.org/abs/1806.00901
 
+16. Visualizing and Understanding Convolutional Networks
+    https://arxiv.org/abs/1311.2901
+
 Git repos:
     https://github.com/adnanardhian/CNN-Ensemble-Classifier-Land-Use-Classification
     https://github.com/gregbehm/UC-Merced-Pretrained-CNN
