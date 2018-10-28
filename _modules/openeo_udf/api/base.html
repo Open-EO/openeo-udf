@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.api.base &#8212; openeo-udf 0.0.post0.dev109+gda1717a documentation</title>
+    <title>openeo_udf.api.base &#8212; openeo-udf 0.0.post0.dev117+g8605626 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev109+gda1717a documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev117+g8605626 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -952,6 +952,7 @@
 
 <span class="sd">    The following frameworks are supported:</span>
 <span class="sd">        - sklearn models that are created with sklearn.externals.joblib</span>
+<span class="sd">        - pytorch models that are created with torch.save</span>
 
 <span class="sd">    &gt;&gt;&gt; from sklearn.ensemble import RandomForestRegressor</span>
 <span class="sd">    &gt;&gt;&gt; from sklearn.externals import joblib</span>
@@ -982,6 +983,24 @@
 <span class="sd">               min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,</span>
 <span class="sd">               oob_score=False, random_state=None, verbose=0, warm_start=False)</span>
 
+<span class="sd">    &gt;&gt;&gt; import torch</span>
+<span class="sd">    &gt;&gt;&gt; import torch.nn as nn</span>
+<span class="sd">    &gt;&gt;&gt; model = nn.Module</span>
+<span class="sd">    &gt;&gt;&gt; path = &#39;/tmp/test.pt&#39;</span>
+<span class="sd">    &gt;&gt;&gt; torch.save(model, path)</span>
+<span class="sd">    &gt;&gt;&gt; m = MachineLearnModel(framework=&quot;pytorch&quot;, name=&quot;test&quot;,</span>
+<span class="sd">    ...                       description=&quot;Machine learn model&quot;, path=path)</span>
+<span class="sd">    &gt;&gt;&gt; m.get_model()# doctest: +ELLIPSIS</span>
+<span class="sd">    ...              # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &lt;class &#39;torch.nn.modules.module.Module&#39;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; m.to_dict() # doctest: +ELLIPSIS</span>
+<span class="sd">    ...             # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;description&#39;: &#39;Machine learn model&#39;, &#39;name&#39;: &#39;test&#39;, &#39;framework&#39;: &#39;pytorch&#39;, &#39;path&#39;: &#39;/tmp/test.pt&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; d = {&#39;description&#39;: &#39;Machine learn model&#39;, &#39;name&#39;: &#39;test&#39;, &#39;framework&#39;: &#39;pytorch&#39;, &#39;path&#39;: &#39;/tmp/test.pt&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; m = MachineLearnModel.from_dict(d)</span>
+<span class="sd">    &gt;&gt;&gt; m.get_model() # doctest: +ELLIPSIS</span>
+<span class="sd">    ...               # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &lt;class &#39;torch.nn.modules.module.Module&#39;&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">framework</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
@@ -990,7 +1009,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="c1"># Load the model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
 
 <div class="viewcode-block" id="MachineLearnModel.load_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.base.MachineLearnModel.load_model">[docs]</a>    <span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -998,12 +1016,15 @@
 
 <span class="sd">        Supported model:</span>
 <span class="sd">        - sklearn models that are created with sklearn.externals.joblib</span>
+<span class="sd">        - pytorch models that are created with torch.save</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">framework</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="s2">&quot;sklearn&quot;</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">sklearn.externals</span> <span class="k">import</span> <span class="n">joblib</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">framework</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="s2">&quot;pytorch&quot;</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">torch</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MachineLearnModel.get_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.base.MachineLearnModel.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the loaded machine learn model. This function will return None if the model was not loaded</span>
@@ -1482,7 +1503,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev109+gda1717a documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev117+g8605626 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

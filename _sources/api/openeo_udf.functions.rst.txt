@@ -20,6 +20,14 @@ openeo\_udf.functions.raster\_collections\_ndvi module
     :undoc-members:
     :show-inheritance:
 
+openeo\_udf.functions.raster\_collections\_pytorch\_ml module
+-------------------------------------------------------------
+
+.. automodule:: openeo_udf.functions.raster_collections_pytorch_ml
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 openeo\_udf.functions.raster\_collections\_reduce\_time\_median module
 ----------------------------------------------------------------------
 
