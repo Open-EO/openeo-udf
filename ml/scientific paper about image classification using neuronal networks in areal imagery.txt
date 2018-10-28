@@ -73,6 +73,8 @@ Paper:
 12. Soft Computing Techniques for Change Detection in remotely sensed images : A Review
    https://arxiv.org/abs/1506.00768
 
+13. DOTA: A Large-scale Dataset for Object Detection in Aerial Images
+    https://arxiv.org/abs/1711.10398
 
 Git repos:
     https://github.com/adnanardhian/CNN-Ensemble-Classifier-Land-Use-Classification
