@@ -45,12 +45,12 @@ JSON='
           ]
         ],
         "extent": {
-          "north": 53,
-          "south": 50,
-          "east": 30,
-          "nsres": 0.01,
-          "ewres": 0.01,
-          "west": 24
+            "top": 53,
+            "bottom": 52,
+            "right": 30,
+            "left": 28,
+            "height": 1,
+            "width": 1
         },
         "end_times": [
           "2001-01-02T00:00:00",

@@ -19,10 +19,10 @@ Flask-Cors==3.0.3
 Flask-RESTful==0.3.6
 flask-restful-swagger-2==0.35
 # The torch installation depends on the available python version
-# http://download.pytorch.org/whl/cpu/torch-0.3.1-cp35-cp35m-linux_x86_64.whl
-# torch==0.3.1
-http://download.pytorch.org/whl/cpu/torch-0.4.0-cp36-cp36m-linux_x86_64.whl
-torch==0.4.0
+http://download.pytorch.org/whl/cpu/torch-0.3.1-cp35-cp35m-linux_x86_64.whl
+torch==0.3.1
+#http://download.pytorch.org/whl/cpu/torch-0.4.0-cp36-cp36m-linux_x86_64.whl
+#torch==0.4.0
 torchvision==0.2.0
 pygdal==2.2.3.3
 # Rasterio has a bug recognizing the numpy header files so we must install it after the requirements installation by hand

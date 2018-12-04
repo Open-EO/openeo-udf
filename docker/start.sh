@@ -21,7 +21,7 @@ sleep 3
 wget http://localhost:5000/api/v0/swagger.json -O /tmp/openeo_udf.json
 
 # Then run spectacle to generate the HTML documentation
-spectacle /tmp/openeo_udf.json -t /var/www/html/api_docs
+#spectacle /tmp/openeo_udf.json -t /var/www/html/api_docs
 
 # Run the nginx server
-# nginx -g "daemon off;"
+nginx -g "daemon off;"

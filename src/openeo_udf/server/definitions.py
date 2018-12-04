@@ -118,11 +118,11 @@ class RasterCollectionTile(Schema):
         ],
         "extent": {
             "top": 53,
-            "bottom": 50,
+            "bottom": 51,
             "right": 30,
-            "left": 24,
-            "hight": 0.01,
-            "width": 0.01
+            "left": 28,
+            "hight": 1,
+            "width": 1
         }
     }
 
@@ -301,11 +301,11 @@ class UdfData(Schema):
                 ],
                 "extent": {
                     "top": 53,
-                    "bottom": 50,
+                    "bottom": 51,
                     "right": 30,
-                    "left": 24,
-                    "hight": 0.01,
-                    "width": 0.01
+                    "left": 28,
+                    "hight": 1,
+                    "width": 1
                 }
             }
         ],
