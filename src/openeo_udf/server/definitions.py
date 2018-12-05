@@ -30,7 +30,7 @@ class SpatialExtent(Schema):
             "description": "The left (wester) border.",
             "type": "float"
         },
-        "hight": {
+        "height": {
             "description": "The top-bottom resolution in projection units.",
             "type": "float"
         },
@@ -45,7 +45,7 @@ class SpatialExtent(Schema):
             "bottom": 50,
             "right": 30,
             "left": 24,
-            "hight": 0.01,
+            "height": 0.01,
             "width": 0.01
         }
     }
@@ -68,7 +68,7 @@ class RasterCollectionTile(Schema):
             "type": "float"
         },
         "data": {
-            "description": "A three dimensional array fo integer (8,16,32,64 bit) or float (16, 32, 64 bit) values." \
+            "description": "A three dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values." \
                            "The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns " \
                            "the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom " \
                            "and represents the rows of the 2D array. The x-indexing is counted from left to right " \
@@ -121,7 +121,7 @@ class RasterCollectionTile(Schema):
             "bottom": 51,
             "right": 30,
             "left": 28,
-            "hight": 1,
+            "height": 1,
             "width": 1
         }
     }
@@ -200,7 +200,7 @@ class StructuredData(Schema):
         "type": {
             "type": "string",
             "description": "The type of the structured data that may be of type dict, table or list. "
-                           "This is just a hint for the user howto interpret the provided data.",
+                           "This is just a hint for the user how to interpret the provided data.",
             "enum": ["dict", "table", "list"]
         }
     }
@@ -217,7 +217,7 @@ class StructuredData(Schema):
 class MachineLearnModel(Schema):
     description = "A machine learn model that should be applied to the UDF data."
     type = "object"
-    required = ["framework", "model"]
+    required = ["framework", "path"]
     properties = {
         "framework": {
             "type": "string",
@@ -304,7 +304,7 @@ class UdfData(Schema):
                     "bottom": 51,
                     "right": 30,
                     "left": 28,
-                    "hight": 1,
+                    "height": 1,
                     "width": 1
                 }
             }
