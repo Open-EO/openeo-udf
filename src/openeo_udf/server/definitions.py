@@ -179,7 +179,7 @@ class HyperCube(Schema):
                            "the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom " \
                            "and represents the rows of the 2D array. The x-indexing is counted from left to right " \
                            "and represents the columns of the 2D array. The dimension options must be used ot describe "
-                           "other dimensions.",
+                           "other dimension configurations.",
             "type": "array",
             "items": {
                 "type": "array",
