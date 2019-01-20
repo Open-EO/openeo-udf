@@ -150,7 +150,8 @@ class Dimension(Schema):
                            "temperature *K* (Kelvin), *C* (degree Celsius);"
                            "lat-lon coordinates in *degree*;"
                            "earth observation units: NDVI, DVI, ... ; "
-                           "sensor units: int8, int16, int32",
+                           "sensor units: *int8*, *int16*, *int32*; "
+                           "user defined units: *user_lala* ",
             "type": "string"
         }
     }
@@ -159,7 +160,7 @@ class Dimension(Schema):
 #####################################################################
 
 class HyperCube(Schema):
-    description = "A multi dimensional hypercube that contains the same information as a raster collection tile but" \
+    description = "A multi dimensional hypercube that contains the same information as a raster collection tile but " \
                   "with configurable dimensions. "
     type = "object"
     required = ["id", "data", "dimension", "extent"]
@@ -207,7 +208,7 @@ class HyperCube(Schema):
             "description": "The description of each dimension and the value as ordered list. "
                            "The order of the dimension in this array "
                            "is the order of the dimension in the hypercube. The dimension with the name "
-                           "value described the cell value.",
+                           "*value* described the cell value.",
             "type": "array",
             "items": {
                 "type": Dimension
