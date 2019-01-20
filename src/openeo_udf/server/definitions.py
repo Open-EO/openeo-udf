@@ -143,7 +143,11 @@ class Dimension(Schema):
             "type": "string"
         },
         "unit": {
-            "description": "The unit of the dimension.",
+            "description": "The unit of the dimension. The unit can be *ISO:8601* for time; "
+                           "metric length units based on meter: *mm* (millimeter), *cm* (centimeter), "
+                           "*m* (meter), *dm* (decimeter), *km* (kilometer); "
+                           "temperature *K* (Kelvin), *C* (degree Celsius);"
+                           "lat-lon coordinates in *degree* ",
             "type": "string"
         }
     }
@@ -152,7 +156,7 @@ class Dimension(Schema):
 #####################################################################
 
 class HyperCube(Schema):
-    description = "A multi dimensional hyper cube that contains the same information as a raster collection tile but" \
+    description = "A multi dimensional hypercube that contains the same information as a raster collection tile but" \
                   "with configurable dimensions. "
     type = "object"
     required = ["id", "data", "dimension", "extent"]
@@ -197,7 +201,8 @@ class HyperCube(Schema):
             "items": {"type": "string"}
         },
         "dimensions": {
-            "description": "The description of each dimension as ordered list",
+            "description": "The description of each dimension as ordered list. The order of the dimension in this array"
+                           "is the order of the dimension in the hypercube.",
             "type": "array",
             "items": {
                 "type": Dimension
