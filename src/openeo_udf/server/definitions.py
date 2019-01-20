@@ -144,10 +144,13 @@ class Dimension(Schema):
         },
         "unit": {
             "description": "The unit of the dimension. The unit can be *ISO:8601* for time; "
-                           "metric length units based on meter: *mm* (millimeter), *cm* (centimeter), "
+                           "metric length units based on meter: *nm* (nanometer), "
+                           "*mm* (millimeter), *cm* (centimeter), "
                            "*m* (meter), *dm* (decimeter), *km* (kilometer); "
                            "temperature *K* (Kelvin), *C* (degree Celsius);"
-                           "lat-lon coordinates in *degree* ",
+                           "lat-lon coordinates in *degree*;"
+                           "earth observation units: NDVI, DVI, ... ; "
+                           "sensor units: int8, int16, int32",
             "type": "string"
         }
     }
@@ -201,8 +204,10 @@ class HyperCube(Schema):
             "items": {"type": "string"}
         },
         "dimensions": {
-            "description": "The description of each dimension as ordered list. The order of the dimension in this array"
-                           "is the order of the dimension in the hypercube.",
+            "description": "The description of each dimension and the value as ordered list. "
+                           "The order of the dimension in this array "
+                           "is the order of the dimension in the hypercube. The dimension with the name "
+                           "value described the cell value.",
             "type": "array",
             "items": {
                 "type": Dimension
@@ -235,9 +240,10 @@ class HyperCube(Schema):
             "width": 1
         },
         "dimension": [{"name": "time", "unit": "ISO:8601"},
-                      {"name": "X", "unit": "meter"},
-                      {"name": "Y", "unit": "meter"}
-                      ]
+                      {"name": "X", "unit": "m"},
+                      {"name": "Y", "unit": "m"},
+                      {"name": "value", "unit": "NDVI"},
+                     ]
     }
 
 
