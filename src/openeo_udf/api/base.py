@@ -6,6 +6,7 @@
 import geopandas
 import pandas
 import numpy
+import xarray
 from shapely.geometry import Polygon, Point
 import json
 
@@ -706,6 +707,13 @@ class RasterCollectionTile(CollectionTile):
             ict.wavelength = ict_dict["wavelength"]
 
         return ict
+
+
+class HyperCube(RasterCollectionTile):
+    """This class is a hypercube representation of multi-dimensional data
+
+    """
+    pass
 
 
 class FeatureCollectionTile(CollectionTile):
