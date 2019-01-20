@@ -224,12 +224,12 @@ class HyperCube(Schema):
                       "2001-01-03T00:00:00"],
         "data": [
             [
-                [0, 1],
-                [2, 3]
+                [0.0, 0.1],
+                [0.2, 0.3]
             ],
             [
-                [0, 1],
-                [2, 3]
+                [0.0, 0.1],
+                [0.2, 0.3]
             ]
         ],
         "extent": {
@@ -241,8 +241,8 @@ class HyperCube(Schema):
             "width": 1
         },
         "dimension": [{"name": "time", "unit": "ISO:8601"},
-                      {"name": "X", "unit": "m"},
-                      {"name": "Y", "unit": "m"},
+                      {"name": "X", "unit": "degree"},
+                      {"name": "Y", "unit": "degree"},
                       {"name": "value", "unit": "NDVI"},
                      ]
     }
