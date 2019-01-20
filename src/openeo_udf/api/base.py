@@ -693,7 +693,7 @@ class RasterCollectionTile(CollectionTile):
         if "extent" not in ict_dict:
             raise Exception("Missing extent in dictionary")
 
-        ict = RasterCollectionTile(id =ict_dict["id"],
+        ict = RasterCollectionTile(id=ict_dict["id"],
                                    extent=SpatialExtent.from_dict(ict_dict["extent"]),
                                    data=numpy.asarray(ict_dict["data"]))
 
