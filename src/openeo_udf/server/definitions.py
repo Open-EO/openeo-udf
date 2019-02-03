@@ -153,26 +153,28 @@ class Dimension(Schema):
                            "sensor units: *int8*, *int16*, *int32*; "
                            "user defined units: *user_lala* ",
             "type": "string"
-        }
+        },
+        "coordinates": {
+            "description": "The array that contains the coordinates of the specific dimension. "
+                           "This parameter is optional.",
+            "type": "array",
+            "items": {"type": "float"}
+        },
     }
 
 
 #####################################################################
 
 class HyperCube(Schema):
-    description = "A multi dimensional hypercube that contains the same information as a raster collection tile but " \
-                  "with configurable dimensions. "
+    description = "A multi dimensional hypercube with configurable dimensions."
     type = "object"
-    required = ["id", "data", "dimension", "extent"]
+    required = ["id", "data", "dimension"]
     properties = {
         "id": {
             "description": "The identifier of this hyper cube.",
             "type": "string"
         },
-        "wavelength": {
-            "description": "The wavelength of the array value.",
-            "type": "float"
-        },
+
         "data": {
             "description": "A multi-dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values." \
                            "By default index dimension is as follows: [time][y][x]. Hence, the index data[0] returns " \
@@ -189,21 +191,6 @@ class HyperCube(Schema):
                 }
             }
         },
-        "start_times": {
-            "description": "The array that contains that start time values for the time dimension."
-                           "As date-time string format ISO 8601 must be supported.",
-            "type": "array",
-            "items": {"type": "string"}
-        },
-        "end_times": {
-            "description": "The vector that contains that end time values for the time dimension, in case the "
-                           "the time stamps for all or a subset of slices are intervals. For time instances "
-                           "the from and to time stamps must be equal or empty. "
-                           "As date-time string format ISO 8601 must "
-                           "be supported",
-            "type": "array",
-            "items": {"type": "string"}
-        },
         "dimensions": {
             "description": "The description of each dimension and the value as ordered list. "
                            "The order of the dimension in this array "
@@ -217,11 +204,6 @@ class HyperCube(Schema):
     }
     example = {
         "id": "test_data",
-        "wavelength": 420,
-        "start_times": ["2001-01-01T00:00:00",
-                        "2001-01-02T00:00:00"],
-        "end_times": ["2001-01-02T00:00:00",
-                      "2001-01-03T00:00:00"],
         "data": [
             [
                 [0.0, 0.1],
@@ -232,16 +214,8 @@ class HyperCube(Schema):
                 [0.2, 0.3]
             ]
         ],
-        "extent": {
-            "top": 53,
-            "bottom": 51,
-            "right": 30,
-            "left": 28,
-            "height": 1,
-            "width": 1
-        },
-        "dimension": [{"name": "time", "unit": "ISO:8601"},
-                      {"name": "X", "unit": "degree"},
+        "dimension": [{"name": "time", "unit": "ISO:8601", "coordinates":["2001-01-01", "2001-01-02"]},
+                      {"name": "X", "unit": "degree", "coordinates":[50.0, 60.0]},
                       {"name": "Y", "unit": "degree"},
                       {"name": "value", "unit": "NDVI"},
                      ]
@@ -387,6 +361,11 @@ class UdfData(Schema):
             "description": "A list of feature collection tiles.",
             "type": "array",
             "items": FeatureCollectionTile
+        },
+        "hypercubes": {
+            "description": "A list of hyper cubes.",
+            "type": "array",
+            "items": HyperCube
         },
         "structured_data_list": {
             "description": "A list of structured data objects that contain processing results that cant be represented "
