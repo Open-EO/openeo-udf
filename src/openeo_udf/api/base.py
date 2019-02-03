@@ -709,12 +709,88 @@ class RasterCollectionTile(CollectionTile):
         return ict
 
 
-class HyperCube(RasterCollectionTile):
+class HyperCube:
     """This class is a hypercube representation of multi-dimensional data
 
-    """
-    pass
 
+    >>> data = xarray.DataArray(numpy.random.randn(2, 3))
+    >>> data.to_dict()
+
+    """
+
+    def __init__(self, id: str, data: xarray.DataArray):
+
+        self.id = id
+        self.set_data(data)
+
+    def __str__(self):
+        return "id: %(id)s\n" \
+               "data: %(data)s"%{"id":self.id, "data":self.data}
+
+    def get_data(self) -> xarray.DataArray:
+        """Return the xarray.DataArray that contains the data and dimension definition
+
+        Returns:
+            xarray.DataArray: that contains the data and dimension definition
+
+        """
+        return self._data
+
+    def set_data(self, data: xarray.DataArray):
+        """Set the xarray.DataArray that contains the data and dimension definition
+
+        This function will check if the provided data is a geopandas.GeoDataFrame and raises
+        an Exception
+
+        Args:
+            data: xarray.DataArray that contains the data and dimension definition
+
+        """
+        if isinstance(data, xarray.DataArray) is False:
+            raise Exception("Argument data must be of type xarray.DataArray")
+
+        self._data = data
+
+    data = property(fget=get_data, fset=set_data)
+
+    def to_dict(self) -> dict:
+        """Convert this hypercube into a dictionary that can be converted into
+        a valid JSON representation
+
+        Returns:
+            dict:
+            HyperCube as a dictionary
+        """
+
+        d = {"id": self.id}
+        if self._data is not None:
+            d["data"] = self._data.to_dict()
+
+        return d
+
+    @staticmethod
+    def from_dict(hc_dict: dict) -> "HyperCube":
+        """Create a hypercube from a python dictionary that was created from
+        the JSON definition of the HyperCube
+
+        Args:
+            hc_dict (dict): The dictionary that contains the hypercube definition
+
+        Returns:
+            HyperCube
+
+        """
+
+        if "id" not in hc_dict:
+            raise Exception("Missing id in dictionary")
+
+        if "data" not in hc_dict:
+            raise Exception("Missing data in dictionary")
+
+        hc = HyperCube(id=hc_dict["id"],
+                       data=xarray.DataArray(numpy.asarray(hc_dict["data"])))
+
+        return hc
 
 class FeatureCollectionTile(CollectionTile):
     """A feature collection tile that represents a subset or a whole feature collection
