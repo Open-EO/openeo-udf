@@ -712,9 +712,11 @@ class RasterCollectionTile(CollectionTile):
 class HyperCube:
     """This class is a hypercube representation of multi-dimensional data
 
+    TODO: Full hypercube implementation
 
-    >>> data = xarray.DataArray(numpy.random.randn(2, 3))
-    >>> data.to_dict()
+
+    >>> data = xarray.DataArray(numpy.random.randn(2, 3), coords={'x': ['a', 'b']}, dims=('x', 'y'))
+    >>> d = data.to_dict()
 
     """
 
@@ -791,6 +793,7 @@ class HyperCube:
                        data=xarray.DataArray(numpy.asarray(hc_dict["data"])))
 
         return hc
+
 
 class FeatureCollectionTile(CollectionTile):
     """A feature collection tile that represents a subset or a whole feature collection
