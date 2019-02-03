@@ -166,6 +166,7 @@ class Dimension(Schema):
 #####################################################################
 
 class HyperCube(Schema):
+    # TODO: Adjust to xarray dictionary representation
     description = "A multi dimensional hypercube with configurable dimensions."
     type = "object"
     required = ["id", "data", "dimension"]
