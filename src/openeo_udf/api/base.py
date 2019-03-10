@@ -716,18 +716,31 @@ class HyperCube:
 
     TODO: Full hypercube implementation
 
-        >>> data = xarray.DataArray(np.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
+        >>> data = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
         >>> data.attrs["description"] = "This is an xarray with two dimensions"
         >>> data.name = "testdata"
-        >>> data.to_dict()
-        {'coords': {'x': {'data': [1, 2], 'dims': ('x',), 'attrs': {}},
-          'y': {'data': [1, 2, 3], 'dims': ('y',), 'attrs': {}}},
-         'attrs': {'description': 'This is an xarray with two dimensions'},
-         'dims': ('x', 'y'),
-         'data': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]],
-         'name': 'testdata'}
-
         >>> h = HyperCube(data=data)
+        >>> d = h.to_dict()
+        >>> d["id"]
+        'testdata'
+        >>> d["data"]
+        [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+        >>> d["dimensions"]
+        [{'name': 'x', 'coordinates': [1, 2]}, {'name': 'y', 'coordinates': [1, 2, 3]}]
+        >>> d["description"]
+        'This is an xarray with two dimensions'
+
+
+        >>> data = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
+        >>> h = HyperCube(data=data)
+        >>> d = h.to_dict()
+        >>> d["id"]
+        >>> d["data"]
+        [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+        >>> d["dimensions"]
+        [{'name': 'x', 'coordinates': [1, 2]}, {'name': 'y', 'coordinates': [1, 2, 3]}]
+        >>> "description" not in d
+        True
 
     """
 
@@ -788,12 +801,11 @@ class HyperCube:
             "dimension": [{"name": "time", "unit": "ISO:8601", "coordinates":["2001-01-01", "2001-01-02"]},
                           {"name": "X", "unit": "degree", "coordinates":[50.0, 60.0]},
                           {"name": "Y", "unit": "degree"},
-                          {"name": "value", "unit": "NDVI"},
                          ]
         }
         """
 
-        d = {}
+        d = {"id":"", "data": "", "dimensions":[]}
         if self._data is not None:
             xd = self._data.to_dict()
 
@@ -805,17 +817,15 @@ class HyperCube:
 
             if "attrs" in xd:
                 if "description" in xd["attrs"]:
-                    d["description"] = xd["description"]
+                    d["description"] = xd["attrs"]["description"]
 
-            if "dims" in xd["dims"] and "coords" in xd:
-                d["dimensions"] = []
+            if "dims" in xd and "coords" in xd:
                 for dim in xd["dims"]:
                     if dim in xd["coords"]:
                         if "data" in xd["coords"][dim]:
                             d["dimensions"].append({"name": dim, "coordinates": xd["coords"][dim]["data"]})
                         else:
                             d["dimensions"].append({"name": dim})
-
 
         return d
 
@@ -831,9 +841,6 @@ class HyperCube:
             HyperCube
 
         TODO: We must convert the HyperCube representation into an xarray with dims and attrs
-
-
-
 
         """
 
