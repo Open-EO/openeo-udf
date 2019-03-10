@@ -217,8 +217,7 @@ class HyperCube(Schema):
         ],
         "dimension": [{"name": "time", "unit": "ISO:8601", "coordinates":["2001-01-01", "2001-01-02"]},
                       {"name": "X", "unit": "degree", "coordinates":[50.0, 60.0]},
-                      {"name": "Y", "unit": "degree"},
-                      {"name": "value", "unit": "NDVI"},
+                      {"name": "Y", "unit": "degree", "coordinates":[40.0, 50.0]},
                      ]
     }
 
