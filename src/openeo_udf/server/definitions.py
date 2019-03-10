@@ -132,7 +132,7 @@ class RasterCollectionTile(Schema):
 class Dimension(Schema):
     description = "Description of a single dimension. "
     type = "object"
-    required = ["name", "unit"]
+    required = ["name"]
     properties = {
         "name": {
             "description": "The name of the dimension, like *time*, *X*, *Y*, *Z* and so on.",
