@@ -716,20 +716,18 @@ class HyperCube:
 
     TODO: Full hypercube implementation
 
-        >>> data = xarray.DataArray(np.random.randn(2, 3), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
+        >>> data = xarray.DataArray(np.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
         >>> data.attrs["description"] = "This is an xarray with two dimensions"
-        >>> data.attrs["units"] = "This is an xarray with two dimensions"
         >>> data.name = "testdata"
         >>> data.to_dict()
         {'coords': {'x': {'data': [1, 2], 'dims': ('x',), 'attrs': {}},
           'y': {'data': [1, 2, 3], 'dims': ('y',), 'attrs': {}}},
          'attrs': {'description': 'This is an xarray with two dimensions'},
          'dims': ('x', 'y'),
-         'data': [[0.4355740054173535, -1.0452819679016245, 0.21135484657011705],
-          [-1.1414838528851914, 1.666756415725901, 0.7266452796512941]],
+         'data': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]],
          'name': 'testdata'}
 
-         >>> h = HyperCube(data=data)
+        >>> h = HyperCube(data=data)
 
     """
 
@@ -775,23 +773,49 @@ class HyperCube:
             dict:
             HyperCube as a dictionary
 
-        >>> data = xarray.DataArray(np.random.randn(2, 3), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
-        >>> data.attrs["description"] = "This is an xarray with two dimensions"
-        >>> data.name = "testdata"
-        >>> data.to_dict()
-        {'coords': {'x': {'data': [1, 2], 'dims': ('x',), 'attrs': {}},
-          'y': {'data': [1, 2, 3], 'dims': ('y',), 'attrs': {}}},
-         'attrs': {'description': 'This is an xarray with two dimensions'},
-         'dims': ('x', 'y'),
-         'data': [[0.4355740054173535, -1.0452819679016245, 0.21135484657011705],
-          [-1.1414838528851914, 1.666756415725901, 0.7266452796512941]],
-         'name': 'testdata'}
-
+        example = {
+            "id": "test_data",
+            "data": [
+                [
+                    [0.0, 0.1],
+                    [0.2, 0.3]
+                ],
+                [
+                    [0.0, 0.1],
+                    [0.2, 0.3]
+                ]
+            ],
+            "dimension": [{"name": "time", "unit": "ISO:8601", "coordinates":["2001-01-01", "2001-01-02"]},
+                          {"name": "X", "unit": "degree", "coordinates":[50.0, 60.0]},
+                          {"name": "Y", "unit": "degree"},
+                          {"name": "value", "unit": "NDVI"},
+                         ]
+        }
         """
 
-        d = {"id": self.id}
+        d = {}
         if self._data is not None:
-            d["data"] = self._data.to_dict()
+            xd = self._data.to_dict()
+
+            if "name" in xd:
+                d["id"] = xd["name"]
+
+            if "data" in xd:
+                d["data"] = xd["data"]
+
+            if "attrs" in xd:
+                if "description" in xd["attrs"]:
+                    d["description"] = xd["description"]
+
+            if "dims" in xd["dims"] and "coords" in xd:
+                d["dimensions"] = []
+                for dim in xd["dims"]:
+                    if dim in xd["coords"]:
+                        if "data" in xd["coords"][dim]:
+                            d["dimensions"].append({"name": dim, "coordinates": xd["coords"][dim]["data"]})
+                        else:
+                            d["dimensions"].append({"name": dim})
+
 
         return d
 
@@ -819,8 +843,7 @@ class HyperCube:
         if "data" not in hc_dict:
             raise Exception("Missing data in dictionary")
 
-        hc = HyperCube(id=hc_dict["id"],
-                       data=xarray.DataArray(numpy.asarray(hc_dict["data"])))
+        hc = HyperCube(data=xarray.DataArray(numpy.asarray(hc_dict["data"])))
 
         return hc
 
