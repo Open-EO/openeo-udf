@@ -781,6 +781,8 @@ class HyperCube:
         Returns:
             HyperCube
 
+        TODO: We must convert the HyperCube representation into an xarray with dims and attrs
+
         """
 
         if "id" not in hc_dict:
