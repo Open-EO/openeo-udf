@@ -711,18 +711,30 @@ class RasterCollectionTile(CollectionTile):
 
 class HyperCube:
     """This class is a hypercube representation of multi-dimensional data
+    that stores an xarray and provides methods to convert the xarray into
+    the HyperCube JSON representation
 
     TODO: Full hypercube implementation
 
+        >>> data = xarray.DataArray(np.random.randn(2, 3), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
+        >>> data.attrs["description"] = "This is an xarray with two dimensions"
+        >>> data.attrs["units"] = "This is an xarray with two dimensions"
+        >>> data.name = "testdata"
+        >>> data.to_dict()
+        {'coords': {'x': {'data': [1, 2], 'dims': ('x',), 'attrs': {}},
+          'y': {'data': [1, 2, 3], 'dims': ('y',), 'attrs': {}}},
+         'attrs': {'description': 'This is an xarray with two dimensions'},
+         'dims': ('x', 'y'),
+         'data': [[0.4355740054173535, -1.0452819679016245, 0.21135484657011705],
+          [-1.1414838528851914, 1.666756415725901, 0.7266452796512941]],
+         'name': 'testdata'}
 
-    >>> data = xarray.DataArray(numpy.random.randn(2, 3), coords={'x': ['a', 'b']}, dims=('x', 'y'))
-    >>> d = data.to_dict()
+         >>> h = HyperCube(data=data)
 
     """
 
-    def __init__(self, id: str, data: xarray.DataArray):
+    def __init__(self, data: xarray.DataArray):
 
-        self.id = id
         self.set_data(data)
 
     def __str__(self):
@@ -762,6 +774,19 @@ class HyperCube:
         Returns:
             dict:
             HyperCube as a dictionary
+
+        >>> data = xarray.DataArray(np.random.randn(2, 3), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
+        >>> data.attrs["description"] = "This is an xarray with two dimensions"
+        >>> data.name = "testdata"
+        >>> data.to_dict()
+        {'coords': {'x': {'data': [1, 2], 'dims': ('x',), 'attrs': {}},
+          'y': {'data': [1, 2, 3], 'dims': ('y',), 'attrs': {}}},
+         'attrs': {'description': 'This is an xarray with two dimensions'},
+         'dims': ('x', 'y'),
+         'data': [[0.4355740054173535, -1.0452819679016245, 0.21135484657011705],
+          [-1.1414838528851914, 1.666756415725901, 0.7266452796512941]],
+         'name': 'testdata'}
+
         """
 
         d = {"id": self.id}
@@ -782,6 +807,9 @@ class HyperCube:
             HyperCube
 
         TODO: We must convert the HyperCube representation into an xarray with dims and attrs
+
+
+
 
         """
 
