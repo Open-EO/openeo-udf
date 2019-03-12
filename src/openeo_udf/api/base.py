@@ -1109,11 +1109,11 @@ class StructuredData(object):
         self.data = data
         self.type = type
 
-    def to_dict(self):
+    def to_dict(self) -> Dict:
         return dict(description=self.description, data=self.data, type=self.type)
 
     @staticmethod
-    def from_dict(structured_data):
+    def from_dict(structured_data: Dict):
         description = structured_data["description"]
         data = structured_data["data"]
         type = structured_data["type"]
