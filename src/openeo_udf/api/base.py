@@ -576,8 +576,8 @@ class RasterCollectionTile(CollectionTile):
             extent (SpatialExtent): The spatial extent with resolution information
             data (numpy.ndarray): The three dimensional numpy.ndarray with indices [t][y][x]
             wavelength (float): The optional wavelength of the raster collection tile
-            start_times (pandas.DateTimeIndex): The vector with start times for each spatial x,y slice
-            end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
+            start_times (pandas.DatetimeIndex): The vector with start times for each spatial x,y slice
+            end_times (pandas.DatetimeIndex): The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
         """
 
@@ -823,7 +823,7 @@ class HyperCube:
 
     data = property(fget=get_data, fset=set_data)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict:
         """Convert this hypercube into a dictionary that can be converted into
         a valid JSON representation
 
@@ -875,7 +875,7 @@ class HyperCube:
         return d
 
     @staticmethod
-    def from_dict(hc_dict: dict) -> "HyperCube":
+    def from_dict(hc_dict: Dict) -> "HyperCube":
         """Create a hypercube from a python dictionary that was created from
         the JSON definition of the HyperCube
 
@@ -985,7 +985,9 @@ class FeatureCollectionTile(CollectionTile):
 
     """
 
-    def __init__(self, id, data, start_times=None, end_times=None):
+    def __init__(self, id: str, data: geopandas.GeoDataFrame,
+                 start_times: Optional[pandas.DatetimeIndex]=None,
+                 end_times: Optional[pandas.DatetimeIndex]=None):
         """Constructor of the tile of a vector collection
 
         Args:
@@ -1009,7 +1011,7 @@ class FeatureCollectionTile(CollectionTile):
                                  "start_times":self.start_times,
                                  "end_times":self.end_times, "data":self.data}
 
-    def get_data(self):
+    def get_data(self) -> geopandas.GeoDataFrame:
         """Return the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns
 
         Returns:
@@ -1018,7 +1020,7 @@ class FeatureCollectionTile(CollectionTile):
         """
         return self._data
 
-    def set_data(self, data):
+    def set_data(self, data: geopandas.GeoDataFrame):
         """Set the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns
 
         This function will check if the provided data is a geopandas.GeoDataFrame and raises
@@ -1035,7 +1037,7 @@ class FeatureCollectionTile(CollectionTile):
 
     data = property(fget=get_data, fset=set_data)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict:
         """Convert this FeatureCollectionTile into a dictionary that can be converted into
         a valid JSON representation
 
@@ -1055,7 +1057,7 @@ class FeatureCollectionTile(CollectionTile):
         return d
 
     @staticmethod
-    def from_dict(fct_dict):
+    def from_dict(fct_dict: Dict):
         """Create a feature collection tile from a python dictionary that was created from
         the JSON definition of the FeatureCollectionTile
 
