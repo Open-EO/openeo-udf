@@ -9,6 +9,7 @@ import numpy
 import xarray
 from shapely.geometry import Polygon, Point
 import json
+from typing import Optional, List, Dict, Tuple
 
 
 __license__ = "Apache License, Version 2.0"
@@ -85,7 +86,8 @@ class SpatialExtent(object):
 
     """
 
-    def __init__(self, top, bottom, right, left, height=None, width=None):
+    def __init__(self, top: float, bottom: float, right: float, left: float,
+                 height: Optional[float]=None, width: Optional[float]=None):
         """Constructor of the axis aligned spatial extent of a collection tile
 
         Args:
@@ -106,7 +108,7 @@ class SpatialExtent(object):
         self.width = width
         self.polygon = self.as_polygon()
 
-    def contains_point(self, top, left):
+    def contains_point(self, top: float, left: float) -> Point:
         """Return True if the provided coordinate is located in the spatial extent, False otherwise
 
         Args:
@@ -121,7 +123,7 @@ class SpatialExtent(object):
         return self.polygon.contains(Point(left, top))
         # return self.polygon.intersects(Point(left, top))
 
-    def to_index(self, top, left):
+    def to_index(self, top: float, left: float) -> Tuple[int, int]:
         """Return True if the provided coordinate is located in the spatial extent, False otherwise
 
         Args:
@@ -129,7 +131,7 @@ class SpatialExtent(object):
            left (float): The left (western) coordinate
 
         Returns:
-             tuple(int): (x, y) The x, y index
+             tuple(int, int): (x, y) The x, y index
 
         """
         x = int(abs((left - self.left)/self.width))
@@ -145,7 +147,7 @@ class SpatialExtent(object):
                "width: %(ew)s"%{"n":self.top, "s":self.bottom, "e":self.right,
                                 "w":self.left, "ns":self.height, "ew":self.width}
 
-    def as_polygon(self):
+    def as_polygon(self) -> Polygon:
         """Return the extent as shapely.geometry.Polygon to perform
         comparison operations between other extents like equal, intersect and so on
 
@@ -158,7 +160,7 @@ class SpatialExtent(object):
                         (self.right, self.bottom),(self.left, self.bottom)])
 
     @staticmethod
-    def from_polygon(polygon):
+    def from_polygon(polygon: Polygon) -> 'SpatialExtent':
         """Convert a polygon with rectangular shape into a spatial extent
 
         Args:
@@ -178,7 +180,7 @@ class SpatialExtent(object):
 
         return SpatialExtent(top=top, bottom=bottom, right=right, left=left)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict:
         """Return the spatial extent as a dict that can be easily converted into JSON
 
         Returns:
@@ -197,7 +199,7 @@ class SpatialExtent(object):
         return d
 
     @staticmethod
-    def from_dict(extent):
+    def from_dict(extent: Dict):
         """Create a SpatialExtent from a python dictionary that was created from
         the JSON definition of the SpatialExtent
 
@@ -1215,6 +1217,8 @@ class MachineLearnModel(object):
 class UdfData(object):
     """The class that stores the arguments for a user defined function (UDF)
 
+    TODO: Implement hypercube support in UdfData
+
     Some basic tests:
 
     >>> from shapely.geometry import Point
@@ -1319,7 +1323,7 @@ class UdfData(object):
 
     """
 
-    def __init__(self, proj, raster_collection_tiles=None, feature_collection_tiles=None,
+    def __init__(self, proj, raster_collection_tiles=None, hypercube_list=None, feature_collection_tiles=None,
                  structured_data_list=None, ml_model_list=None):
         """The constructor of the UDF argument class that stores all data required by the
         user defined function.
@@ -1327,14 +1331,17 @@ class UdfData(object):
         Args:
             proj (dict): A dictionary of form {"proj type string": "projection decription"} i. e. {"EPSG":4326}
             raster_collection_tiles (list[RasterCollectionTile]): A list of RasterCollectionTile objects
+            hypercube_list (list(HyperCube)): A list of HyperCube objects
             feature_collection_tiles (list[FeatureCollectionTile]): A list of VectorTile objects
             structured_data_list (list[StructuredData]): A list of structured data objects
             ml_model_list (list[MachineLearnModel]): A list of machine learn models
         """
 
         self._raster_tile_list = []
+        self._hypercube_list = []
         self._feature_tile_list = []
         self._raster_tile_dict = {}
+        self._hypercube_dict = {}
         self._feature_tile_dict = {}
         self._structured_data_list = []
         self._ml_model_list = []
@@ -1342,6 +1349,8 @@ class UdfData(object):
 
         if raster_collection_tiles:
             self.set_raster_collection_tiles(raster_collection_tiles=raster_collection_tiles)
+        if hypercube_list:
+            pass
         if feature_collection_tiles:
             self.set_feature_collection_tiles(feature_collection_tiles=feature_collection_tiles)
         if structured_data_list:
@@ -1361,6 +1370,20 @@ class UdfData(object):
         """
         if id in self._raster_tile_dict:
             return self._raster_tile_dict[id]
+        return None
+
+    def get_hypercube_by_id(self, id: str):
+        """Get a hypercube by its id
+
+        Args:
+            id (str): The raster collection tile id
+
+        Returns:
+            HypeCube: the requested raster collection tile of None if not found
+
+        """
+        if id in self._hypercube_dict:
+            return self._hypercube_dict[id]
         return None
 
     def get_feature_collection_tile_by_id(self, id):
