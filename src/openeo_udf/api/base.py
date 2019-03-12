@@ -236,7 +236,7 @@ class SpatialExtent(object):
 
 
 class CollectionTile(object):
-    """This is the base class for image and vector collection tiles. It implements
+    """This is the base class for raster and vector collection tiles. It implements
     start time, end time and spatial extent handling.
 
     Some basic tests:
@@ -565,7 +565,10 @@ class RasterCollectionTile(CollectionTile):
 
     """
 
-    def __init__(self, id, extent, data, wavelength=None, start_times=None, end_times=None):
+    def __init__(self, id: str, extent: SpatialExtent, data: numpy.ndarray,
+                 wavelength: Optional[float]=None,
+                 start_times: Optional[pandas.DatetimeIndex]=None,
+                 end_times: Optional[pandas.DatetimeIndex]=None):
         """Constructor of the tile of an raster collection
 
         Args:
@@ -584,7 +587,7 @@ class RasterCollectionTile(CollectionTile):
         self.set_data(data)
         self.check_data_with_time()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "id: %(id)s\n" \
                "extent: %(extent)s\n" \
                "wavelength: %(wavelength)s\n" \
@@ -593,7 +596,7 @@ class RasterCollectionTile(CollectionTile):
                "data: %(data)s"%{"id":self.id, "extent":self.extent, "wavelength":self.wavelength,
                                  "start_times":self.start_times, "end_times":self.end_times, "data":self.data}
 
-    def sample(self, top, left):
+    def sample(self, top: float, left: float):
         """Sample the raster tile at specific top, left coordinates.
 
         If the coordinates are not in the spatial extent of the tile, then None will be returned.
@@ -621,7 +624,7 @@ class RasterCollectionTile(CollectionTile):
 
         return None
 
-    def get_data(self):
+    def get_data(self) -> numpy.ndarray:
         """Return the three dimensional numpy.ndarray with indices [t][y][x]
 
         Returns:
@@ -630,7 +633,7 @@ class RasterCollectionTile(CollectionTile):
         """
         return self._data
 
-    def set_data(self, data):
+    def set_data(self, data: numpy.ndarray):
         """Set the three dimensional numpy.ndarray with indices [t][y][x]
 
         This function will check if the provided data is a numpy.ndarray with three dimensions
@@ -649,7 +652,7 @@ class RasterCollectionTile(CollectionTile):
 
     data = property(fget=get_data, fset=set_data)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict:
         """Convert this RasterCollectionTile into a dictionary that can be converted into
         a valid JSON representation
 
@@ -673,7 +676,7 @@ class RasterCollectionTile(CollectionTile):
         return d
 
     @staticmethod
-    def from_dict(ict_dict):
+    def from_dict(ict_dict: Dict):
         """Create a raster collection tile from a python dictionary that was created from
         the JSON definition of the RasterCollectionTile
 
