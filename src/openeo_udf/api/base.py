@@ -1338,6 +1338,24 @@ class UdfData(object):
     ...                           # doctest: +NORMALIZE_WHITESPACE
     '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [], "hypercubes": [], "feature_collection_tiles": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "machine_learn_models": []}'
 
+
+
+    >>> data = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
+    >>> data.attrs["description"] = "This is an xarray with two dimensions"
+    >>> data.name = "testdata"
+    >>> h = HyperCube(data=data)
+    >>> udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[h])
+    >>> print(udf_data.get_hypercube_by_id("testdata").to_dict())
+    {'id': 'testdata', 'data': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], 'dimensions': [{'name': 'x', 'coordinates': [1, 2]}, {'name': 'y', 'coordinates': [1, 2, 3]}], 'description': 'This is an xarray with two dimensions'}
+    >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
+    ...                           # doctest: +NORMALIZE_WHITESPACE
+    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [], "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_tiles": [], "structured_data_list": [], "machine_learn_models": []}'
+
+    >>> udf = UdfData.from_dict(udf_data.to_dict())
+    >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
+    ...                           # doctest: +NORMALIZE_WHITESPACE
+    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [], "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_tiles": [], "structured_data_list": [], "machine_learn_models": []}'
+
     """
 
     def __init__(self, proj: Dict,
