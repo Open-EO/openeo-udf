@@ -298,11 +298,11 @@ class CollectionTile(object):
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
     end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
 
-
-
     """
 
-    def __init__(self, id, extent=None, start_times=None, end_times=None):
+    def __init__(self, id: str, extent: Optional[SpatialExtent]=None,
+                 start_times: Optional[pandas.DatetimeIndex]=None,
+                 end_times: Optional[pandas.DatetimeIndex]=None):
         """Constructor of the base class for tile of a collection
 
         Args:
@@ -315,10 +315,10 @@ class CollectionTile(object):
         """
 
         self.id = id
-        self._extent = None
-        self._start_times = None
-        self._end_times = None
-        self._data = None
+        self._extent: Optional[SpatialExtent] = None
+        self._start_times: Optional[pandas.DatetimeIndex] = None
+        self._end_times: Optional[pandas.DatetimeIndex] = None
+        self._data: List = None
 
         self.set_extent(extent=extent)
         self.set_start_times(start_times=start_times)
@@ -329,16 +329,16 @@ class CollectionTile(object):
         """
 
         if self._data is not None and self.start_times is not None:
-            if len(self.start_times) != len(self.data):
+            if len(self.start_times) != len(self._data):
                 raise Exception("The size of the start times vector just be equal "
                                 "to the size of data")
 
         if self._data is not None and self.end_times is not None:
-            if len(self.end_times) != len(self.data):
+            if len(self.end_times) != len(self._data):
                 raise Exception("The size of the end times vector just be equal "
                                 "to the size of data")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "id: %(id)s\n" \
                "extent: %(extent)s\n" \
                "start_times: %(start_times)s\n" \
@@ -347,7 +347,7 @@ class CollectionTile(object):
                                              "start_times":self.start_times,
                                              "end_times":self.end_times}
 
-    def get_start_times(self):
+    def get_start_times(self) -> Optional[pandas.DatetimeIndex]:
         """Returns the start time vector
 
         Returns:
@@ -356,7 +356,7 @@ class CollectionTile(object):
         """
         return self._start_times
 
-    def set_start_times(self, start_times):
+    def set_start_times(self, start_times: Optional[pandas.DatetimeIndex]):
         """Set the start times vector
 
         Args:
@@ -371,7 +371,7 @@ class CollectionTile(object):
 
         self._start_times = start_times
 
-    def get_end_times(self):
+    def get_end_times(self) -> Optional[pandas.DatetimeIndex]:
         """Returns the end time vector
 
         Returns:
@@ -380,7 +380,7 @@ class CollectionTile(object):
         """
         return self._end_times
 
-    def set_end_times(self, end_times):
+    def set_end_times(self, end_times: Optional[pandas.DatetimeIndex]):
         """Set the end times vector
 
         Args:
@@ -394,7 +394,7 @@ class CollectionTile(object):
 
         self._end_times = end_times
 
-    def get_extent(self):
+    def get_extent(self) -> SpatialExtent:
         """Return the spatial extent
 
         Returns:
@@ -403,7 +403,7 @@ class CollectionTile(object):
         """
         return self._extent
 
-    def set_extent(self, extent):
+    def set_extent(self, extent: SpatialExtent):
         """Set the spatial extent
 
         Args:
@@ -421,7 +421,7 @@ class CollectionTile(object):
     end_times = property(fget=get_end_times, fset=set_end_times)
     extent = property(fget=get_extent, fset=set_extent)
 
-    def extent_to_dict(self):
+    def extent_to_dict(self) -> Dict:
         """Convert the extent into a dictionary representation that can be converted to JSON
 
         Returns:
@@ -431,7 +431,7 @@ class CollectionTile(object):
         """
         return self._extent.to_dict()
 
-    def start_times_to_dict(self):
+    def start_times_to_dict(self) -> Dict:
         """Convert the start times vector into a dictionary representation that can be converted to JSON
 
         Returns:
@@ -441,7 +441,7 @@ class CollectionTile(object):
         """
         return dict(start_times=[t.isoformat() for t in self._start_times])
 
-    def end_times_to_dict(self):
+    def end_times_to_dict(self) -> Dict:
         """Convert the end times vector into a dictionary representation that can be converted to JSON
 
         Returns:
@@ -451,7 +451,7 @@ class CollectionTile(object):
         """
         return dict(end_times=[t.isoformat() for t in self._end_times])
 
-    def set_extent_from_dict(self, extent):
+    def set_extent_from_dict(self, extent: Dict):
         """Set the spatial extent from a dictionary
 
         Args:
@@ -459,7 +459,7 @@ class CollectionTile(object):
         """
         self.set_extent(SpatialExtent.from_dict(extent))
 
-    def set_start_times_from_list(self, start_times):
+    def set_start_times_from_list(self, start_times: Dict):
         """Set the start times vector from a dictionary
 
         Args:
@@ -467,7 +467,7 @@ class CollectionTile(object):
         """
         self.set_start_times(pandas.DatetimeIndex(start_times))
 
-    def set_end_times_from_list(self, end_times):
+    def set_end_times_from_list(self, end_times: Dict):
         """Set the end times vector from a dictionary
 
         Args:
