@@ -9,6 +9,7 @@ import torchvision
 import tensorflow
 import tensorboard
 import math
+from typing import Dict
 from .base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, UdfData
 
 __license__ = "Apache License, Version 2.0"
@@ -18,7 +19,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def run_json_user_code(json_data):
+def run_json_user_code(json_data: Dict) -> Dict:
     """Run the user defined python code
 
     Args:
