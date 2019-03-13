@@ -1234,8 +1234,6 @@ class MachineLearnModel(object):
 class UdfData(object):
     """The class that stores the arguments for a user defined function (UDF)
 
-    TODO: Implement hypercube support in UdfData
-
     Some basic tests:
 
     >>> from shapely.geometry import Point
