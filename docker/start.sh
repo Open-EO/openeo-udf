@@ -2,7 +2,7 @@
 
 export PORT=5000
 
- #Update the udf repository and create the documentation for the nginx server
+# Update the udf repository and create the documentation for the nginx server
 cd /tmp/src/openeo_udf/
 git pull origin master
 python3 setup.py install
@@ -21,7 +21,7 @@ sleep 3
 wget http://localhost:5000/api/v0/swagger.json -O /tmp/openeo_udf.json
 
 # Then run spectacle to generate the HTML documentation
-#spectacle /tmp/openeo_udf.json -t /var/www/html/api_docs
+spectacle /tmp/openeo_udf.json -t /var/www/html/api_docs
 
 # Run the nginx server
 nginx -g "daemon off;"
