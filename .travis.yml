@@ -14,7 +14,7 @@ before_install:
   - cd ..
 
 install:
-  - docker run --name "openeo-udf-server" -t openeo_udf
+  - docker run --name "openeo-udf-server" -p 5000:5000 -p 80:80 -t -e START_NGINX=0 openeo_udf
 
 script:
   - mkdir page
