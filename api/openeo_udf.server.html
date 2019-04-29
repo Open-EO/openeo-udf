@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.server package &#8212; openeo-udf 0.0.post0.dev117+g8605626 documentation</title>
+    <title>openeo_udf.server package &#8212; openeo-udf 0.0.post0.dev157+g4ad5c5e documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="openeo_udf.functions.html" title="openeo_udf.functions package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev117+g8605626 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev157+g4ad5c5e documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="openeo_udf.html" accesskey="U">openeo_udf package</a> &#187;</li> 
       </ul>
@@ -51,6 +51,32 @@
 </div>
 <div class="section" id="module-openeo_udf.server.definitions">
 <span id="openeo-udf-server-definitions-module"></span><h2>openeo_udf.server.definitions module<a class="headerlink" href="#module-openeo_udf.server.definitions" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.definitions.Dimension">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">Dimension</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#Dimension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.Dimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.definitions.Dimension.description">
+<code class="descname">description</code><em class="property"> = 'Description of a single dimension. '</em><a class="headerlink" href="#openeo_udf.server.definitions.Dimension.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.definitions.Dimension.properties">
+<code class="descname">properties</code><em class="property"> = {'coordinates': {'description': 'The array that contains the coordinates of the specific dimension. This parameter is optional.', 'type': 'array', 'items': {'type': 'float'}}, 'description': {'description': 'Description of the dimension.', 'type': 'string'}, 'name': {'description': 'The name of the dimension, like *time*, *X*, *Y*, *Z* and so on.', 'type': 'string'}, 'unit': {'description': 'The unit of the dimension. The unit can be *ISO:8601* for time; metric length units based on meter: *nm* (nanometer), *mm* (millimeter), *cm* (centimeter), *m* (meter), *dm* (decimeter), *km* (kilometer); temperature *K* (Kelvin), *C* (degree Celsius);lat-lon coordinates in *degree*;earth observation units: NDVI, DVI, ... ; sensor units: *int8*, *int16*, *int32*; user defined units: *user_lala* ', 'type': 'string'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.Dimension.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.definitions.Dimension.required">
+<code class="descname">required</code><em class="property"> = ['name']</em><a class="headerlink" href="#openeo_udf.server.definitions.Dimension.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.definitions.Dimension.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.Dimension.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="class">
 <dt id="openeo_udf.server.definitions.ErrorResponse">
 <em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">ErrorResponse</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#ErrorResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.ErrorResponse" title="Permalink to this definition">¶</a></dt>
@@ -109,6 +135,37 @@
 </dd></dl>
 
 <dl class="class">
+<dt id="openeo_udf.server.definitions.HyperCube">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">HyperCube</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#HyperCube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.definitions.HyperCube.description">
+<code class="descname">description</code><em class="property"> = 'A multi dimensional hypercube with configurable dimensions.'</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.definitions.HyperCube.example">
+<code class="descname">example</code><em class="property"> = {'data': [[[0.0, 0.1], [0.2, 0.3]], [[0.0, 0.1], [0.2, 0.3]]], 'dimension': [{'name': 'time', 'unit': 'ISO:8601', 'coordinates': ['2001-01-01', '2001-01-02']}, {'name': 'X', 'unit': 'degree', 'coordinates': [50.0, 60.0]}, {'name': 'Y', 'unit': 'degree', 'coordinates': [40.0, 50.0]}], 'id': 'test_data'}</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.definitions.HyperCube.properties">
+<code class="descname">properties</code><em class="property"> = {'data': {'description': 'A multi-dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.By default index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array. The dimension options must be used ot describe other dimension configurations.', 'type': 'array', 'items': {'type': 'array', 'items': {'type': 'array', 'items': {'type': 'float'}}}}, 'dimensions': {'description': 'The description of each dimension and the value as ordered list. The order of the dimension in this array is the order of the dimension in the hypercube. The dimension with the name *value* described the cell value.', 'type': 'array', 'items': {'type': &lt;class 'openeo_udf.server.definitions.Dimension'&gt;}}, 'id': {'description': 'The identifier of this hyper cube.', 'type': 'string'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.definitions.HyperCube.required">
+<code class="descname">required</code><em class="property"> = ['id', 'data', 'dimension']</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.definitions.HyperCube.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="openeo_udf.server.definitions.MachineLearnModel">
 <em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">MachineLearnModel</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#MachineLearnModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
@@ -129,7 +186,7 @@
 
 <dl class="attribute">
 <dt id="openeo_udf.server.definitions.MachineLearnModel.required">
-<code class="descname">required</code><em class="property"> = ['framework', 'model']</em><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel.required" title="Permalink to this definition">¶</a></dt>
+<code class="descname">required</code><em class="property"> = ['framework', 'path']</em><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel.required" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -150,12 +207,12 @@
 
 <dl class="attribute">
 <dt id="openeo_udf.server.definitions.RasterCollectionTile.example">
-<code class="descname">example</code><em class="property"> = {'data': [[[0, 1], [2, 3]], [[0, 1], [2, 3]]], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'extent': {'top': 53, 'bottom': 50, 'right': 30, 'left': 24, 'hight': 0.01, 'width': 0.01}, 'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'wavelength': 420}</em><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile.example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">example</code><em class="property"> = {'data': [[[0, 1], [2, 3]], [[0, 1], [2, 3]]], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'extent': {'top': 53, 'bottom': 51, 'right': 30, 'left': 28, 'height': 1, 'width': 1}, 'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'wavelength': 420}</em><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile.example" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="openeo_udf.server.definitions.RasterCollectionTile.properties">
-<code class="descname">properties</code><em class="property"> = {'data': {'description': 'A three dimensional array fo integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array.', 'type': 'array', 'items': {'type': 'array', 'items': {'type': 'array', 'items': {'type': 'float'}}}}, 'end_times': {'description': 'The vector that contains that end time values for each x,y slice, in case the the time stamps for all or a subset of slices are intervals. For time instances the from and to time stamps must be equal or empty. As date-time string format ISO 8601 must be supported', 'type': 'array', 'items': {'type': 'string'}}, 'extent': &lt;class 'openeo_udf.server.definitions.SpatialExtent'&gt;, 'id': {'description': 'The identifier of this raster collection tile.', 'type': 'string'}, 'start_times': {'description': 'The array that contains that start time values for each x,y slice.As date-time string format ISO 8601 must be supported.', 'type': 'array', 'items': {'type': 'string'}}, 'wavelength': {'description': 'The wavelength of the raster collection tile.', 'type': 'float'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile.properties" title="Permalink to this definition">¶</a></dt>
+<code class="descname">properties</code><em class="property"> = {'data': {'description': 'A three dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array.', 'type': 'array', 'items': {'type': 'array', 'items': {'type': 'array', 'items': {'type': 'float'}}}}, 'end_times': {'description': 'The vector that contains that end time values for each x,y slice, in case the the time stamps for all or a subset of slices are intervals. For time instances the from and to time stamps must be equal or empty. As date-time string format ISO 8601 must be supported', 'type': 'array', 'items': {'type': 'string'}}, 'extent': &lt;class 'openeo_udf.server.definitions.SpatialExtent'&gt;, 'id': {'description': 'The identifier of this raster collection tile.', 'type': 'string'}, 'start_times': {'description': 'The array that contains that start time values for each x,y slice.As date-time string format ISO 8601 must be supported.', 'type': 'array', 'items': {'type': 'string'}}, 'wavelength': {'description': 'The wavelength of the raster collection tile.', 'type': 'float'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile.properties" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -181,12 +238,12 @@
 
 <dl class="attribute">
 <dt id="openeo_udf.server.definitions.SpatialExtent.example">
-<code class="descname">example</code><em class="property"> = {'extent': {'top': 53, 'bottom': 50, 'right': 30, 'left': 24, 'hight': 0.01, 'width': 0.01}}</em><a class="headerlink" href="#openeo_udf.server.definitions.SpatialExtent.example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">example</code><em class="property"> = {'extent': {'top': 53, 'bottom': 50, 'right': 30, 'left': 24, 'height': 0.01, 'width': 0.01}}</em><a class="headerlink" href="#openeo_udf.server.definitions.SpatialExtent.example" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="openeo_udf.server.definitions.SpatialExtent.properties">
-<code class="descname">properties</code><em class="property"> = {'bottom': {'description': 'The bottom (south) border.', 'type': 'float'}, 'hight': {'description': 'The top-bottom resolution in projection units.', 'type': 'float'}, 'left': {'description': 'The left (wester) border.', 'type': 'float'}, 'right': {'description': 'The right (eastern) border.', 'type': 'float'}, 'top': {'description': 'The top (north) border.', 'type': 'float'}, 'width': {'description': 'The right-left resolution in projection units.', 'type': 'float'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.SpatialExtent.properties" title="Permalink to this definition">¶</a></dt>
+<code class="descname">properties</code><em class="property"> = {'bottom': {'description': 'The bottom (south) border.', 'type': 'float'}, 'height': {'description': 'The top-bottom resolution in projection units.', 'type': 'float'}, 'left': {'description': 'The left (wester) border.', 'type': 'float'}, 'right': {'description': 'The right (eastern) border.', 'type': 'float'}, 'top': {'description': 'The top (north) border.', 'type': 'float'}, 'width': {'description': 'The right-left resolution in projection units.', 'type': 'float'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.SpatialExtent.properties" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -212,7 +269,7 @@
 
 <dl class="attribute">
 <dt id="openeo_udf.server.definitions.StructuredData.properties">
-<code class="descname">properties</code><em class="property"> = {'data': {'type': {}, 'description': 'The structured data. This field contains the UDF specific values (argument or return)as dict, list or table.   * A dict can be as complex as required by the UDF.  * A list must contain simple data types example {&quot;list&quot;: [1,2,3,4]}   * A table is a list of lists with a header, example {&quot;table&quot;: [[&quot;id&quot;,&quot;value&quot;],                                                                     [1,     10],                                                                     [2,     23],                                                                     [3,     4]]}'}, 'description': {'type': 'string', 'description': 'A detailed description of the output format.'}, 'type': {'type': 'string', 'description': 'The type of the structured data that may be of type dict, table or list. This is just a hint for the user howto interpret the provided data.', 'enum': ['dict', 'table', 'list']}}</em><a class="headerlink" href="#openeo_udf.server.definitions.StructuredData.properties" title="Permalink to this definition">¶</a></dt>
+<code class="descname">properties</code><em class="property"> = {'data': {'type': {}, 'description': 'The structured data. This field contains the UDF specific values (argument or return)as dict, list or table.   * A dict can be as complex as required by the UDF.  * A list must contain simple data types example {&quot;list&quot;: [1,2,3,4]}   * A table is a list of lists with a header, example {&quot;table&quot;: [[&quot;id&quot;,&quot;value&quot;],                                                                     [1,     10],                                                                     [2,     23],                                                                     [3,     4]]}'}, 'description': {'type': 'string', 'description': 'A detailed description of the output format.'}, 'type': {'type': 'string', 'description': 'The type of the structured data that may be of type dict, table or list. This is just a hint for the user how to interpret the provided data.', 'enum': ['dict', 'table', 'list']}}</em><a class="headerlink" href="#openeo_udf.server.definitions.StructuredData.properties" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -269,12 +326,12 @@
 
 <dl class="attribute">
 <dt id="openeo_udf.server.definitions.UdfData.example">
-<code class="descname">example</code><em class="property"> = {'feature_collection_tiles': [{'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'data': {'features': [{'id': '0', 'type': 'Feature', 'properties': {'a': 1, 'b': 'a'}, 'geometry': {'coordinates': [24.0, 50.0], 'type': 'Point'}}, {'id': '1', 'type': 'Feature', 'properties': {'a': 2, 'b': 'b'}, 'geometry': {'coordinates': [30.0, 53.0], 'type': 'Point'}}], 'type': 'FeatureCollection'}}], 'machine_learn_models': [{'framework': 'sklearn', 'name': 'random_forest', 'description': 'A random forest model', 'path': '/tmp/model.pkl.xz'}], 'proj': 'EPSG:4326', 'raster_collection_tiles': [{'id': 'RED', 'wavelength': 420, 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'data': [[[0, 1], [2, 3]], [[0, 1], [2, 3]]], 'extent': {'top': 53, 'bottom': 50, 'right': 30, 'left': 24, 'hight': 0.01, 'width': 0.01}}], 'structured_data': [{'description': 'Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.', 'data': {'RED': {'min': 0, 'max': 100, 'mean': 50}, 'NIR': {'min': 0, 'max': 100, 'mean': 50}}, 'type': 'dict'}, {'description': 'A list of values.', 'data': {'list': [1, 2, 3, 4, 5]}, 'type': 'list'}, {'description': 'A list of values.', 'data': {'table': [['id', 'value'], [1, 10], [2, 23], [3, 4]]}, 'type': 'table'}]}</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfData.example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">example</code><em class="property"> = {'feature_collection_tiles': [{'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'data': {'features': [{'id': '0', 'type': 'Feature', 'properties': {'a': 1, 'b': 'a'}, 'geometry': {'coordinates': [24.0, 50.0], 'type': 'Point'}}, {'id': '1', 'type': 'Feature', 'properties': {'a': 2, 'b': 'b'}, 'geometry': {'coordinates': [30.0, 53.0], 'type': 'Point'}}], 'type': 'FeatureCollection'}}], 'machine_learn_models': [{'framework': 'sklearn', 'name': 'random_forest', 'description': 'A random forest model', 'path': '/tmp/model.pkl.xz'}], 'proj': 'EPSG:4326', 'raster_collection_tiles': [{'id': 'RED', 'wavelength': 420, 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'data': [[[0, 1], [2, 3]], [[0, 1], [2, 3]]], 'extent': {'top': 53, 'bottom': 51, 'right': 30, 'left': 28, 'height': 1, 'width': 1}}], 'structured_data': [{'description': 'Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.', 'data': {'RED': {'min': 0, 'max': 100, 'mean': 50}, 'NIR': {'min': 0, 'max': 100, 'mean': 50}}, 'type': 'dict'}, {'description': 'A list of values.', 'data': {'list': [1, 2, 3, 4, 5]}, 'type': 'list'}, {'description': 'A list of values.', 'data': {'table': [['id', 'value'], [1, 10], [2, 23], [3, 4]]}, 'type': 'table'}]}</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfData.example" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="openeo_udf.server.definitions.UdfData.properties">
-<code class="descname">properties</code><em class="property"> = {'feature_collection_tiles': {'description': 'A list of feature collection tiles.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.FeatureCollectionTile'&gt;}, 'machine_learn_models': {'description': 'A list of machine learn models.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.MachineLearnModel'&gt;}, 'proj': {'type': 'string', 'description': 'The EPSG code or WKT projection string. eg: EPSG:4326'}, 'raster_collection_tiles': {'description': 'A list of raster collection tiles. Each tile represents a single image band or other scalar values like temperature.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.RasterCollectionTile'&gt;}, 'structured_data_list': {'description': 'A list of structured data objects that contain processing results that cant be represented by raster- or feature collection tiles.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.StructuredData'&gt;}}</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfData.properties" title="Permalink to this definition">¶</a></dt>
+<code class="descname">properties</code><em class="property"> = {'feature_collection_tiles': {'description': 'A list of feature collection tiles.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.FeatureCollectionTile'&gt;}, 'hypercubes': {'description': 'A list of hyper cubes.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.HyperCube'&gt;}, 'machine_learn_models': {'description': 'A list of machine learn models.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.MachineLearnModel'&gt;}, 'proj': {'type': 'string', 'description': 'The EPSG code or WKT projection string. eg: EPSG:4326'}, 'raster_collection_tiles': {'description': 'A list of raster collection tiles. Each tile represents a single image band or other scalar values like temperature.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.RasterCollectionTile'&gt;}, 'structured_data_list': {'description': 'A list of structured data objects that contain processing results that cant be represented by raster- or feature collection tiles.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.StructuredData'&gt;}}</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfData.properties" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -354,7 +411,7 @@
 
 <dl class="attribute">
 <dt id="openeo_udf.server.udf.Udf.methods">
-<code class="descname">methods</code><em class="property"> = ['POST']</em><a class="headerlink" href="#openeo_udf.server.udf.Udf.methods" title="Permalink to this definition">¶</a></dt>
+<code class="descname">methods</code><em class="property"> = {'POST'}</em><a class="headerlink" href="#openeo_udf.server.udf.Udf.methods" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -428,7 +485,7 @@
         <li class="right" >
           <a href="openeo_udf.functions.html" title="openeo_udf.functions package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev117+g8605626 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev157+g4ad5c5e documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="openeo_udf.html" >openeo_udf package</a> &#187;</li> 
       </ul>

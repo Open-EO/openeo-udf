@@ -36,6 +36,8 @@
           <a href="#definition-RasterCollectionTile"> RasterCollectionTile </a>
           <a href="#definition-SpatialExtent"> SpatialExtent </a>
           <a href="#definition-FeatureCollectionTile"> FeatureCollectionTile </a>
+          <a href="#definition-HyperCube"> HyperCube </a>
+          <a href="#definition-Dimension"> Dimension </a>
           <a href="#definition-StructuredData"> StructuredData </a>
           <a href="#definition-MachineLearnModel"> MachineLearnModel </a>
           <a href="#definition-ErrorResponse"> ErrorResponse </a>
@@ -139,7 +141,10 @@
                     <span>application/json</span>
                   </h5>
                   <h5>Request Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;code&quot;</span>: {
     <span class="hljs-attr">&quot;language&quot;</span>: <span class="hljs-string">&quot;python&quot;</span>,
     <span class="hljs-attr">&quot;source&quot;</span>: <span class="hljs-string">&quot;import numpy as np \n \ndef udf(data): \n    pass\n&quot;</span>
@@ -182,11 +187,11 @@
         ],
         <span class="hljs-attr">&quot;extent&quot;</span>: {
           <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
-          <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+          <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">51</span>,
           <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
-          <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
-          <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
-          <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+          <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">28</span>,
+          <span class="hljs-attr">&quot;height&quot;</span>: <span class="hljs-number">1</span>,
+          <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">1</span>
         }
       }
     ],
@@ -303,7 +308,8 @@
     ]
   }
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -349,7 +355,10 @@
                   <h5>Response Example
                     <span>(200 OK)</span>
                   </h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;proj&quot;</span>: <span class="hljs-string">&quot;EPSG:4326&quot;</span>,
   <span class="hljs-attr">&quot;raster_collection_tiles&quot;</span>: [
     {
@@ -387,11 +396,11 @@
       ],
       <span class="hljs-attr">&quot;extent&quot;</span>: {
         <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
-        <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+        <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">51</span>,
         <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
-        <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
-        <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
-        <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+        <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">28</span>,
+        <span class="hljs-attr">&quot;height&quot;</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">1</span>
       }
     }
   ],
@@ -507,18 +516,23 @@
     }
   ]
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
                 <section>
                   <h5>Response Example
                     <span>(400 Bad Request)</span>
                   </h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
   <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -567,7 +581,10 @@
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;code&quot;</span>: {
     <span class="hljs-attr">&quot;language&quot;</span>: <span class="hljs-string">&quot;python&quot;</span>,
     <span class="hljs-attr">&quot;source&quot;</span>: <span class="hljs-string">&quot;import numpy as np \n \ndef udf(data): \n    pass\n&quot;</span>
@@ -610,11 +627,11 @@
         ],
         <span class="hljs-attr">&quot;extent&quot;</span>: {
           <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
-          <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+          <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">51</span>,
           <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
-          <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
-          <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
-          <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+          <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">28</span>,
+          <span class="hljs-attr">&quot;height&quot;</span>: <span class="hljs-number">1</span>,
+          <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">1</span>
         }
       }
     ],
@@ -731,7 +748,8 @@
     ]
   }
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -777,11 +795,15 @@
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;language&quot;</span>: <span class="hljs-string">&quot;python&quot;</span>,
   <span class="hljs-attr">&quot;source&quot;</span>: <span class="hljs-string">&quot;import numpy as np \n \ndef udf(data): \n    pass\n&quot;</span>
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -858,6 +880,29 @@
                         <div class="json-inner-schema"> </div>
                       </section>
                     </dt>
+                    <dt data-property-name="hypercubes" class="has-description">
+                      <span class="json-property-name">hypercubes:</span>
+                      <span class="json-property-type">
+                        <span class="json-schema-ref-array">
+                          <a class="json-schema-ref" href="#/definitions/HyperCube">HyperCube</a>
+                        </span>
+                      </span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>A list of hyper cubes.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">
+                          <span class="">
+                            <a class="json-schema-ref" href="#/definitions/HyperCube">HyperCube</a>
+                          </span>
+                        </span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
                     <dt data-property-name="structured_data_list" class="has-description">
                       <span class="json-property-name">structured_data_list:</span>
                       <span class="json-property-type">
@@ -910,7 +955,10 @@
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;proj&quot;</span>: <span class="hljs-string">&quot;EPSG:4326&quot;</span>,
   <span class="hljs-attr">&quot;raster_collection_tiles&quot;</span>: [
     {
@@ -948,11 +996,11 @@
       ],
       <span class="hljs-attr">&quot;extent&quot;</span>: {
         <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
-        <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+        <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">51</span>,
         <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
-        <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
-        <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
-        <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+        <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">28</span>,
+        <span class="hljs-attr">&quot;height&quot;</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">1</span>
       }
     }
   ],
@@ -1068,7 +1116,8 @@
     }
   ]
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -1114,7 +1163,7 @@
                       <span class="json-property-required"></span>
                     </dt>
                     <dd>
-                      <p>A three dimensional array fo integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array.</p>
+                      <p>A three dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array.</p>
                     </dd>
                     <dt class="json-inner-schema">
                       <section class="json-schema-array-items">
@@ -1181,7 +1230,10 @@
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;test_data&quot;</span>,
   <span class="hljs-attr">&quot;wavelength&quot;</span>: <span class="hljs-number">420</span>,
   <span class="hljs-attr">&quot;start_times&quot;</span>: [
@@ -1216,14 +1268,15 @@
   ],
   <span class="hljs-attr">&quot;extent&quot;</span>: {
     <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
-    <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
+    <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">51</span>,
     <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
-    <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
-    <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
-    <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
+    <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">28</span>,
+    <span class="hljs-attr">&quot;height&quot;</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">1</span>
   }
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -1277,8 +1330,8 @@
                     <dd>
                       <p>The left (wester) border.</p>
                     </dd>
-                    <dt data-property-name="hight" class="has-description">
-                      <span class="json-property-name">hight:</span>
+                    <dt data-property-name="height" class="has-description">
+                      <span class="json-property-name">height:</span>
                       <span class="json-property-type">float</span>
                       <span class="json-property-range" title="Value limits"></span>
                     </dt>
@@ -1299,17 +1352,21 @@
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;extent&quot;</span>: {
     <span class="hljs-attr">&quot;top&quot;</span>: <span class="hljs-number">53</span>,
     <span class="hljs-attr">&quot;bottom&quot;</span>: <span class="hljs-number">50</span>,
     <span class="hljs-attr">&quot;right&quot;</span>: <span class="hljs-number">30</span>,
     <span class="hljs-attr">&quot;left&quot;</span>: <span class="hljs-number">24</span>,
-    <span class="hljs-attr">&quot;hight&quot;</span>: <span class="hljs-number">0.01</span>,
+    <span class="hljs-attr">&quot;height&quot;</span>: <span class="hljs-number">0.01</span>,
     <span class="hljs-attr">&quot;width&quot;</span>: <span class="hljs-number">0.01</span>
   }
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -1385,7 +1442,10 @@
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;test_data&quot;</span>,
   <span class="hljs-attr">&quot;start_times&quot;</span>: [
     <span class="hljs-string">&quot;2001-01-01T00:00:00&quot;</span>,
@@ -1431,7 +1491,243 @@
     <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;FeatureCollection&quot;</span>
   }
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-HyperCube" class="definition panel" data-traverse-target="definition-HyperCube">
+            <h2 class="panel-title">
+              <a name="/definitions/HyperCube"></a>HyperCube: object
+              <!-- <span class="json-property-type"><span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>A multi dimensional hypercube with configurable dimensions.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="id" class="has-description">
+                      <span class="json-property-name">id:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The identifier of this hyper cube.</p>
+                    </dd>
+                    <dt data-property-name="data" class="has-description">
+                      <span class="json-property-name">data:</span>
+                      <span class="json-property-type">float[][][]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>A multi-dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.By default index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array. The dimension options must be used ot describe other dimension configurations.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">float[][]</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema">
+                          <section class="json-schema-array-items">
+                            <span class="json-property-type">float[]</span>
+                            <span class="json-property-range" title="Value limits"></span>
+                            <div class="json-inner-schema">
+                              <section class="json-schema-array-items">
+                                <span class="json-property-type">float</span>
+                                <span class="json-property-range" title="Value limits"></span>
+                                <div class="json-inner-schema"> </div>
+                              </section>
+                            </div>
+                          </section>
+                        </div>
+                      </section>
+                    </dt>
+                    <dt data-property-name="dimensions" class="has-description">
+                      <span class="json-property-name">dimensions:</span>
+                      <span class="json-property-type">[object Object][]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The description of each dimension and the value as ordered list. The order of the dimension in this array is the order of the dimension in the hypercube. The dimension with the name
+                        <em>value</em> described the cell value.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">[object Object]</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;test_data&quot;</span>,
+  <span class="hljs-attr">&quot;data&quot;</span>: [
+    [
+      [
+        <span class="hljs-number">0</span>,
+        <span class="hljs-number">0.1</span>
+      ],
+      [
+        <span class="hljs-number">0.2</span>,
+        <span class="hljs-number">0.3</span>
+      ]
+    ],
+    [
+      [
+        <span class="hljs-number">0</span>,
+        <span class="hljs-number">0.1</span>
+      ],
+      [
+        <span class="hljs-number">0.2</span>,
+        <span class="hljs-number">0.3</span>
+      ]
+    ]
+  ],
+  <span class="hljs-attr">&quot;dimension&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;time&quot;</span>,
+      <span class="hljs-attr">&quot;unit&quot;</span>: <span class="hljs-string">&quot;ISO:8601&quot;</span>,
+      <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+        <span class="hljs-string">&quot;2001-01-01&quot;</span>,
+        <span class="hljs-string">&quot;2001-01-02&quot;</span>
+      ]
+    },
+    {
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;X&quot;</span>,
+      <span class="hljs-attr">&quot;unit&quot;</span>: <span class="hljs-string">&quot;degree&quot;</span>,
+      <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+        <span class="hljs-number">50</span>,
+        <span class="hljs-number">60</span>
+      ]
+    },
+    {
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Y&quot;</span>,
+      <span class="hljs-attr">&quot;unit&quot;</span>: <span class="hljs-string">&quot;degree&quot;</span>,
+      <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+        <span class="hljs-number">40</span>,
+        <span class="hljs-number">50</span>
+      ]
+    }
+  ]
+}
+</code></pre> </body>
+                  </html>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-Dimension" class="definition panel" data-traverse-target="definition-Dimension">
+            <h2 class="panel-title">
+              <a name="/definitions/Dimension"></a>Dimension: object
+              <!-- <span class="json-property-type"><span class="json-property-type">object</span>
+              <span class="json-property-range" title="Value limits"></span>
+              
+              
+              </span> -->
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>Description of a single dimension. </p>
+                </section>
+                <section class="json-schema-properties">
+                  <dl>
+                    <dt data-property-name="name" class="has-description">
+                      <span class="json-property-name">name:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
+                    </dt>
+                    <dd>
+                      <p>The name of the dimension, like
+                        <em>time</em>,
+                        <em>X</em>,
+                        <em>Y</em>,
+                        <em>Z</em> and so on.</p>
+                    </dd>
+                    <dt data-property-name="description" class="has-description">
+                      <span class="json-property-name">description:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>Description of the dimension.</p>
+                    </dd>
+                    <dt data-property-name="unit" class="has-description">
+                      <span class="json-property-name">unit:</span>
+                      <span class="json-property-type">string</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The unit of the dimension. The unit can be
+                        <em>ISO:8601</em> for time; metric length units based on meter:
+                        <em>nm</em> (nanometer),
+                        <em>mm</em> (millimeter),
+                        <em>cm</em> (centimeter),
+                        <em>m</em> (meter),
+                        <em>dm</em> (decimeter),
+                        <em>km</em> (kilometer); temperature
+                        <em>K</em> (Kelvin),
+                        <em>C</em> (degree Celsius);lat-lon coordinates in
+                        <em>degree</em>;earth observation units: NDVI, DVI, ... ; sensor units:
+                        <em>int8</em>,
+                        <em>int16</em>,
+                        <em>int32</em>; user defined units:
+                        <em>user_lala</em>
+                      </p>
+                    </dd>
+                    <dt data-property-name="coordinates" class="has-description">
+                      <span class="json-property-name">coordinates:</span>
+                      <span class="json-property-type">float[]</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </dt>
+                    <dd>
+                      <p>The array that contains the coordinates of the specific dimension. This parameter is optional.</p>
+                    </dd>
+                    <dt class="json-inner-schema">
+                      <section class="json-schema-array-items">
+                        <span class="json-property-type">float</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <div class="json-inner-schema"> </div>
+                      </section>
+                    </dt>
+                  </dl>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;unit&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;coordinates&quot;</span>: [
+    <span class="hljs-string">&quot;float&quot;</span>
+  ]
+}
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -1469,8 +1765,7 @@
                       <span class="json-property-required"></span>
                     </dt>
                     <dd>
-                      <p>The structured data. This field contains the UDF specific values (argument or return)as dict, list or table.
-                        <em> A dict can be as complex as required by the UDF. </em> A list must contain simple data types example {&quot;list&quot;: [1,2,3,4]} * A table is a list of lists with a header, example {&quot;table&quot;: [[&quot;id&quot;,&quot;value&quot;], [1, 10], [2, 23], [3, 4]]}</p>
+                      <p>The structured data. This field contains the UDF specific values (argument or return)as dict, list or table. * A dict can be as complex as required by the UDF. * A list must contain simple data types example {&quot;list&quot;: [1,2,3,4]} * A table is a list of lists with a header, example {&quot;table&quot;: [[&quot;id&quot;,&quot;value&quot;], [1, 10], [2, 23], [3, 4]]}</p>
                     </dd>
                     <dt data-property-name="type" class="has-description">
                       <span class="json-property-name">type:</span>
@@ -1484,7 +1779,7 @@
                       <span class="json-property-required"></span>
                     </dt>
                     <dd>
-                      <p>The type of the structured data that may be of type dict, table or list. This is just a hint for the user howto interpret the provided data.</p>
+                      <p>The type of the structured data that may be of type dict, table or list. This is just a hint for the user how to interpret the provided data.</p>
                     </dd>
                   </dl>
                 </section>
@@ -1492,7 +1787,10 @@
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.&quot;</span>,
   <span class="hljs-attr">&quot;data&quot;</span>: {
     <span class="hljs-attr">&quot;RED&quot;</span>: {
@@ -1508,7 +1806,8 @@
   },
   <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;dict&quot;</span>
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -1565,6 +1864,7 @@
                       <span class="json-property-name">path:</span>
                       <span class="json-property-type">string</span>
                       <span class="json-property-range" title="Value limits"></span>
+                      <span class="json-property-required"></span>
                     </dt>
                     <dd>
                       <p>The path/url to the machine learn model file to which the UDF must have read access.</p>
@@ -1575,13 +1875,17 @@
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;framework&quot;</span>: <span class="hljs-string">&quot;sklearn&quot;</span>,
   <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;random_forest&quot;</span>,
   <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;A random forest model&quot;</span>,
   <span class="hljs-attr">&quot;path&quot;</span>: <span class="hljs-string">&quot;/tmp/model.pkl.xz&quot;</span>
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
@@ -1626,11 +1930,15 @@
               <div class="doc-examples">
                 <section>
                   <h5>Example</h5>
-                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
   <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
 }
-</code></pre>
+</code></pre> </body>
+                  </html>
                   <!-- </div> -->
                 </section>
               </div>
