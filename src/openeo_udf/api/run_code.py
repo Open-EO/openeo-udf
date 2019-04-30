@@ -10,7 +10,8 @@ import tensorflow
 import tensorboard
 import math
 from typing import Dict
-from .base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, UdfData
+from openeo_udf.api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile,\
+    StructuredData, UdfData, HyperCube
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
