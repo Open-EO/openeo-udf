@@ -14,7 +14,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def rct_pytorch_ml(udf_data):
+def rct_pytorch_ml(udf_data: UdfData):
     """Apply a pre-trained pytorch machine learn model on the first tile
 
     The model must be a pytorch model that has expects the input data in the constructor
