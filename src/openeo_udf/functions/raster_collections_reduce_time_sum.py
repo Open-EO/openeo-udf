@@ -6,7 +6,7 @@
 #import torchvision
 #import tensorflow
 #import tensorboard
-#from openeo_udf.api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, UdfData
+from openeo_udf.api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -15,7 +15,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def rct_time_sum(udf_data):
+def rct_time_sum(udf_data: UdfData):
     """Reduce the time dimension for each tile and compute  sum for each pixel
     over time.
 
