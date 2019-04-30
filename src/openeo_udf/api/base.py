@@ -720,10 +720,10 @@ class HyperCube:
     the HyperCube JSON representation
 
 
-    >>> data = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
-    >>> data.attrs["description"] = "This is an xarray with two dimensions"
-    >>> data.name = "testdata"
-    >>> h = HyperCube(data=data)
+    >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
+    >>> array.attrs["description"] = "This is an xarray with two dimensions"
+    >>> array.name = "testdata"
+    >>> h = HyperCube(array=array)
     >>> d = h.to_dict()
     >>> d["id"]
     'testdata'
@@ -745,8 +745,8 @@ class HyperCube:
     >>> d["description"]
     'This is an xarray with two dimensions'
 
-    >>> data = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
-    >>> h = HyperCube(data=data)
+    >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
+    >>> h = HyperCube(array=array)
     >>> d = h.to_dict()
     >>> d["id"]
     >>> d["data"]
@@ -766,8 +766,8 @@ class HyperCube:
     >>> "description" not in d
     True
 
-    >>> data = xarray.DataArray(numpy.zeros(shape=(2, 3)))
-    >>> h = HyperCube(data=data)
+    >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)))
+    >>> h = HyperCube(array=array)
     >>> d = h.to_dict()
     >>> d["id"]
     >>> d["data"]
@@ -789,43 +789,43 @@ class HyperCube:
 
     """
 
-    def __init__(self, data: xarray.DataArray):
+    def __init__(self, array: xarray.DataArray):
 
-        self.set_data(data)
+        self.set_array(array)
 
     def __str__(self):
         return "id: %(id)s\n" \
-               "data: %(data)s"%{"id":self.id, "data":self.data}
+               "data: %(data)s"%{"id":self.id, "data":self.array}
 
-    def get_data(self) -> xarray.DataArray:
+    def get_array(self) -> xarray.DataArray:
         """Return the xarray.DataArray that contains the data and dimension definition
 
         Returns:
             xarray.DataArray: that contains the data and dimension definition
 
         """
-        return self._data
+        return self._array
 
-    def set_data(self, data: xarray.DataArray):
+    def set_array(self, array: xarray.DataArray):
         """Set the xarray.DataArray that contains the data and dimension definition
 
         This function will check if the provided data is a geopandas.GeoDataFrame and raises
         an Exception
 
         Args:
-            data: xarray.DataArray that contains the data and dimension definition
+            array: xarray.DataArray that contains the data and dimension definition
 
         """
-        if isinstance(data, xarray.DataArray) is False:
+        if isinstance(array, xarray.DataArray) is False:
             raise Exception("Argument data must be of type xarray.DataArray")
 
-        self._data = data
+        self._array = array
 
     @property
     def id(self):
-        return self._data.name
+        return self._array.name
 
-    data = property(fget=get_data, fset=set_data)
+    array = property(fget=get_array, fset=set_array)
 
     def to_dict(self) -> Dict:
         """Convert this hypercube into a dictionary that can be converted into
@@ -855,8 +855,8 @@ class HyperCube:
         """
 
         d = {"id":"", "data": "", "dimensions":[]}
-        if self._data is not None:
-            xd = self._data.to_dict()
+        if self._array is not None:
+            xd = self._array.to_dict()
 
             if "name" in xd:
                 d["id"] = xd["name"]
@@ -918,7 +918,7 @@ class HyperCube:
         if "description" in hc_dict:
             data.attrs["description"] = hc_dict["description"]
 
-        hc = HyperCube(data=data)
+        hc = HyperCube(array=data)
 
         return hc
 
@@ -1338,10 +1338,10 @@ class UdfData(object):
 
 
 
-    >>> data = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
-    >>> data.attrs["description"] = "This is an xarray with two dimensions"
-    >>> data.name = "testdata"
-    >>> h = HyperCube(data=data)
+    >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
+    >>> array.attrs["description"] = "This is an xarray with two dimensions"
+    >>> array.name = "testdata"
+    >>> h = HyperCube(array=array)
     >>> udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[h])
     >>> print(udf_data.get_hypercube_by_id("testdata").to_dict())
     {'id': 'testdata', 'data': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], 'dimensions': [{'name': 'x', 'coordinates': [1, 2]}, {'name': 'y', 'coordinates': [1, 2, 3]}], 'description': 'This is an xarray with two dimensions'}
