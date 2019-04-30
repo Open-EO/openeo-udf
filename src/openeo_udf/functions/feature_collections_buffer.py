@@ -8,7 +8,7 @@
 # import tensorflow
 # import tensorboard
 # from shapely.geometry import Point
-# from openeo_udf.api.base import FeatureCollectionTile, UdfData
+from openeo_udf.api.base import FeatureCollectionTile, UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -17,7 +17,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def fct_buffer(udf_data):
+def fct_buffer(udf_data: UdfData):
     """Compute buffer of size 10 around features
 
     This function creates buffer around all features in the provided feature collection tiles.
