@@ -7,7 +7,7 @@
 #import tensorflow
 #import tensorboard
 #from sklearn.ensemble import RandomForestRegressor
-#from openeo_udf.api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, UdfData, MachineLearnModel
+from openeo_udf.api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, UdfData, MachineLearnModel
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -16,7 +16,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def rct_sklearn_ml(udf_data):
+def rct_sklearn_ml(udf_data: UdfData):
     """Apply a pre-trained sklearn machine learn model on RED and NIR tiles
 
     The model must be a sklearn model that has a prediction method: m.predict(X)
