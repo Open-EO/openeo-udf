@@ -1523,11 +1523,10 @@
                     <dd>
                       <p>The identifier of this hyper cube.</p>
                     </dd>
-                    <dt data-property-name="data" class="has-description">
-                      <span class="json-property-name">data:</span>
+                    <dt data-property-name="array" class="has-description">
+                      <span class="json-property-name">array:</span>
                       <span class="json-property-type">float[][][]</span>
                       <span class="json-property-range" title="Value limits"></span>
-                      <span class="json-property-required"></span>
                     </dt>
                     <dd>
                       <p>A multi-dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.By default index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array. The dimension options must be used ot describe other dimension configurations.</p>
@@ -1745,7 +1744,7 @@
             <div class="doc-row">
               <div class="doc-copy">
                 <section class="json-schema-description">
-                  <p>This model represents structured data that is produced by an UDF and can not be representedas a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical computation. The data is self descriptive and supports the basic types dict/map, list and table.</p>
+                  <p>This model represents structured data that can not be representedas a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical computation. The data is self descriptive and supports the basic types dict/map, list and table. This data structure can also be used to provide contextual data from the user to the UDF, like kernel size, resampling pixel size and so on.</p>
                 </section>
                 <section class="json-schema-properties">
                   <dl>

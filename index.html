@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>OpenEO UDF Framework &#8212; openeo-udf 0.0.post0.dev157+g4ad5c5e documentation</title>
+    <title>OpenEO UDF Framework &#8212; openeo-udf 0.0.post0.dev173+g718ec76 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="license.html" title="License"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev157+g4ad5c5e documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev173+g718ec76 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -134,15 +134,15 @@ tensorflow <a class="footnote-reference" href="#tensorflow" id="id4">[4]</a> and
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir -p <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
 <span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
 
-git clone https://github.com/Open-EO/openeo-udf.gi
-virtualenv -p python3 openeo_venv
+git clone https://github.com/Open-EO/openeo-udf.git
+virtualenv -p python3 venv
 </pre></div>
 </div>
 </div></blockquote>
 </li>
 <li><p class="first">Install are requirements in the virtual environment:</p>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> openeo_venv/bin/activate
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> venv/bin/activate
 <span class="nb">cd</span> openeo-udf
 pip3 install -r requirements.txt
 </pre></div>
@@ -225,7 +225,7 @@ that contains the sampled attributes written in directory /tmp:</p>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir -p <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
 <span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
 
-git clone https://github.com/Open-EO/openeo-udf.gi
+git clone https://github.com/Open-EO/openeo-udf.git
 </pre></div>
 </div>
 </div></blockquote>
@@ -261,8 +261,8 @@ wget http://localhost:5000/api/v0/swagger.json
 </ol>
 </div>
 </div>
-<div class="section" id="coding-an-udf">
-<h2>Coding an UDF<a class="headerlink" href="#coding-an-udf" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-the-api-to-code-an-udf">
+<h2>Using the API to code an UDF<a class="headerlink" href="#using-the-api-to-code-an-udf" title="Permalink to this headline">¶</a></h2>
 <p>The python3 reference implementation provides an API to implement UDF conveniently. It makes use
 of many python3 libraries that provide functionality to access raster and vector geo-data.</p>
 <p>The following libraries should be used implementations UDF's:</p>
@@ -316,13 +316,19 @@ However, the original python3 file that implements the OpenEO UDF python3 API is
 <li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py</a></li>
 <li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sampling.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sampling.py</a></li>
 <li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_statistics.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_statistics.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_pytorch_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_pytorch_ml.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sklearn_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sklearn_ml.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/hypercube_ndvi.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/hypercube_ndvi.py</a></li>
 </ul>
 </div></blockquote>
-<p>Several UDF were implemented and provide and example howto develop an UDF. A unittest was implemented for
-each UDF. The tests are available here:</p>
+<p>Several UDF were implemented and provide and example howto develop an UDF. Unittest were implemented for
+each UDF including machine learn models and hypercube approach. The tests are available here:</p>
 <blockquote>
 <div><ul class="simple">
 <li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_sklearn_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_sklearn_ml.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_pytorch_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_pytorch_ml.py</a></li>
 </ul>
 </div></blockquote>
 <p>The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend
@@ -331,8 +337,10 @@ driver:</p>
 <div><ul class="simple">
 <li>SpatialExtent</li>
 <li>RasterCollectionTile</li>
+<li>Hypercube</li>
 <li>FeatureCollectionTile</li>
 <li>StructuredData</li>
+<li>MachineLearnModel</li>
 <li>UdfData</li>
 </ul>
 </div></blockquote>
@@ -458,12 +466,12 @@ with two 2x2 tiles with two start and end time stamps.</p>
           <span class="p">]</span>
         <span class="p">],</span>
         <span class="nt">&quot;extent&quot;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&quot;north&quot;</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span>
-          <span class="nt">&quot;south&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-          <span class="nt">&quot;east&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
-          <span class="nt">&quot;nsres&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-          <span class="nt">&quot;ewres&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-          <span class="nt">&quot;west&quot;</span><span class="p">:</span> <span class="mi">24</span>
+          <span class="nt">&quot;top&quot;</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span>
+          <span class="nt">&quot;bottom&quot;</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
+          <span class="nt">&quot;right&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+          <span class="nt">&quot;left&quot;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
+          <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1</span>
         <span class="p">},</span>
         <span class="nt">&quot;end_times&quot;</span><span class="p">:</span> <span class="p">[</span>
           <span class="s2">&quot;2001-01-02T00:00:00&quot;</span><span class="p">,</span>
@@ -711,7 +719,7 @@ placed in the shell environmental variable &quot;JSON&quot;, should look like th
 <li><a class="reference internal" href="#docker-image">Docker image</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#coding-an-udf">Coding an UDF</a><ul>
+<li><a class="reference internal" href="#using-the-api-to-code-an-udf">Using the API to code an UDF</a><ul>
 <li><a class="reference internal" href="#using-the-udf-command-line-tool">Using the UDF command line tool</a></li>
 <li><a class="reference internal" href="#using-the-udf-server">Using the UDF server</a></li>
 </ul>
@@ -760,7 +768,7 @@ placed in the shell environmental variable &quot;JSON&quot;, should look like th
         <li class="right" >
           <a href="license.html" title="License"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev157+g4ad5c5e documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev173+g718ec76 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

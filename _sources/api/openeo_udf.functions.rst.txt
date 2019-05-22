@@ -12,6 +12,14 @@ openeo\_udf.functions.feature\_collections\_buffer module
     :undoc-members:
     :show-inheritance:
 
+openeo\_udf.functions.hypercube\_ndvi module
+--------------------------------------------
+
+.. automodule:: openeo_udf.functions.hypercube_ndvi
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 openeo\_udf.functions.raster\_collections\_ndvi module
 ------------------------------------------------------
 
