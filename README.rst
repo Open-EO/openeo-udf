@@ -77,14 +77,14 @@ Local installation
         cd ${HOME}/src/openeo
 
         git clone https://github.com/Open-EO/openeo-udf.git
-        virtualenv -p python3 openeo_venv
+        virtualenv -p python3 venv
     ..
 
 2. Install are requirements in the virtual environment:
 
     .. code-block:: bash
 
-        source openeo_venv/bin/activate
+        source venv/bin/activate
         cd openeo-udf
         pip3 install -r requirements.txt
     ..
@@ -209,8 +209,8 @@ The openeo-udf repository contains the build instruction of an openeo-udf docker
     ..
 
 
-Coding an UDF
-=============
+Using the API to code an UDF
+============================
 
 The python3 reference implementation provides an API to implement UDF conveniently. It makes use
 of many python3 libraries that provide functionality to access raster and vector geo-data.
@@ -249,18 +249,32 @@ The UDF's are directly available for download from the repository:
 
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_statistics.py
 
-Several UDF were implemented and provide and example howto develop an UDF. A unittest was implemented for
-each UDF. The tests are available here:
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_pytorch_ml.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sklearn_ml.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/hypercube_ndvi.py
+
+Several UDF were implemented and provide and example howto develop an UDF. Unittest were implemented for
+each UDF including machine learn models and hypercube approach. The tests are available here:
 
     * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_sklearn_ml.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_pytorch_ml.py
 
 The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend
 driver:
 
     * SpatialExtent
     * RasterCollectionTile
+    * Hypercube
     * FeatureCollectionTile
     * StructuredData
+    * MachineLearnModel
     * UdfData
 
 Using the UDF command line tool
