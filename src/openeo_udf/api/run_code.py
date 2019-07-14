@@ -20,18 +20,18 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def run_json_user_code(json_data: Dict) -> Dict:
+def run_json_user_code(dict_data: Dict) -> Dict:
     """Run the user defined python code
 
     Args:
-        json_data: the udf request object with code and data
+        dict_data: the udf request object with code and data organized in a dictionary
 
     Returns:
 
     """
-    code = json_data["code"]["source"]
+    code = dict_data["code"]["source"]
 
-    data = UdfData.from_dict(json_data["data"])
+    data = UdfData.from_dict(dict_data["data"])
 
     exec(code)
     return data.to_dict()
