@@ -135,7 +135,7 @@ class UdfMessagePack(Resource):
                 raise Exception("JSON is not supported in request. A base64 encoded message pack blob is required.")
 
             blob = base64.decode(request.data)
-            json_data = msgpack.loads(blob)
+            json_data = msgpack.unpackb(blob)
 
             result = run_json_user_code(json_data=json_data)
         except Exception:
@@ -143,5 +143,5 @@ class UdfMessagePack(Resource):
             response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
-        result = base64.b64encode(msgpack.dumps(result))
+        result = base64.b64encode(msgpack.packb(result))
         return make_response(result, 200)
