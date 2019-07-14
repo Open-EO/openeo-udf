@@ -37,13 +37,21 @@ MessagePack is available here: https://msgpack.org/
 
 Using Messagepack is quite easy:
 
->>> import msgpack
->>> import base64
->>> d = dict(array=[1,2,3,4,5], name="Test", meta=dict(a="a", b=2))
->>> msgpack.packb(d)
-b'\x83\xa5array\x95\x01\x02\x03\x04\x05\xa4name\xa4Test\xa4meta\x82\xa1a\xa1a\xa1b\x02'
->>> msgpack.unpackb(_)
-{b'array': [1, 2, 3, 4, 5], b'name': b'Test', b'meta': {b'a': b'a', b'b': 2}}
+In [1]: import msgpack
+In [2]: import base64
+In [3]: d = {1:[1,2,3,4,5,6], "w":"fffff", "d":{"d":"d"}}
+In [4]: d
+Out[4]: {1: [1, 2, 3, 4, 5, 6], 'w': 'fffff', 'd': {'d': 'd'}}
+In [5]: msgpack.packb(d)
+Out[5]: b'\x83\x01\x96\x01\x02\x03\x04\x05\x06\xa1w\xa5fffff\xa1d\x81\xa1d\xa1d'
+In [6]: p = msgpack.packb(d)
+In [7]: base64.b64encode(p)
+Out[7]: b'gwGWAQIDBAUGoXelZmZmZmahZIGhZKFk'
+In [8]: t = base64.b64encode(p)
+In [9]: base64.b64decode(t)
+Out[9]: b'\x83\x01\x96\x01\x02\x03\x04\x05\x06\xa1w\xa5fffff\xa1d\x81\xa1d\xa1d'
+In [10]: msgpack.unpackb(base64.b64decode(t))
+Out[10]: {1: [1, 2, 3, 4, 5, 6], b'w': b'fffff', b'd': {b'd': b'd'}}
 
 """
 
@@ -87,7 +95,7 @@ class Udf(Resource):
                 raise Exception("Missing JSON in request")
 
             json_data = request.get_json()
-            result = run_json_user_code(json_data=json_data)
+            result = run_json_user_code(dict_data=json_data)
         except Exception:
             e_type, e_value, e_tb = sys.exc_info()
             response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
@@ -134,10 +142,9 @@ class UdfMessagePack(Resource):
             if request.is_json is True:
                 raise Exception("JSON is not supported in request. A base64 encoded message pack blob is required.")
 
-            blob = base64.decode(request.data)
-            json_data = msgpack.unpackb(blob)
-
-            result = run_json_user_code(json_data=json_data)
+            blob = base64.b64decode(request.data)
+            dict_data = msgpack.unpackb(blob, raw=False)
+            result = run_json_user_code(dict_data=dict_data)
         except Exception:
             e_type, e_value, e_tb = sys.exc_info()
             response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
