@@ -71,10 +71,7 @@ RUN pip3 install --upgrade setuptools
 RUN pip3 install -r requirements.txt
 RUN python3 setup.py install
 
-WORKDIR /tmp/src/
-COPY start.sh /tmp/src/start.sh
-
-CMD bash /tmp/src/start.sh
+CMD bash /tmp/src/openeo_udf/docker/start.sh
 
 EXPOSE 5100
 EXPOSE 5200
