@@ -3,5 +3,5 @@
 
 class UdfConfiguration:
 
-    machine_learn_storage_path = "/tmp"  # Path to store machine learn objects
+    machine_learn_storage_path = "/tmp/ml_storage"  # Path to store machine learn objects
 
