@@ -68,6 +68,7 @@ class RasterCollectionTile(Schema):
             "type": "float"
         },
         "data": {
+
             "description": "A three dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values." \
                            "The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns " \
                            "the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom " \
@@ -329,7 +330,13 @@ class MachineLearnModel(Schema):
         },
         "path": {
             "type": "string",
-            "description": "The path/url to the machine learn model file to which the UDF must have read access."
+            "description": "The path to the machine learn model file to which the UDF must have read access."
+        },
+        "md5": {
+            "type": "string",
+            "description": "The md5 checksum of the model that should be used to identify "
+                           "the machine learn model in the UDF system. The machine learn model must be "
+                           "uploaded to the UDF server."
         }
     }
     example = {"framework": "sklearn",
