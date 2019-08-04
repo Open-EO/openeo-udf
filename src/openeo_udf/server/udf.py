@@ -4,8 +4,8 @@ import sys
 from flask import make_response, jsonify, request, json
 from flask_restful import abort, Resource
 from flask_restful_swagger_2 import swagger
-from .definitions import UdfData, UdfCode, UdfRequest, ErrorResponse
-from ..api.run_code import run_json_user_code
+from openeo_udf.server.definitions import UdfData, UdfCode, UdfRequest, ErrorResponse
+from openeo_udf.api.run_code import run_json_user_code
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
