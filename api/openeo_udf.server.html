@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.server package &#8212; openeo-udf 0.0.post0.dev183+g2581d22 documentation</title>
+    <title>openeo_udf.server package &#8212; openeo-udf 0.0.post0.dev195+g1b11399 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="openeo_udf.functions.html" title="openeo_udf.functions package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev183+g2581d22 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev195+g1b11399 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="openeo_udf.html" accesskey="U">openeo_udf package</a> &#187;</li> 
       </ul>
@@ -48,6 +48,20 @@
 </div>
 <div class="section" id="module-openeo_udf.server.app">
 <span id="openeo-udf-server-app-module"></span><h2>openeo_udf.server.app module<a class="headerlink" href="#module-openeo_udf.server.app" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-openeo_udf.server.config">
+<span id="openeo-udf-server-config-module"></span><h2>openeo_udf.server.config module<a class="headerlink" href="#module-openeo_udf.server.config" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.config.UdfConfiguration">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.config.</code><code class="descname">UdfConfiguration</code><a class="reference internal" href="../_modules/openeo_udf/server/config.html#UdfConfiguration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.config.UdfConfiguration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.config.UdfConfiguration.machine_learn_storage_path">
+<code class="descname">machine_learn_storage_path</code><em class="property"> = '/tmp/ml_storage'</em><a class="headerlink" href="#openeo_udf.server.config.UdfConfiguration.machine_learn_storage_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-openeo_udf.server.definitions">
 <span id="openeo-udf-server-definitions-module"></span><h2>openeo_udf.server.definitions module<a class="headerlink" href="#module-openeo_udf.server.definitions" title="Permalink to this headline">¶</a></h2>
@@ -181,7 +195,7 @@
 
 <dl class="attribute">
 <dt id="openeo_udf.server.definitions.MachineLearnModel.properties">
-<code class="descname">properties</code><em class="property"> = {'description': {'type': 'string', 'description': 'The description of the machine learn model.'}, 'framework': {'type': 'string', 'description': 'The framework that was used to train the model', 'enum': ['sklearn', 'pytorch', 'tensorflow', 'R']}, 'name': {'type': 'string', 'description': 'The name of the machine learn model.'}, 'path': {'type': 'string', 'description': 'The path/url to the machine learn model file to which the UDF must have read access.'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel.properties" title="Permalink to this definition">¶</a></dt>
+<code class="descname">properties</code><em class="property"> = {'description': {'type': 'string', 'description': 'The description of the machine learn model.'}, 'framework': {'type': 'string', 'description': 'The framework that was used to train the model', 'enum': ['sklearn', 'pytorch', 'tensorflow', 'R']}, 'md5': {'type': 'string', 'description': 'The md5 checksum of the model that should be used to identify the machine learn model in the UDF system. The machine learn model must be uploaded to the UDF server.'}, 'name': {'type': 'string', 'description': 'The name of the machine learn model.'}, 'path': {'type': 'string', 'description': 'The path to the machine learn model file to which the UDF must have read access.'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel.properties" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -390,6 +404,38 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-openeo_udf.server.machine_learn_database">
+<span id="openeo-udf-server-machine-learn-database-module"></span><h2>openeo_udf.server.machine_learn_database module<a class="headerlink" href="#module-openeo_udf.server.machine_learn_database" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.machine_learn_database.MachineLearnDatabase">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.machine_learn_database.</code><code class="descname">MachineLearnDatabase</code><a class="reference internal" href="../_modules/openeo_udf/server/machine_learn_database.html#MachineLearnDatabase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.machine_learn_database.MachineLearnDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful.Resource</span></code></p>
+<p>The machine learn model storage</p>
+<dl class="method">
+<dt id="openeo_udf.server.machine_learn_database.MachineLearnDatabase.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>md5_hash: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/machine_learn_database.html#MachineLearnDatabase.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.machine_learn_database.MachineLearnDatabase.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a single machine learn model from the server</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.server.machine_learn_database.MachineLearnDatabase.get">
+<code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/machine_learn_database.html#MachineLearnDatabase.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.machine_learn_database.MachineLearnDatabase.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all md5 hashes of the stored machine learn models as list</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.machine_learn_database.MachineLearnDatabase.methods">
+<code class="descname">methods</code><em class="property"> = {'POST', 'DELETE', 'GET'}</em><a class="headerlink" href="#openeo_udf.server.machine_learn_database.MachineLearnDatabase.methods" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="openeo_udf.server.machine_learn_database.MachineLearnDatabase.post">
+<code class="descname">post</code><span class="sig-paren">(</span><em>url: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/machine_learn_database.html#MachineLearnDatabase.post"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.machine_learn_database.MachineLearnDatabase.post" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-openeo_udf.server.main">
 <span id="openeo-udf-server-main-module"></span><h2>openeo_udf.server.main module<a class="headerlink" href="#module-openeo_udf.server.main" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -466,8 +512,10 @@
 <li><a class="reference internal" href="#">openeo_udf.server package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.app">openeo_udf.server.app module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.config">openeo_udf.server.config module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.definitions">openeo_udf.server.definitions module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.endpoints">openeo_udf.server.endpoints module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.machine_learn_database">openeo_udf.server.machine_learn_database module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.main">openeo_udf.server.main module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.udf">openeo_udf.server.udf module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server">Module contents</a></li>
@@ -513,7 +561,7 @@
         <li class="right" >
           <a href="openeo_udf.functions.html" title="openeo_udf.functions package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev183+g2581d22 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev195+g1b11399 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="openeo_udf.html" >openeo_udf package</a> &#187;</li> 
       </ul>

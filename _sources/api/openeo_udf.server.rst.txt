@@ -12,6 +12,14 @@ openeo\_udf.server.app module
     :undoc-members:
     :show-inheritance:
 
+openeo\_udf.server.config module
+--------------------------------
+
+.. automodule:: openeo_udf.server.config
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 openeo\_udf.server.definitions module
 -------------------------------------
 
@@ -24,6 +32,14 @@ openeo\_udf.server.endpoints module
 -----------------------------------
 
 .. automodule:: openeo_udf.server.endpoints
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.machine\_learn\_database module
+--------------------------------------------------
+
+.. automodule:: openeo_udf.server.machine_learn_database
     :members:
     :undoc-members:
     :show-inheritance:
