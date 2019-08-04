@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from .app import flask_api
-from .udf import Udf
+from openeo_udf.server.app import flask_api
+from openeo_udf.server.udf import Udf
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
