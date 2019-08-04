@@ -167,7 +167,6 @@ class Dimension(Schema):
 #####################################################################
 
 class HyperCube(Schema):
-    # TODO: Adjust to xarray dictionary representation
     description = "A multi dimensional hypercube with configurable dimensions."
     type = "object"
     required = ["id", "data", "dimension"]
@@ -177,7 +176,7 @@ class HyperCube(Schema):
             "type": "string"
         },
 
-        "data": {
+        "array": {
             "description": "A multi-dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values." \
                            "By default index dimension is as follows: [time][y][x]. Hence, the index data[0] returns " \
                            "the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom " \
@@ -272,9 +271,11 @@ class FeatureCollectionTile(Schema):
 #####################################################################
 
 class StructuredData(Schema):
-    description = "This model represents structured data that is produced by an UDF and can not be represented" \
+    description = "This model represents structured data that can not be represented" \
                   "as a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical " \
-                  "computation. The data is self descriptive and supports the basic types dict/map, list and table."
+                  "computation. The data is self descriptive and supports the basic types dict/map, list and table. " \
+                  "This data structure can also be used to provide contextual data from the user to the UDF, like " \
+                  "kernel size, resampling pixel size and so on."
     type = "object"
     required = ["description", "data", "type"]
     properties = {

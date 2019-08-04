@@ -9,7 +9,7 @@
 # import tensorboard
 # import math
 # from shapely.geometry import Point
-# from openeo_udf.api.base import FeatureCollectionTile, RasterCollectionTile, UdfData
+from openeo_udf.api.base import FeatureCollectionTile, RasterCollectionTile, UdfData
 # from pprint import pprint
 
 __license__ = "Apache License, Version 2.0"
@@ -19,7 +19,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def fct_sampling(udf_data):
+def fct_sampling(udf_data: UdfData):
     """Sample any number of raster collection tiles with a single feature collection (the first if several are provided)
     and store the samples values in the input feature collection. Each time-slice of a raster collection is
     stored as a separate column in the feature collection. Hence, the size of the feature collection attributes

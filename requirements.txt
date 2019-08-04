@@ -10,12 +10,12 @@ scipy
 Pillow==5.0.0
 ply==3.11
 PyScaffold==3.0.2
-PyYAML==3.12
+PyYAML==4.2b1
 scikit-learn==0.19.1
 six==1.11.0
 tensorflow
 Sphinx==1.7.2
-Flask==0.12.3
+Flask==1.0.2
 Flask-Cors==3.0.3
 Flask-RESTful==0.3.6
 flask-restful-swagger-2==0.35
@@ -26,5 +26,6 @@ http://download.pytorch.org/whl/cpu/torch-0.4.0-cp36-cp36m-linux_x86_64.whl
 torch==0.4.0
 torchvision==0.2.0
 pygdal==2.2.3.3
+msgpack==0.6.1
 # Rasterio has a bug recognizing the numpy header files so we must install it after the requirements installation by hand
 # rasterio==0.36.0

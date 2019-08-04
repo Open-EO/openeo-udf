@@ -21,11 +21,10 @@ def main():
     parser.add_argument("--port", type=int, required=False, default=5000,
                         help="The port that should be used for the server")
 
-    parser.add_argument("--debug", type=bool, required=False, default=True,
+    parser.add_argument("--debug", type=bool, required=False, default=False,
                         help="Set True to activate debugging")
 
     args = parser.parse_args()
-
 
     create_endpoints()
     flask_app.run(host=args.host, port=args.port, debug=args.debug)

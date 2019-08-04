@@ -2,7 +2,7 @@
 import os
 from openeo_udf.server.config import UdfConfiguration
 from openeo_udf.server.app import flask_api
-from openeo_udf.server.udf import Udf
+from openeo_udf.server.udf import Udf, UdfMessagePack
 from openeo_udf.server.machine_learn_database import MachineLearnDatabase
 
 __license__ = "Apache License, Version 2.0"
@@ -27,6 +27,7 @@ def create_endpoints():
 
     if created is False:
         flask_api.add_resource(Udf, '/udf')
+        flask_api.add_resource(UdfMessagePack, '/udf_message_pack')
         flask_api.add_resource(MachineLearnDatabase, '/ml_storage')
         created = True
 

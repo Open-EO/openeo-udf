@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import base64
+
+import msgpack
 from flask import json
 import os
 import pprint
@@ -127,7 +130,6 @@ class MachineLearningTestCase(unittest.TestCase):
 
     def test_sklearn_random_forest(self):
         """Test random forest model training and UDF application"""
-
         model = RandomForestRegressor(n_estimators=100, max_depth=7,
                                       max_features="log2", n_jobs=16,
                                       min_samples_split=2,
@@ -135,69 +137,108 @@ class MachineLearningTestCase(unittest.TestCase):
                                       verbose=0)
 
         MachineLearningTestCase.train_sklearn_model(model=model)
-
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
         udf_code = UdfCode(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-
         udf_request = UdfRequest(data=udf_data, code=udf_code)
-
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
         pprint.pprint(result)
+        self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[3.0, 3.0]], [[5.0, 5.0]]])
 
+    def test_sklearn_random_forest_message_pack(self):
+        """Test random forest model training and UDF application"""
+        model = RandomForestRegressor(n_estimators=100, max_depth=7,
+                                      max_features="log2", n_jobs=16,
+                                      min_samples_split=2,
+                                      min_samples_leaf=1,
+                                      verbose=0)
+
+        MachineLearningTestCase.train_sklearn_model(model=model)
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = PIXEL
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        blob = base64.b64encode(msgpack.packb(udf_request, use_bin_type=True))
+        response = self.app.post('/udf_message_pack', data=blob, content_type="application/base64")
+        result = msgpack.unpackb(base64.b64decode(response.data), raw=False)
         self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[3.0, 3.0]], [[5.0, 5.0]]])
 
     def test_sklearn_gradient_boost(self):
         """Test gradent boost model training and UDF application"""
-
         model = GradientBoostingRegressor(n_estimators=100, max_depth=7,
                                           max_features="log2",
                                           min_samples_split=2,
                                           min_samples_leaf=1,
                                           verbose=0)
-
         MachineLearningTestCase.train_sklearn_model(model=model)
-
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
         udf_code = UdfCode(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-
         udf_request = UdfRequest(data=udf_data, code=udf_code)
-
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
         pprint.pprint(result)
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][0][0][0], 3.0, 2)
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][1][0][0], 5.0, 2)
 
-        # self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[3.0, 3.0]], [[5.0, 5.0]]])
+    def test_sklearn_gradient_boost_message_pack(self):
+        """Test gradent boost model training and UDF application"""
+        model = GradientBoostingRegressor(n_estimators=100, max_depth=7,
+                                          max_features="log2",
+                                          min_samples_split=2,
+                                          min_samples_leaf=1,
+                                          verbose=0)
+        MachineLearningTestCase.train_sklearn_model(model=model)
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = PIXEL
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        blob = base64.b64encode(msgpack.packb(udf_request, use_bin_type=True))
+        response = self.app.post('/udf_message_pack', data=blob, content_type="application/base64")
+        result = msgpack.unpackb(base64.b64decode(response.data), raw=False)
         self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][0][0][0], 3.0, 2)
         self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][1][0][0], 5.0, 2)
 
     def test_sklearn_extra_tree(self):
         """Test extra tree training and UDF application"""
-
         model = ExtraTreesRegressor(n_estimators=100, max_depth=7,
                                     max_features="log2",
                                     min_samples_split=2,
                                     min_samples_leaf=1,
                                     verbose=0)
-
         MachineLearningTestCase.train_sklearn_model(model=model)
-
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
         udf_code = UdfCode(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-
         udf_request = UdfRequest(data=udf_data, code=udf_code)
-
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
         pprint.pprint(result)
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][0][0][0], 3.0, 2)
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][1][0][0], 5.0, 2)
 
-        # self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[3.0, 3.0]], [[5.0, 5.0]]])
+    def test_sklearn_extra_tree_message_pack(self):
+        """Test extra tree training and UDF application"""
+        model = ExtraTreesRegressor(n_estimators=100, max_depth=7,
+                                    max_features="log2",
+                                    min_samples_split=2,
+                                    min_samples_leaf=1,
+                                    verbose=0)
+        MachineLearningTestCase.train_sklearn_model(model=model)
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = PIXEL
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        blob = base64.b64encode(msgpack.packb(udf_request, use_bin_type=True))
+        response = self.app.post('/udf_message_pack', data=blob, content_type="application/base64")
+        result = msgpack.unpackb(base64.b64decode(response.data), raw=False)
         self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][0][0][0], 3.0, 2)
         self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][1][0][0], 5.0, 2)
 

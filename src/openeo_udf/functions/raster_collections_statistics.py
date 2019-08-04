@@ -6,7 +6,7 @@
 #import torchvision
 #import tensorflow
 #import tensorboard
-#from ..api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, UdfData
+from openeo_udf.api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -15,7 +15,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def rct_stats(udf_data):
+def rct_stats(udf_data: UdfData):
     """Compute univariate statistics for each raster collection tile
 
     Args:
