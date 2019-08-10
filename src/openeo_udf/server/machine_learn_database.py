@@ -9,7 +9,7 @@ from os.path import isfile, join
 from typing import Optional
 
 import requests
-from flask import make_response, jsonify
+from flask import make_response, jsonify, request
 from flask_restful import abort, Resource
 from openeo_udf.server.definitions import ErrorResponse
 from openeo_udf.server.config import UdfConfiguration
@@ -42,9 +42,9 @@ class MachineLearnDatabase(Resource):
             response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
-    def delete(self, md5_hash: str):
+    def delete(self):
         """Remove a single machine learn model from the server"""
-
+        md5_hash = str(request.data.decode('ascii'))
         try:
             path = os.path.join(UdfConfiguration.machine_learn_storage_path, md5_hash)
             if os.path.exists(path):
@@ -58,9 +58,10 @@ class MachineLearnDatabase(Resource):
             response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
-    def post(self, url: str):
+    def post(self):
 
         try:
+            url = str(request.data.decode('ascii'))
             if os.path.exists(url):
                 filepath = url
             else:
