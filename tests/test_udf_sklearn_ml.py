@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import base64
+from copy import deepcopy
 
 import msgpack
 from flask import json
@@ -224,7 +225,7 @@ class MachineLearningTestCase(unittest.TestCase):
         self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][1][0][0], 5.0, 2)
 
     def test_sklearn_extra_tree_message_pack(self):
-        """Test extra tree training and UDF application"""
+        """Test extra tree training and UDF application with message pack protocol"""
         model = ExtraTreesRegressor(n_estimators=100, max_depth=7,
                                     max_features="log2",
                                     min_samples_split=2,
@@ -241,6 +242,33 @@ class MachineLearningTestCase(unittest.TestCase):
         result = msgpack.unpackb(base64.b64decode(response.data), raw=False)
         self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][0][0][0], 3.0, 2)
         self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][1][0][0], 5.0, 2)
+
+    def test_sklearn_extra_tree_message_pack_md5_hash(self):
+        """Test extra tree training and UDF application with message pack protocol and the machine learn model
+        uploaded to the UDF md5 hash based storage system"""
+        model = ExtraTreesRegressor(n_estimators=100, max_depth=7,
+                                    max_features="log2",
+                                    min_samples_split=2,
+                                    min_samples_leaf=1,
+                                    verbose=0)
+        model_path = MachineLearningTestCase.train_sklearn_model(model=model)
+        # Post the model to the database
+        response = self.app.post('/storage', data=model_path, content_type="text/plain")
+        self.assertEqual(response.status_code, 200)
+        md5_hash = response.data.decode("ascii").strip().replace("\"", "")
+        dir = os.path.dirname(openeo_udf.functions.__file__)
+        file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
+        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_data = deepcopy(PIXEL)
+        udf_data["machine_learn_models"][0]["md5_hash"] = md5_hash
+        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        blob = base64.b64encode(msgpack.packb(udf_request, use_bin_type=True))
+        response = self.app.post('/udf_message_pack', data=blob, content_type="application/base64")
+        result = msgpack.unpackb(base64.b64decode(response.data), raw=False)
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][0][0][0], 3.0, 2)
+        self.assertAlmostEqual(result["raster_collection_tiles"][0]["data"][1][0][0], 5.0, 2)
+        response = self.app.delete('/storage', data=md5_hash, content_type="text/plain")
+        self.assertEqual(response.status_code, 200)
 
 
 if __name__ == "__main__":
