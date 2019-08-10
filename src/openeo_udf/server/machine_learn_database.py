@@ -11,6 +11,8 @@ from typing import Optional
 import requests
 from flask import make_response, jsonify, request
 from flask_restful import abort, Resource
+from flask_restful_swagger_2 import swagger
+
 from openeo_udf.server.definitions import ErrorResponse
 from openeo_udf.server.config import UdfConfiguration
 
@@ -22,10 +24,63 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
+GET = {
+    "description": "Return a list of all md5 hashes of the provided machine learn models",
+    "tags": ["UDF", "machine learning"],
+    'produces':["application/json"],
+    "responses": {
+        "200": {
+            "description": "A list of md5 hashes of all stored machine learn models.",
+        },
+        "400": {
+            "description": "The error message.",
+            "schema": ErrorResponse
+        }
+    }
+}
+
+
+POST = {
+    "description": "Store a machine learn model in the udf machine learn database "
+                   "and return the corresponding md5 hash. The URL were the model is located "
+                   "must be provided as text in the HTTP request",
+    "tags": ["UDF", "machine learning"],
+    'consumes':['text/plain'],
+    'produces':["text/plain"],
+    "responses": {
+        "200": {
+            "description": "The md5 hash of the stred model.",
+        },
+        "400": {
+            "description": "The error message.",
+            "schema": ErrorResponse
+        }
+    }
+}
+
+DELETE = {
+    "description": "Delete a machine learn model in the udf machine learn database "
+                   "that matches the provided md5 hash. The md5 hash of the to be deleted model "
+                   "must be provided as text in the HTTP request",
+    "tags": ["UDF", "machine learning"],
+    'consumes':['text/plain'],
+    'produces':["text/plain"],
+    "responses": {
+        "200": {
+            "description": "The model was successfully removed.",
+        },
+        "400": {
+            "description": "The model was not found in the storage.",
+            "schema": ErrorResponse
+        }
+    }
+}
+
 
 class MachineLearnDatabase(Resource):
     """The machine learn model storage"""
 
+    @swagger.doc(GET)
     def get(self):
         """Return all md5 hashes of the stored machine learn models as list
         """
@@ -42,6 +97,7 @@ class MachineLearnDatabase(Resource):
             response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
+    @swagger.doc(DELETE)
     def delete(self):
         """Remove a single machine learn model from the server"""
         md5_hash = str(request.data.decode('ascii'))
@@ -58,7 +114,9 @@ class MachineLearnDatabase(Resource):
             response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
+    @swagger.doc(POST)
     def post(self):
+        """Upload a new machine learn model to the UDF machine learn storage"""
 
         try:
             url = str(request.data.decode('ascii'))
@@ -93,6 +151,10 @@ class MachineLearnDatabase(Resource):
         if os.path.exists(filepath) and os.path.isfile(filepath):
             md5_hash = md5(open(filepath, "rb").read()).hexdigest()
             md5_hash_path = os.path.join(UdfConfiguration.machine_learn_storage_path, md5_hash)
+
+            if os.path.exists(md5_hash_path):
+                return md5_hash
+
             copyfile(filepath, md5_hash_path)
             return md5_hash
         return None
