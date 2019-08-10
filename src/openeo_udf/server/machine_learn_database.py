@@ -9,12 +9,10 @@ from os.path import isfile, join
 from typing import Optional
 
 import requests
-from flask import make_response, jsonify, request, json
+from flask import make_response, jsonify
 from flask_restful import abort, Resource
 from openeo_udf.server.definitions import ErrorResponse
 from openeo_udf.server.config import UdfConfiguration
-from urllib.request import urlopen
-from urllib.parse import urlsplit
 
 
 __license__ = "Apache License, Version 2.0"
