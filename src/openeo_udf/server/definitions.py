@@ -333,11 +333,11 @@ class MachineLearnModel(Schema):
             "type": "string",
             "description": "The path to the machine learn model file to which the UDF must have read access."
         },
-        "md5": {
+        "md5_nash": {
             "type": "string",
             "description": "The md5 checksum of the model that should be used to identify "
-                           "the machine learn model in the UDF system. The machine learn model must be "
-                           "uploaded to the UDF server."
+                           "the machine learn model in the UDF storage system. "
+                           "The machine learn model must be uploaded to the UDF server."
         }
     }
     example = {"framework": "sklearn",
