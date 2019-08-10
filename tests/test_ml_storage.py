@@ -31,16 +31,13 @@ class MachineLearningModelStorageTestCase(unittest.TestCase):
         file.close()
 
         response = self.app.post('/ml_storage', data=path, content_type="application/text")
-        print(response.data)
         self.assertEqual(response.status_code, 200)
 
         response = self.app.get('/ml_storage')
-        print(response.data)
         self.assertEqual(response.status_code, 200)
 
         md5_hash = md5(content).hexdigest()
         response = self.app.delete('/ml_storage', data=md5_hash, content_type="application/text")
-        print(response.data)
         self.assertEqual(response.status_code, 200)
 
     def test_ml_storage_post_get_delete_url(self):
@@ -48,17 +45,14 @@ class MachineLearningModelStorageTestCase(unittest.TestCase):
         url = "https://storage.googleapis.com/datentransfer/europe_countries.geojson"
 
         response = self.app.post('/ml_storage', data=url, content_type="application/text")
-        print(response.data)
         self.assertEqual(response.status_code, 200)
 
         response = self.app.get('/ml_storage')
-        print(response.data)
         self.assertEqual(response.status_code, 200)
 
         md5_hash = json.loads(response.data)[0]
 
         response = self.app.delete('/ml_storage', data=md5_hash, content_type="application/text")
-        print(response.data)
         self.assertEqual(response.status_code, 200)
 
 
