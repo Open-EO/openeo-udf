@@ -6,10 +6,15 @@ from shutil import copyfile
 from hashlib import md5
 from os import listdir
 from os.path import isfile, join
+from typing import Optional
+
+import requests
 from flask import make_response, jsonify, request, json
 from flask_restful import abort, Resource
 from openeo_udf.server.definitions import ErrorResponse
 from openeo_udf.server.config import UdfConfiguration
+from urllib.request import urlopen
+from urllib.parse import urlsplit
 
 
 __license__ = "Apache License, Version 2.0"
@@ -59,17 +64,21 @@ class MachineLearnDatabase(Resource):
 
         try:
             if os.path.exists(url):
-                path = url
+                filepath = url
             else:
-                # Download the file from the provided url
-                pass
+                # Check if thr URL exists by investigating the HTTP header
+                resp = requests.head(url, allow_redirects=True)
 
-            if os.path.exists(path) and os.path.isfile(path):
+                if resp.status_code != 200:
+                    raise Exception("The URL <%s> can not be accessed." % url)
 
-                md5_hash = md5(open(path, "rb").read()).hexdigest()
-                md5_hash_path = os.path.join(UdfConfiguration.machine_learn_storage_path, md5_hash)
-                copyfile(path, md5_hash_path)
+                filename = url.rsplit('/', 1)[1]
+                filepath = os.path.join(UdfConfiguration.temporary_storage_path, filename)
+                r = requests.get(url, allow_redirects=True)
+                open(filepath, 'wb').write(r.content)
 
+            md5_hash = self._compute_md5_hash(filepath)
+            if md5_hash:
                 return make_response(jsonify(md5_hash), 200)
 
             response = ErrorResponse(message=f"Unable to access machine learn model at {url}")
@@ -78,3 +87,13 @@ class MachineLearnDatabase(Resource):
             e_type, e_value, e_tb = sys.exc_info()
             response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
+
+    @staticmethod
+    def _compute_md5_hash(filepath: str) -> Optional[str]:
+
+        if os.path.exists(filepath) and os.path.isfile(filepath):
+            md5_hash = md5(open(filepath, "rb").read()).hexdigest()
+            md5_hash_path = os.path.join(UdfConfiguration.machine_learn_storage_path, md5_hash)
+            copyfile(filepath, md5_hash_path)
+            return md5_hash
+        return None
