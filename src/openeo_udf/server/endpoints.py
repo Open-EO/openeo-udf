@@ -28,6 +28,6 @@ def create_endpoints():
     if created is False:
         flask_api.add_resource(Udf, '/udf')
         flask_api.add_resource(UdfMessagePack, '/udf_message_pack')
-        flask_api.add_resource(MachineLearnDatabase, '/ml_storage')
+        flask_api.add_resource(MachineLearnDatabase, '/storage')
         created = True
 
