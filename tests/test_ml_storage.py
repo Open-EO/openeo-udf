@@ -30,15 +30,18 @@ class MachineLearningModelStorageTestCase(unittest.TestCase):
         file.write(content)
         file.close()
 
-        response = self.app.post('/ml_storage', data=json.dumps(path), content_type="application/json")
-        print(response)
+        response = self.app.post('/ml_storage', data=path, content_type="application/text")
+        print(response.data)
+        self.assertEqual(response.status_code, 200)
 
         response = self.app.get('/ml_storage')
-        print(response)
+        print(response.data)
+        self.assertEqual(response.status_code, 200)
 
         md5_hash = md5(content).hexdigest()
-        response = self.app.delete('/ml_storage', data=json.dumps(md5_hash), content_type="application/json")
-        print(response)
+        response = self.app.delete('/ml_storage', data=md5_hash, content_type="application/text")
+        print(response.data)
+        self.assertEqual(response.status_code, 200)
 
 
 
