@@ -6,7 +6,9 @@
 #import torchvision
 #import tensorflow
 #import tensorboard
-from openeo_udf.api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, UdfData
+
+from openeo_udf.api.structured_data import StructuredData
+from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
