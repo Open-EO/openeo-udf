@@ -71,7 +71,7 @@ def udf_json(request: UdfRequestModel):
 
 @app.post("/udf_message_pack", response_model=UdfRequestModel)
 def udf_message_pack(request: str):
-    """Run a Python user defined function (UDF) on the provided data that are base64 encoded message pack"""
+    """Run a Python user defined function (UDF) on the provided data that are base64 encoded message pack objects"""
 
     try:
         blob = base64.b64decode(request)
