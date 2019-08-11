@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>OpenEO UDF Framework &#8212; openeo-udf 0.0.post0.dev234+g983591c documentation</title>
+    <title>OpenEO UDF Framework &#8212; openeo-udf 0.0.post0.dev236+g6157b59 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="license.html" title="License"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev234+g983591c documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev236+g6157b59 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -80,27 +80,27 @@ These basic data-types are:</p>
 </div></blockquote>
 <p>The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.</p>
-<p>The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, MachineLearnModel
+<p>The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, HyperCube, StructuredData, MachineLearnModel
 and UdfData are a swagger 2.0 based definitions for the UDF API.
-These schemas are implemented as classes with additional functionality in the Python prototype.</p>
+These schemas are implemented as classes with additional functionality in the Python3 REST test server.</p>
 <p>The schemas UdfCode, UdfRequest and ErrorResponse are used by the UDF test server to provide the POST endpoint.
 They are not part of the UDF API.</p>
-<dl class="docutils">
-<dt>To support UDF's in the backend the following approaches can be used:</dt>
-<dd><ul class="first last simple">
+<p>To support UDF's in the backend the following approaches can be used:</p>
+<blockquote>
+<div><ul class="simple">
 <li>The backend implements for specific languages the UDF API based on the provided swagger 2.0 API description</li>
 <li>The backend uses the Python prototype implementation for Python based UDF's</li>
-<li>The backend uses the UDF test server to run Python UDF's</li>
+<li>The backend uses the UDF test server to run Python UDF's with JSON protocol or message pack binary protocol</li>
 <li>The backend uses the command line tool to execute Python UDF's.</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>The installation was tested on ubuntu 16.04 and 18.04. It requires python3.6  and pip3. It will install
 several python3 libraries like pygdal <a class="footnote-reference" href="#pygdal" id="id1">[1]</a>, pytorch <a class="footnote-reference" href="#pytorch" id="id2">[2]</a>, scikit-learn <a class="footnote-reference" href="#scikit" id="id3">[3]</a>,
-tensorflow <a class="footnote-reference" href="#tensorflow" id="id4">[4]</a> and other libraries that require additional development files on the host system.</p>
+tensorflow <a class="footnote-reference" href="#tensorflow" id="id4">[4]</a> and other libraries that require additional development files on the host system.
+The python3 message pack library <a class="footnote-reference" href="#messagepack" id="id5">[5]</a> is used for binary serialization support in the REST interface</p>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="pygdal" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -111,19 +111,25 @@ tensorflow <a class="footnote-reference" href="#tensorflow" id="id4">[4]</a> and
 <table class="docutils footnote" frame="void" id="pytorch" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="https://pytorch.org/">https://pytorch.org/</a></td></tr>
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id11">2</a>)</em> <a class="reference external" href="https://pytorch.org/">https://pytorch.org/</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="scikit" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://scikit-learn.org/stable/">http://scikit-learn.org/stable/</a></td></tr>
+<tr><td class="label">[3]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id12">2</a>)</em> <a class="reference external" href="http://scikit-learn.org/stable/">http://scikit-learn.org/stable/</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="tensorflow" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td><a class="reference external" href="https://www.tensorflow.org/">https://www.tensorflow.org/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="messagepack" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><a class="reference external" href="https://msgpack.org/">https://msgpack.org/</a></td></tr>
 </tbody>
 </table>
 <div class="section" id="local-installation">
@@ -247,7 +253,7 @@ documentation of the REST UDF service:</p>
 firefox http://localhost/index.html
 
 <span class="c1"># The python3 API description that must be used in the python3 UDF</span>
-firefox http://localhost/api/openeo_udf.api.html#module-openeo_udf.api.base
+firefox http://localhost/api/openeo_udf.api.html
 
 <span class="c1"># The swagger API description</span>
 firefox http://localhost/api_docs/index.html
@@ -268,34 +274,42 @@ of many python3 libraries that provide functionality to access raster and vector
 <p>The following libraries should be used implementations UDF's:</p>
 <blockquote>
 <div><ul class="simple">
-<li>The python3 library numpy <a class="footnote-reference" href="#numpy" id="id5">[5]</a> should be used to process the raster data.</li>
-<li>The python3 library geopandas <a class="footnote-reference" href="#geopandas" id="id6">[6]</a> and shapely <a class="footnote-reference" href="#shapely" id="id7">[7]</a> should be used to process the vector data.</li>
-<li>The python3 library pandas <a class="footnote-reference" href="#pandas" id="id8">[8]</a>, specifically pandas.DatetimeIndex should be used to process time-series data</li>
+<li>The python3 library numpy <a class="footnote-reference" href="#numpy" id="id6">[6]</a> should be used to process the raster data.</li>
+<li>The python3 library geopandas <a class="footnote-reference" href="#geopandas" id="id7">[7]</a> and shapely <a class="footnote-reference" href="#shapely" id="id8">[8]</a> should be used to process the vector data.</li>
+<li>The python3 library pandas <a class="footnote-reference" href="#pandas" id="id9">[9]</a>, specifically pandas.DatetimeIndex should be used to process time-series data</li>
+<li>The python3 library xarray <a class="footnote-reference" href="#xarray" id="id10">[10]</a> for hypercube computations</li>
+<li>The python3 libraries pytorch <a class="footnote-reference" href="#pytorch" id="id11">[2]</a> and scikit-learn <a class="footnote-reference" href="#scikit" id="id12">[3]</a> for machine model support</li>
 </ul>
 </div></blockquote>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="numpy" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><a class="reference external" href="http://www.numpy.org/">http://www.numpy.org/</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td><a class="reference external" href="http://www.numpy.org/">http://www.numpy.org/</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="geopandas" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td><a class="reference external" href="http://geopandas.org/index.html">http://geopandas.org/index.html</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td><a class="reference external" href="http://geopandas.org/index.html">http://geopandas.org/index.html</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="shapely" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td><a class="reference external" href="https://github.com/Toblerity/Shapely">https://github.com/Toblerity/Shapely</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td><a class="reference external" href="https://github.com/Toblerity/Shapely">https://github.com/Toblerity/Shapely</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="pandas" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td><a class="reference external" href="http://pandas.pydata.org/">http://pandas.pydata.org/</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id9">[9]</a></td><td><a class="reference external" href="http://pandas.pydata.org/">http://pandas.pydata.org/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="xarray" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id10">[10]</a></td><td><a class="reference external" href="https://xarray.pydata.org/en/stable/">https://xarray.pydata.org/en/stable/</a></td></tr>
 </tbody>
 </table>
 <p>The python3 API is well documented and fully tested using doctests. The doctests show
@@ -304,7 +318,14 @@ is available when you installed openeo_udf locally or if you use the docker imag
 However, the original python3 file that implements the OpenEO UDF python3 API is available here:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/base.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/base.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/collection_tile.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/collection_tile.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/feature_collection_tile.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/feature_collection_tile.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/hypercube.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/hypercube.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/machine_learn_model.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/machine_learn_model.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/raster_collection_tile.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/raster_collection_tile.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/spatial_extent.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/spatial_extent.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/structured_data.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/structured_data.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/udf_data.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/udf_data.py</a></li>
 </ul>
 </div></blockquote>
 <p>The UDF's are directly available for download from the repository:</p>
@@ -329,6 +350,7 @@ each UDF including machine learn models and hypercube approach. The tests are av
 <li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube.py</a></li>
 <li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_sklearn_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_sklearn_ml.py</a></li>
 <li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_pytorch_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_pytorch_ml.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_ml_storage.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_ml_storage.py</a></li>
 </ul>
 </div></blockquote>
 <p>The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend
@@ -343,6 +365,16 @@ driver:</p>
 <li>MachineLearnModel</li>
 <li>UdfData</li>
 </ul>
+</div></blockquote>
+<p><strong>The implementation of an UDF should be performed by cloning the openEO UDF repository and install
+it locally or in a docker container.</strong> The UDF repository is designed to support the implementation
+of python3 UDF's without running it in a dedicated backend.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Look at the existing and well documented UDF functions</li>
+<li>Implement your own function and put it into the <strong>functions</strong> directory for easier access in your tests</li>
+<li>Clone an existing unittest in the test directory and write your tests with generic raster, vector or xarray data</li>
+</ol>
 </div></blockquote>
 <div class="section" id="using-the-udf-command-line-tool">
 <h3>Using the UDF command line tool<a class="headerlink" href="#using-the-udf-command-line-tool" title="Permalink to this headline">¶</a></h3>
@@ -768,7 +800,7 @@ placed in the shell environmental variable &quot;JSON&quot;, should look like th
         <li class="right" >
           <a href="license.html" title="License"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev234+g983591c documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev236+g6157b59 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

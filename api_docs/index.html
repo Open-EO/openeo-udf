@@ -25,13 +25,13 @@
             <a href="#tag-UDF">UDF</a>
             <ul>
               <li>
-                <a href="#operation--storage-post"> Upload a new machine learn model to the UDF machine learn storage </a>
-              </li>
-              <li>
                 <a href="#operation--storage-delete"> Remove a single machine learn model from the server </a>
               </li>
               <li>
                 <a href="#operation--storage-get"> Return all md5 hashes of the stored machine learn models as list </a>
+              </li>
+              <li>
+                <a href="#operation--storage-post"> Upload a new machine learn model to the UDF machine learn storage </a>
               </li>
               <li>
                 <a href="#operation--udf-post"> Execute the UDF code </a>
@@ -45,13 +45,13 @@
             <a href="#tag-machine-learning">machine learning</a>
             <ul>
               <li>
-                <a href="#operation--storage-post"> Upload a new machine learn model to the UDF machine learn storage </a>
-              </li>
-              <li>
                 <a href="#operation--storage-delete"> Remove a single machine learn model from the server </a>
               </li>
               <li>
                 <a href="#operation--storage-get"> Return all md5 hashes of the stored machine learn models as list </a>
+              </li>
+              <li>
+                <a href="#operation--storage-post"> Upload a new machine learn model to the UDF machine learn storage </a>
               </li>
             </ul>
           </section>
@@ -122,88 +122,6 @@
           <div class="tag-description doc-row">
             <div class="doc-copy">
               <p>Interfacing to execute user-defined functions at the provided data.</p>
-            </div>
-          </div>
-          <div id="operation--storage-post" class="operation panel" data-traverse-target="operation--storage-post">
-            <!-- <section class="operation-tags row"> -->
-            <!-- <div class="doc-copy"> -->
-            <div class="operation-tags">
-              <a class="label" href="#tag-UDF">UDF</a>
-              <!--, -->
-              <a class="label" href="#tag-machine-learning">machine learning</a>
-              <!---->
-            </div>
-            <!-- </div> -->
-            <!-- </section> -->
-            <h2 class="operation-title">
-              <span class="operation-summary">Upload a new machine learn model to the UDF machine learn storage</span>
-            </h2>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-operation-path">
-                  <span class="operation-method">POST</span>
-                  <span class="operation-path">/storage</span>
-                </section>
-              </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-operation-description">
-                  <p>Store a machine learn model in the udf machine learn database and return the corresponding md5 hash. The URL were the model is located must be provided as text in the HTTP request</p>
-                </section>
-              </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy"> </div>
-              <div class="doc-examples"></div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-responses">
-                  <div class="prop-row prop-group">
-                    <div class="prop-name">
-                      <div class="prop-title">200 OK</div>
-                    </div>
-                    <div class="prop-value">
-                      <p>The md5 hash of the stred model.</p>
-                    </div>
-                  </div>
-                  <div class="prop-row prop-group">
-                    <div class="prop-name">
-                      <div class="prop-title">400 Bad Request</div>
-                      <div class="prop-ref">
-                        <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
-                        </span>
-                      </div>
-                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
-                    </div>
-                    <div class="prop-value">
-                      <p>The error message.</p>
-                    </div>
-                  </div>
-                </section>
-              </div>
-              <div class="doc-examples">
-                <h5>Response Content-Types:
-                  <span>text/plain</span>
-                </h5>
-                <section>
-                  <h5>Response Example
-                    <span>(400 Bad Request)</span>
-                  </h5>
-                  <!-- <div class="hljs"> -->
-                  <html>
-                  <head></head>
-                  <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
-}
-</code></pre> </body>
-                  </html>
-                  <!-- </div> -->
-                </section>
-              </div>
             </div>
           </div>
           <div id="operation--storage-delete" class="operation panel" data-traverse-target="operation--storage-delete">
@@ -351,6 +269,88 @@
               <div class="doc-examples">
                 <h5>Response Content-Types:
                   <span>application/json</span>
+                </h5>
+                <section>
+                  <h5>Response Example
+                    <span>(400 Bad Request)</span>
+                  </h5>
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre> </body>
+                  </html>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--storage-post" class="operation panel" data-traverse-target="operation--storage-post">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-UDF">UDF</a>
+              <!--, -->
+              <a class="label" href="#tag-machine-learning">machine learning</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Upload a new machine learn model to the UDF machine learn storage</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">POST</span>
+                  <span class="operation-path">/storage</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Store a machine learn model in the udf machine learn database and return the corresponding md5 hash. The URL were the model is located must be provided as text in the HTTP request</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                    </div>
+                    <div class="prop-value">
+                      <p>The md5 hash of the stred model.</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">400 Bad Request</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>The error message.</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <h5>Response Content-Types:
+                  <span>text/plain</span>
                 </h5>
                 <section>
                   <h5>Response Example
@@ -1269,88 +1269,6 @@
             </div>
           </div>
           <h1 id="tag-machine-learning" class="swagger-summary-tag" data-traverse-target="tag-machine-learning">machine learning</h1>
-          <div id="operation--storage-post" class="operation panel" data-traverse-target="operation--storage-post">
-            <!-- <section class="operation-tags row"> -->
-            <!-- <div class="doc-copy"> -->
-            <div class="operation-tags">
-              <a class="label" href="#tag-UDF">UDF</a>
-              <!--, -->
-              <a class="label" href="#tag-machine-learning">machine learning</a>
-              <!---->
-            </div>
-            <!-- </div> -->
-            <!-- </section> -->
-            <h2 class="operation-title">
-              <span class="operation-summary">Upload a new machine learn model to the UDF machine learn storage</span>
-            </h2>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-operation-path">
-                  <span class="operation-method">POST</span>
-                  <span class="operation-path">/storage</span>
-                </section>
-              </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-operation-description">
-                  <p>Store a machine learn model in the udf machine learn database and return the corresponding md5 hash. The URL were the model is located must be provided as text in the HTTP request</p>
-                </section>
-              </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy"> </div>
-              <div class="doc-examples"></div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-responses">
-                  <div class="prop-row prop-group">
-                    <div class="prop-name">
-                      <div class="prop-title">200 OK</div>
-                    </div>
-                    <div class="prop-value">
-                      <p>The md5 hash of the stred model.</p>
-                    </div>
-                  </div>
-                  <div class="prop-row prop-group">
-                    <div class="prop-name">
-                      <div class="prop-title">400 Bad Request</div>
-                      <div class="prop-ref">
-                        <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
-                        </span>
-                      </div>
-                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
-                    </div>
-                    <div class="prop-value">
-                      <p>The error message.</p>
-                    </div>
-                  </div>
-                </section>
-              </div>
-              <div class="doc-examples">
-                <h5>Response Content-Types:
-                  <span>text/plain</span>
-                </h5>
-                <section>
-                  <h5>Response Example
-                    <span>(400 Bad Request)</span>
-                  </h5>
-                  <!-- <div class="hljs"> -->
-                  <html>
-                  <head></head>
-                  <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
-}
-</code></pre> </body>
-                  </html>
-                  <!-- </div> -->
-                </section>
-              </div>
-            </div>
-          </div>
           <div id="operation--storage-delete" class="operation panel" data-traverse-target="operation--storage-delete">
             <!-- <section class="operation-tags row"> -->
             <!-- <div class="doc-copy"> -->
@@ -1496,6 +1414,88 @@
               <div class="doc-examples">
                 <h5>Response Content-Types:
                   <span>application/json</span>
+                </h5>
+                <section>
+                  <h5>Response Example
+                    <span>(400 Bad Request)</span>
+                  </h5>
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre> </body>
+                  </html>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--storage-post" class="operation panel" data-traverse-target="operation--storage-post">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-UDF">UDF</a>
+              <!--, -->
+              <a class="label" href="#tag-machine-learning">machine learning</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Upload a new machine learn model to the UDF machine learn storage</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">POST</span>
+                  <span class="operation-path">/storage</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Store a machine learn model in the udf machine learn database and return the corresponding md5 hash. The URL were the model is located must be provided as text in the HTTP request</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                    </div>
+                    <div class="prop-value">
+                      <p>The md5 hash of the stred model.</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">400 Bad Request</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>The error message.</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <h5>Response Content-Types:
+                  <span>text/plain</span>
                 </h5>
                 <section>
                   <h5>Response Example
