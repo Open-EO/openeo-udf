@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Base classes of the OpenEO Python UDF interface
+"""OpenEO Python UDF interface"""
 
-"""
 import os
 from typing import Optional, Dict
 from openeo_udf.server.config import UdfConfiguration
@@ -15,7 +14,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-class MachineLearnModel(object):
+class MachineLearnModel:
     """This class represents a machine learn model. The model will be loaded
     at construction, based on the machine learn framework.
 
