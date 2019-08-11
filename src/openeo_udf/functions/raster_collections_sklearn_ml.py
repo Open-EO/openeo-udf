@@ -7,7 +7,9 @@
 #import tensorflow
 #import tensorboard
 #from sklearn.ensemble import RandomForestRegressor
-from openeo_udf.api.base import SpatialExtent, RasterCollectionTile, FeatureCollectionTile, UdfData, MachineLearnModel
+
+from openeo_udf.api.raster_collection_tile import RasterCollectionTile
+from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
