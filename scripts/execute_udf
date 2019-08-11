@@ -14,7 +14,14 @@ import math
 # import tensorflow
 # import tensorboard
 from pprint import pprint
-from openeo_udf.api.base import RasterCollectionTile, UdfData, SpatialExtent, FeatureCollectionTile
+
+from openeo_udf.api.feature_collection_tile import FeatureCollectionTile
+from openeo_udf.api.hypercube import HyperCube
+from openeo_udf.api.machine_learn_model import MachineLearnModel
+from openeo_udf.api.raster_collection_tile import RasterCollectionTile
+from openeo_udf.api.spatial_extent import SpatialExtent
+from openeo_udf.api.structured_data import StructuredData
+from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -306,7 +313,6 @@ def extent_to_gdal_transform(extent):
 
     transform = [extent.top, pixel_width, 0, extent.left, 0, pixel_height]
     return transform
-
 
 
 if __name__ == '__main__':
