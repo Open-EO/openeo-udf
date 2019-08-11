@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Base classes of the OpenEO Python UDF interface
+"""OpenEO Python UDF interface"""
 
-"""
 from typing import Dict
 
 
@@ -13,7 +12,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-class StructuredData(object):
+class StructuredData:
     """This class represents structured data that is produced by an UDF and can not be represented
     as a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical
     computation. The data is self descriptive and supports the basic types dict/map, list and table.
@@ -26,6 +25,24 @@ class StructuredData(object):
                                                                            [1,     10],
                                                                            [2,     23],
                                                                            [3,     4]]}
+
+    >>> table = [("col_1", "col_2"), (1, 2), (2, 3)]
+    >>> st = StructuredData(description="Table output", data=table, type="table")
+    >>> st.to_dict() # doctest: +ELLIPSIS
+    ...              # doctest: +NORMALIZE_WHITESPACE
+    {'description': 'Table output', 'data': [('col_1', 'col_2'), (1, 2), (2, 3)], 'type': 'table'}
+
+    >>> values = [1,2,3,4]
+    >>> st = StructuredData(description="List output", data=values, type="list")
+    >>> st.to_dict() # doctest: +ELLIPSIS
+    ...              # doctest: +NORMALIZE_WHITESPACE
+    {'description': 'List output', 'data': [1, 2, 3, 4], 'type': 'list'}
+
+    >>> key_value_store = dict(a=1, b=2, c=3)
+    >>> st = StructuredData(description="Key-value output", data=key_value_store, type="dict")
+    >>> st.to_dict() # doctest: +ELLIPSIS
+    ...              # doctest: +NORMALIZE_WHITESPACE
+    {'description': 'Key-value output', 'data': {'a': 1, 'b': 2, 'c': 3}, 'type': 'dict'}
 
     """
 
