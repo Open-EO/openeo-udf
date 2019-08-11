@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Base classes of the OpenEO Python UDF interface
+"""OpenEO Python UDF interface"""
 
-"""
 from shapely.geometry import Polygon, Point
 from typing import Optional, Dict, Tuple
 
@@ -14,7 +13,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-class SpatialExtent(object):
+class SpatialExtent:
     """The axis aligned spatial extent of a collection tile
 
     Some basic tests:
