@@ -9,7 +9,9 @@
 # import tensorboard
 # import math
 # from shapely.geometry import Point
-from openeo_udf.api.base import FeatureCollectionTile, RasterCollectionTile, UdfData
+
+from openeo_udf.api.feature_collection_tile import FeatureCollectionTile
+from openeo_udf.api.udf_data import UdfData
 # from pprint import pprint
 
 __license__ = "Apache License, Version 2.0"
