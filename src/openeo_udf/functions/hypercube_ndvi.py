@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-# Uncomment the import only for coding support
-#import numpy
-#import pandas
-#import torch
-#import torchvision
-#import tensorflow
-#import tensorboard
+
 from openeo_udf.api.hypercube import HyperCube
 from openeo_udf.api.udf_data import UdfData
 
@@ -16,7 +10,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def rct_ndvi(udf_data: UdfData):
+def hyper_ndvi(udf_data: UdfData):
     """Compute the NDVI based on RED and NIR hypercubes
 
     Hypercubes with ids "red" and "nir" are required. The NDVI computation will be applied
@@ -54,4 +48,4 @@ def rct_ndvi(udf_data: UdfData):
 
 # This function call is the entry point for the UDF.
 # The caller will provide all required data in the **data** object.
-rct_ndvi(data)
+hyper_ndvi(data)
