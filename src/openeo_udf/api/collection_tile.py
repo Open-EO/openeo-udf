@@ -1,20 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Base classes of the OpenEO Python UDF interface
+"""OpenEO Python UDF interface"""
 
-"""
-import os
-
-import geopandas
 import pandas
-import numpy
-import xarray
-from shapely.geometry import Polygon, Point
-import json
-from typing import Optional, List, Dict, Tuple, Union
-
+from typing import Optional, List, Dict
 from openeo_udf.api.spatial_extent import SpatialExtent
-from openeo_udf.server.config import UdfConfiguration
 
 
 __license__ = "Apache License, Version 2.0"
@@ -24,7 +14,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-class CollectionTile(object):
+class CollectionTile:
     """This is the base class for raster and vector collection tiles. It implements
     start time, end time and spatial extent handling.
 
