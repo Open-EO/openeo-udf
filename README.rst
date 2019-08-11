@@ -20,9 +20,16 @@ Backend integration
 This UDF implementation contains an abstract swagger description of schemas that must be used when an API for a specific
 programming language is implemented.
 They are documented in the swagger 2.0 API description that is provided by the UDF test server. However, the
-Python file that defines the swagger description is available here:
+Python files that defines the swagger description are available here:
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/definitions.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/dimension_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/feature_collection_tile_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/hypercube_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/machine_learn_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/raster_collection_tile_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/spatial_extent_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/structured_data_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/udf_schemas.py
 
 The basis of the swagger 2.0 API description are basic data-types that are available in many programming languages.
 These basic data-types are:
@@ -37,12 +44,12 @@ These basic data-types are:
 The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.
 
-The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, HyperCube, StructuredData, MachineLearnModel
-and UdfData are a swagger 2.0 based definitions for the UDF API.
+The schemas SpatialExtentSchema, RasterCollectionTileSchema, FeatureCollectionTileSchema, HyperCubeSchema,
+StructuredDataSchema, MachineLearnModelSchema and UdfDataSchema are a swagger 2.0 based definitions for the UDF API.
 These schemas are implemented as classes with additional functionality in the Python3 REST test server.
 
-The schemas UdfCode, UdfRequest and ErrorResponse are used by the UDF test server to provide the POST endpoint.
-They are not part of the UDF API.
+The schemas UdfCodeSchema, UdfRequestSchema and ErrorResponseSchema are used by the UDF
+test server to provide the POST endpoint. They are not part of the UDF API.
 
 To support UDF's in the backend the following approaches can be used:
 
