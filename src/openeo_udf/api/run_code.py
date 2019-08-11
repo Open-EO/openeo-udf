@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""OpenEO Python UDF interface"""
+
 import numpy
 import pandas
 import geopandas
@@ -17,6 +19,7 @@ from openeo_udf.api.machine_learn_model import MachineLearnModel
 from openeo_udf.api.raster_collection_tile import RasterCollectionTile
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
+from openeo_udf.api.custom_udf_parameter import CustomUdfParameter
 from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
