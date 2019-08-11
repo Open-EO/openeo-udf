@@ -10,7 +10,7 @@ import numpy
 import msgpack
 import base64
 
-from openeo_udf.server.app import app
+from openeo_udf.server.main import app
 from starlette.testclient import TestClient
 from openeo_udf.server.endpoints import create_storage_directory
 from openeo_udf.server.udf_schemas import UdfCodeModel, UdfRequestModel

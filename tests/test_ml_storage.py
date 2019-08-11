@@ -2,7 +2,7 @@
 from flask import json
 import unittest
 from hashlib import md5
-from openeo_udf.server.app import app
+from openeo_udf.server.main import app
 from starlette.testclient import TestClient
 
 from openeo_udf.server.endpoints import create_storage_directory
