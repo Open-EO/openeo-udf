@@ -13,7 +13,7 @@ from flask import make_response, jsonify, request
 from flask_restful import abort, Resource
 from flask_restful_swagger_2 import swagger
 
-from openeo_udf.server.definitions import ErrorResponse
+from openeo_udf.server.udf_schemas import ErrorResponseSchema
 from openeo_udf.server.config import UdfConfiguration
 
 
@@ -34,7 +34,7 @@ GET = {
         },
         "400": {
             "description": "The error message.",
-            "schema": ErrorResponse
+            "schema": ErrorResponseSchema
         }
     }
 }
@@ -53,7 +53,7 @@ POST = {
         },
         "400": {
             "description": "The error message.",
-            "schema": ErrorResponse
+            "schema": ErrorResponseSchema
         }
     }
 }
@@ -71,7 +71,7 @@ DELETE = {
         },
         "400": {
             "description": "The model was not found in the storage.",
-            "schema": ErrorResponse
+            "schema": ErrorResponseSchema
         }
     }
 }
@@ -90,11 +90,11 @@ class MachineLearnDatabase(Resource):
                 hash_list = [f for f in listdir(path) if isfile(join(path, f))]
                 return make_response(jsonify(hash_list), 200)
 
-            response = ErrorResponse(message=f"The storage path of the machine learn models was not found on server.")
+            response = ErrorResponseSchema(message=f"The storage path of the machine learn models was not found on server.")
             return make_response(jsonify(response), 400)
         except Exception:
             e_type, e_value, e_tb = sys.exc_info()
-            response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+            response = ErrorResponseSchema(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
     @swagger.doc(DELETE)
@@ -107,11 +107,11 @@ class MachineLearnDatabase(Resource):
                 os.remove(path)
                 return make_response(jsonify(md5_hash), 200)
 
-            response = ErrorResponse(message=f"The machine learn model for hash {md5_hash} was not found")
+            response = ErrorResponseSchema(message=f"The machine learn model for hash {md5_hash} was not found")
             return make_response(jsonify(response), 400)
         except Exception:
             e_type, e_value, e_tb = sys.exc_info()
-            response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+            response = ErrorResponseSchema(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
     @swagger.doc(POST)
@@ -138,11 +138,11 @@ class MachineLearnDatabase(Resource):
             if md5_hash:
                 return make_response(jsonify(md5_hash), 200)
 
-            response = ErrorResponse(message=f"Unable to access machine learn model at {url}")
+            response = ErrorResponseSchema(message=f"Unable to access machine learn model at {url}")
             return make_response(jsonify(response), 400)
         except Exception:
             e_type, e_value, e_tb = sys.exc_info()
-            response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+            response = ErrorResponseSchema(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
     @staticmethod
