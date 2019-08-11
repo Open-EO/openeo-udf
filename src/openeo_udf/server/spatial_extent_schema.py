@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask_restful_swagger_2 import Schema
+from pydantic import BaseModel, Schema as pydSchema
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -8,43 +8,24 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class SpatialExtentSchema(Schema):
-    description = "spatial extent with resolution information"
-    type = "object"
-    properties = {
-        "top": {
-            "description": "The top (north) border.",
-            "type": "float"
-        },
-        "bottom": {
-            "description": "The bottom (south) border.",
-            "type": "float"
-        },
-        "right": {
-            "description": "The right (eastern) border.",
-            "type": "float"
-        },
-        "left": {
-            "description": "The left (wester) border.",
-            "type": "float"
-        },
-        "height": {
-            "description": "The top-bottom resolution in projection units.",
-            "type": "float"
-        },
-        "width": {
-            "description": "The right-left resolution in projection units.",
-            "type": "float"
-        }
+EXAMPLE = {
+    "extent": {
+        "top": 53,
+        "bottom": 50,
+        "right": 30,
+        "left": 24,
+        "height": 0.01,
+        "width": 0.01
     }
-    example = {
-        "extent": {
-            "top": 53,
-            "bottom": 50,
-            "right": 30,
-            "left": 24,
-            "height": 0.01,
-            "width": 0.01
-        }
-    }
+}
 
+
+class SpatialExtentModel(BaseModel):
+    """spatial extent with resolution information"""
+
+    top: float = pydSchema(..., description="The top (north) border.")
+    bottom: float = pydSchema(..., description="The bottom (south) border.")
+    right: float = pydSchema(..., description="The right (eastern) border.")
+    left: float = pydSchema(..., description="The left (wester) border.")
+    height: float = pydSchema(..., description="The top-bottom resolution in projection units.")
+    width: float = pydSchema(..., description="The right-left resolution in projection units.")
