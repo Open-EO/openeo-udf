@@ -6,7 +6,7 @@ import base64
 from flask import make_response, jsonify, request
 from flask_restful import Resource
 from flask_restful_swagger_2 import swagger
-from openeo_udf.server.definitions import UdfData, UdfRequest, ErrorResponse
+from openeo_udf.server.udf_schemas import UdfDataSchema, UdfRequestSchema, ErrorResponseSchema
 from openeo_udf.api.run_code import run_json_user_code
 
 __license__ = "Apache License, Version 2.0"
@@ -65,7 +65,7 @@ POST_JOBS_DOC_UDF = {
             "in": "body",
             'required': True,
             "description": "The UDF Python source code and data as JSON definition to process",
-            "schema": UdfRequest
+            "schema": UdfRequestSchema
         }
     ],
     'consumes':['application/json'],
@@ -73,11 +73,11 @@ POST_JOBS_DOC_UDF = {
     "responses": {
         "200": {
             "description": "The result of the UDF computation.",
-            "schema": UdfData
+            "schema": UdfDataSchema
         },
         "400": {
             "description": "The error message.",
-            "schema": ErrorResponse
+            "schema": ErrorResponseSchema
         }
     }
 }
@@ -98,7 +98,7 @@ class Udf(Resource):
             result = run_json_user_code(dict_data=json_data)
         except Exception:
             e_type, e_value, e_tb = sys.exc_info()
-            response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+            response = ErrorResponseSchema(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
         return make_response(jsonify(result), 200)
@@ -114,7 +114,7 @@ POST_JOBS_DOC_UDF_MESSAGE_PACK = {
             "in": "body",
             'required': True,
             "description": "The UDF Python source code and data as base64 encoded message pack",
-            "schema": UdfRequest
+            "schema": UdfRequestSchema
         }
     ],
     'consumes':['application/base64'],
@@ -122,11 +122,11 @@ POST_JOBS_DOC_UDF_MESSAGE_PACK = {
     "responses": {
         "200": {
             "description": "The result of the UDF computation as base64 encoded message pack.",
-            "schema": UdfData
+            "schema": UdfDataSchema
         },
         "400": {
             "description": "The error message.",
-            "schema": ErrorResponse
+            "schema": ErrorResponseSchema
         }
     }
 }
@@ -147,7 +147,7 @@ class UdfMessagePack(Resource):
             result = run_json_user_code(dict_data=dict_data)
         except Exception:
             e_type, e_value, e_tb = sys.exc_info()
-            response = ErrorResponse(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+            response = ErrorResponseSchema(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
             return make_response(jsonify(response), 400)
 
         result = base64.b64encode(msgpack.packb(result))
