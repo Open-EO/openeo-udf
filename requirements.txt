@@ -29,3 +29,8 @@ pygdal==2.2.3.3
 msgpack==0.6.1
 # Rasterio has a bug recognizing the numpy header files so we must install it after the requirements installation by hand
 # rasterio==0.36.0
+
+# FastAPI requirements
+uvicorn==0.8.6
+fastapi==0.35.0
+pydantic==0.30
