@@ -40,7 +40,7 @@ EXAMPLE = {
 }
 
 
-class RasterCollectionTileModel_(BaseModel):
+class RasterCollectionTileModel(BaseModel):
     """A three dimensional tile of data that represents a spatio-temporal
     subset of a spatio-temporal raster collection."""
 
