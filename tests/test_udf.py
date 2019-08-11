@@ -5,7 +5,7 @@ import pprint
 import unittest
 from openeo_udf.server.app import flask_api
 from openeo_udf.server.endpoints import create_endpoints
-from openeo_udf.server.definitions import UdfData, UdfCode, UdfRequest
+from openeo_udf.server.udf_schemas import UdfDataSchema, UdfCodeSchema, UdfRequestSchema
 import openeo_udf.functions
 
 __license__ = "Apache License, Version 2.0"
@@ -155,10 +155,10 @@ class AllTestCase(unittest.TestCase):
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_reduce_time_median.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
 
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         print(udf_request)
 
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
@@ -174,10 +174,10 @@ class AllTestCase(unittest.TestCase):
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_reduce_time_sum.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
 
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         print(udf_request)
 
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
@@ -193,10 +193,10 @@ class AllTestCase(unittest.TestCase):
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_reduce_time_min_max_mean_sum.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
 
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         print(udf_request)
 
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
@@ -218,10 +218,10 @@ class AllTestCase(unittest.TestCase):
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_ndvi.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
 
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         print(udf_request)
 
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
@@ -237,10 +237,10 @@ class AllTestCase(unittest.TestCase):
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "feature_collections_buffer.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = FEATURE
 
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         print(udf_request)
 
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
@@ -257,10 +257,10 @@ class AllTestCase(unittest.TestCase):
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sampling.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL_FEATURE
 
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         print(udf_request)
 
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
@@ -290,10 +290,10 @@ class AllTestCase(unittest.TestCase):
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_statistics.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
 
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         print(udf_request)
 
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
