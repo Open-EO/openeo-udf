@@ -13,19 +13,14 @@ implementation includes:
     - A Python3 API that specifies how UDF must be implemented in Python3
     - The UDF test server and the command line tool are examples howto implement the
       UDF approach in an OpenEO processing backend
-      
-Documentation is available online (see list below) and through the test server.
-
-    - UDF Framework: https://open-eo.github.io/openeo-udf/
-    - API description: https://open-eo.github.io/openeo-udf/api_docs/
 
 Backend integration
 ===================
 
 This UDF implementation contains an abstract swagger description of schemas that must be used when an API for a specific
 programming language is implemented.
-They are documented in the swagger 2.0 API description, available at <https://open-eo.github.io/openeo-udf/api_docs/>.
-The Python file that defines the swagger description is available here:
+They are documented in the swagger 2.0 API description that is provided by the UDF test server. However, the
+Python file that defines the swagger description is available here:
 
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/definitions.py
 
@@ -42,17 +37,18 @@ These basic data-types are:
 The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.
 
-The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, StructuredData, MachineLearnModel
+The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, HyperCube, StructuredData, MachineLearnModel
 and UdfData are a swagger 2.0 based definitions for the UDF API.
-These schemas are implemented as classes with additional functionality in the Python prototype.
+These schemas are implemented as classes with additional functionality in the Python3 REST test server.
 
 The schemas UdfCode, UdfRequest and ErrorResponse are used by the UDF test server to provide the POST endpoint.
 They are not part of the UDF API.
 
 To support UDF's in the backend the following approaches can be used:
+
   - The backend implements for specific languages the UDF API based on the provided swagger 2.0 API description
   - The backend uses the Python prototype implementation for Python based UDF's
-  - The backend uses the UDF test server to run Python UDF's
+  - The backend uses the UDF test server to run Python UDF's with JSON protocol or message pack binary protocol
   - The backend uses the command line tool to execute Python UDF's.
 
 Installation
@@ -61,7 +57,7 @@ Installation
 The installation was tested on ubuntu 16.04 and 18.04. It requires python3.6  and pip3. It will install
 several python3 libraries like pygdal [#pygdal]_, pytorch [#pytorch]_, scikit-learn [#scikit]_,
 tensorflow [#tensorflow]_ and other libraries that require additional development files on the host system.
-
+The python3 message pack library [#messagepack]_ is used for binary serialization support in the REST interface
 
 .. rubric:: Footnotes
 
@@ -69,6 +65,7 @@ tensorflow [#tensorflow]_ and other libraries that require additional developmen
 .. [#pytorch] https://pytorch.org/
 .. [#scikit] http://scikit-learn.org/stable/
 .. [#tensorflow] https://www.tensorflow.org/
+.. [#messagepack] https://msgpack.org/
 
 
 Local installation
@@ -204,7 +201,7 @@ The openeo-udf repository contains the build instruction of an openeo-udf docker
         firefox http://localhost/index.html
 
         # The python3 API description that must be used in the python3 UDF
-        firefox http://localhost/api/openeo_udf.api.html#module-openeo_udf.api.base
+        firefox http://localhost/api/openeo_udf.api.html
 
         # The swagger API description
         firefox http://localhost/api_docs/index.html
@@ -225,6 +222,8 @@ The following libraries should be used implementations UDF's:
     * The python3 library numpy [#numpy]_ should be used to process the raster data.
     * The python3 library geopandas [#geopandas]_ and shapely [#shapely]_ should be used to process the vector data.
     * The python3 library pandas [#pandas]_, specifically pandas.DatetimeIndex should be used to process time-series data
+    * The python3 library xarray [#xarray]_ for hypercube computations
+    * The python3 libraries pytorch [#pytorch]_ and scikit-learn [#scikit]_ for machine model support
 
 .. rubric:: Footnotes
 
@@ -232,13 +231,22 @@ The following libraries should be used implementations UDF's:
 .. [#geopandas] http://geopandas.org/index.html
 .. [#shapely] https://github.com/Toblerity/Shapely
 .. [#pandas] http://pandas.pydata.org/
+.. [#xarray] https://xarray.pydata.org/en/stable/
+
 
 The python3 API is well documented and fully tested using doctests. The doctests show
 the handling of the API with simple examples. This document and the full API description
 is available when you installed openeo_udf locally or if you use the docker image.
 However, the original python3 file that implements the OpenEO UDF python3 API is available here:
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/base.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/collection_tile.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/feature_collection_tile.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/hypercube.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/machine_learn_model.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/raster_collection_tile.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/spatial_extent.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/structured_data.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/udf_data.py
 
 The UDF's are directly available for download from the repository:
 
@@ -271,6 +279,8 @@ each UDF including machine learn models and hypercube approach. The tests are av
 
     * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_pytorch_ml.py
 
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_ml_storage.py
+
 The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend
 driver:
 
@@ -281,6 +291,14 @@ driver:
     * StructuredData
     * MachineLearnModel
     * UdfData
+
+**The implementation of an UDF should be performed by cloning the openEO UDF repository and install
+it locally or in a docker container.** The UDF repository is designed to support the implementation
+of python3 UDF's without running it in a dedicated backend.
+
+    1. Look at the existing and well documented UDF functions
+    2. Implement your own function and put it into the **functions** directory for easier access in your tests
+    3. Clone an existing unittest in the test directory and write your tests with generic raster, vector or xarray data
 
 Using the UDF command line tool
 -------------------------------
@@ -629,4 +647,3 @@ The result of the processing are two polygons (coordinates are truncated):
       }
 
    ..
-
