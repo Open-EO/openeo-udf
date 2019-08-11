@@ -8,7 +8,9 @@
 # import tensorflow
 # import tensorboard
 # from shapely.geometry import Point
-from openeo_udf.api.base import FeatureCollectionTile, UdfData
+
+from openeo_udf.api.feature_collection_tile import FeatureCollectionTile
+from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
