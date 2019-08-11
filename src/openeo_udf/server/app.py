@@ -9,4 +9,5 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-app = FastAPI()
+app = FastAPI(title="UDF Server for geodata processing",
+              description="This server processes UDF data")
