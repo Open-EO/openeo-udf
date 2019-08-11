@@ -9,7 +9,7 @@ import pprint
 import unittest
 from openeo_udf.server.app import flask_api
 from openeo_udf.server.endpoints import create_endpoints
-from openeo_udf.server.definitions import UdfData, UdfCode, UdfRequest
+from openeo_udf.server.udf_schemas import UdfDataSchema, UdfCodeSchema, UdfRequestSchema
 import openeo_udf.functions
 import numpy as np
 from sklearn.metrics import mean_squared_error
@@ -140,9 +140,9 @@ class MachineLearningTestCase(unittest.TestCase):
         MachineLearningTestCase.train_sklearn_model(model=model)
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
         pprint.pprint(result)
@@ -159,9 +159,9 @@ class MachineLearningTestCase(unittest.TestCase):
         MachineLearningTestCase.train_sklearn_model(model=model)
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         blob = base64.b64encode(msgpack.packb(udf_request, use_bin_type=True))
         response = self.app.post('/udf_message_pack', data=blob, content_type="application/base64")
         result = msgpack.unpackb(base64.b64decode(response.data), raw=False)
@@ -177,9 +177,9 @@ class MachineLearningTestCase(unittest.TestCase):
         MachineLearningTestCase.train_sklearn_model(model=model)
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
         pprint.pprint(result)
@@ -196,9 +196,9 @@ class MachineLearningTestCase(unittest.TestCase):
         MachineLearningTestCase.train_sklearn_model(model=model)
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         blob = base64.b64encode(msgpack.packb(udf_request, use_bin_type=True))
         response = self.app.post('/udf_message_pack', data=blob, content_type="application/base64")
         result = msgpack.unpackb(base64.b64decode(response.data), raw=False)
@@ -215,9 +215,9 @@ class MachineLearningTestCase(unittest.TestCase):
         MachineLearningTestCase.train_sklearn_model(model=model)
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
         pprint.pprint(result)
@@ -234,9 +234,9 @@ class MachineLearningTestCase(unittest.TestCase):
         MachineLearningTestCase.train_sklearn_model(model=model)
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         blob = base64.b64encode(msgpack.packb(udf_request, use_bin_type=True))
         response = self.app.post('/udf_message_pack', data=blob, content_type="application/base64")
         result = msgpack.unpackb(base64.b64decode(response.data), raw=False)
@@ -258,10 +258,10 @@ class MachineLearningTestCase(unittest.TestCase):
         md5_hash = response.data.decode("ascii").strip().replace("\"", "")
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_sklearn_ml.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = deepcopy(PIXEL)
         udf_data["machine_learn_models"][0]["md5_hash"] = md5_hash
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
         blob = base64.b64encode(msgpack.packb(udf_request, use_bin_type=True))
         response = self.app.post('/udf_message_pack', data=blob, content_type="application/base64")
         result = msgpack.unpackb(base64.b64decode(response.data), raw=False)
