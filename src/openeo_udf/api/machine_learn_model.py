@@ -40,8 +40,9 @@ class MachineLearnModel(object):
                oob_score=False, random_state=None, verbose=0, warm_start=False)
     >>> m.to_dict() # doctest: +ELLIPSIS
     ...             # doctest: +NORMALIZE_WHITESPACE
-    {'description': 'Machine learn model', 'name': 'test', 'framework': 'sklearn', 'path': '/tmp/test.pkl.xz'}
-    >>> d = {'description': 'Machine learn model', 'name': 'test', 'framework': 'sklearn', 'path': '/tmp/test.pkl.xz'}
+    {'description': 'Machine learn model', 'name': 'test', 'framework': 'sklearn', 'path': '/tmp/test.pkl.xz', 'md5_hash': None}
+    >>> d = {'description': 'Machine learn model', 'name': 'test', 'framework': 'sklearn',
+    ...      'path': '/tmp/test.pkl.xz', "md5_hash": None}
     >>> m = MachineLearnModel.from_dict(d)
     >>> m.get_model() # doctest: +ELLIPSIS
     ...               # doctest: +NORMALIZE_WHITESPACE
@@ -64,8 +65,9 @@ class MachineLearnModel(object):
     <class 'torch.nn.modules.module.Module'>
     >>> m.to_dict() # doctest: +ELLIPSIS
     ...             # doctest: +NORMALIZE_WHITESPACE
-    {'description': 'Machine learn model', 'name': 'test', 'framework': 'pytorch', 'path': '/tmp/test.pt'}
-    >>> d = {'description': 'Machine learn model', 'name': 'test', 'framework': 'pytorch', 'path': '/tmp/test.pt'}
+    {'description': 'Machine learn model', 'name': 'test', 'framework': 'pytorch', 'path': '/tmp/test.pt', 'md5_hash': None}
+    >>> d = {'description': 'Machine learn model', 'name': 'test', 'framework': 'pytorch',
+    ...      'path': '/tmp/test.pt', "md5_hash": None}
     >>> m = MachineLearnModel.from_dict(d)
     >>> m.get_model() # doctest: +ELLIPSIS
     ...               # doctest: +NORMALIZE_WHITESPACE
