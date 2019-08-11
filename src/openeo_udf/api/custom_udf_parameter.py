@@ -11,8 +11,7 @@ __email__      = "soerengebbert@googlemail.com"
 
 class CustomUdfParameter(dict):
     """This class represent custom UDF parameter that the user can set for the provided UDF code.
-    The parameter must be provided as key - value entries in this class, which is a derivative of
-    a dictionary
+    The parameter must be provided as key - value entries in this class, that is a subclass of the python dictionary
 
 
     >>> custom_params = CustomUdfParameter(kernel_size=3, time_delta=0.5)
