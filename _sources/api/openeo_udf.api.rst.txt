@@ -4,10 +4,42 @@ openeo\_udf.api package
 Submodules
 ----------
 
-openeo\_udf.api.base module
----------------------------
+openeo\_udf.api.collection\_tile module
+---------------------------------------
 
-.. automodule:: openeo_udf.api.base
+.. automodule:: openeo_udf.api.collection_tile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.feature\_collection\_tile module
+------------------------------------------------
+
+.. automodule:: openeo_udf.api.feature_collection_tile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.hypercube module
+--------------------------------
+
+.. automodule:: openeo_udf.api.hypercube
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.machine\_learn\_model module
+--------------------------------------------
+
+.. automodule:: openeo_udf.api.machine_learn_model
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.raster\_collection\_tile module
+-----------------------------------------------
+
+.. automodule:: openeo_udf.api.raster_collection_tile
     :members:
     :undoc-members:
     :show-inheritance:
@@ -16,6 +48,30 @@ openeo\_udf.api.run\_code module
 --------------------------------
 
 .. automodule:: openeo_udf.api.run_code
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.spatial\_extent module
+--------------------------------------
+
+.. automodule:: openeo_udf.api.spatial_extent
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.structured\_data module
+---------------------------------------
+
+.. automodule:: openeo_udf.api.structured_data
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.udf\_data module
+--------------------------------
+
+.. automodule:: openeo_udf.api.udf_data
     :members:
     :undoc-members:
     :show-inheritance:

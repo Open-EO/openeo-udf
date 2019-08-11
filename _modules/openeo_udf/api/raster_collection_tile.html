@@ -1,0 +1,341 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>openeo_udf.api.raster_collection_tile &#8212; openeo-udf 0.0.post0.dev232+g501fb54 documentation</title>
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev232+g501fb54 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for openeo_udf.api.raster_collection_tile</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Base classes of the OpenEO Python UDF interface</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.spatial_extent</span> <span class="k">import</span> <span class="n">SpatialExtent</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.collection_tile</span> <span class="k">import</span> <span class="n">CollectionTile</span>
+
+
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
+<span class="n">__author__</span>     <span class="o">=</span> <span class="s2">&quot;Soeren Gebbert&quot;</span>
+<span class="n">__copyright__</span>  <span class="o">=</span> <span class="s2">&quot;Copyright 2018, Soeren Gebbert&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Soeren Gebbert&quot;</span>
+<span class="n">__email__</span>      <span class="o">=</span> <span class="s2">&quot;soerengebbert@googlemail.com&quot;</span>
+
+
+<div class="viewcode-block" id="RasterCollectionTile"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.raster_collection_tile.RasterCollectionTile">[docs]</a><span class="k">class</span> <span class="nc">RasterCollectionTile</span><span class="p">(</span><span class="n">CollectionTile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class represents a three dimensional raster collection tile with</span>
+<span class="sd">    time information and x,y slices with a single scalar value for each pixel.</span>
+<span class="sd">    A tile represents a scalar field in space and time,</span>
+<span class="sd">    for example a time series of a single Landsat 8 or Sentinel2A band. A tile may be a</span>
+<span class="sd">    spatio-temporal subset of a scalar time series or a whole time series.</span>
+
+<span class="sd">    Some basic tests:</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy, pandas</span>
+<span class="sd">    &gt;&gt;&gt; data = numpy.zeros(shape=(1,1,1))</span>
+<span class="sd">    &gt;&gt;&gt; extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=100, width=100)</span>
+<span class="sd">    &gt;&gt;&gt; rct = RasterCollectionTile(id=&quot;test&quot;, extent=extent, data=data, wavelength=420)</span>
+<span class="sd">    &gt;&gt;&gt; rct.sample(50, 50)</span>
+<span class="sd">    [0.0]</span>
+<span class="sd">    &gt;&gt;&gt; print(rct)</span>
+<span class="sd">    id: test</span>
+<span class="sd">    extent: top: 100</span>
+<span class="sd">    bottom: 0</span>
+<span class="sd">    right: 100</span>
+<span class="sd">    left: 0</span>
+<span class="sd">    height: 100</span>
+<span class="sd">    width: 100</span>
+<span class="sd">    wavelength: 420</span>
+<span class="sd">    start_times: None</span>
+<span class="sd">    end_times: None</span>
+<span class="sd">    data: [[[0.]]]</span>
+<span class="sd">    &gt;&gt;&gt; dates = [pandas.Timestamp(&#39;2012-05-01&#39;)]</span>
+<span class="sd">    &gt;&gt;&gt; starts = pandas.DatetimeIndex(dates)</span>
+<span class="sd">    &gt;&gt;&gt; dates = [pandas.Timestamp(&#39;2012-05-02&#39;)]</span>
+<span class="sd">    &gt;&gt;&gt; ends = pandas.DatetimeIndex(dates)</span>
+<span class="sd">    &gt;&gt;&gt; rct = RasterCollectionTile(id=&quot;test&quot;, extent=extent,</span>
+<span class="sd">    ...                            data=data, wavelength=420,</span>
+<span class="sd">    ...                            start_times=starts, end_times=ends)</span>
+<span class="sd">    &gt;&gt;&gt; print(rct)</span>
+<span class="sd">    id: test</span>
+<span class="sd">    extent: top: 100</span>
+<span class="sd">    bottom: 0</span>
+<span class="sd">    right: 100</span>
+<span class="sd">    left: 0</span>
+<span class="sd">    height: 100</span>
+<span class="sd">    width: 100</span>
+<span class="sd">    wavelength: 420</span>
+<span class="sd">    start_times: DatetimeIndex([&#39;2012-05-01&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="sd">    end_times: DatetimeIndex([&#39;2012-05-02&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
+<span class="sd">    data: [[[0.]]]</span>
+
+<span class="sd">    &gt;&gt;&gt; import json</span>
+<span class="sd">    &gt;&gt;&gt; json.dumps(rct.to_dict()) # doctest: +ELLIPSIS</span>
+<span class="sd">    ...                           # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &#39;{&quot;id&quot;: &quot;test&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 420, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;],</span>
+<span class="sd">    &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;],</span>
+<span class="sd">    &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 100, &quot;height&quot;: 100}}&#39;</span>
+
+
+<span class="sd">    &gt;&gt;&gt; rct = RasterCollectionTile.from_dict(rct.to_dict())</span>
+<span class="sd">    &gt;&gt;&gt; json.dumps(rct.to_dict()) # doctest: +ELLIPSIS</span>
+<span class="sd">    ...                           # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    &#39;{&quot;id&quot;: &quot;test&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 420, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;],</span>
+<span class="sd">    &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;],</span>
+<span class="sd">    &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 100, &quot;height&quot;: 100}}&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; data = numpy.zeros(shape=(3,10,10))</span>
+<span class="sd">    &gt;&gt;&gt; extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)</span>
+<span class="sd">    &gt;&gt;&gt; rct = RasterCollectionTile(id=&quot;test&quot;, extent=extent, data=data, wavelength=420)</span>
+<span class="sd">    &gt;&gt;&gt; rct.sample(50, 50)</span>
+<span class="sd">    [0.0, 0.0, 0.0]</span>
+
+
+<span class="sd">    &gt;&gt;&gt; a = numpy.array([[[1., 2., 3., 4.],</span>
+<span class="sd">    ...                   [5., 6., 7., 8.],</span>
+<span class="sd">    ...                   [1., 2., 3., 4.]],</span>
+<span class="sd">    ...                  [[5., 6., 7., 8.],</span>
+<span class="sd">    ...                   [1., 2., 3., 4.],</span>
+<span class="sd">    ...                   [5., 6., 7., 8.]]])</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; extent = SpatialExtent(top=30, bottom=0, right=40, left=0, height=10, width=10)</span>
+<span class="sd">    &gt;&gt;&gt; rct = RasterCollectionTile(id=&quot;test&quot;, extent=extent, data=a, wavelength=420)</span>
+<span class="sd">    &gt;&gt;&gt; rct.sample(20, 15)</span>
+<span class="sd">    [6.0, 2.0]</span>
+<span class="sd">    &gt;&gt;&gt; rct.sample(29, 1)</span>
+<span class="sd">    [1.0, 5.0]</span>
+<span class="sd">    &gt;&gt;&gt; rct.sample(20, 21)</span>
+<span class="sd">    [7.0, 3.0]</span>
+<span class="sd">    &gt;&gt;&gt; rct.sample(1, 39)</span>
+<span class="sd">    [4.0, 8.0]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extent</span><span class="p">:</span> <span class="n">SpatialExtent</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                 <span class="n">wavelength</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">start_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">end_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor of the tile of an raster collection</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            id (str): The unique id of the raster collection tile</span>
+<span class="sd">            extent (SpatialExtent): The spatial extent with resolution information</span>
+<span class="sd">            data (numpy.ndarray): The three dimensional numpy.ndarray with indices [t][y][x]</span>
+<span class="sd">            wavelength (float): The optional wavelength of the raster collection tile</span>
+<span class="sd">            start_times (pandas.DatetimeIndex): The vector with start times for each spatial x,y slice</span>
+<span class="sd">            end_times (pandas.DatetimeIndex): The pandas.DateTimeIndex vector with end times for each spatial x,y slice, if no</span>
+<span class="sd">                       end times are defined, then time instances are assumed not intervals</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">CollectionTile</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">start_times</span><span class="o">=</span><span class="n">start_times</span><span class="p">,</span> <span class="n">end_times</span><span class="o">=</span><span class="n">end_times</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_data_with_time</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;id: </span><span class="si">%(id)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
+               <span class="s2">&quot;extent: </span><span class="si">%(extent)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
+               <span class="s2">&quot;wavelength: </span><span class="si">%(wavelength)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
+               <span class="s2">&quot;start_times: </span><span class="si">%(start_times)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
+               <span class="s2">&quot;end_times: </span><span class="si">%(end_times)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
+               <span class="s2">&quot;data: </span><span class="si">%(data)s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;extent&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">extent</span><span class="p">,</span> <span class="s2">&quot;wavelength&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span>
+                                 <span class="s2">&quot;start_times&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">start_times</span><span class="p">,</span> <span class="s2">&quot;end_times&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">end_times</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">}</span>
+
+<div class="viewcode-block" id="RasterCollectionTile.sample"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.raster_collection_tile.RasterCollectionTile.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">top</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sample the raster tile at specific top, left coordinates.</span>
+
+<span class="sd">        If the coordinates are not in the spatial extent of the tile, then None will be returned.</span>
+<span class="sd">        Otherwise a list of values, depending on the number of x,y slices are returned.</span>
+
+<span class="sd">        The coordinates must be of the same projection as the raster collection.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">           top (float): The top (northern) coordinate of the point</span>
+<span class="sd">           left (float): The left (western) coordinate of the point</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.ndarray:</span>
+<span class="sd">            A one dimensional array of values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extent</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extent</span><span class="o">.</span><span class="n">to_index</span><span class="p">(</span><span class="n">top</span><span class="p">,</span> <span class="n">left</span><span class="p">)</span>
+
+            <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">xy_slice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">xy_slice</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">values</span>
+
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="RasterCollectionTile.get_data"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.raster_collection_tile.RasterCollectionTile.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the three dimensional numpy.ndarray with indices [t][y][x]</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.ndarray: The three dimensional numpy.ndarray with indices [t][y][x]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span></div>
+
+<div class="viewcode-block" id="RasterCollectionTile.set_data"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.raster_collection_tile.RasterCollectionTile.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the three dimensional numpy.ndarray with indices [t][y][x]</span>
+
+<span class="sd">        This function will check if the provided data is a numpy.ndarray with three dimensions</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (numpy.ndarray): The three dimensional numpy.ndarray with indices [t][y][x]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Argument data must be of type numpy.ndarray&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Argument data must have three dimensions&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span></div>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_data</span><span class="p">,</span> <span class="n">fset</span><span class="o">=</span><span class="n">set_data</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RasterCollectionTile.to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.raster_collection_tile.RasterCollectionTile.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert this RasterCollectionTile into a dictionary that can be converted into</span>
+<span class="sd">        a valid JSON representation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict:</span>
+<span class="sd">            RasterCollectionTile as a dictionary</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;wavelength&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_times</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_times_to_dict</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_times</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_times_to_dict</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extent_to_dict</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">d</span></div>
+
+<div class="viewcode-block" id="RasterCollectionTile.from_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.raster_collection_tile.RasterCollectionTile.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">ict_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a raster collection tile from a python dictionary that was created from</span>
+<span class="sd">        the JSON definition of the RasterCollectionTile</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ict_dict (dict): The dictionary that contains the raster collection tile definition</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RasterCollectionTile:</span>
+<span class="sd">            A new RasterCollectionTile object</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ict_dict</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Missing id in dictionary&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ict_dict</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Missing data in dictionary&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;extent&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ict_dict</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Missing extent in dictionary&quot;</span><span class="p">)</span>
+
+        <span class="n">ict</span> <span class="o">=</span> <span class="n">RasterCollectionTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ict_dict</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                   <span class="n">extent</span><span class="o">=</span><span class="n">SpatialExtent</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">ict_dict</span><span class="p">[</span><span class="s2">&quot;extent&quot;</span><span class="p">]),</span>
+                                   <span class="n">data</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ict_dict</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="s2">&quot;start_times&quot;</span> <span class="ow">in</span> <span class="n">ict_dict</span><span class="p">:</span>
+            <span class="n">ict</span><span class="o">.</span><span class="n">set_start_times_from_list</span><span class="p">(</span><span class="n">ict_dict</span><span class="p">[</span><span class="s2">&quot;start_times&quot;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="s2">&quot;end_times&quot;</span> <span class="ow">in</span> <span class="n">ict_dict</span><span class="p">:</span>
+            <span class="n">ict</span><span class="o">.</span><span class="n">set_end_times_from_list</span><span class="p">(</span><span class="n">ict_dict</span><span class="p">[</span><span class="s2">&quot;end_times&quot;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="s2">&quot;wavelength&quot;</span> <span class="ow">in</span> <span class="n">ict_dict</span><span class="p">:</span>
+            <span class="n">ict</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">ict_dict</span><span class="p">[</span><span class="s2">&quot;wavelength&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">ict</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev232+g501fb54 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Soeren Gebbert.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+    </div>
+  </body>
+</html>
