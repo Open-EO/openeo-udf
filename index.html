@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>OpenEO UDF Framework &#8212; openeo-udf 0.0.post0.dev238+gb52247a documentation</title>
+    <title>OpenEO UDF Framework &#8212; openeo-udf 0.0.post0.dev265+g56ee9ac documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="license.html" title="License"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev238+gb52247a documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev265+g56ee9ac documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -60,10 +60,17 @@ UDF approach in an OpenEO processing backend</li>
 <p>This UDF implementation contains an abstract swagger description of schemas that must be used when an API for a specific
 programming language is implemented.
 They are documented in the swagger 2.0 API description that is provided by the UDF test server. However, the
-Python file that defines the swagger description is available here:</p>
+Python files that defines the swagger description are available here:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/definitions.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/definitions.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/dimension_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/dimension_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/feature_collection_tile_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/feature_collection_tile_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/hypercube_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/hypercube_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/machine_learn_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/machine_learn_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/raster_collection_tile_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/raster_collection_tile_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/spatial_extent_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/spatial_extent_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/structured_data_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/structured_data_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/udf_schemas.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/udf_schemas.py</a></li>
 </ul>
 </div></blockquote>
 <p>The basis of the swagger 2.0 API description are basic data-types that are available in many programming languages.
@@ -80,11 +87,11 @@ These basic data-types are:</p>
 </div></blockquote>
 <p>The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.</p>
-<p>The schemas SpatialExtent, RasterCollectionTile, FeatureCollectionTile, HyperCube, StructuredData, MachineLearnModel
-and UdfData are a swagger 2.0 based definitions for the UDF API.
+<p>The schemas SpatialExtentSchema, RasterCollectionTileSchema, FeatureCollectionTileSchema, HyperCubeSchema,
+StructuredDataSchema, MachineLearnModelSchema and UdfDataSchema are a swagger 2.0 based definitions for the UDF API.
 These schemas are implemented as classes with additional functionality in the Python3 REST test server.</p>
-<p>The schemas UdfCode, UdfRequest and ErrorResponse are used by the UDF test server to provide the POST endpoint.
-They are not part of the UDF API.</p>
+<p>The schemas UdfCodeSchema, UdfRequestSchema and ErrorResponseSchema are used by the UDF
+test server to provide the POST endpoint. They are not part of the UDF API.</p>
 <p>To support UDF's in the backend the following approaches can be used:</p>
 <blockquote>
 <div><ul class="simple">
@@ -800,7 +807,7 @@ placed in the shell environmental variable &quot;JSON&quot;, should look like th
         <li class="right" >
           <a href="license.html" title="License"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev238+gb52247a documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev265+g56ee9ac documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

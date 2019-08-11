@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.api.udf_data &#8212; openeo-udf 0.0.post0.dev238+gb52247a documentation</title>
+    <title>openeo_udf.api.udf_data &#8212; openeo-udf 0.0.post0.dev265+g56ee9ac documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev238+gb52247a documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev265+g56ee9ac documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -39,9 +39,8 @@
   <h1>Source code for openeo_udf.api.udf_data</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;Base classes of the OpenEO Python UDF interface</span>
+<span class="sd">&quot;&quot;&quot;OpenEO Python UDF interface&quot;&quot;&quot;</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">xarray</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">openeo_udf.api.feature_collection_tile</span> <span class="k">import</span> <span class="n">FeatureCollectionTile</span>
@@ -50,6 +49,7 @@
 <span class="kn">from</span> <span class="nn">openeo_udf.api.raster_collection_tile</span> <span class="k">import</span> <span class="n">RasterCollectionTile</span>
 <span class="kn">from</span> <span class="nn">openeo_udf.api.spatial_extent</span> <span class="k">import</span> <span class="n">SpatialExtent</span>
 <span class="kn">from</span> <span class="nn">openeo_udf.api.structured_data</span> <span class="k">import</span> <span class="n">StructuredData</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.custom_udf_parameter</span> <span class="k">import</span> <span class="n">CustomUdfParameter</span>
 
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
 <span class="n">__author__</span>     <span class="o">=</span> <span class="s2">&quot;Soeren Gebbert&quot;</span>
@@ -58,7 +58,7 @@
 <span class="n">__email__</span>      <span class="o">=</span> <span class="s2">&quot;soerengebbert@googlemail.com&quot;</span>
 
 
-<div class="viewcode-block" id="UdfData"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData">[docs]</a><span class="k">class</span> <span class="nc">UdfData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="UdfData"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData">[docs]</a><span class="k">class</span> <span class="nc">UdfData</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;The class that stores the arguments for a user defined function (UDF)</span>
 
 <span class="sd">    Some basic tests:</span>
@@ -603,7 +603,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev238+gb52247a documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev265+g56ee9ac documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

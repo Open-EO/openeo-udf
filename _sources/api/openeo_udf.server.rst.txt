@@ -20,10 +20,10 @@ openeo\_udf.server.config module
     :undoc-members:
     :show-inheritance:
 
-openeo\_udf.server.definitions module
--------------------------------------
+openeo\_udf.server.dimension\_schema module
+-------------------------------------------
 
-.. automodule:: openeo_udf.server.definitions
+.. automodule:: openeo_udf.server.dimension_schema
     :members:
     :undoc-members:
     :show-inheritance:
@@ -36,10 +36,34 @@ openeo\_udf.server.endpoints module
     :undoc-members:
     :show-inheritance:
 
+openeo\_udf.server.feature\_collection\_tile\_schema module
+-----------------------------------------------------------
+
+.. automodule:: openeo_udf.server.feature_collection_tile_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.hypercube\_schema module
+-------------------------------------------
+
+.. automodule:: openeo_udf.server.hypercube_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 openeo\_udf.server.machine\_learn\_database module
 --------------------------------------------------
 
 .. automodule:: openeo_udf.server.machine_learn_database
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.machine\_learn\_schema module
+------------------------------------------------
+
+.. automodule:: openeo_udf.server.machine_learn_schema
     :members:
     :undoc-members:
     :show-inheritance:
@@ -52,10 +76,42 @@ openeo\_udf.server.main module
     :undoc-members:
     :show-inheritance:
 
+openeo\_udf.server.raster\_collection\_tile\_schema module
+----------------------------------------------------------
+
+.. automodule:: openeo_udf.server.raster_collection_tile_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.spatial\_extent\_schema module
+-------------------------------------------------
+
+.. automodule:: openeo_udf.server.spatial_extent_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.structured\_data\_schema module
+--------------------------------------------------
+
+.. automodule:: openeo_udf.server.structured_data_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 openeo\_udf.server.udf module
 -----------------------------
 
 .. automodule:: openeo_udf.server.udf
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.udf\_schemas module
+--------------------------------------
+
+.. automodule:: openeo_udf.server.udf_schemas
     :members:
     :undoc-members:
     :show-inheritance:

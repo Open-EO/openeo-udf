@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.server package &#8212; openeo-udf 0.0.post0.dev238+gb52247a documentation</title>
+    <title>openeo_udf.server package &#8212; openeo-udf 0.0.post0.dev265+g56ee9ac documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="openeo_udf.functions.html" title="openeo_udf.functions package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev238+gb52247a documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev265+g56ee9ac documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="openeo_udf.html" accesskey="U">openeo_udf package</a> &#187;</li> 
       </ul>
@@ -68,325 +68,30 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-openeo_udf.server.definitions">
-<span id="openeo-udf-server-definitions-module"></span><h2>openeo_udf.server.definitions module<a class="headerlink" href="#module-openeo_udf.server.definitions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.server.dimension_schema">
+<span id="openeo-udf-server-dimension-schema-module"></span><h2>openeo_udf.server.dimension_schema module<a class="headerlink" href="#module-openeo_udf.server.dimension_schema" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="openeo_udf.server.definitions.Dimension">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">Dimension</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#Dimension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.Dimension" title="Permalink to this definition">¶</a></dt>
+<dt id="openeo_udf.server.dimension_schema.DimensionSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.dimension_schema.</code><code class="descname">DimensionSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/dimension_schema.html#DimensionSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.dimension_schema.DimensionSchema" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
 <dl class="attribute">
-<dt id="openeo_udf.server.definitions.Dimension.description">
-<code class="descname">description</code><em class="property"> = 'Description of a single dimension. '</em><a class="headerlink" href="#openeo_udf.server.definitions.Dimension.description" title="Permalink to this definition">¶</a></dt>
+<dt id="openeo_udf.server.dimension_schema.DimensionSchema.description">
+<code class="descname">description</code><em class="property"> = 'Description of a single dimension. '</em><a class="headerlink" href="#openeo_udf.server.dimension_schema.DimensionSchema.description" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="openeo_udf.server.definitions.Dimension.properties">
-<code class="descname">properties</code><em class="property"> = {'coordinates': {'description': 'The array that contains the coordinates of the specific dimension. This parameter is optional.', 'type': 'array', 'items': {'type': 'float'}}, 'description': {'description': 'Description of the dimension.', 'type': 'string'}, 'name': {'description': 'The name of the dimension, like *time*, *X*, *Y*, *Z* and so on.', 'type': 'string'}, 'unit': {'description': 'The unit of the dimension. The unit can be *ISO:8601* for time; metric length units based on meter: *nm* (nanometer), *mm* (millimeter), *cm* (centimeter), *m* (meter), *dm* (decimeter), *km* (kilometer); temperature *K* (Kelvin), *C* (degree Celsius);lat-lon coordinates in *degree*;earth observation units: NDVI, DVI, ... ; sensor units: *int8*, *int16*, *int32*; user defined units: *user_lala* ', 'type': 'string'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.Dimension.properties" title="Permalink to this definition">¶</a></dt>
+<dt id="openeo_udf.server.dimension_schema.DimensionSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'coordinates': {'description': 'The array that contains the coordinates of the specific dimension. This parameter is optional.', 'type': 'array', 'items': {'type': 'float'}}, 'description': {'description': 'Description of the dimension.', 'type': 'string'}, 'name': {'description': 'The name of the dimension, like *time*, *X*, *Y*, *Z* and so on.', 'type': 'string'}, 'unit': {'description': 'The unit of the dimension. The unit can be *ISO:8601* for time; metric length units based on meter: *nm* (nanometer), *mm* (millimeter), *cm* (centimeter), *m* (meter), *dm* (decimeter), *km* (kilometer); temperature *K* (Kelvin), *C* (degree Celsius);lat-lon coordinates in *degree*;earth observation units: NDVI, DVI, ... ; sensor units: *int8*, *int16*, *int32*; user defined units: *user_lala* ', 'type': 'string'}}</em><a class="headerlink" href="#openeo_udf.server.dimension_schema.DimensionSchema.properties" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="openeo_udf.server.definitions.Dimension.required">
-<code class="descname">required</code><em class="property"> = ['name']</em><a class="headerlink" href="#openeo_udf.server.definitions.Dimension.required" title="Permalink to this definition">¶</a></dt>
+<dt id="openeo_udf.server.dimension_schema.DimensionSchema.required">
+<code class="descname">required</code><em class="property"> = ['name']</em><a class="headerlink" href="#openeo_udf.server.dimension_schema.DimensionSchema.required" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="openeo_udf.server.definitions.Dimension.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.Dimension.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.ErrorResponse">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">ErrorResponse</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#ErrorResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.ErrorResponse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.ErrorResponse.description">
-<code class="descname">description</code><em class="property"> = 'The error message. This class is not part of the UDF API but used to create the UDF test server.'</em><a class="headerlink" href="#openeo_udf.server.definitions.ErrorResponse.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.ErrorResponse.properties">
-<code class="descname">properties</code><em class="property"> = {'message': {'type': 'string', 'description': 'The error message'}, 'traceback': {'type': 'string', 'description': 'The optional python traceback'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.ErrorResponse.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.ErrorResponse.required">
-<code class="descname">required</code><em class="property"> = ['message']</em><a class="headerlink" href="#openeo_udf.server.definitions.ErrorResponse.required" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.ErrorResponse.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.ErrorResponse.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.FeatureCollectionTile">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">FeatureCollectionTile</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#FeatureCollectionTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.FeatureCollectionTile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.FeatureCollectionTile.description">
-<code class="descname">description</code><em class="property"> = 'A tile of vector data that represents a spatio-temporal subset of a spatio-temporal vector dataset. '</em><a class="headerlink" href="#openeo_udf.server.definitions.FeatureCollectionTile.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.FeatureCollectionTile.example">
-<code class="descname">example</code><em class="property"> = {'data': {'features': [{'id': '0', 'type': 'Feature', 'properties': {'a': 1, 'b': 'a'}, 'geometry': {'coordinates': [24.0, 50.0], 'type': 'Point'}}, {'id': '1', 'type': 'Feature', 'properties': {'a': 2, 'b': 'b'}, 'geometry': {'coordinates': [30.0, 53.0], 'type': 'Point'}}], 'type': 'FeatureCollection'}, 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00']}</em><a class="headerlink" href="#openeo_udf.server.definitions.FeatureCollectionTile.example" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.FeatureCollectionTile.properties">
-<code class="descname">properties</code><em class="property"> = {'data': {'description': 'A GeoJSON FeatureCollection.', 'type': {}}, 'end_times': {'description': 'The vector that contains that end time values for each vector feature, in case the the time stamps for all or a subset of slices are intervals. For time instances the from and to time stamps must be equal or empty. As date-time string format ISO 8601 must be supported.', 'type': 'array', 'items': {'type': 'string'}}, 'id': {'description': 'The identifier of this vector tile.', 'type': 'string'}, 'start_times': {'description': 'The array that contains that start time values for each vector feature.As date-time string format ISO 8601 must be supported.', 'type': 'array', 'items': {'type': 'string'}}}</em><a class="headerlink" href="#openeo_udf.server.definitions.FeatureCollectionTile.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.FeatureCollectionTile.required">
-<code class="descname">required</code><em class="property"> = ['data', 'id']</em><a class="headerlink" href="#openeo_udf.server.definitions.FeatureCollectionTile.required" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.FeatureCollectionTile.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.FeatureCollectionTile.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.HyperCube">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">HyperCube</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#HyperCube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.HyperCube.description">
-<code class="descname">description</code><em class="property"> = 'A multi dimensional hypercube with configurable dimensions.'</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.HyperCube.example">
-<code class="descname">example</code><em class="property"> = {'data': [[[0.0, 0.1], [0.2, 0.3]], [[0.0, 0.1], [0.2, 0.3]]], 'dimension': [{'name': 'time', 'unit': 'ISO:8601', 'coordinates': ['2001-01-01', '2001-01-02']}, {'name': 'X', 'unit': 'degree', 'coordinates': [50.0, 60.0]}, {'name': 'Y', 'unit': 'degree', 'coordinates': [40.0, 50.0]}], 'id': 'test_data'}</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.example" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.HyperCube.properties">
-<code class="descname">properties</code><em class="property"> = {'array': {'description': 'A multi-dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.By default index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array. The dimension options must be used ot describe other dimension configurations.', 'type': 'array', 'items': {'type': 'array', 'items': {'type': 'array', 'items': {'type': 'float'}}}}, 'dimensions': {'description': 'The description of each dimension and the value as ordered list. The order of the dimension in this array is the order of the dimension in the hypercube. The dimension with the name *value* described the cell value.', 'type': 'array', 'items': {'type': &lt;class 'openeo_udf.server.definitions.Dimension'&gt;}}, 'id': {'description': 'The identifier of this hyper cube.', 'type': 'string'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.HyperCube.required">
-<code class="descname">required</code><em class="property"> = ['id', 'data', 'dimension']</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.required" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.HyperCube.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.HyperCube.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.MachineLearnModel">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">MachineLearnModel</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#MachineLearnModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.MachineLearnModel.description">
-<code class="descname">description</code><em class="property"> = 'A machine learn model that should be applied to the UDF data.'</em><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.MachineLearnModel.example">
-<code class="descname">example</code><em class="property"> = {'description': 'A random forest model', 'framework': 'sklearn', 'name': 'random_forest', 'path': '/tmp/model.pkl.xz'}</em><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel.example" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.MachineLearnModel.properties">
-<code class="descname">properties</code><em class="property"> = {'description': {'type': 'string', 'description': 'The description of the machine learn model.'}, 'framework': {'type': 'string', 'description': 'The framework that was used to train the model', 'enum': ['sklearn', 'pytorch', 'tensorflow', 'R']}, 'md5_nash': {'type': 'string', 'description': 'The md5 checksum of the model that should be used to identify the machine learn model in the UDF storage system. The machine learn model must be uploaded to the UDF server.'}, 'name': {'type': 'string', 'description': 'The name of the machine learn model.'}, 'path': {'type': 'string', 'description': 'The path to the machine learn model file to which the UDF must have read access.'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.MachineLearnModel.required">
-<code class="descname">required</code><em class="property"> = ['framework', 'path']</em><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel.required" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.MachineLearnModel.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.MachineLearnModel.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.RasterCollectionTile">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">RasterCollectionTile</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#RasterCollectionTile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.RasterCollectionTile.description">
-<code class="descname">description</code><em class="property"> = 'A three dimensional tile of data that represents a spatio-temporal subset of a spatio-temporal raster collection. '</em><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.RasterCollectionTile.example">
-<code class="descname">example</code><em class="property"> = {'data': [[[0, 1], [2, 3]], [[0, 1], [2, 3]]], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'extent': {'top': 53, 'bottom': 51, 'right': 30, 'left': 28, 'height': 1, 'width': 1}, 'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'wavelength': 420}</em><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile.example" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.RasterCollectionTile.properties">
-<code class="descname">properties</code><em class="property"> = {'data': {'description': 'A three dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array.', 'type': 'array', 'items': {'type': 'array', 'items': {'type': 'array', 'items': {'type': 'float'}}}}, 'end_times': {'description': 'The vector that contains that end time values for each x,y slice, in case the the time stamps for all or a subset of slices are intervals. For time instances the from and to time stamps must be equal or empty. As date-time string format ISO 8601 must be supported', 'type': 'array', 'items': {'type': 'string'}}, 'extent': &lt;class 'openeo_udf.server.definitions.SpatialExtent'&gt;, 'id': {'description': 'The identifier of this raster collection tile.', 'type': 'string'}, 'start_times': {'description': 'The array that contains that start time values for each x,y slice.As date-time string format ISO 8601 must be supported.', 'type': 'array', 'items': {'type': 'string'}}, 'wavelength': {'description': 'The wavelength of the raster collection tile.', 'type': 'float'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.RasterCollectionTile.required">
-<code class="descname">required</code><em class="property"> = ['data', 'id', 'extent']</em><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile.required" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.RasterCollectionTile.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.RasterCollectionTile.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.SpatialExtent">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">SpatialExtent</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#SpatialExtent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.SpatialExtent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.SpatialExtent.description">
-<code class="descname">description</code><em class="property"> = 'spatial extent with resolution information'</em><a class="headerlink" href="#openeo_udf.server.definitions.SpatialExtent.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.SpatialExtent.example">
-<code class="descname">example</code><em class="property"> = {'extent': {'top': 53, 'bottom': 50, 'right': 30, 'left': 24, 'height': 0.01, 'width': 0.01}}</em><a class="headerlink" href="#openeo_udf.server.definitions.SpatialExtent.example" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.SpatialExtent.properties">
-<code class="descname">properties</code><em class="property"> = {'bottom': {'description': 'The bottom (south) border.', 'type': 'float'}, 'height': {'description': 'The top-bottom resolution in projection units.', 'type': 'float'}, 'left': {'description': 'The left (wester) border.', 'type': 'float'}, 'right': {'description': 'The right (eastern) border.', 'type': 'float'}, 'top': {'description': 'The top (north) border.', 'type': 'float'}, 'width': {'description': 'The right-left resolution in projection units.', 'type': 'float'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.SpatialExtent.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.SpatialExtent.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.SpatialExtent.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.StructuredData">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">StructuredData</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#StructuredData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.StructuredData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.StructuredData.description">
-<code class="descname">description</code><em class="property"> = 'This model represents structured data that can not be representedas a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical computation. The data is self descriptive and supports the basic types dict/map, list and table. This data structure can also be used to provide contextual data from the user to the UDF, like kernel size, resampling pixel size and so on.'</em><a class="headerlink" href="#openeo_udf.server.definitions.StructuredData.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.StructuredData.example">
-<code class="descname">example</code><em class="property"> = {'data': {'RED': {'min': 0, 'max': 100, 'mean': 50}, 'NIR': {'min': 0, 'max': 100, 'mean': 50}}, 'description': 'Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.', 'type': 'dict'}</em><a class="headerlink" href="#openeo_udf.server.definitions.StructuredData.example" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.StructuredData.properties">
-<code class="descname">properties</code><em class="property"> = {'data': {'type': {}, 'description': 'The structured data. This field contains the UDF specific values (argument or return)as dict, list or table.   * A dict can be as complex as required by the UDF.  * A list must contain simple data types example {&quot;list&quot;: [1,2,3,4]}   * A table is a list of lists with a header, example {&quot;table&quot;: [[&quot;id&quot;,&quot;value&quot;],                                                                     [1,     10],                                                                     [2,     23],                                                                     [3,     4]]}'}, 'description': {'type': 'string', 'description': 'A detailed description of the output format.'}, 'type': {'type': 'string', 'description': 'The type of the structured data that may be of type dict, table or list. This is just a hint for the user how to interpret the provided data.', 'enum': ['dict', 'table', 'list']}}</em><a class="headerlink" href="#openeo_udf.server.definitions.StructuredData.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.StructuredData.required">
-<code class="descname">required</code><em class="property"> = ['description', 'data', 'type']</em><a class="headerlink" href="#openeo_udf.server.definitions.StructuredData.required" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.StructuredData.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.StructuredData.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.UdfCode">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">UdfCode</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#UdfCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.UdfCode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfCode.description">
-<code class="descname">description</code><em class="property"> = 'The object that stores the UDF code and language specification. This class is not part of the UDF API but used to create the UDF test server.'</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfCode.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfCode.example">
-<code class="descname">example</code><em class="property"> = {'language': 'python', 'source': 'import numpy as np \n \ndef udf(data): \n    pass\n'}</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfCode.example" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfCode.properties">
-<code class="descname">properties</code><em class="property"> = {'language': {'type': 'string', 'description': 'The language of UDF code'}, 'source': {'type': 'string', 'description': 'The UDF source code as a string'}}</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfCode.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfCode.required">
-<code class="descname">required</code><em class="property"> = ['language', 'source']</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfCode.required" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfCode.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfCode.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.UdfData">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">UdfData</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#UdfData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.UdfData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfData.description">
-<code class="descname">description</code><em class="property"> = 'The UDF data object that stores raster collection tiles, feature collection tiles,projection information and machine learn models. This object is argument for the UDF as well as their return value.'</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfData.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfData.example">
-<code class="descname">example</code><em class="property"> = {'feature_collection_tiles': [{'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'data': {'features': [{'id': '0', 'type': 'Feature', 'properties': {'a': 1, 'b': 'a'}, 'geometry': {'coordinates': [24.0, 50.0], 'type': 'Point'}}, {'id': '1', 'type': 'Feature', 'properties': {'a': 2, 'b': 'b'}, 'geometry': {'coordinates': [30.0, 53.0], 'type': 'Point'}}], 'type': 'FeatureCollection'}}], 'machine_learn_models': [{'framework': 'sklearn', 'name': 'random_forest', 'description': 'A random forest model', 'path': '/tmp/model.pkl.xz'}], 'proj': 'EPSG:4326', 'raster_collection_tiles': [{'id': 'RED', 'wavelength': 420, 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'data': [[[0, 1], [2, 3]], [[0, 1], [2, 3]]], 'extent': {'top': 53, 'bottom': 51, 'right': 30, 'left': 28, 'height': 1, 'width': 1}}], 'structured_data': [{'description': 'Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.', 'data': {'RED': {'min': 0, 'max': 100, 'mean': 50}, 'NIR': {'min': 0, 'max': 100, 'mean': 50}}, 'type': 'dict'}, {'description': 'A list of values.', 'data': {'list': [1, 2, 3, 4, 5]}, 'type': 'list'}, {'description': 'A list of values.', 'data': {'table': [['id', 'value'], [1, 10], [2, 23], [3, 4]]}, 'type': 'table'}]}</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfData.example" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfData.properties">
-<code class="descname">properties</code><em class="property"> = {'feature_collection_tiles': {'description': 'A list of feature collection tiles.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.FeatureCollectionTile'&gt;}, 'hypercubes': {'description': 'A list of hyper cubes.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.HyperCube'&gt;}, 'machine_learn_models': {'description': 'A list of machine learn models.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.MachineLearnModel'&gt;}, 'proj': {'type': 'string', 'description': 'The EPSG code or WKT projection string. eg: EPSG:4326'}, 'raster_collection_tiles': {'description': 'A list of raster collection tiles. Each tile represents a single image band or other scalar values like temperature.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.RasterCollectionTile'&gt;}, 'structured_data_list': {'description': 'A list of structured data objects that contain processing results that cant be represented by raster- or feature collection tiles.', 'type': 'array', 'items': &lt;class 'openeo_udf.server.definitions.StructuredData'&gt;}}</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfData.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfData.required">
-<code class="descname">required</code><em class="property"> = ['proj']</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfData.required" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfData.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfData.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="openeo_udf.server.definitions.UdfRequest">
-<em class="property">class </em><code class="descclassname">openeo_udf.server.definitions.</code><code class="descname">UdfRequest</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/definitions.html#UdfRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.definitions.UdfRequest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfRequest.description">
-<code class="descname">description</code><em class="property"> = 'The udf request JSON specification.  This class is not part of the UDF API but used to create the UDF test server.'</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfRequest.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfRequest.properties">
-<code class="descname">properties</code><em class="property"> = {'code': &lt;class 'openeo_udf.server.definitions.UdfCode'&gt;, 'data': &lt;class 'openeo_udf.server.definitions.UdfData'&gt;}</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfRequest.properties" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfRequest.required">
-<code class="descname">required</code><em class="property"> = ['code', 'data']</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfRequest.required" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="openeo_udf.server.definitions.UdfRequest.type">
-<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.definitions.UdfRequest.type" title="Permalink to this definition">¶</a></dt>
+<dt id="openeo_udf.server.dimension_schema.DimensionSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.dimension_schema.DimensionSchema.type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -406,6 +111,74 @@
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-openeo_udf.server.feature_collection_tile_schema">
+<span id="openeo-udf-server-feature-collection-tile-schema-module"></span><h2>openeo_udf.server.feature_collection_tile_schema module<a class="headerlink" href="#module-openeo_udf.server.feature_collection_tile_schema" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.feature_collection_tile_schema.</code><code class="descname">FeatureCollectionTileSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/feature_collection_tile_schema.html#FeatureCollectionTileSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.description">
+<code class="descname">description</code><em class="property"> = 'A tile of vector data that represents a spatio-temporal subset of a spatio-temporal vector dataset. '</em><a class="headerlink" href="#openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.example">
+<code class="descname">example</code><em class="property"> = {'data': {'features': [{'id': '0', 'type': 'Feature', 'properties': {'a': 1, 'b': 'a'}, 'geometry': {'coordinates': [24.0, 50.0], 'type': 'Point'}}, {'id': '1', 'type': 'Feature', 'properties': {'a': 2, 'b': 'b'}, 'geometry': {'coordinates': [30.0, 53.0], 'type': 'Point'}}], 'type': 'FeatureCollection'}, 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00']}</em><a class="headerlink" href="#openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'data': {'description': 'A GeoJSON FeatureCollection.', 'type': {}}, 'end_times': {'description': 'The vector that contains that end time values for each vector feature, in case the the time stamps for all or a subset of slices are intervals. For time instances the from and to time stamps must be equal or empty. As date-time string format ISO 8601 must be supported.', 'type': 'array', 'items': {'type': 'string'}}, 'id': {'description': 'The identifier of this vector tile.', 'type': 'string'}, 'start_times': {'description': 'The array that contains that start time values for each vector feature.As date-time string format ISO 8601 must be supported.', 'type': 'array', 'items': {'type': 'string'}}}</em><a class="headerlink" href="#openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.required">
+<code class="descname">required</code><em class="property"> = ['data', 'id']</em><a class="headerlink" href="#openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.feature_collection_tile_schema.FeatureCollectionTileSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openeo_udf.server.hypercube_schema">
+<span id="openeo-udf-server-hypercube-schema-module"></span><h2>openeo_udf.server.hypercube_schema module<a class="headerlink" href="#module-openeo_udf.server.hypercube_schema" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.hypercube_schema.HyperCubeSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.hypercube_schema.</code><code class="descname">HyperCubeSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/hypercube_schema.html#HyperCubeSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.hypercube_schema.HyperCubeSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.hypercube_schema.HyperCubeSchema.description">
+<code class="descname">description</code><em class="property"> = 'A multi dimensional hypercube with configurable dimensions.'</em><a class="headerlink" href="#openeo_udf.server.hypercube_schema.HyperCubeSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.hypercube_schema.HyperCubeSchema.example">
+<code class="descname">example</code><em class="property"> = {'data': [[[0.0, 0.1], [0.2, 0.3]], [[0.0, 0.1], [0.2, 0.3]]], 'dimension': [{'name': 'time', 'unit': 'ISO:8601', 'coordinates': ['2001-01-01', '2001-01-02']}, {'name': 'X', 'unit': 'degree', 'coordinates': [50.0, 60.0]}, {'name': 'Y', 'unit': 'degree', 'coordinates': [40.0, 50.0]}], 'id': 'test_data'}</em><a class="headerlink" href="#openeo_udf.server.hypercube_schema.HyperCubeSchema.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.hypercube_schema.HyperCubeSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'array': {'description': 'A multi-dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.By default index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array. The dimension options must be used ot describe other dimension configurations.', 'type': 'array', 'items': {'type': 'array', 'items': {'type': 'array', 'items': {'type': 'float'}}}}, 'dimensions': {'description': 'The description of each dimension and the value as ordered list. The order of the dimension in this array is the order of the dimension in the hypercube. The dimension with the name *value* described the cell value.', 'type': 'array', 'items': {'type': &lt;class 'openeo_udf.server.dimension_schema.DimensionSchema'&gt;}}, 'id': {'description': 'The identifier of this hyper cube.', 'type': 'string'}}</em><a class="headerlink" href="#openeo_udf.server.hypercube_schema.HyperCubeSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.hypercube_schema.HyperCubeSchema.required">
+<code class="descname">required</code><em class="property"> = ['id', 'data', 'dimension']</em><a class="headerlink" href="#openeo_udf.server.hypercube_schema.HyperCubeSchema.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.hypercube_schema.HyperCubeSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.hypercube_schema.HyperCubeSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -430,7 +203,7 @@
 
 <dl class="attribute">
 <dt id="openeo_udf.server.machine_learn_database.MachineLearnDatabase.methods">
-<code class="descname">methods</code><em class="property"> = {'DELETE', 'POST', 'GET'}</em><a class="headerlink" href="#openeo_udf.server.machine_learn_database.MachineLearnDatabase.methods" title="Permalink to this definition">¶</a></dt>
+<code class="descname">methods</code><em class="property"> = {'POST', 'DELETE', 'GET'}</em><a class="headerlink" href="#openeo_udf.server.machine_learn_database.MachineLearnDatabase.methods" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -442,8 +215,139 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-openeo_udf.server.machine_learn_schema">
+<span id="openeo-udf-server-machine-learn-schema-module"></span><h2>openeo_udf.server.machine_learn_schema module<a class="headerlink" href="#module-openeo_udf.server.machine_learn_schema" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.machine_learn_schema.MachineLearnModelSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.machine_learn_schema.</code><code class="descname">MachineLearnModelSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/machine_learn_schema.html#MachineLearnModelSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.machine_learn_schema.MachineLearnModelSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.description">
+<code class="descname">description</code><em class="property"> = 'A machine learn model that should be applied to the UDF data.'</em><a class="headerlink" href="#openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.example">
+<code class="descname">example</code><em class="property"> = {'description': 'A random forest model', 'framework': 'sklearn', 'name': 'random_forest', 'path': '/tmp/model.pkl.xz'}</em><a class="headerlink" href="#openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'description': {'type': 'string', 'description': 'The description of the machine learn model.'}, 'framework': {'type': 'string', 'description': 'The framework that was used to train the model', 'enum': ['sklearn', 'pytorch', 'tensorflow', 'R']}, 'md5_nash': {'type': 'string', 'description': 'The md5 checksum of the model that should be used to identify the machine learn model in the UDF storage system. The machine learn model must be uploaded to the UDF server.'}, 'name': {'type': 'string', 'description': 'The name of the machine learn model.'}, 'path': {'type': 'string', 'description': 'The path to the machine learn model file to which the UDF must have read access.'}}</em><a class="headerlink" href="#openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.required">
+<code class="descname">required</code><em class="property"> = ['framework', 'path']</em><a class="headerlink" href="#openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.machine_learn_schema.MachineLearnModelSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-openeo_udf.server.main">
 <span id="openeo-udf-server-main-module"></span><h2>openeo_udf.server.main module<a class="headerlink" href="#module-openeo_udf.server.main" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-openeo_udf.server.raster_collection_tile_schema">
+<span id="openeo-udf-server-raster-collection-tile-schema-module"></span><h2>openeo_udf.server.raster_collection_tile_schema module<a class="headerlink" href="#module-openeo_udf.server.raster_collection_tile_schema" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.raster_collection_tile_schema.</code><code class="descname">RasterCollectionTileSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/raster_collection_tile_schema.html#RasterCollectionTileSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.description">
+<code class="descname">description</code><em class="property"> = 'A three dimensional tile of data that represents a spatio-temporal subset of a spatio-temporal raster collection. '</em><a class="headerlink" href="#openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.example">
+<code class="descname">example</code><em class="property"> = {'data': [[[0, 1], [2, 3]], [[0, 1], [2, 3]]], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'extent': {'top': 53, 'bottom': 51, 'right': 30, 'left': 28, 'height': 1, 'width': 1}, 'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'wavelength': 420}</em><a class="headerlink" href="#openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'data': {'description': 'A three dimensional array of integer (8,16,32,64 bit) or float (16, 32, 64 bit) values.The index dimension is as follows: [time][y][x]. Hence, the index data[0] returns the 2D slice for the first time-stamp. The y-indexing if counted from top to bottom and represents the rows of the 2D array. The x-indexing is counted from left to right and represents the columns of the 2D array.', 'type': 'array', 'items': {'type': 'array', 'items': {'type': 'array', 'items': {'type': 'float'}}}}, 'end_times': {'description': 'The vector that contains that end time values for each x,y slice, in case the the time stamps for all or a subset of slices are intervals. For time instances the from and to time stamps must be equal or empty. As date-time string format ISO 8601 must be supported', 'type': 'array', 'items': {'type': 'string'}}, 'extent': {'$ref': '#/definitions/SpatialExtentSchema'}, 'id': {'description': 'The identifier of this raster collection tile.', 'type': 'string'}, 'start_times': {'description': 'The array that contains that start time values for each x,y slice.As date-time string format ISO 8601 must be supported.', 'type': 'array', 'items': {'type': 'string'}}, 'wavelength': {'description': 'The wavelength of the raster collection tile.', 'type': 'float'}}</em><a class="headerlink" href="#openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.required">
+<code class="descname">required</code><em class="property"> = ['data', 'id', 'extent']</em><a class="headerlink" href="#openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.raster_collection_tile_schema.RasterCollectionTileSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openeo_udf.server.spatial_extent_schema">
+<span id="openeo-udf-server-spatial-extent-schema-module"></span><h2>openeo_udf.server.spatial_extent_schema module<a class="headerlink" href="#module-openeo_udf.server.spatial_extent_schema" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.spatial_extent_schema.SpatialExtentSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.spatial_extent_schema.</code><code class="descname">SpatialExtentSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/spatial_extent_schema.html#SpatialExtentSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.spatial_extent_schema.SpatialExtentSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.spatial_extent_schema.SpatialExtentSchema.description">
+<code class="descname">description</code><em class="property"> = 'spatial extent with resolution information'</em><a class="headerlink" href="#openeo_udf.server.spatial_extent_schema.SpatialExtentSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.spatial_extent_schema.SpatialExtentSchema.example">
+<code class="descname">example</code><em class="property"> = {'extent': {'top': 53, 'bottom': 50, 'right': 30, 'left': 24, 'height': 0.01, 'width': 0.01}}</em><a class="headerlink" href="#openeo_udf.server.spatial_extent_schema.SpatialExtentSchema.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.spatial_extent_schema.SpatialExtentSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'bottom': {'description': 'The bottom (south) border.', 'type': 'float'}, 'height': {'description': 'The top-bottom resolution in projection units.', 'type': 'float'}, 'left': {'description': 'The left (wester) border.', 'type': 'float'}, 'right': {'description': 'The right (eastern) border.', 'type': 'float'}, 'top': {'description': 'The top (north) border.', 'type': 'float'}, 'width': {'description': 'The right-left resolution in projection units.', 'type': 'float'}}</em><a class="headerlink" href="#openeo_udf.server.spatial_extent_schema.SpatialExtentSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.spatial_extent_schema.SpatialExtentSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.spatial_extent_schema.SpatialExtentSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openeo_udf.server.structured_data_schema">
+<span id="openeo-udf-server-structured-data-schema-module"></span><h2>openeo_udf.server.structured_data_schema module<a class="headerlink" href="#module-openeo_udf.server.structured_data_schema" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.structured_data_schema.StructuredDataSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.structured_data_schema.</code><code class="descname">StructuredDataSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/structured_data_schema.html#StructuredDataSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.structured_data_schema.StructuredDataSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.structured_data_schema.StructuredDataSchema.description">
+<code class="descname">description</code><em class="property"> = 'This model represents structured data that can not be representedas a RasterCollectionTile or FeatureCollectionTile. For example the result of a statistical computation. The data is self descriptive and supports the basic types dict/map, list and table. This data structure can also be used to provide contextual data from the user to the UDF, like kernel size, resampling pixel size and so on.'</em><a class="headerlink" href="#openeo_udf.server.structured_data_schema.StructuredDataSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.structured_data_schema.StructuredDataSchema.example">
+<code class="descname">example</code><em class="property"> = {'data': {'RED': {'min': 0, 'max': 100, 'mean': 50}, 'NIR': {'min': 0, 'max': 100, 'mean': 50}}, 'description': 'Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.', 'type': 'dict'}</em><a class="headerlink" href="#openeo_udf.server.structured_data_schema.StructuredDataSchema.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.structured_data_schema.StructuredDataSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'data': {'type': {}, 'description': 'The structured data. This field contains the UDF specific values (argument or return)as dict, list or table.   * A dict can be as complex as required by the UDF.  * A list must contain simple data types example {&quot;list&quot;: [1,2,3,4]}   * A table is a list of lists with a header, example {&quot;table&quot;: [[&quot;id&quot;,&quot;value&quot;],                                                                     [1,     10],                                                                     [2,     23],                                                                     [3,     4]]}'}, 'description': {'type': 'string', 'description': 'A detailed description of the output format.'}, 'type': {'type': 'string', 'description': 'The type of the structured data that may be of type dict, table or list. This is just a hint for the user how to interpret the provided data.', 'enum': ['dict', 'table', 'list']}}</em><a class="headerlink" href="#openeo_udf.server.structured_data_schema.StructuredDataSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.structured_data_schema.StructuredDataSchema.required">
+<code class="descname">required</code><em class="property"> = ['description', 'data', 'type']</em><a class="headerlink" href="#openeo_udf.server.structured_data_schema.StructuredDataSchema.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.structured_data_schema.StructuredDataSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.structured_data_schema.StructuredDataSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-openeo_udf.server.udf">
 <span id="openeo-udf-server-udf-module"></span><h2>openeo_udf.server.udf module<a class="headerlink" href="#module-openeo_udf.server.udf" title="Permalink to this headline">¶</a></h2>
@@ -502,6 +406,123 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-openeo_udf.server.udf_schemas">
+<span id="openeo-udf-server-udf-schemas-module"></span><h2>openeo_udf.server.udf_schemas module<a class="headerlink" href="#module-openeo_udf.server.udf_schemas" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="openeo_udf.server.udf_schemas.ErrorResponseSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.udf_schemas.</code><code class="descname">ErrorResponseSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/udf_schemas.html#ErrorResponseSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.udf_schemas.ErrorResponseSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.ErrorResponseSchema.description">
+<code class="descname">description</code><em class="property"> = 'The error message. This class is not part of the UDF API but used to create the UDF test server.'</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.ErrorResponseSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.ErrorResponseSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'message': {'type': 'string', 'description': 'The error message'}, 'traceback': {'type': 'string', 'description': 'The optional python traceback'}}</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.ErrorResponseSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.ErrorResponseSchema.required">
+<code class="descname">required</code><em class="property"> = ['message']</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.ErrorResponseSchema.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.ErrorResponseSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.ErrorResponseSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openeo_udf.server.udf_schemas.UdfCodeSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.udf_schemas.</code><code class="descname">UdfCodeSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/udf_schemas.html#UdfCodeSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfCodeSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfCodeSchema.description">
+<code class="descname">description</code><em class="property"> = 'The object that stores the UDF code and language specification. This class is not part of the UDF API but used to create the UDF test server.'</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfCodeSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfCodeSchema.example">
+<code class="descname">example</code><em class="property"> = {'language': 'python', 'source': 'import numpy as np \n \ndef udf(data): \n    pass\n'}</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfCodeSchema.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfCodeSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'language': {'type': 'string', 'description': 'The language of UDF code'}, 'source': {'type': 'string', 'description': 'The UDF source code as a string'}}</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfCodeSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfCodeSchema.required">
+<code class="descname">required</code><em class="property"> = ['language', 'source']</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfCodeSchema.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfCodeSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfCodeSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openeo_udf.server.udf_schemas.UdfDataSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.udf_schemas.</code><code class="descname">UdfDataSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/udf_schemas.html#UdfDataSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfDataSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfDataSchema.description">
+<code class="descname">description</code><em class="property"> = 'The UDF data object that stores raster collection tiles, feature collection tiles,projection information and machine learn models. This object is argument for the UDF as well as their return value.'</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfDataSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfDataSchema.example">
+<code class="descname">example</code><em class="property"> = {'feature_collection_tiles': [{'id': 'test_data', 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'data': {'features': [{'id': '0', 'type': 'Feature', 'properties': {'a': 1, 'b': 'a'}, 'geometry': {'coordinates': [24.0, 50.0], 'type': 'Point'}}, {'id': '1', 'type': 'Feature', 'properties': {'a': 2, 'b': 'b'}, 'geometry': {'coordinates': [30.0, 53.0], 'type': 'Point'}}], 'type': 'FeatureCollection'}}], 'machine_learn_models': [{'framework': 'sklearn', 'name': 'random_forest', 'description': 'A random forest model', 'path': '/tmp/model.pkl.xz'}], 'proj': 'EPSG:4326', 'raster_collection_tiles': [{'id': 'RED', 'wavelength': 420, 'start_times': ['2001-01-01T00:00:00', '2001-01-02T00:00:00'], 'end_times': ['2001-01-02T00:00:00', '2001-01-03T00:00:00'], 'data': [[[0, 1], [2, 3]], [[0, 1], [2, 3]]], 'extent': {'top': 53, 'bottom': 51, 'right': 30, 'left': 28, 'height': 1, 'width': 1}}], 'structured_data': [{'description': 'Output of a statistical analysis. The univariate analysis of multiple raster collection tiles. Each entry in the output dict/map contains min, mean and max of all pixels in a raster collection tile. The key is the id of the raster collection tile.', 'data': {'RED': {'min': 0, 'max': 100, 'mean': 50}, 'NIR': {'min': 0, 'max': 100, 'mean': 50}}, 'type': 'dict'}, {'description': 'A list of values.', 'data': {'list': [1, 2, 3, 4, 5]}, 'type': 'list'}, {'description': 'A list of values.', 'data': {'table': [['id', 'value'], [1, 10], [2, 23], [3, 4]]}, 'type': 'table'}]}</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfDataSchema.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfDataSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'feature_collection_tiles': {'description': 'A list of feature collection tiles.', 'type': 'array', 'items': {'$ref': '#/definitions/FeatureCollectionTileSchema'}}, 'hypercubes': {'description': 'A list of hyper cubes.', 'type': 'array', 'items': {'$ref': '#/definitions/HyperCubeSchema'}}, 'machine_learn_models': {'description': 'A list of machine learn models.', 'type': 'array', 'items': {'$ref': '#/definitions/MachineLearnModelSchema'}}, 'proj': {'type': 'string', 'description': 'The EPSG code or WKT projection string. eg: EPSG:4326'}, 'raster_collection_tiles': {'description': 'A list of raster collection tiles. Each tile represents a single image band or other scalar values like temperature.', 'type': 'array', 'items': {'$ref': '#/definitions/RasterCollectionTileSchema'}}, 'structured_data_list': {'description': 'A list of structured data objects that contain processing results that cant be represented by raster- or feature collection tiles.', 'type': 'array', 'items': {'$ref': '#/definitions/StructuredDataSchema'}}}</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfDataSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfDataSchema.required">
+<code class="descname">required</code><em class="property"> = ['proj']</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfDataSchema.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfDataSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfDataSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openeo_udf.server.udf_schemas.UdfRequestSchema">
+<em class="property">class </em><code class="descclassname">openeo_udf.server.udf_schemas.</code><code class="descname">UdfRequestSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/server/udf_schemas.html#UdfRequestSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfRequestSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful_swagger_2.Schema</span></code></p>
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfRequestSchema.description">
+<code class="descname">description</code><em class="property"> = 'The udf request JSON specification.  This class is not part of the UDF API but used to create the UDF test server.'</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfRequestSchema.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfRequestSchema.properties">
+<code class="descname">properties</code><em class="property"> = {'code': {'$ref': '#/definitions/UdfCodeSchema'}, 'data': {'$ref': '#/definitions/UdfDataSchema'}}</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfRequestSchema.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfRequestSchema.required">
+<code class="descname">required</code><em class="property"> = ['code', 'data']</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfRequestSchema.required" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="openeo_udf.server.udf_schemas.UdfRequestSchema.type">
+<code class="descname">type</code><em class="property"> = 'object'</em><a class="headerlink" href="#openeo_udf.server.udf_schemas.UdfRequestSchema.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-openeo_udf.server">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-openeo_udf.server" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -519,11 +540,18 @@
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.app">openeo_udf.server.app module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.config">openeo_udf.server.config module</a></li>
-<li><a class="reference internal" href="#module-openeo_udf.server.definitions">openeo_udf.server.definitions module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.dimension_schema">openeo_udf.server.dimension_schema module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.endpoints">openeo_udf.server.endpoints module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.feature_collection_tile_schema">openeo_udf.server.feature_collection_tile_schema module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.hypercube_schema">openeo_udf.server.hypercube_schema module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.machine_learn_database">openeo_udf.server.machine_learn_database module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.machine_learn_schema">openeo_udf.server.machine_learn_schema module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.main">openeo_udf.server.main module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.raster_collection_tile_schema">openeo_udf.server.raster_collection_tile_schema module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.spatial_extent_schema">openeo_udf.server.spatial_extent_schema module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.structured_data_schema">openeo_udf.server.structured_data_schema module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server.udf">openeo_udf.server.udf module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.server.udf_schemas">openeo_udf.server.udf_schemas module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.server">Module contents</a></li>
 </ul>
 </li>
@@ -567,7 +595,7 @@
         <li class="right" >
           <a href="openeo_udf.functions.html" title="openeo_udf.functions package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev238+gb52247a documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev265+g56ee9ac documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="openeo_udf.html" >openeo_udf package</a> &#187;</li> 
       </ul>

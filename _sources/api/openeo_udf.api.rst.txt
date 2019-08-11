@@ -12,6 +12,14 @@ openeo\_udf.api.collection\_tile module
     :undoc-members:
     :show-inheritance:
 
+openeo\_udf.api.custom\_udf\_parameter module
+---------------------------------------------
+
+.. automodule:: openeo_udf.api.custom_udf_parameter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 openeo\_udf.api.feature\_collection\_tile module
 ------------------------------------------------
 

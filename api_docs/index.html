@@ -25,13 +25,13 @@
             <a href="#tag-UDF">UDF</a>
             <ul>
               <li>
+                <a href="#operation--storage-post"> Upload a new machine learn model to the UDF machine learn storage </a>
+              </li>
+              <li>
                 <a href="#operation--storage-delete"> Remove a single machine learn model from the server </a>
               </li>
               <li>
                 <a href="#operation--storage-get"> Return all md5 hashes of the stored machine learn models as list </a>
-              </li>
-              <li>
-                <a href="#operation--storage-post"> Upload a new machine learn model to the UDF machine learn storage </a>
               </li>
               <li>
                 <a href="#operation--udf-post"> Execute the UDF code </a>
@@ -45,28 +45,28 @@
             <a href="#tag-machine-learning">machine learning</a>
             <ul>
               <li>
+                <a href="#operation--storage-post"> Upload a new machine learn model to the UDF machine learn storage </a>
+              </li>
+              <li>
                 <a href="#operation--storage-delete"> Remove a single machine learn model from the server </a>
               </li>
               <li>
                 <a href="#operation--storage-get"> Return all md5 hashes of the stored machine learn models as list </a>
               </li>
-              <li>
-                <a href="#operation--storage-post"> Upload a new machine learn model to the UDF machine learn storage </a>
-              </li>
             </ul>
           </section>
           <h5>Schema Definitions</h5>
-          <a href="#definition-UdfRequest"> UdfRequest </a>
-          <a href="#definition-UdfCode"> UdfCode </a>
-          <a href="#definition-UdfData"> UdfData </a>
-          <a href="#definition-RasterCollectionTile"> RasterCollectionTile </a>
-          <a href="#definition-SpatialExtent"> SpatialExtent </a>
-          <a href="#definition-FeatureCollectionTile"> FeatureCollectionTile </a>
-          <a href="#definition-HyperCube"> HyperCube </a>
-          <a href="#definition-Dimension"> Dimension </a>
-          <a href="#definition-StructuredData"> StructuredData </a>
-          <a href="#definition-MachineLearnModel"> MachineLearnModel </a>
-          <a href="#definition-ErrorResponse"> ErrorResponse </a>
+          <a href="#definition-UdfRequestSchema"> UdfRequestSchema </a>
+          <a href="#definition-UdfCodeSchema"> UdfCodeSchema </a>
+          <a href="#definition-UdfDataSchema"> UdfDataSchema </a>
+          <a href="#definition-RasterCollectionTileSchema"> RasterCollectionTileSchema </a>
+          <a href="#definition-SpatialExtentSchema"> SpatialExtentSchema </a>
+          <a href="#definition-FeatureCollectionTileSchema"> FeatureCollectionTileSchema </a>
+          <a href="#definition-HyperCubeSchema"> HyperCubeSchema </a>
+          <a href="#definition-DimensionSchema"> DimensionSchema </a>
+          <a href="#definition-StructuredDataSchema"> StructuredDataSchema </a>
+          <a href="#definition-MachineLearnModelSchema"> MachineLearnModelSchema </a>
+          <a href="#definition-ErrorResponseSchema"> ErrorResponseSchema </a>
         </nav>
       </div>
       <div id="docs" class="row collapse expanded drawer" data-drawer>
@@ -124,6 +124,88 @@
               <p>Interfacing to execute user-defined functions at the provided data.</p>
             </div>
           </div>
+          <div id="operation--storage-post" class="operation panel" data-traverse-target="operation--storage-post">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-UDF">UDF</a>
+              <!--, -->
+              <a class="label" href="#tag-machine-learning">machine learning</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Upload a new machine learn model to the UDF machine learn storage</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">POST</span>
+                  <span class="operation-path">/storage</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Store a machine learn model in the udf machine learn database and return the corresponding md5 hash. The URL were the model is located must be provided as text in the HTTP request</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                    </div>
+                    <div class="prop-value">
+                      <p>The md5 hash of the stred model.</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">400 Bad Request</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponseSchema">ErrorResponseSchema</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>The error message.</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <h5>Response Content-Types:
+                  <span>text/plain</span>
+                </h5>
+                <section>
+                  <h5>Response Example
+                    <span>(400 Bad Request)</span>
+                  </h5>
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre> </body>
+                  </html>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
           <div id="operation--storage-delete" class="operation panel" data-traverse-target="operation--storage-delete">
             <!-- <section class="operation-tags row"> -->
             <!-- <div class="doc-copy"> -->
@@ -173,7 +255,7 @@
                       <div class="prop-title">400 Bad Request</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponseSchema">ErrorResponseSchema</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -255,7 +337,7 @@
                       <div class="prop-title">400 Bad Request</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponseSchema">ErrorResponseSchema</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -269,88 +351,6 @@
               <div class="doc-examples">
                 <h5>Response Content-Types:
                   <span>application/json</span>
-                </h5>
-                <section>
-                  <h5>Response Example
-                    <span>(400 Bad Request)</span>
-                  </h5>
-                  <!-- <div class="hljs"> -->
-                  <html>
-                  <head></head>
-                  <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
-}
-</code></pre> </body>
-                  </html>
-                  <!-- </div> -->
-                </section>
-              </div>
-            </div>
-          </div>
-          <div id="operation--storage-post" class="operation panel" data-traverse-target="operation--storage-post">
-            <!-- <section class="operation-tags row"> -->
-            <!-- <div class="doc-copy"> -->
-            <div class="operation-tags">
-              <a class="label" href="#tag-UDF">UDF</a>
-              <!--, -->
-              <a class="label" href="#tag-machine-learning">machine learning</a>
-              <!---->
-            </div>
-            <!-- </div> -->
-            <!-- </section> -->
-            <h2 class="operation-title">
-              <span class="operation-summary">Upload a new machine learn model to the UDF machine learn storage</span>
-            </h2>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-operation-path">
-                  <span class="operation-method">POST</span>
-                  <span class="operation-path">/storage</span>
-                </section>
-              </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-operation-description">
-                  <p>Store a machine learn model in the udf machine learn database and return the corresponding md5 hash. The URL were the model is located must be provided as text in the HTTP request</p>
-                </section>
-              </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy"> </div>
-              <div class="doc-examples"></div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-responses">
-                  <div class="prop-row prop-group">
-                    <div class="prop-name">
-                      <div class="prop-title">200 OK</div>
-                    </div>
-                    <div class="prop-value">
-                      <p>The md5 hash of the stred model.</p>
-                    </div>
-                  </div>
-                  <div class="prop-row prop-group">
-                    <div class="prop-name">
-                      <div class="prop-title">400 Bad Request</div>
-                      <div class="prop-ref">
-                        <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
-                        </span>
-                      </div>
-                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
-                    </div>
-                    <div class="prop-value">
-                      <p>The error message.</p>
-                    </div>
-                  </div>
-                </section>
-              </div>
-              <div class="doc-examples">
-                <h5>Response Content-Types:
-                  <span>text/plain</span>
                 </h5>
                 <section>
                   <h5>Response Example
@@ -404,7 +404,7 @@
                     <div class="prop-name">
                       <div class="swagger-request-model">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/UdfRequest">UdfRequest</a>
+                          <a class="json-schema-ref" href="#/definitions/UdfRequestSchema">UdfRequestSchema</a>
                         </span>
                       </div>
                     </div>
@@ -603,7 +603,7 @@
                       <div class="prop-title">200 OK</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/UdfData">UdfData</a>
+                          <a class="json-schema-ref" href="#/definitions/UdfDataSchema">UdfDataSchema</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -617,7 +617,7 @@
                       <div class="prop-title">400 Bad Request</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponseSchema">ErrorResponseSchema</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -853,7 +853,7 @@
                     <div class="prop-name">
                       <div class="swagger-request-model">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/UdfRequest">UdfRequest</a>
+                          <a class="json-schema-ref" href="#/definitions/UdfRequestSchema">UdfRequestSchema</a>
                         </span>
                       </div>
                     </div>
@@ -1052,7 +1052,7 @@
                       <div class="prop-title">200 OK</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/UdfData">UdfData</a>
+                          <a class="json-schema-ref" href="#/definitions/UdfDataSchema">UdfDataSchema</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -1066,7 +1066,7 @@
                       <div class="prop-title">400 Bad Request</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponseSchema">ErrorResponseSchema</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -1269,6 +1269,88 @@
             </div>
           </div>
           <h1 id="tag-machine-learning" class="swagger-summary-tag" data-traverse-target="tag-machine-learning">machine learning</h1>
+          <div id="operation--storage-post" class="operation panel" data-traverse-target="operation--storage-post">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-UDF">UDF</a>
+              <!--, -->
+              <a class="label" href="#tag-machine-learning">machine learning</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Upload a new machine learn model to the UDF machine learn storage</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">POST</span>
+                  <span class="operation-path">/storage</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Store a machine learn model in the udf machine learn database and return the corresponding md5 hash. The URL were the model is located must be provided as text in the HTTP request</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                    </div>
+                    <div class="prop-value">
+                      <p>The md5 hash of the stred model.</p>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">400 Bad Request</div>
+                      <div class="prop-ref">
+                        <span class="">
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponseSchema">ErrorResponseSchema</a>
+                        </span>
+                      </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value">
+                      <p>The error message.</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <h5>Response Content-Types:
+                  <span>text/plain</span>
+                </h5>
+                <section>
+                  <h5>Response Example
+                    <span>(400 Bad Request)</span>
+                  </h5>
+                  <!-- <div class="hljs"> -->
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre> </body>
+                  </html>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
           <div id="operation--storage-delete" class="operation panel" data-traverse-target="operation--storage-delete">
             <!-- <section class="operation-tags row"> -->
             <!-- <div class="doc-copy"> -->
@@ -1318,7 +1400,7 @@
                       <div class="prop-title">400 Bad Request</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponseSchema">ErrorResponseSchema</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -1400,7 +1482,7 @@
                       <div class="prop-title">400 Bad Request</div>
                       <div class="prop-ref">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
+                          <a class="json-schema-ref" href="#/definitions/ErrorResponseSchema">ErrorResponseSchema</a>
                         </span>
                       </div>
                       <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
@@ -1433,92 +1515,10 @@
               </div>
             </div>
           </div>
-          <div id="operation--storage-post" class="operation panel" data-traverse-target="operation--storage-post">
-            <!-- <section class="operation-tags row"> -->
-            <!-- <div class="doc-copy"> -->
-            <div class="operation-tags">
-              <a class="label" href="#tag-UDF">UDF</a>
-              <!--, -->
-              <a class="label" href="#tag-machine-learning">machine learning</a>
-              <!---->
-            </div>
-            <!-- </div> -->
-            <!-- </section> -->
-            <h2 class="operation-title">
-              <span class="operation-summary">Upload a new machine learn model to the UDF machine learn storage</span>
-            </h2>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-operation-path">
-                  <span class="operation-method">POST</span>
-                  <span class="operation-path">/storage</span>
-                </section>
-              </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-operation-description">
-                  <p>Store a machine learn model in the udf machine learn database and return the corresponding md5 hash. The URL were the model is located must be provided as text in the HTTP request</p>
-                </section>
-              </div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy"> </div>
-              <div class="doc-examples"></div>
-            </div>
-            <div class="doc-row">
-              <div class="doc-copy">
-                <section class="swagger-responses">
-                  <div class="prop-row prop-group">
-                    <div class="prop-name">
-                      <div class="prop-title">200 OK</div>
-                    </div>
-                    <div class="prop-value">
-                      <p>The md5 hash of the stred model.</p>
-                    </div>
-                  </div>
-                  <div class="prop-row prop-group">
-                    <div class="prop-name">
-                      <div class="prop-title">400 Bad Request</div>
-                      <div class="prop-ref">
-                        <span class="">
-                          <a class="json-schema-ref" href="#/definitions/ErrorResponse">ErrorResponse</a>
-                        </span>
-                      </div>
-                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
-                    </div>
-                    <div class="prop-value">
-                      <p>The error message.</p>
-                    </div>
-                  </div>
-                </section>
-              </div>
-              <div class="doc-examples">
-                <h5>Response Content-Types:
-                  <span>text/plain</span>
-                </h5>
-                <section>
-                  <h5>Response Example
-                    <span>(400 Bad Request)</span>
-                  </h5>
-                  <!-- <div class="hljs"> -->
-                  <html>
-                  <head></head>
-                  <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-  <span class="hljs-attr">&quot;traceback&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
-}
-</code></pre> </body>
-                  </html>
-                  <!-- </div> -->
-                </section>
-              </div>
-            </div>
-          </div>
           <h1>Schema Definitions</h1>
-          <div id="definition-UdfRequest" class="definition panel" data-traverse-target="definition-UdfRequest">
+          <div id="definition-UdfRequestSchema" class="definition panel" data-traverse-target="definition-UdfRequestSchema">
             <h2 class="panel-title">
-              <a name="/definitions/UdfRequest"></a>UdfRequest: object
+              <a name="/definitions/UdfRequestSchema"></a>UdfRequestSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -1536,7 +1536,7 @@
                       <span class="json-property-name">code:</span>
                       <span class="json-property-type">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/UdfCode">UdfCode</a>
+                          <a class="json-schema-ref" href="#/definitions/UdfCodeSchema">UdfCodeSchema</a>
                         </span>
                       </span>
                       <span class="json-property-range" title="Value limits"></span>
@@ -1546,7 +1546,7 @@
                       <span class="json-property-name">data:</span>
                       <span class="json-property-type">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/UdfData">UdfData</a>
+                          <a class="json-schema-ref" href="#/definitions/UdfDataSchema">UdfDataSchema</a>
                         </span>
                       </span>
                       <span class="json-property-range" title="Value limits"></span>
@@ -1732,9 +1732,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-UdfCode" class="definition panel" data-traverse-target="definition-UdfCode">
+          <div id="definition-UdfCodeSchema" class="definition panel" data-traverse-target="definition-UdfCodeSchema">
             <h2 class="panel-title">
-              <a name="/definitions/UdfCode"></a>UdfCode: object
+              <a name="/definitions/UdfCodeSchema"></a>UdfCodeSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -1786,9 +1786,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-UdfData" class="definition panel" data-traverse-target="definition-UdfData">
+          <div id="definition-UdfDataSchema" class="definition panel" data-traverse-target="definition-UdfDataSchema">
             <h2 class="panel-title">
-              <a name="/definitions/UdfData"></a>UdfData: object
+              <a name="/definitions/UdfDataSchema"></a>UdfDataSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -1815,7 +1815,7 @@
                       <span class="json-property-name">raster_collection_tiles:</span>
                       <span class="json-property-type">
                         <span class="json-schema-ref-array">
-                          <a class="json-schema-ref" href="#/definitions/RasterCollectionTile">RasterCollectionTile</a>
+                          <a class="json-schema-ref" href="#/definitions/RasterCollectionTileSchema">RasterCollectionTileSchema</a>
                         </span>
                       </span>
                       <span class="json-property-range" title="Value limits"></span>
@@ -1827,7 +1827,7 @@
                       <section class="json-schema-array-items">
                         <span class="json-property-type">
                           <span class="">
-                            <a class="json-schema-ref" href="#/definitions/RasterCollectionTile">RasterCollectionTile</a>
+                            <a class="json-schema-ref" href="#/definitions/RasterCollectionTileSchema">RasterCollectionTileSchema</a>
                           </span>
                         </span>
                         <span class="json-property-range" title="Value limits"></span>
@@ -1838,7 +1838,7 @@
                       <span class="json-property-name">feature_collection_tiles:</span>
                       <span class="json-property-type">
                         <span class="json-schema-ref-array">
-                          <a class="json-schema-ref" href="#/definitions/FeatureCollectionTile">FeatureCollectionTile</a>
+                          <a class="json-schema-ref" href="#/definitions/FeatureCollectionTileSchema">FeatureCollectionTileSchema</a>
                         </span>
                       </span>
                       <span class="json-property-range" title="Value limits"></span>
@@ -1850,7 +1850,7 @@
                       <section class="json-schema-array-items">
                         <span class="json-property-type">
                           <span class="">
-                            <a class="json-schema-ref" href="#/definitions/FeatureCollectionTile">FeatureCollectionTile</a>
+                            <a class="json-schema-ref" href="#/definitions/FeatureCollectionTileSchema">FeatureCollectionTileSchema</a>
                           </span>
                         </span>
                         <span class="json-property-range" title="Value limits"></span>
@@ -1861,7 +1861,7 @@
                       <span class="json-property-name">hypercubes:</span>
                       <span class="json-property-type">
                         <span class="json-schema-ref-array">
-                          <a class="json-schema-ref" href="#/definitions/HyperCube">HyperCube</a>
+                          <a class="json-schema-ref" href="#/definitions/HyperCubeSchema">HyperCubeSchema</a>
                         </span>
                       </span>
                       <span class="json-property-range" title="Value limits"></span>
@@ -1873,7 +1873,7 @@
                       <section class="json-schema-array-items">
                         <span class="json-property-type">
                           <span class="">
-                            <a class="json-schema-ref" href="#/definitions/HyperCube">HyperCube</a>
+                            <a class="json-schema-ref" href="#/definitions/HyperCubeSchema">HyperCubeSchema</a>
                           </span>
                         </span>
                         <span class="json-property-range" title="Value limits"></span>
@@ -1884,7 +1884,7 @@
                       <span class="json-property-name">structured_data_list:</span>
                       <span class="json-property-type">
                         <span class="json-schema-ref-array">
-                          <a class="json-schema-ref" href="#/definitions/StructuredData">StructuredData</a>
+                          <a class="json-schema-ref" href="#/definitions/StructuredDataSchema">StructuredDataSchema</a>
                         </span>
                       </span>
                       <span class="json-property-range" title="Value limits"></span>
@@ -1896,7 +1896,7 @@
                       <section class="json-schema-array-items">
                         <span class="json-property-type">
                           <span class="">
-                            <a class="json-schema-ref" href="#/definitions/StructuredData">StructuredData</a>
+                            <a class="json-schema-ref" href="#/definitions/StructuredDataSchema">StructuredDataSchema</a>
                           </span>
                         </span>
                         <span class="json-property-range" title="Value limits"></span>
@@ -1907,7 +1907,7 @@
                       <span class="json-property-name">machine_learn_models:</span>
                       <span class="json-property-type">
                         <span class="json-schema-ref-array">
-                          <a class="json-schema-ref" href="#/definitions/MachineLearnModel">MachineLearnModel</a>
+                          <a class="json-schema-ref" href="#/definitions/MachineLearnModelSchema">MachineLearnModelSchema</a>
                         </span>
                       </span>
                       <span class="json-property-range" title="Value limits"></span>
@@ -1919,7 +1919,7 @@
                       <section class="json-schema-array-items">
                         <span class="json-property-type">
                           <span class="">
-                            <a class="json-schema-ref" href="#/definitions/MachineLearnModel">MachineLearnModel</a>
+                            <a class="json-schema-ref" href="#/definitions/MachineLearnModelSchema">MachineLearnModelSchema</a>
                           </span>
                         </span>
                         <span class="json-property-range" title="Value limits"></span>
@@ -2100,9 +2100,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-RasterCollectionTile" class="definition panel" data-traverse-target="definition-RasterCollectionTile">
+          <div id="definition-RasterCollectionTileSchema" class="definition panel" data-traverse-target="definition-RasterCollectionTileSchema">
             <h2 class="panel-title">
-              <a name="/definitions/RasterCollectionTile"></a>RasterCollectionTile: object
+              <a name="/definitions/RasterCollectionTileSchema"></a>RasterCollectionTileSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -2195,7 +2195,7 @@
                       <span class="json-property-name">extent:</span>
                       <span class="json-property-type">
                         <span class="">
-                          <a class="json-schema-ref" href="#/definitions/SpatialExtent">SpatialExtent</a>
+                          <a class="json-schema-ref" href="#/definitions/SpatialExtentSchema">SpatialExtentSchema</a>
                         </span>
                       </span>
                       <span class="json-property-range" title="Value limits"></span>
@@ -2259,9 +2259,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-SpatialExtent" class="definition panel" data-traverse-target="definition-SpatialExtent">
+          <div id="definition-SpatialExtentSchema" class="definition panel" data-traverse-target="definition-SpatialExtentSchema">
             <h2 class="panel-title">
-              <a name="/definitions/SpatialExtent"></a>SpatialExtent: object
+              <a name="/definitions/SpatialExtentSchema"></a>SpatialExtentSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -2349,9 +2349,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-FeatureCollectionTile" class="definition panel" data-traverse-target="definition-FeatureCollectionTile">
+          <div id="definition-FeatureCollectionTileSchema" class="definition panel" data-traverse-target="definition-FeatureCollectionTileSchema">
             <h2 class="panel-title">
-              <a name="/definitions/FeatureCollectionTile"></a>FeatureCollectionTile: object
+              <a name="/definitions/FeatureCollectionTileSchema"></a>FeatureCollectionTileSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -2475,9 +2475,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-HyperCube" class="definition panel" data-traverse-target="definition-HyperCube">
+          <div id="definition-HyperCubeSchema" class="definition panel" data-traverse-target="definition-HyperCubeSchema">
             <h2 class="panel-title">
-              <a name="/definitions/HyperCube"></a>HyperCube: object
+              <a name="/definitions/HyperCubeSchema"></a>HyperCubeSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -2610,9 +2610,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-Dimension" class="definition panel" data-traverse-target="definition-Dimension">
+          <div id="definition-DimensionSchema" class="definition panel" data-traverse-target="definition-DimensionSchema">
             <h2 class="panel-title">
-              <a name="/definitions/Dimension"></a>Dimension: object
+              <a name="/definitions/DimensionSchema"></a>DimensionSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -2709,9 +2709,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-StructuredData" class="definition panel" data-traverse-target="definition-StructuredData">
+          <div id="definition-StructuredDataSchema" class="definition panel" data-traverse-target="definition-StructuredDataSchema">
             <h2 class="panel-title">
-              <a name="/definitions/StructuredData"></a>StructuredData: object
+              <a name="/definitions/StructuredDataSchema"></a>StructuredDataSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -2789,9 +2789,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-MachineLearnModel" class="definition panel" data-traverse-target="definition-MachineLearnModel">
+          <div id="definition-MachineLearnModelSchema" class="definition panel" data-traverse-target="definition-MachineLearnModelSchema">
             <h2 class="panel-title">
-              <a name="/definitions/MachineLearnModel"></a>MachineLearnModel: object
+              <a name="/definitions/MachineLearnModelSchema"></a>MachineLearnModelSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
@@ -2875,9 +2875,9 @@
               </div>
             </div>
           </div>
-          <div id="definition-ErrorResponse" class="definition panel" data-traverse-target="definition-ErrorResponse">
+          <div id="definition-ErrorResponseSchema" class="definition panel" data-traverse-target="definition-ErrorResponseSchema">
             <h2 class="panel-title">
-              <a name="/definitions/ErrorResponse"></a>ErrorResponse: object
+              <a name="/definitions/ErrorResponseSchema"></a>ErrorResponseSchema: object
               <!-- <span class="json-property-type"><span class="json-property-type">object</span>
               <span class="json-property-range" title="Value limits"></span>
               
