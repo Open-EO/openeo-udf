@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Base classes of the OpenEO Python UDF interface
+"""OpenEO Python UDF interface"""
 
-"""
 import xarray
 from typing import Optional, List, Dict
 from openeo_udf.api.feature_collection_tile import FeatureCollectionTile
@@ -11,6 +10,7 @@ from openeo_udf.api.machine_learn_model import MachineLearnModel
 from openeo_udf.api.raster_collection_tile import RasterCollectionTile
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
+from openeo_udf.api.custom_udf_parameter import CustomUdfParameter
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -19,7 +19,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-class UdfData(object):
+class UdfData:
     """The class that stores the arguments for a user defined function (UDF)
 
     Some basic tests:
