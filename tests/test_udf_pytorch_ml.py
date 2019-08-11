@@ -13,7 +13,7 @@ import pprint
 import unittest
 from openeo_udf.server.app import flask_api
 from openeo_udf.server.endpoints import create_endpoints
-from openeo_udf.server.definitions import UdfData, UdfCode, UdfRequest
+from openeo_udf.server.udf_schemas import UdfDataSchema, UdfCodeSchema, UdfRequestSchema
 import openeo_udf.functions
 
 
@@ -117,10 +117,10 @@ class MachineLearningPytorchTestCase(unittest.TestCase):
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "raster_collections_pytorch_ml.py")
-        udf_code = UdfCode(language="python", source=open(file_name, "r").read())
+        udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
         udf_data = PIXEL
 
-        udf_request = UdfRequest(data=udf_data, code=udf_code)
+        udf_request = UdfRequestSchema(data=udf_data, code=udf_code)
 
         response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
         result = json.loads(response.data)
