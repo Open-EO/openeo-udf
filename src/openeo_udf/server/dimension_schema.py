@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from flask_restful_swagger_2 import Schema
+from typing import List
+
+from pydantic import BaseModel, Schema as pydSchema
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -8,35 +10,29 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class DimensionSchema(Schema):
-    description = "Description of a single dimension. "
-    type = "object"
-    required = ["name"]
-    properties = {
-        "name": {
-            "description": "The name of the dimension, like *time*, *X*, *Y*, *Z* and so on.",
-            "type": "string"
-        },
-        "description": {
-            "description": "Description of the dimension.",
-            "type": "string"
-        },
-        "unit": {
-            "description": "The unit of the dimension. The unit can be *ISO:8601* for time; "
-                           "metric length units based on meter: *nm* (nanometer), "
-                           "*mm* (millimeter), *cm* (centimeter), "
-                           "*m* (meter), *dm* (decimeter), *km* (kilometer); "
-                           "temperature *K* (Kelvin), *C* (degree Celsius);"
-                           "lat-lon coordinates in *degree*;"
-                           "earth observation units: NDVI, DVI, ... ; "
-                           "sensor units: *int8*, *int16*, *int32*; "
-                           "user defined units: *user_lala* ",
-            "type": "string"
-        },
-        "coordinates": {
-            "description": "The array that contains the coordinates of the specific dimension. "
-                           "This parameter is optional.",
-            "type": "array",
-            "items": {"type": "float"}
-        },
-    }
+class DimensionModel(BaseModel):
+    """Description of a single dimension"""
+
+    name: str = pydSchema(...,
+                          description="The name of the dimension, like *time*, *X*, *Y*, *Z* and so on.",
+                          examples=[{"name": "time"}])
+
+    description: str = pydSchema(..., description="Description of the dimension.")
+
+    unit: str = pydSchema(...,
+                          description="The unit of the dimension. The unit can be *ISO:8601* for time; "
+                                      "metric length units based on meter: *nm* (nanometer), "
+                                      "*mm* (millimeter), *cm* (centimeter), "
+                                      "*m* (meter), *dm* (decimeter), *km* (kilometer); "
+                                      "temperature *K* (Kelvin), *C* (degree Celsius);"
+                                      "lat-lon coordinates in *degree*;"
+                                      "earth observation units: NDVI, DVI, ... ; "
+                                      "sensor units: *int8*, *int16*, *int32*; "
+                                      "user defined units: *user_lala* ",
+                          examples=[{"unit": "ISO:8601"}])
+
+    coordinates: List[float] = pydSchema(...,
+                                         description="The array that contains the coordinates "
+                                                     "of the specific dimension. "
+                                                     "This parameter is optional.",
+                                         examples=[{"coordinates": ["2001-01-01", "2001-01-02"]}])
