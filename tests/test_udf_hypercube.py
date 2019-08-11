@@ -12,7 +12,8 @@ import base64
 from openeo_udf.server.app import flask_api
 from openeo_udf.server.endpoints import create_endpoints
 from openeo_udf.server.definitions import UdfCode, UdfRequest
-from openeo_udf.api.base import UdfData, HyperCube
+from openeo_udf.api.udf_data import UdfData
+from openeo_udf.api.hypercube import HyperCube
 import openeo_udf.functions
 
 __license__ = "Apache License, Version 2.0"
