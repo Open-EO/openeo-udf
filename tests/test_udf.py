@@ -160,6 +160,7 @@ class AllTestCase(unittest.TestCase):
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
         response = self.app.post('/udf', json=udf_request.dict())
+        self.assertEqual(response.status_code, 200)
         result = response.json()
 
         self.assertEqual(len(result["raster_collection_tiles"]), 2)
@@ -176,6 +177,7 @@ class AllTestCase(unittest.TestCase):
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
         response = self.app.post('/udf', json=udf_request.dict())
+        self.assertEqual(response.status_code, 200)
         result = response.json()
 
         self.assertEqual(len(result["raster_collection_tiles"]), 2)
@@ -192,6 +194,7 @@ class AllTestCase(unittest.TestCase):
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
         response = self.app.post('/udf', json=udf_request.dict())
+        self.assertEqual(response.status_code, 200)
         result = response.json()
 
         self.assertEqual(len(result["raster_collection_tiles"]), 8)
@@ -214,6 +217,7 @@ class AllTestCase(unittest.TestCase):
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
         response = self.app.post('/udf', json=udf_request.dict())
+        self.assertEqual(response.status_code, 200)
         result = response.json()
 
         self.assertEqual(len(result["raster_collection_tiles"]), 1)
@@ -230,6 +234,7 @@ class AllTestCase(unittest.TestCase):
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
         response = self.app.post('/udf', json=udf_request.dict())
+        self.assertEqual(response.status_code, 200)
         result = response.json()
 
         self.assertEqual(len(result["feature_collection_tiles"]), 1)
@@ -247,6 +252,7 @@ class AllTestCase(unittest.TestCase):
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
         response = self.app.post('/udf', json=udf_request.dict())
+        self.assertEqual(response.status_code, 200)
         result = response.json()
 
         self.assertEqual(len(result["feature_collection_tiles"]), 1)
@@ -277,6 +283,7 @@ class AllTestCase(unittest.TestCase):
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
         response = self.app.post('/udf', json=udf_request.dict())
+        self.assertEqual(response.status_code, 200)
         result = response.json()
 
         self.assertEqual(len(result["feature_collection_tiles"]), 0)
