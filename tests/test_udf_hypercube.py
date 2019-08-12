@@ -10,10 +10,11 @@ import numpy
 import msgpack
 import base64
 
+from openeo_udf.server.hypercube_schema import HyperCubeModel
 from openeo_udf.server.main import app
 from starlette.testclient import TestClient
 from openeo_udf.server.endpoints import create_storage_directory
-from openeo_udf.server.udf_schemas import UdfCodeModel, UdfRequestModel
+from openeo_udf.server.udf_schemas import UdfCodeModel, UdfRequestModel, UdfDataModel
 from openeo_udf.api.udf_data import UdfData
 from openeo_udf.api.hypercube import HyperCube
 import openeo_udf.functions
@@ -59,12 +60,12 @@ class AllTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[hc_red, hc_nir])
 
         udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
-        pprint.pprint(udf_request)
+        # pprint.pprint(udf_request.dict())
+        response = self.app.post('/udf', json=udf_request.dict())
+        result = response.json()
 
-        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
-        dict_data = json.loads(response.data)
-        pprint.pprint(dict_data)
-        self.checkHyperCube(dict_data=dict_data)
+        # pprint.pprint(result)
+        self.checkHyperCube(dict_data=result)
 
     def test_hypercube_ndvi_message_pack(self):
         """Test the hypercube NDVI computation with the message pack protocol"""
@@ -78,12 +79,13 @@ class AllTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[hc_red, hc_nir])
 
         udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
-        # pprint.pprint(udf_request)
 
-        udf_request = base64.b64encode(msgpack.packb(udf_request, use_bin_type=True))
-        response = self.app.post('/udf_message_pack', data=udf_request, content_type="application/base64")
+        udf_request = base64.b64encode(msgpack.packb(udf_request.dict(), use_bin_type=True))
 
-        blob = base64.b64decode(response.data)
+        response = self.app.post('/udf_message_pack', data=udf_request,
+                                 headers={"Content-Type":"application/base64"})
+
+        blob = base64.b64decode(response.content)
         dict_data = msgpack.unpackb(blob, raw=False)
         self.checkHyperCube(dict_data=dict_data)
 
