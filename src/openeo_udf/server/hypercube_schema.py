@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import List
+from typing import List, Union, Any
 
 from openeo_udf.server.dimension_schema import DimensionModel
 from pydantic import BaseModel, Schema as pydSchema
@@ -35,27 +35,26 @@ class HyperCubeModel(BaseModel):
 
     id: str = pydSchema(..., description="The identifier of this hyper cube.", examples=[{"id": "test_data"}])
 
-    array: List[List[List[float]]] = pydSchema(...,
-                                               description="A multi-dimensional array of integer (8,16,32,64 bit) "
-                                                           "or float (16, 32, 64 bit) values." \
-                                                           "By default index dimension is as follows: [time][y][x]. "
-                                                           "Hence, the index data[0] returns " \
-                                                           "the 2D slice for the first time-stamp. "
-                                                           "The y-indexing if counted from top to bottom " \
-                                                           "and represents the rows of the 2D array. "
-                                                           "The x-indexing is counted from left to right " \
-                                                           "and represents the columns of the 2D array. "
-                                                           "The dimension options must be used ot describe ",
-                                               examples=[{"data": [
-                                                   [
-                                                       [0.0, 0.1],
-                                                       [0.2, 0.3]
-                                                   ],
-                                                   [
-                                                       [0.0, 0.1],
-                                                       [0.2, 0.3]
-                                                   ]
-                                               ]}])
+    data: Any = pydSchema(..., description="A multi-dimensional array of integer (8,16,32,64 bit) "
+                                           "or float (16, 32, 64 bit) values."
+                                           "By default index dimension is as follows: [time][y][x]. "
+                                           "Hence, the index data[0] returns "
+                                           "the 2D slice for the first time-stamp. "
+                                           "The y-indexing if counted from top to bottom "
+                                           "and represents the rows of the 2D array. "
+                                           "The x-indexing is counted from left to right "
+                                           "and represents the columns of the 2D array. "
+                                           "The dimension options must be used ot describe ",
+                          examples=[{"data": [
+                              [
+                                  [0.0, 0.1],
+                                  [0.2, 0.3]
+                              ],
+                              [
+                                  [0.0, 0.1],
+                                  [0.2, 0.3]
+                              ]
+                          ]}])
 
     dimensions: List[DimensionModel] = pydSchema(...,
                                                   description="The description of each dimension "
