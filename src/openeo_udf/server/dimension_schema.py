@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import List
+from typing import List, Union
 
 from pydantic import BaseModel, Schema as pydSchema
 
@@ -17,9 +17,9 @@ class DimensionModel(BaseModel):
                           description="The name of the dimension, like *time*, *X*, *Y*, *Z* and so on.",
                           examples=[{"name": "time"}])
 
-    description: str = pydSchema(..., description="Description of the dimension.")
+    description: str = pydSchema(None, description="Description of the dimension.")
 
-    unit: str = pydSchema(...,
+    unit: str = pydSchema(None,
                           description="The unit of the dimension. The unit can be *ISO:8601* for time; "
                                       "metric length units based on meter: *nm* (nanometer), "
                                       "*mm* (millimeter), *cm* (centimeter), "
@@ -31,8 +31,8 @@ class DimensionModel(BaseModel):
                                       "user defined units: *user_lala* ",
                           examples=[{"unit": "ISO:8601"}])
 
-    coordinates: List[float] = pydSchema(...,
-                                         description="The array that contains the coordinates "
-                                                     "of the specific dimension. "
-                                                     "This parameter is optional.",
-                                         examples=[{"coordinates": ["2001-01-01", "2001-01-02"]}])
+    coordinates: List[Union[int, float, str]] = pydSchema(None,
+                                                          description="The array that contains the coordinates "
+                                                                      "of the specific dimension. "
+                                                                      "This parameter is optional.",
+                                                          examples=[{"coordinates": ["2001-01-01", "2001-01-02"]}])
