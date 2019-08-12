@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask import json
 import os
-import pprint
 import unittest
 
 from openeo_udf.server.main import app
 from starlette.testclient import TestClient
 from openeo_udf.server.endpoints import create_storage_directory
-from openeo_udf.server.udf_schemas import UdfDataModel, UdfCodeModel, UdfRequestModel
+from openeo_udf.server.udf_schemas import UdfCodeModel, UdfRequestModel
 import openeo_udf.functions
 
 __license__ = "Apache License, Version 2.0"
@@ -17,7 +15,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 PIXEL = {
-    "proj": "EPSG:4326",
+    "proj": {"EPSG":4326},
     "raster_collection_tiles": [
         {
             "id": "RED",
@@ -59,7 +57,7 @@ PIXEL = {
 }
 
 FEATURE = {
-    "proj": "EPSG:4326",
+    "proj": {"EPSG":4326},
     "feature_collection_tiles": [
         {
             "id": "test_data",
@@ -77,7 +75,7 @@ FEATURE = {
 }
 
 PIXEL_FEATURE = {
-    "proj": "EPSG:4326",
+    "proj": {"EPSG":4326},
     "raster_collection_tiles": [
 
         {
@@ -161,11 +159,8 @@ class AllTestCase(unittest.TestCase):
         udf_data = PIXEL
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
-        print(udf_request)
-
-        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
-        result = json.loads(response.data)
-        pprint.pprint(result)
+        response = self.app.post('/udf', json=udf_request.dict())
+        result = response.json()
 
         self.assertEqual(len(result["raster_collection_tiles"]), 2)
         self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[7.0, 7.0]]])
@@ -180,11 +175,8 @@ class AllTestCase(unittest.TestCase):
         udf_data = PIXEL
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
-        print(udf_request)
-
-        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
-        result = json.loads(response.data)
-        pprint.pprint(result)
+        response = self.app.post('/udf', json=udf_request.dict())
+        result = response.json()
 
         self.assertEqual(len(result["raster_collection_tiles"]), 2)
         self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[14.0, 14.0]]])
@@ -199,11 +191,8 @@ class AllTestCase(unittest.TestCase):
         udf_data = PIXEL
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
-        print(udf_request)
-
-        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
-        result = json.loads(response.data)
-        pprint.pprint(result)
+        response = self.app.post('/udf', json=udf_request.dict())
+        result = response.json()
 
         self.assertEqual(len(result["raster_collection_tiles"]), 8)
         self.assertEqual(result["raster_collection_tiles"][0]["data"], [[[5.0, 4.0]]])
@@ -224,11 +213,8 @@ class AllTestCase(unittest.TestCase):
         udf_data = PIXEL
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
-        print(udf_request)
-
-        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
-        result = json.loads(response.data)
-        pprint.pprint(result)
+        response = self.app.post('/udf', json=udf_request.dict())
+        result = response.json()
 
         self.assertEqual(len(result["raster_collection_tiles"]), 1)
         self.assertEqual(result["raster_collection_tiles"][0]["data"],
@@ -243,11 +229,8 @@ class AllTestCase(unittest.TestCase):
         udf_data = FEATURE
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
-        print(udf_request)
-
-        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
-        result = json.loads(response.data)
-        pprint.pprint(result)
+        response = self.app.post('/udf', json=udf_request.dict())
+        result = response.json()
 
         self.assertEqual(len(result["feature_collection_tiles"]), 1)
         self.assertEqual(len(result["feature_collection_tiles"][0]["data"]["features"]), 2)
@@ -263,11 +246,8 @@ class AllTestCase(unittest.TestCase):
         udf_data = PIXEL_FEATURE
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
-        print(udf_request)
-
-        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
-        result = json.loads(response.data)
-        pprint.pprint(result)
+        response = self.app.post('/udf', json=udf_request.dict())
+        result = response.json()
 
         self.assertEqual(len(result["feature_collection_tiles"]), 1)
         self.assertEqual(len(result["feature_collection_tiles"][0]["data"]["features"]), 3)
@@ -296,11 +276,8 @@ class AllTestCase(unittest.TestCase):
         udf_data = PIXEL
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
-        print(udf_request)
-
-        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
-        result = json.loads(response.data)
-        pprint.pprint(result)
+        response = self.app.post('/udf', json=udf_request.dict())
+        result = response.json()
 
         self.assertEqual(len(result["feature_collection_tiles"]), 0)
         self.assertEqual(len(result["raster_collection_tiles"]), 0)
