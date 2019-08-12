@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """OpenEO Python UDF interface"""
+from pprint import pprint
 
 import numpy
 import pandas
@@ -39,7 +40,6 @@ def run_json_user_code(dict_data: Dict) -> Dict:
 
     """
     code = dict_data["code"]["source"]
-
     data = UdfData.from_dict(dict_data["data"])
 
     exec(code)
