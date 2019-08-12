@@ -58,6 +58,7 @@ class AllTestCase(unittest.TestCase):
         udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
         # pprint.pprint(udf_request.dict())
         response = self.app.post('/udf', json=udf_request.dict())
+        self.assertEqual(response.status_code, 200)
         result = response.json()
 
         # pprint.pprint(result)
@@ -75,14 +76,13 @@ class AllTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[hc_red, hc_nir])
 
         udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
-
         udf_request = base64.b64encode(msgpack.packb(udf_request.dict(), use_bin_type=True))
-
         response = self.app.post('/udf_message_pack', data=udf_request,
                                  headers={"Content-Type":"application/base64"})
-
+        self.assertEqual(response.status_code, 200)
         blob = base64.b64decode(response.content)
         dict_data = msgpack.unpackb(blob, raw=False)
+
         self.checkHyperCube(dict_data=dict_data)
 
     def checkHyperCube(self, dict_data):
