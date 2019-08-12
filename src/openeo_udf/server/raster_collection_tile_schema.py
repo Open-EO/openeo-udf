@@ -44,11 +44,11 @@ class RasterCollectionTileModel(BaseModel):
     """A three dimensional tile of data that represents a spatio-temporal
     subset of a spatio-temporal raster collection."""
 
-    id: str = pydSchema(None, description="The identifier of this raster collection tile.")
+    id: str = pydSchema(..., description="The identifier of this raster collection tile.")
 
     wavelength: float = pydSchema(None, description="The wavelength of the raster collection tile.")
 
-    data: List[List[List[float]]] = pydSchema(None,
+    data: List[List[List[float]]] = pydSchema(...,
                                               description="A three dimensional array of integer "
                                                           "(8,16,32,64 bit) or float (16, 32, 64 bit) values."
                                                           "The index dimension is as follows: [time][y][x]. "
