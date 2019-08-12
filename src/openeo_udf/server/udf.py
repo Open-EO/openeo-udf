@@ -3,9 +3,12 @@ import traceback
 import sys
 import msgpack
 import base64
-from fastapi import HTTPException
+from fastapi import HTTPException, Body
+from starlette.responses import Response
+from starlette.requests import Request
+
 from openeo_udf.server.app import app
-from openeo_udf.server.udf_schemas import UdfRequestModel, ErrorResponseModel
+from openeo_udf.server.udf_schemas import UdfRequestModel, ErrorResponseModel, UdfDataModel, EXAMPLE
 from openeo_udf.api.run_code import run_json_user_code
 
 __license__ = "Apache License, Version 2.0"
@@ -55,31 +58,34 @@ Out[10]: {1: [1, 2, 3, 4, 5, 6], b'w': b'fffff', b'd': {b'd': b'd'}}
 """
 
 
-@app.post("/udf", response_model=UdfRequestModel)
-def udf_json(request: UdfRequestModel):
+@app.post("/udf", response_model=UdfDataModel, responses={200: {"content": {"application/json": {"example": EXAMPLE}},
+                                                                "description": "The processed data"},
+                                                          400: {"content": {"application/json": {}}}})
+async def udf_json(request: UdfRequestModel = Body(...)):
     """Run a Python user defined function (UDF) on the provided data"""
 
     try:
         result = run_json_user_code(dict_data=request.dict())
+        return result
     except Exception:
         e_type, e_value, e_tb = sys.exc_info()
         response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
         raise HTTPException(status_code=400, detail=response)
 
-    return result
 
-
-@app.post("/udf_message_pack", response_model=UdfRequestModel)
-def udf_message_pack(request: str):
+@app.post("/udf_message_pack", response_model=str, responses={200: {"content": {"text/plain": {}},
+                                                                    "description": "The base64 encoded string"},
+                                                              400: {"content": {"application/json": {}}}})
+async def udf_message_pack(request: Request):
     """Run a Python user defined function (UDF) on the provided data that are base64 encoded message pack objects"""
 
     try:
-        blob = base64.b64decode(request)
+        blob = base64.b64decode(request.body())
         dict_data = msgpack.unpackb(blob, raw=False)
         result = run_json_user_code(dict_data=dict_data)
+        result = base64.b64encode(msgpack.packb(result))
+        return Response(content=result, media_type="text/plain")
     except Exception:
         e_type, e_value, e_tb = sys.exc_info()
         response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
         raise HTTPException(status_code=400, detail=response)
-
-    return result
