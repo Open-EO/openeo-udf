@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import traceback
 import sys
+
 import msgpack
 import base64
 from fastapi import HTTPException, Body
-from starlette.responses import Response
+from starlette.responses import PlainTextResponse
 from starlette.requests import Request
 
 from openeo_udf.server.app import app
@@ -70,22 +71,23 @@ async def udf_json(request: UdfRequestModel = Body(...)):
     except Exception:
         e_type, e_value, e_tb = sys.exc_info()
         response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
-        raise HTTPException(status_code=400, detail=response)
+        raise HTTPException(status_code=400, detail=response.dict())
 
 
-@app.post("/udf_message_pack", response_model=str, responses={200: {"content": {"text/plain": {}},
+@app.post("/udf_message_pack", response_model=str, responses={200: {"content": {"application/base64": {}},
                                                                     "description": "The base64 encoded string"},
                                                               400: {"content": {"application/json": {}}}})
 async def udf_message_pack(request: Request):
     """Run a Python user defined function (UDF) on the provided data that are base64 encoded message pack objects"""
 
     try:
-        blob = base64.b64decode(request.body())
+        data = await request.body()
+        blob = base64.b64decode(data)
         dict_data = msgpack.unpackb(blob, raw=False)
         result = run_json_user_code(dict_data=dict_data)
         result = base64.b64encode(msgpack.packb(result))
-        return Response(content=result, media_type="text/plain")
+        return PlainTextResponse(result)
     except Exception:
         e_type, e_value, e_tb = sys.exc_info()
         response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
-        raise HTTPException(status_code=400, detail=response)
+        raise HTTPException(status_code=400, detail=response.dict())
