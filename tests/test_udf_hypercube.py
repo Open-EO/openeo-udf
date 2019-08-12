@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
 from typing import Tuple
-
-from flask import json
 import os
-import pprint
 import unittest
 import xarray
 import numpy
 import msgpack
 import base64
 
-from openeo_udf.server.hypercube_schema import HyperCubeModel
 from openeo_udf.server.main import app
 from starlette.testclient import TestClient
 from openeo_udf.server.endpoints import create_storage_directory
-from openeo_udf.server.udf_schemas import UdfCodeModel, UdfRequestModel, UdfDataModel
+from openeo_udf.server.udf_schemas import UdfCodeModel, UdfRequestModel
 from openeo_udf.api.udf_data import UdfData
 from openeo_udf.api.hypercube import HyperCube
 import openeo_udf.functions
