@@ -22,28 +22,28 @@ class UdfDataModel(BaseModel):
     UDF as well as their return value.
     """
 
-    proj: str = pydSchema(..., description="The EPSG code or WKT projection string. eg: EPSG:4326")
+    proj: dict = pydSchema(..., description="The EPSG code or WKT projection dictionary. eg: {'EPSG':4326}")
 
-    raster_collection_tiles: List[RasterCollectionTileModel] = pydSchema(None,
+    raster_collection_tiles: List[RasterCollectionTileModel] = pydSchema([],
                                                                          description="A list of raster "
                                                                                      "collection tiles."
                                                                                      " Each tile represents a single "
                                                                                      "image band or other scalar "
                                                                                      "values like temperature.")
 
-    feature_collection_tiles: List[FeatureCollectionTileModel] = pydSchema(None,
+    feature_collection_tiles: List[FeatureCollectionTileModel] = pydSchema([],
                                                                            description="A list of feature "
                                                                                        "collection tiles.")
 
-    hypercubes: List[HyperCubeModel] = pydSchema(None, description="A list of hyper cubes.")
+    hypercubes: List[HyperCubeModel] = pydSchema([], description="A list of hyper cubes.")
 
-    structured_data_list: List[StructuredDataModel] = pydSchema(None, description="A list of structured data objects "
+    structured_data_list: List[StructuredDataModel] = pydSchema([], description="A list of structured data objects "
                                                                                   "that contain processing results that "
                                                                                   "cant be represented "
                                                                                   "by raster- or feature "
                                                                                   "collection tiles.")
 
-    machine_learn_models: List[MachineLearnModel] = pydSchema(None, description="A list of machine learn models.")
+    machine_learn_models: List[MachineLearnModel] = pydSchema([], description="A list of machine learn models.")
 
 
 EXAMPLE = {
