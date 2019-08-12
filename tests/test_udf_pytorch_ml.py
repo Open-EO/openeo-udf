@@ -26,7 +26,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 PIXEL = {
-    "proj": "EPSG:4326",
+    "proj": {"EPSG":4326},
     "raster_collection_tiles": [
         {
             "id": "test",
@@ -123,9 +123,10 @@ class MachineLearningPytorchTestCase(unittest.TestCase):
         udf_data = PIXEL
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
+        response = self.app.post('/udf', json=udf_request.dict())
+        self.assertEqual(response.status_code, 200)
+        result = response.json()
 
-        response = self.app.post('/udf', data=json.dumps(udf_request), content_type="application/json")
-        result = json.loads(response.data)
         pprint.pprint(result)
 
 
