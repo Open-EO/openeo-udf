@@ -251,6 +251,7 @@ class AllTestCase(unittest.TestCase):
         udf_data = PIXEL_FEATURE
 
         udf_request = UdfRequestModel(data=udf_data, code=udf_code)
+        print(udf_request.json())
         response = self.app.post('/udf', json=udf_request.dict())
         self.assertEqual(response.status_code, 200)
         result = response.json()

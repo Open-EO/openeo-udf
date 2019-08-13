@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import pprint
 from typing import Tuple
 import os
 import unittest
@@ -56,7 +57,7 @@ class AllTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[hc_red, hc_nir])
 
         udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
-        # pprint.pprint(udf_request.dict())
+        print(udf_request.json())
         response = self.app.post('/udf', json=udf_request.dict())
         self.assertEqual(response.status_code, 200)
         result = response.json()
