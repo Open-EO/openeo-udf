@@ -31,3 +31,8 @@ class MachineLearnModel(BaseModel):
     md5_hash: str = pydSchema(None, description="The md5 checksum of the model that should be used to identify "
                                                 "the machine learn model in the UDF storage system. "
                                                 "The machine learn model must be uploaded to the UDF server.")
+
+    class Config:
+        schema_extra = {
+            'examples': [EXAMPLE]
+        }
