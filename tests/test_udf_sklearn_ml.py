@@ -7,6 +7,9 @@ from flask import json
 import os
 import pprint
 import unittest
+
+from openeo_udf.server.machine_learn_database import RequestStorageModel
+
 from openeo_udf.server.main import app
 from starlette.testclient import TestClient
 from openeo_udf.server.endpoints import create_storage_directory
@@ -270,8 +273,14 @@ class MachineLearningTestCase(unittest.TestCase):
                                     min_samples_leaf=1,
                                     verbose=0)
         model_path = MachineLearningTestCase.train_sklearn_model(model=model)
-        response = self.app.post('/storage', data=model_path, headers={"Content-Type": "text/plain"})
+
+        request_model = RequestStorageModel(uri=model_path, title="This is a test model",
+                                            description="This is the test description.")
+
+        response = self.app.post('/storage', json=request_model.dict())
+        print(response.content)
         self.assertEqual(response.status_code, 200)
+
         md5_hash = response.content.decode("ascii").strip().replace("\"", "")
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
