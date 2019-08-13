@@ -14,12 +14,18 @@ implementation includes:
     - The UDF test server and the command line tool are examples howto implement the
       UDF approach in an OpenEO processing backend
 
+Documentation is available online (see list below) and through the test server.
+
+    - UDF Framework: https://open-eo.github.io/openeo-udf/
+    - API description: https://open-eo.github.io/openeo-udf/api_docs/
+
 Backend integration
 ===================
 
 This UDF implementation contains an abstract swagger description of schemas that must be used when an API for a specific
 programming language is implemented.
-They are documented in the swagger 2.0 API description that is provided by the UDF test server. However, the
+They are documented in the swagger 2.0 API description that is provided by the UDF test server,
+available at <https://open-eo.github.io/openeo-udf/api_docs/>. However, the
 Python files that defines the swagger description are available here:
 
     * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/dimension_schema.py
