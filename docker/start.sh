@@ -18,7 +18,7 @@ run_udf_server --port ${PORT} --host 0.0.0.0 &
 sleep 3
 
 # Catch the swagger json description
-wget http://localhost:5000/api/v0/swagger.json -O /tmp/openeo_udf.json
+wget http://localhost:5000/openapi.json -O /tmp/openeo_udf.json
 
 # Then run spectacle to generate the HTML documentation
 spectacle /tmp/openeo_udf.json -t /var/www/html/api_docs

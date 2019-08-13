@@ -4,13 +4,17 @@
 docker build -t openeo_udf .
 
 # Test it with enabled nginx
-docker run -v /tmp:/var/www/http --name "openeo-udf-server" -p 5000:5000 -p 80:80 -t -e START_NGINX=1 openeo_udf
+mkdir /tmp/www
+docker run -v /tmp/www:/var/www/http --name "openeo-udf-server" -p 5000:5000 -p 8080:80 -t -e START_NGINX=1 openeo_udf
 
 docker stop "openeo-udf-server" &&  docker rm "openeo-udf-server"
 
 # Documentation
-curl -X GET http://localhost:80/index.html
-curl -X GET http://localhost:80/api_docs/index.html
+curl -X GET http://localhost:8080/index.html
+curl -X GET http://localhost:8080/api_docs/index.html
+curl -X GET http://localhost:5000/redoc
+curl -X GET http://localhost:5000/docs
+wget http://localhost:5000/openapi.json -O /tmp/openeo_udf.json
 
 
 JSON='
@@ -20,7 +24,7 @@ JSON='
     "language": "python"
   },
   "data": {
-    "proj": "EPSG:4326",
+    "proj": {"EPSG":4326},
     "raster_collection_tiles": [
       {
         "data": [
@@ -78,7 +82,7 @@ JSON='
     "language": "python"
   },
   "data": {
-    "proj": "EPSG:4326",
+    "proj": {"EPSG":4326},
     "feature_collection_tiles": [
       {
         "id": "test_data",
