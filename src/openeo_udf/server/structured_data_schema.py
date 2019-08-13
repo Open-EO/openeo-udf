@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pydantic import BaseModel, Schema as pydSchema
+from pydantic import BaseModel, Schema
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -25,10 +25,10 @@ class StructuredDataModel(BaseModel):
     kernel size, resampling pixel size and so on.
     """
 
-    description: str = pydSchema(..., description="A detailed description of the output format.")
+    description: str = Schema(..., description="A detailed description of the output format.")
 
-    data: dict = pydSchema(...,
-                           description="The structured data. This field contains the UDF "
+    data: dict = Schema(...,
+                        description="The structured data. This field contains the UDF "
                                        "specific values (argument or return)"
                                        "as dict, list or table. "
                                        "  * A dict can be as complex as required by the UDF."
@@ -38,7 +38,12 @@ class StructuredDataModel(BaseModel):
                                        "                                                                  [2,     23],"
                                        "                                                                  [3,     4]]}")
 
-    type: str = pydSchema(...,
-                          description="The type of the structured data that may be of type dict, table or list. "
+    type: str = Schema(...,
+                       description="The type of the structured data that may be of type dict, table or list. "
                                       "This is just a hint for the user how to interpret the provided data.",
-                          enum=["dict", "table", "list"])
+                       enum=["dict", "table", "list"])
+
+    class Config:
+        schema_extra = {
+            'examples': [EXAMPLE]
+        }
