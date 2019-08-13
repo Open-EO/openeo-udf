@@ -3,7 +3,6 @@ import base64
 from copy import deepcopy
 
 import msgpack
-from flask import json
 import os
 import pprint
 import unittest
@@ -13,7 +12,7 @@ from openeo_udf.server.machine_learn_database import RequestStorageModel
 from openeo_udf.server.main import app
 from starlette.testclient import TestClient
 from openeo_udf.server.endpoints import create_storage_directory
-from openeo_udf.server.udf_schemas import UdfDataModel, UdfCodeModel, UdfRequestModel
+from openeo_udf.server.udf_schemas import UdfCodeModel, UdfRequestModel
 import openeo_udf.functions
 import numpy as np
 from sklearn.metrics import mean_squared_error

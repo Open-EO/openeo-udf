@@ -2,7 +2,6 @@
 from pprint import pprint
 from typing import List
 
-from flask import json
 import unittest
 from hashlib import md5
 from openeo_udf.server.main import app
