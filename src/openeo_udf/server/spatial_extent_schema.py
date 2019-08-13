@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pydantic import BaseModel, Schema as pydSchema
+from pydantic import BaseModel, Schema
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -23,9 +23,14 @@ EXAMPLE = {
 class SpatialExtentModel(BaseModel):
     """spatial extent with resolution information"""
 
-    top: float = pydSchema(..., description="The top (north) border.")
-    bottom: float = pydSchema(..., description="The bottom (south) border.")
-    right: float = pydSchema(..., description="The right (eastern) border.")
-    left: float = pydSchema(..., description="The left (wester) border.")
-    height: float = pydSchema(..., description="The top-bottom resolution in projection units.")
-    width: float = pydSchema(..., description="The right-left resolution in projection units.")
+    top: float = Schema(..., description="The top (north) border.")
+    bottom: float = Schema(..., description="The bottom (south) border.")
+    right: float = Schema(..., description="The right (eastern) border.")
+    left: float = Schema(..., description="The left (wester) border.")
+    height: float = Schema(..., description="The top-bottom resolution in projection units.")
+    width: float = Schema(..., description="The right-left resolution in projection units.")
+
+    class Config:
+        schema_extra = {
+            'examples': [EXAMPLE]
+        }
