@@ -1,0 +1,193 @@
+{
+  "code": {
+    "language": "python",
+    "source": "# -*- coding: utf-8 -*-\n\nfrom openeo_udf.api.hypercube import HyperCube\nfrom openeo_udf.api.udf_data import UdfData\n\n__license__ = \"Apache License, Version 2.0\"\n__author__ = \"Soeren Gebbert\"\n__copyright__ = \"Copyright 2018, Soeren Gebbert\"\n__maintainer__ = \"Soeren Gebbert\"\n__email__ = \"soerengebbert@googlemail.com\"\n\n\ndef hyper_ndvi(udf_data: UdfData):\n    \"\"\"Compute the NDVI based on RED and NIR hypercubes\n\n    Hypercubes with ids \"red\" and \"nir\" are required. The NDVI computation will be applied\n    to all hypercube dimensions.\n\n    Args:\n        udf_data (UdfData): The UDF data object that contains raster and vector tiles as well as hypercubes\n        and structured data.\n\n    Returns:\n        This function will not return anything, the UdfData object \"udf_data\" must be used to store the resulting\n        data.\n\n    \"\"\"\n    red = None\n    nir = None\n\n    # Iterate over each tile\n    for cube in udf_data.get_hypercube_list():\n        if \"red\" in cube.id.lower():\n            red = cube\n        if \"nir\" in cube.id.lower():\n            nir = cube\n    if red is None:\n        raise Exception(\"Red hypercube is missing in input\")\n    if nir is None:\n        raise Exception(\"Nir hypercube is missing in input\")\n\n    ndvi = (nir.array - red.array) / (nir.array + red.array)\n    ndvi.name = \"NDVI\"\n\n    hc = HyperCube(array=ndvi)\n    udf_data.set_hypercube_list([hc, ])\n\n\n# This function call is the entry point for the UDF.\n# The caller will provide all required data in the **data** object.\nhyper_ndvi(data)\n"
+  },
+  "data": {
+    "proj": {
+      "EPSG": 4326
+    },
+    "raster_collection_tiles": [],
+    "feature_collection_tiles": [],
+    "hypercubes": [
+      {
+        "id": "red",
+        "data": [
+          [
+            [
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0,
+              1.0
+            ]
+          ],
+          [
+            [
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0,
+              1.0
+            ]
+          ],
+          [
+            [
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0,
+              1.0
+            ]
+          ]
+        ],
+        "dimensions": [
+          {
+            "name": "time",
+            "description": null,
+            "unit": null,
+            "coordinates": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "name": "x",
+            "description": null,
+            "unit": null,
+            "coordinates": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "name": "y",
+            "description": null,
+            "unit": null,
+            "coordinates": [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "id": "nir",
+        "data": [
+          [
+            [
+              3.0,
+              3.0,
+              3.0
+            ],
+            [
+              3.0,
+              3.0,
+              3.0
+            ],
+            [
+              3.0,
+              3.0,
+              3.0
+            ]
+          ],
+          [
+            [
+              3.0,
+              3.0,
+              3.0
+            ],
+            [
+              3.0,
+              3.0,
+              3.0
+            ],
+            [
+              3.0,
+              3.0,
+              3.0
+            ]
+          ],
+          [
+            [
+              3.0,
+              3.0,
+              3.0
+            ],
+            [
+              3.0,
+              3.0,
+              3.0
+            ],
+            [
+              3.0,
+              3.0,
+              3.0
+            ]
+          ]
+        ],
+        "dimensions": [
+          {
+            "name": "time",
+            "description": null,
+            "unit": null,
+            "coordinates": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "name": "x",
+            "description": null,
+            "unit": null,
+            "coordinates": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "name": "y",
+            "description": null,
+            "unit": null,
+            "coordinates": [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      }
+    ],
+    "structured_data_list": [],
+    "machine_learn_models": []
+  }
+}
