@@ -1,0 +1,85 @@
+{
+  "type": "DataCollection",
+  "crs": {
+    "EPSG": 4326,
+    "WKT": null,
+    "temporal": "gregorian"
+  },
+  "metadata": {
+    "name": "Datacollection",
+    "description": "New collection",
+    "number_of_object_collections": 1,
+    "number_of_geometries": 0,
+    "number_of_field_collections": 2,
+    "number_of_time_stamps": 1,
+    "creator": "Soeren",
+    "creation_time": "2001-01-01T10:00:00",
+    "modification_time": "2001-01-01T10:00:00",
+    "source": null,
+    "link": null,
+    "userdata": null
+  },
+  "object_collections": {
+    "data_cubes": [
+      {
+        "name": "Data Cube",
+        "description": "This is a data cube",
+        "dim": ["t", "y", "x"],
+        "dimensions": [
+          {
+            "name": "t",
+            "unit": "ISO:8601",
+            "size": 3,
+            "coordinates": ["2001-01-01T00:00:00", "2001-01-01T00:01:00", "2001-01-01T00:02:00"]
+          },
+          {
+            "name": "x",
+            "unit": "degree",
+            "size": 3,
+            "coordinates": [0, 1, 2]
+          },
+          {
+            "name": "y",
+            "unit": "degree",
+            "size": 3,
+            "coordinates": [0, 1, 2]
+          }
+        ],
+        "field_collection": 0,
+        "timestamp": 0
+      }
+    ],
+    "simple_feature_collections": []
+  },
+  "geometry_collection": [],
+  "field_collections": [
+    {
+      "name": "Climate data",
+      "size": [3, 3, 3],
+      "number_of_fields": 2,
+      "attributes": [
+        {
+          "name": "Temperature",
+          "description": "Temperature",
+          "unit": "degree celsius",
+          "values": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+            10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0,
+            19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0],
+          "labels": []
+        },
+        {
+          "name": "Precipitation",
+          "description": "Precipitation",
+          "unit": "mm",
+          "values": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+            10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0,
+            19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0],
+          "labels": []
+        }
+      ]
+    }
+  ],
+  "timestamps": [
+    ["2001-01-01T10:00:00", "2001-01-01T00:02:00"]
+  ]
+}

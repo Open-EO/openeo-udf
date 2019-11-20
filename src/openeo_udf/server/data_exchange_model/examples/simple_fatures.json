@@ -1,0 +1,89 @@
+{
+  "type": "DataCollection",
+  "crs": {
+    "EPSG": 4326,
+    "WKT": null,
+    "temporal": "gregorian"
+  },
+  "metadata": {
+    "name": "SimpleFeatureCollection",
+    "description": "New collection of simple features",
+    "number_of_object_collections": 1,
+    "number_of_geometries": 3,
+    "number_of_field_collections": 1,
+    "number_of_time_stamps": 1,
+    "creator": "Soeren",
+    "creation_time": "2001-01-01T10:00:00",
+    "modification_time": "2001-01-01T10:00:00",
+    "source": null,
+    "link": null,
+    "userdata": null
+  },
+  "object_collections": {
+    "data_cubes": [],
+    "simple_feature_collections": [
+      {
+        "name": "Boundary of three lines",
+        "description": "Boundary of three lines",
+        "number_of_features": 3,
+        "bbox": {
+          "min_x": 0.0,
+          "max_x": 3.0,
+          "min_y": 0.0,
+          "max_y": 2.0,
+          "min_z": 0.0,
+          "max_z": 0.0
+        },
+        "features": [
+          {
+            "type": "LineString",
+            "predecessors": [],
+            "geometry": 0,
+            "field": [0, 0],
+            "timestamp": 0
+          },
+          {
+            "type": "LineString",
+            "predecessors": [],
+            "geometry": 1,
+            "field": [0, 0],
+            "timestamp": 0
+          },
+          {
+            "type": "LineString",
+            "predecessors": [],
+            "geometry": 2,
+            "field": [0, 0],
+            "timestamp": 0
+          }
+        ]
+      }
+    ]
+  },
+  "geometry_collection": [
+    "LineString (2 0, 2 2)",
+    "LineString (2 2, 0 1, 2 0)",
+    "LineString (2 2, 3 1, 2 0)"
+  ],
+  "field_collections": [
+    {
+      "name": "Border",
+      "size": [1],
+      "number_of_fields": 1,
+      "attributes": [
+        {
+          "name": "Landuse",
+          "description": "Landuse",
+          "unit": "category",
+          "values": [],
+          "labels": [
+            "Border"
+          ]
+        }
+      ]
+    }
+  ],
+  "timestamps": [
+    ["2001-01-01T10:00:00", null]
+  ]
+}
