@@ -64,7 +64,7 @@ class AllTestCase(unittest.TestCase):
         pprint.pprint(result)
         self.checkHyperCubeMapFabs(dict_data=result)
 
-    def otest_hypercube_reduce_sum(self):
+    def test_hypercube_reduce_sum(self):
         """Test the hypercube sum reduction"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
@@ -82,7 +82,7 @@ class AllTestCase(unittest.TestCase):
         pprint.pprint(result)
         self.checkHyperCubeSum(dict_data=result)
 
-    def otest_hypercube_reduce_mean(self):
+    def test_hypercube_reduce_mean(self):
         """Test the hypercube mean reduction"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
@@ -101,7 +101,7 @@ class AllTestCase(unittest.TestCase):
         pprint.pprint(result)
         self.checkHyperCubeMean(dict_data=result)
 
-    def otest_hypercube_reduce_min_median_max(self):
+    def test_hypercube_reduce_min_median_max(self):
         """Test the hypercube min, median, max reduction"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
@@ -119,7 +119,7 @@ class AllTestCase(unittest.TestCase):
         pprint.pprint(result)
         self.checkHyperCubeMinMedianMax(dict_data=result)
 
-    def otest_hypercube_ndvi(self):
+    def test_hypercube_ndvi(self):
         """Test the hypercube NDVI computation"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
@@ -139,7 +139,7 @@ class AllTestCase(unittest.TestCase):
         # pprint.pprint(result)
         self.checkHyperCubeNdvi(dict_data=result)
 
-    def otest_hypercube_ndvi_message_pack(self):
+    def test_hypercube_ndvi_message_pack(self):
         """Test the hypercube NDVI computation with the message pack protocol"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
