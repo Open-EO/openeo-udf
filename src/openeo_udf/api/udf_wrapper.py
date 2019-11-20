@@ -14,6 +14,13 @@ def apply_timeseries(series: Series,context:Dict)->Series:
 import numpy
 import pandas
 def apply_timeseries_generic(udf_data: UdfData):
+    """
+    Implements the UDF contract by calling a user provided time series transformation function (apply_timeseries).
+    Multiple bands are currently handled separately, another approach could provide a dataframe with a timeseries for each band.
+
+    :param udf_data:
+    :return:
+    """
     # The list of tiles that were created
     tile_results = []
 
