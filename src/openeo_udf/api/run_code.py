@@ -2,6 +2,7 @@
 """OpenEO Python UDF interface"""
 from pprint import pprint
 
+import xarray
 import numpy
 import pandas
 import geopandas
