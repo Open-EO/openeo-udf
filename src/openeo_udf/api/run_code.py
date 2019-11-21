@@ -54,12 +54,19 @@ def _build_default_execution_context():
         'shapely': shapely,
         'math':math,
         'RasterCollectionTile':RasterCollectionTile,
+        'FeatureCollectionTile':FeatureCollectionTile,
+        'SpatialExtent':SpatialExtent,
+        'StructuredData':StructuredData,
+        'CustomUdfParameter':CustomUdfParameter,
+        'MachineLearnModel':MachineLearnModel,
+        'torch':torch,
+        'tensorflow':tensorflow,
         'HyperCube':HyperCube
     }
 
 def run_user_code(code:str,udf_data:UdfData) -> UdfData:
-    module=_build_default_execution_context()
-    exec(code,module)
+    module={}
+    exec(code,_build_default_execution_context(),module)
 
     functions = {t[0]:t[1] for t in module.items() if callable(t[1])}
 

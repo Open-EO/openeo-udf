@@ -50,7 +50,3 @@ def fct_buffer(udf_data: UdfData):
     udf_data.set_feature_collection_tiles(fct_list)
 
 
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.
-fct_buffer(data)
-

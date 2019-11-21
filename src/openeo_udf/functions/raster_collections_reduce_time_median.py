@@ -56,7 +56,3 @@ def rct_time_median(udf_data: UdfData):
     # Insert the new tiles as list of raster collection tiles in the input object. The new tiles will
     # replace the original input tiles.
     udf_data.set_raster_collection_tiles(tile_results)
-
-
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.

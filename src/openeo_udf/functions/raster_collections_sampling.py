@@ -90,8 +90,3 @@ def fct_sampling(udf_data: UdfData):
     # Remove the raster collection tiles
     udf_data.del_raster_collection_tiles()
 
-
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.
-fct_sampling(data)
-
