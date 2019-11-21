@@ -32,7 +32,7 @@ class DataCollectionTest(unittest.TestCase):
         dim_dict = {}
         dim_t = Dimension(description="Temporal dimension", type="temporal", reference_system="gregorian",
                           unit="ISO:8601",
-                          coordinates=["2001-01-01T00:00:00", "2001-01-01T00:01:00", "2001-01-01T00:02:00"],
+                          values=["2001-01-01T00:00:00", "2001-01-01T00:01:00", "2001-01-01T00:02:00"],
                           extent=["2001-01-01T00:00:00", "2001-01-01T00:02:00"])
         dim_dict["time"] = dim_t
         dim_x = Dimension(description="Spatial dimension", type="spatial", reference_system=4326, axis="x",

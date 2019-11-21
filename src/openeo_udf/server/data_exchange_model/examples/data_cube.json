@@ -27,7 +27,7 @@
             "type": "temporal",
             "unit": "ISO:8601",
             "extent": ["2001-01-01T00:00:00", "2001-01-01T00:02:00"],
-            "values": null,
+            "values": ["2001-01-01T00:00:00", "2001-01-01T00:01:00", "2001-01-01T00:02:00"],
             "step": null,
             "axis": null,
             "reference_system": "gregorian"
