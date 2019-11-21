@@ -22,22 +22,24 @@ Documentation is available online (see list below) and through the test server.
 Backend integration
 ===================
 
-This UDF implementation contains an abstract swagger description of schemas that must be used when an API for a specific
+This UDF implementation contains an abstract OpenAPI 3.0 description of schemas that must be used when an API for a specific
 programming language is implemented.
-They are documented in the swagger 2.0 API description that is provided by the UDF test server,
-available at <https://open-eo.github.io/openeo-udf/api_docs/>. However, the
-Python files that defines the swagger description are available here:
+The schemas are generated from the UDF python3 classes of the REST service, that are implemented using pydantic.
+The documentation will be generated on the fly and can be accessed via browser from the docker container or when the
+udf server started from localhost.
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/dimension_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/feature_collection_tile_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/hypercube_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/machine_learn_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/raster_collection_tile_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/spatial_extent_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/structured_data_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/udf_schemas.py
+The following files implement the schemas:
 
-The basis of the swagger 2.0 API description are basic data-types that are available in many programming languages.
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/dimension_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/feature_collection_tile_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/hypercube_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/machine_learn_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/raster_collection_tile_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/spatial_extent_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/structured_data_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/udf_schemas.py
+
+The basis of the OpenAPI 3.0 description are basic data-types that are available in many programming languages.
 These basic data-types are:
 
     - Strings
@@ -51,8 +53,8 @@ The entry point of an UDF is a single dictionary or map, that can be represented
 depending on the programming language.
 
 The schemas SpatialExtentSchema, RasterCollectionTileSchema, FeatureCollectionTileSchema, HyperCubeSchema,
-StructuredDataSchema, MachineLearnModelSchema and UdfDataSchema are a swagger 2.0 based definitions for the UDF API.
-These schemas are implemented as classes with additional functionality in the Python3 REST test server.
+StructuredDataSchema, MachineLearnModelSchema and UdfDataSchema are a OpenAPI 3.0 based definitions for the UDF API.
+These schemas are implemented as python3 classes with additional functionality in the Python3 REST test server.
 
 The schemas UdfCodeSchema, UdfRequestSchema and ErrorResponseSchema are used by the UDF
 test server to provide the POST endpoint. They are not part of the UDF API.
@@ -92,6 +94,9 @@ Local installation
         cd ${HOME}/src/openeo
 
         git clone https://github.com/Open-EO/openeo-udf.git
+
+        # Checkout the fastapi branch
+        git checkout fastapi
         virtualenv -p python3 venv
     ..
 
@@ -124,14 +129,15 @@ Local installation
         cd ..
     ..
 
-4. Run the udf server and download the swagger definition:
+4. Run the udf server and have a look at the OpenAPI documentation. Here you can also
+    download the swagger definition:
 
     .. code-block:: bash
 
         run_udf_server &
 
-        # Download the swagger JSON file
-        wget http://localhost:5000/api/v0/swagger.json
+        firefox http://localhost:5000/redoc
+        firefox http://localhost:5000/docs
     ..
 
 5. Run the UDF execution command line tool:
@@ -182,7 +188,9 @@ Local installation
 Docker image
 ------------
 
-The openeo-udf repository contains the build instruction of an openeo-udf docker image:
+The openeo-udf repository contains the build instruction of an openeo-udf docker image.
+This description is specific for the fastapi branch, that directly supprts the
+OpenAPI documentation of the REST service.
 
 
 1. Clone the git repository into a specific directory and create the virtual python3 environment:
@@ -193,6 +201,9 @@ The openeo-udf repository contains the build instruction of an openeo-udf docker
         cd ${HOME}/src/openeo
 
         git clone https://github.com/Open-EO/openeo-udf.git
+
+        # Checkout the fastapi branch
+        git checkout fastapi
     ..
 
 2. Build the docker image and run it:
@@ -214,10 +225,11 @@ The openeo-udf repository contains the build instruction of an openeo-udf docker
         firefox http://localhost/index.html
 
         # The python3 API description that must be used in the python3 UDF
-        firefox http://localhost/api/openeo_udf.api.html
+        firefox http://localhost/index.html
 
         # The swagger API description
-        firefox http://localhost/api_docs/index.html
+        firefox http://localhost:5000/redoc
+        firefox http://localhost:5000/docs
 
         # Download the swagger JSON file
         wget http://localhost:5000/api/v0/swagger.json
@@ -252,34 +264,40 @@ the handling of the API with simple examples. This document and the full API des
 is available when you installed openeo_udf locally or if you use the docker image.
 However, the original python3 file that implements the OpenEO UDF python3 API is available here:
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/collection_tile.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/feature_collection_tile.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/hypercube.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/machine_learn_model.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/raster_collection_tile.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/spatial_extent.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/structured_data.py
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/udf_data.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/collection_tile.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/feature_collection_tile.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/hypercube.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/machine_learn_model.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/raster_collection_tile.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/spatial_extent.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/structured_data.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/udf_data.py
 
 The UDF's are directly available for download from the repository:
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_ndvi.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_ndvi.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_min_max_mean_sum.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_reduce_time_min_max_mean_sum.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_sum.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_reduce_time_sum.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/feature_collections_buffer.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sampling.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_sampling.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_statistics.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_statistics.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_pytorch_ml.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_pytorch_ml.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sklearn_ml.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_sklearn_ml.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/hypercube_ndvi.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_ndvi.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_map_fabs.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_reduce_time_mean.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_reduce_time_sum.py
 
 Several UDF were implemented and provide and example howto develop an UDF. Unittest were implemented for
 each UDF including machine learn models and hypercube approach. The tests are available here:
