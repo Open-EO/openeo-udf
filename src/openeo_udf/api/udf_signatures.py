@@ -6,13 +6,13 @@ is compatible with the calling context of the process graph in which it is used.
 """
 
 
-def get_file(file_identifier:str) -> str:
+def open_file(file_identifier:str) :
     """
     Returns a local posix file path to a user resource. If needed, the backend will copy the user file to local disk.
 
 
     :param file_identifier:
-    :return:
+    :return: a file handler
     """
     pass
 

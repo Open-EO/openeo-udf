@@ -13,7 +13,7 @@ __author__ = "Soeren Gebbert"
 __copyright__ = "Copyright 2018, Soeren Gebbert"
 __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
-from .udf_data import FEATURE, PIXEL, PIXEL_FEATURE
+from udf_data import FEATURE, PIXEL, PIXEL_FEATURE
 
 
 class AllTestCase(unittest.TestCase):

@@ -13,7 +13,7 @@ def apply_timeseries(series: Series,context:Dict)->Series:
 
 import numpy
 import pandas
-def apply_timeseries_generic(udf_data: UdfData):
+def apply_timeseries_generic(udf_data: UdfData,callback):
     """
     Implements the UDF contract by calling a user provided time series transformation function (apply_timeseries).
     Multiple bands are currently handled separately, another approach could provide a dataframe with a timeseries for each band.
@@ -32,7 +32,7 @@ def apply_timeseries_generic(udf_data: UdfData):
             time_x_result = []
             for time_slice in time_x_slice:
                 series = pandas.Series(time_slice,index=tile.start_times)
-                transformed_series = apply_timeseries(series,{})
+                transformed_series = callback(series,{})
                 time_x_result.append(transformed_series)
             array3d.append(time_x_result)
 
@@ -46,4 +46,5 @@ def apply_timeseries_generic(udf_data: UdfData):
     # Insert the new tiles as list of raster collection tiles in the input object. The new tiles will
     # replace the original input tiles.
     udf_data.set_raster_collection_tiles(tile_results)
+    return udf_data
 

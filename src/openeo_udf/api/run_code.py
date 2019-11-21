@@ -12,6 +12,7 @@ import tensorflow
 import tensorboard
 import math
 from typing import Dict
+from inspect import signature
 
 from openeo_udf.api.feature_collection_tile import FeatureCollectionTile
 from openeo_udf.api.hypercube import HyperCube
@@ -41,6 +42,38 @@ def run_json_user_code(dict_data: Dict) -> Dict:
     code = dict_data["code"]["source"]
 
     data = UdfData.from_dict(dict_data["data"])
+    result_data = run_user_code(code,data)
 
-    exec(code)
-    return data.to_dict()
+    return result_data.to_dict()
+
+def _build_default_execution_context():
+    return {
+        'numpy': numpy,
+        'geopandas': geopandas,
+        'pandas': pandas,
+        'shapely': shapely,
+        'math':math,
+        'RasterCollectionTile':RasterCollectionTile,
+        'HyperCube':HyperCube
+    }
+
+def run_user_code(code:str,udf_data:UdfData) -> UdfData:
+    module=_build_default_execution_context()
+    exec(code,module)
+
+    functions = {t[0]:t[1] for t in module.items() if callable(t[1])}
+
+    for func in functions.items():
+        sig = signature(func[1])
+        params = sig.parameters
+        params_list = [t[1] for t in sig.parameters.items()]
+        if(func[0] == 'apply_timeseries' and 'series' in params and 'context' in params and params['series'].annotation == 'pandas.core.series.Series' and sig.return_annotation == 'pandas.core.series.Series'):
+            #this is a UDF that transforms pandas series
+            from .udf_wrapper import apply_timeseries_generic
+            return apply_timeseries_generic(udf_data,func[1])
+        elif len(params_list) == 1 and (params_list[0].annotation == 'openeo_udf.api.udf_data.UdfData' or params_list[0].annotation == UdfData) :
+            #found a generic UDF function
+            func[1](udf_data)
+            break
+
+    return udf_data
