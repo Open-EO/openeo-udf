@@ -20,12 +20,12 @@
         "name": "Data Cube",
         "description": "This is a data cube",
         "dim": ["time", "y", "x"],
+        "size": [3, 3, 3],
         "dimensions": {
           "time": {
             "description": "Temporal dimension",
-            "dimtype": "temporal",
+            "type": "temporal",
             "unit": "ISO:8601",
-            "size": 3,
             "extent": ["2001-01-01T00:00:00", "2001-01-01T00:02:00"],
             "values": null,
             "step": null,
@@ -34,20 +34,18 @@
           },
           "x": {
             "description": "Spatial dimension",
-            "dimtype": "spatial",
+            "type": "spatial",
             "unit": "degree",
-            "size": 3,
             "extent": [0, 2],
-            "values": null,
+            "values": [0, 1, 2],
             "step": null,
             "axis": "x",
             "reference_system": "4326"
           },
           "y": {
             "description": "Spatial dimension",
-            "dimtype": "spatial",
+            "type": "spatial",
             "unit": "degree",
-            "size": 3,
             "extent": [0, 2],
             "values": null,
             "step": 1,
@@ -90,12 +88,7 @@
     }
   ],
   "timestamps": {
-    "intervals": [
-      [
-        "2001-01-01T10:00:00",
-        "2001-01-01T00:02:00"
-      ]
-    ],
-    "calendar": null
+    "intervals": [["2001-01-01T10:00:00", "2001-01-01T00:02:00"]],
+    "calendar": "gregorian"
   }
 }

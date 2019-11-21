@@ -31,18 +31,18 @@ class DataCollectionTest(unittest.TestCase):
 
         dim_dict = {}
         dim_t = Dimension(description="Temporal dimension", type="temporal", reference_system="gregorian",
-                          unit="ISO:8601", size=3,
+                          unit="ISO:8601",
                           coordinates=["2001-01-01T00:00:00", "2001-01-01T00:01:00", "2001-01-01T00:02:00"],
                           extent=["2001-01-01T00:00:00", "2001-01-01T00:02:00"])
         dim_dict["time"] = dim_t
         dim_x = Dimension(description="Spatial dimension", type="spatial", reference_system=4326, axis="x",
-                          unit="degree", size=3, coordinates=[0, 1, 2], extent=[0, 2])
+                          unit="degree", values=[0, 1, 2], extent=[0, 2])
         dim_dict["x"] = dim_x
         dim_y = Dimension(description="Spatial dimension", type="spatial", reference_system=4326, axis="y",
-                          unit="degree", size=3, step=1, extent=[0, 2])
+                          unit="degree", step=1, extent=[0, 2])
         dim_dict["y"] = dim_y
 
-        dc = DataCube(name="Data Cube", description="This is a data cube", dim=["time", "y", "x"],
+        dc = DataCube(name="Data Cube", description="This is a data cube", dim=["time", "y", "x"], size=[3, 3, 3],
                       dimensions=dim_dict, field_collection=0, timestamp=0)
 
         # FIELD COLLECTION

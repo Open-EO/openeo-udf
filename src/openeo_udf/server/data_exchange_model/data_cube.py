@@ -12,12 +12,11 @@ __email__ = "soerengebbert@googlemail.com"
 class Dimension(BaseModel):
     """Description of a data cube dimension. See the STAC dimension definition for more details and examples."""
     description: str = Field(..., description="The description of the dimension.")
-    dimtype: str = Field(..., description="The type of the dimension (spatial, temporal, bands, other)", alias="type")
+    type: str = Field(..., description="The type of the dimension (spatial, temporal, bands, other)")
     unit: str = Field(...,
                       description="The unit of the dimension in SI units or UDUNITS.",
                       examples=[{"unit": "seconds"}, {"unit": "m"}, {"unit": "hours"},
                                 {"unit": "days"}, {"unit": "mm"}, {"unit": "km"}])
-    size: int = Field(..., description="The size of the dimension.")
     extent: List[Union[int, float, str]] = Field(..., description="The spatial or temporal extent of the dimension. "
                                                                   "It must be a tuple of values.")
     values: List[Union[int, float, str]] = Field(None, description="A list of coordinates for this dimension")
@@ -42,6 +41,9 @@ class DataCube(BaseModel):
                             description="A an ordered list of dimension names of the data cube. The dimensions "
                                         "are applied in the provided order.",
                             examples=[{"dim": ["t", "y", "x"]}])
+    size: List[int] = Field(..., description="The size of the dimensions as an ordered list of integer values.",
+                            examples=[[3, 3, 3]])
+
     dimensions: Dict[str, Dimension] = Field(..., description="A dictionary of dimension descriptions. Dimensions are "
                                                               "references by their name that is the key of the dict.")
     field_collection: int = Field(None, description="The integer index of the field collection. All fields and their "

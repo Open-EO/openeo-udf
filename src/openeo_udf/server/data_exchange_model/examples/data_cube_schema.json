@@ -180,11 +180,6 @@
           ],
           "type": "string"
         },
-        "size": {
-          "title": "Size",
-          "description": "The size of the dimension.",
-          "type": "integer"
-        },
         "extent": {
           "title": "Extent",
           "description": "The spatial or temporal extent of the dimension. It must be a tuple of values.",
@@ -261,7 +256,6 @@
         "description",
         "type",
         "unit",
-        "size",
         "extent"
       ]
     },
@@ -302,6 +296,21 @@
             "type": "string"
           }
         },
+        "size": {
+          "title": "Size",
+          "description": "The size of the dimensions as an ordered list of integer values.",
+          "examples": [
+            [
+              3,
+              3,
+              3
+            ]
+          ],
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
         "dimensions": {
           "title": "Dimensions",
           "description": "A dictionary of dimension descriptions. Dimensions are references by their name that is the key of the dict.",
@@ -324,6 +333,7 @@
       "required": [
         "name",
         "dim",
+        "size",
         "dimensions"
       ]
     },
