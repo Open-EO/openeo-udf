@@ -1,10 +1,5 @@
 {
   "type": "DataCollection",
-  "crs": {
-    "EPSG": 4326,
-    "WKT": null,
-    "temporal": "gregorian"
-  },
   "metadata": {
     "name": "Datacollection",
     "description": "New collection",
@@ -24,27 +19,42 @@
       {
         "name": "Data Cube",
         "description": "This is a data cube",
-        "dim": ["t", "y", "x"],
-        "dimensions": [
-          {
-            "name": "t",
+        "dim": ["time", "y", "x"],
+        "dimensions": {
+          "time": {
+            "description": "Temporal dimension",
+            "dimtype": "temporal",
             "unit": "ISO:8601",
             "size": 3,
-            "coordinates": ["2001-01-01T00:00:00", "2001-01-01T00:01:00", "2001-01-01T00:02:00"]
+            "extent": ["2001-01-01T00:00:00", "2001-01-01T00:02:00"],
+            "values": null,
+            "step": null,
+            "axis": null,
+            "reference_system": "gregorian"
           },
-          {
-            "name": "x",
+          "x": {
+            "description": "Spatial dimension",
+            "dimtype": "spatial",
             "unit": "degree",
             "size": 3,
-            "coordinates": [0, 1, 2]
+            "extent": [0, 2],
+            "values": null,
+            "step": null,
+            "axis": "x",
+            "reference_system": "4326"
           },
-          {
-            "name": "y",
+          "y": {
+            "description": "Spatial dimension",
+            "dimtype": "spatial",
             "unit": "degree",
             "size": 3,
-            "coordinates": [0, 1, 2]
+            "extent": [0, 2],
+            "values": null,
+            "step": 1,
+            "axis": "y",
+            "reference_system": "4326"
           }
-        ],
+        },
         "field_collection": 0,
         "timestamp": 0
       }
@@ -79,7 +89,13 @@
       ]
     }
   ],
-  "timestamps": [
-    ["2001-01-01T10:00:00", "2001-01-01T00:02:00"]
-  ]
+  "timestamps": {
+    "intervals": [
+      [
+        "2001-01-01T10:00:00",
+        "2001-01-01T00:02:00"
+      ]
+    ],
+    "calendar": null
+  }
 }

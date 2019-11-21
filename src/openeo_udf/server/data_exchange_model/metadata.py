@@ -11,10 +11,9 @@ __email__ = "soerengebbert@googlemail.com"
 class Metadata(BaseModel):
     """Metadata description of the topological data collection"""
 
-    name: str = Field(...,
-                      description="The name of topological data collection. Allowed characters [a-z][A-Z][0-9][_].",
+    name: str = Field(..., description="The name of topological data collection. "
+                                       "Allowed characters [a-z][A-Z][0-9][_].",
                       examples=[{"name": "Climate_data_collection_1984"}])
-
     description: str = Field(..., description="Description of the topological data collection.")
     number_of_object_collections: int = Field(..., description="Number of all collections "
                                                                "(data cubes, image collection, "

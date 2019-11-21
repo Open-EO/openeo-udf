@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import List
+from typing import List, Union, Dict
 
 from pydantic import BaseModel, Schema as Field
 
@@ -33,4 +33,11 @@ class SimpleFeatureCollection(BaseModel):
     description: str = Field(None, description="Description.")
     number_of_features: int = Field(..., description="The number of features.")
     bbox: SpatialBoundingBox = Field(..., description="The bounding box of all features.")
+    reference_system: Union[str, int, Dict] = Field(None,
+                                                    description="The definition of the spatial reference system. If an "
+                                                                "integer was provided it will be interpreted "
+                                                                "as EPSG code. If a string was provided it will "
+                                                                "be interpreted as WKT2 definition. In case of a "
+                                                                "dictionary object, PROJSON is expected. "
+                                                                "The definition is identical to the dimension srs")
     features: List[SimpleFeature] = Field(..., description="A list of features.")

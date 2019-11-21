@@ -2,11 +2,10 @@
 
 import unittest
 
-from openeo_udf.server.data_exchange_model.bounding_box import SpatialBoundingBox
 from openeo_udf.server.data_exchange_model.data_cube import DataCube, Dimension
 from openeo_udf.server.data_exchange_model.field_collection import Field, FieldCollection
 from openeo_udf.server.data_exchange_model.metadata import Metadata
-from openeo_udf.server.data_exchange_model.data_collection import DataCollection, CoordinateReferenceSystems, ObjectCollection
+from openeo_udf.server.data_exchange_model.data_collection import DataCollection, ObjectCollection, TimeStamps
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -28,20 +27,23 @@ class DataCollectionTest(unittest.TestCase):
                      number_of_field_collections=2,
                      number_of_time_stamps=1)
 
-        crs = CoordinateReferenceSystems(EPSG=4326, temporal="gregorian")
-
         # DATA CUBE
 
-        dim_t = Dimension(name="t", unit="ISO:8601", size=3, coordinates=["2001-01-01T00:00:00",
-                                                                          "2001-01-01T00:01:00",
-                                                                          "2001-01-01T00:02:00"])
-        dim_x = Dimension(name="x", unit="degree", size=3, coordinates=[0, 1, 2])
-        dim_y = Dimension(name="y", unit="degree", size=3, coordinates=[0, 1, 2])
+        dim_dict = {}
+        dim_t = Dimension(description="Temporal dimension", type="temporal", reference_system="gregorian",
+                          unit="ISO:8601", size=3,
+                          coordinates=["2001-01-01T00:00:00", "2001-01-01T00:01:00", "2001-01-01T00:02:00"],
+                          extent=["2001-01-01T00:00:00", "2001-01-01T00:02:00"])
+        dim_dict["time"] = dim_t
+        dim_x = Dimension(description="Spatial dimension", type="spatial", reference_system=4326, axis="x",
+                          unit="degree", size=3, coordinates=[0, 1, 2], extent=[0, 2])
+        dim_dict["x"] = dim_x
+        dim_y = Dimension(description="Spatial dimension", type="spatial", reference_system=4326, axis="y",
+                          unit="degree", size=3, step=1, extent=[0, 2])
+        dim_dict["y"] = dim_y
 
-        dc = DataCube(name="Data Cube", description="This is a data cube", dim=["t", "y", "x"],
-                      dimensions=[dim_t, dim_x, dim_y], field_collection=0, timestamp=0)
-
-        bbox = SpatialBoundingBox(min_x=0, max_x=1, min_y=0, max_y=0, min_z=0, max_z=0)
+        dc = DataCube(name="Data Cube", description="This is a data cube", dim=["time", "y", "x"],
+                      dimensions=dim_dict, field_collection=0, timestamp=0)
 
         # FIELD COLLECTION
 
@@ -65,9 +67,9 @@ class DataCollectionTest(unittest.TestCase):
 
         oc = ObjectCollection(data_cubes=[dc], simple_feature_collections=[])
 
-        ts = [("2001-01-01T10:00:00", "2001-01-01T00:02:00")]
+        ts = TimeStamps(calendar="gregorian", intervals=[("2001-01-01T10:00:00", "2001-01-01T00:02:00")])
 
-        t = DataCollection(crs=crs, metadata=m, object_collections=oc, geometry_collection=g,
+        t = DataCollection(metadata=m, object_collections=oc, geometry_collection=g,
                            field_collections=[f1], timestamps=ts)
 
         self.assertIsNotNone(t.json())

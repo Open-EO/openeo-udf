@@ -1,10 +1,5 @@
 {
   "type": "DataCollection",
-  "crs": {
-    "EPSG": 4326,
-    "WKT": null,
-    "temporal": "gregorian"
-  },
   "metadata": {
     "name": "SimpleFeatureCollection",
     "description": "New collection of simple features",
@@ -34,6 +29,7 @@
           "min_z": 0.0,
           "max_z": 0.0
         },
+        "reference_system": "4326",
         "features": [
           {
             "type": "LineString",
@@ -68,7 +64,9 @@
   "field_collections": [
     {
       "name": "Border",
-      "size": [1],
+      "size": [
+        1
+      ],
       "number_of_fields": 1,
       "attributes": [
         {
@@ -76,14 +74,13 @@
           "description": "Landuse",
           "unit": "category",
           "values": [],
-          "labels": [
-            "Border"
-          ]
+          "labels": ["Border"]
         }
       ]
     }
   ],
-  "timestamps": [
-    ["2001-01-01T10:00:00", null]
-  ]
+  "timestamps": {
+    "intervals": [["2001-01-01T10:00:00", "2001-01-01T00:02:00"]],
+    "calendar": "gregorian"
+  }
 }

@@ -6,7 +6,7 @@ from openeo_udf.server.data_exchange_model.bounding_box import SpatialBoundingBo
 from openeo_udf.server.data_exchange_model.field_collection import Field, FieldCollection
 from openeo_udf.server.data_exchange_model.metadata import Metadata
 from openeo_udf.server.data_exchange_model.simple_feature_collection import SimpleFeature, SimpleFeatureCollection
-from openeo_udf.server.data_exchange_model.data_collection import DataCollection, CoordinateReferenceSystems, ObjectCollection
+from openeo_udf.server.data_exchange_model.data_collection import DataCollection, ObjectCollection, TimeStamps
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -28,8 +28,6 @@ class TopologicalDataCollectionTest(unittest.TestCase):
                      number_of_field_collections=1,
                      number_of_time_stamps=1)
 
-        crs = CoordinateReferenceSystems(EPSG=4326, temporal="gregorian")
-
         g = ["LineString (2 0, 2 2)", "LineString (2 2, 0 1, 2 0)", "LineString (2 2, 3 1, 2 0)"]
 
         bbox = SpatialBoundingBox(min_x=0, max_x=3, min_y=0, max_y=2, min_z=0, max_z=0)
@@ -41,7 +39,8 @@ class TopologicalDataCollectionTest(unittest.TestCase):
                                       description="Boundary of three lines",
                                       number_of_features=3,
                                       features=[sf1, sf2, sf3],
-                                      bbox=bbox)
+                                      bbox=bbox,
+                                      reference_system=4326)
 
         br = Field(name="Landuse", description="Landuse", unit="category", values=[], labels=["Border"])
 
@@ -49,10 +48,10 @@ class TopologicalDataCollectionTest(unittest.TestCase):
 
         oc = ObjectCollection(data_cubes=[], simple_feature_collections=[sfs])
 
-        ts = [("2001-01-01T10:00:00", None)]
+        ts = TimeStamps(calendar="gregorian", intervals=[("2001-01-01T10:00:00", "2001-01-01T00:02:00")])
 
-        t = DataCollection(crs=crs, metadata=m, object_collections=oc, geometry_collection=g,
-                                      field_collections=[f3], timestamps=ts)
+        t = DataCollection(metadata=m, object_collections=oc, geometry_collection=g,
+                           field_collections=[f3], timestamps=ts)
 
         self.assertIsNotNone(t.json())
         print(t.json())

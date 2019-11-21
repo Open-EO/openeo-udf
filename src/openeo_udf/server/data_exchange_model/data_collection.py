@@ -15,11 +15,14 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class CoordinateReferenceSystems(BaseModel):
-    """Coordinate reference systems for spatial and temporal coordinates"""
-    EPSG: int = Field(None, description="EPSG code", examples=[{"EPSG": 4326}])
-    WKT: str = Field(None, description="The WKT description string, if there is no EPSG code")
-    temporal: str = Field(None, description="The temporal calender", examples=[{"temporal": "gregorian"}])
+class TimeStamps(BaseModel):
+    """The time stamps of the data collections"""
+    intervals: List[Tuple[str, Union[str, None]]] = Field(..., description="A list of timestamp tuples as strings. "
+                                                                           "Here start and end time can be specified. "
+                                                                           "If only the start time is given, then the "
+                                                                           "end time can be None.")
+    calendar: str = Field(None, description="The definition of the temporal reference system of "
+                                            "the  time stamps. Either the gregorian or julian calendar.")
 
 
 class ObjectCollection(BaseModel):
@@ -33,7 +36,6 @@ class ObjectCollection(BaseModel):
 class DataCollection(BaseModel):
     """Data collection"""
     type: str = "DataCollection"
-    crs: CoordinateReferenceSystems = Field(..., description="The coordinate reference systems")
     metadata: Metadata = Field(..., description="The metadata object for the data collection")
     object_collections: ObjectCollection = Field(...,
                                                  description="A collection of different "
@@ -42,4 +44,5 @@ class DataCollection(BaseModel):
                                            description="A list of WKT geometry strings that are referenced by the "
                                                        "objects in the object collection.")
     field_collections: List[FieldCollection] = Field(..., description="A list of field collections")
-    timestamps: List[Tuple[str, Union[str, None]]] = Field(..., description="A list of timestamp tuples as strings.")
+    timestamps: TimeStamps = Field(..., description="The time stamps of the data collection, that can be references "
+                                                    "by each object (feature, cube, ...).")
