@@ -93,6 +93,11 @@ class UdfDataModel(BaseModel):
 
     proj: dict = Schema(..., description="The EPSG code or WKT projection dictionary. eg: {'EPSG':4326}")
 
+    user_context: dict = Schema(..., description="A dictionary that contains the user context, "
+                                                 "like function parameters or configuration of an algorithm.")
+
+    server_context: dict = Schema(..., description="A dictionary that contains the server context")
+
     raster_collection_tiles: List[RasterCollectionTileModel] = Schema([],
                                                                       description="A list of raster "
                                                                                      "collection tiles."
