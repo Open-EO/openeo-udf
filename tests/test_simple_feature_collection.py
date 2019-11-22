@@ -3,8 +3,8 @@
 import unittest
 from pprint import pprint
 
-from openeo_udf.server.data_exchange_model.bounding_box import SpatialBoundingBox
-from openeo_udf.server.data_exchange_model.simple_feature_collection import SimpleFeature, SimpleFeatureCollection
+from openeo_udf.server.data_model.bounding_box import SpatialBoundingBox
+from openeo_udf.server.data_model.simple_feature_collection import SimpleFeature, SimpleFeatureCollection
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
