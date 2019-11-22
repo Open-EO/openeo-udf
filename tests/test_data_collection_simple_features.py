@@ -2,11 +2,11 @@
 
 import unittest
 
-from openeo_udf.server.data_exchange_model.bounding_box import SpatialBoundingBox
-from openeo_udf.server.data_exchange_model.field_collection import Field, FieldCollection
-from openeo_udf.server.data_exchange_model.metadata import Metadata
-from openeo_udf.server.data_exchange_model.simple_feature_collection import SimpleFeature, SimpleFeatureCollection
-from openeo_udf.server.data_exchange_model.data_collection import DataCollection, ObjectCollection, TimeStamps
+from openeo_udf.server.data_model.bounding_box import SpatialBoundingBox
+from openeo_udf.server.data_model.variables_collection import Variable, VariablesCollection
+from openeo_udf.server.data_model.metadata import Metadata
+from openeo_udf.server.data_model.simple_feature_collection import SimpleFeature, SimpleFeatureCollection
+from openeo_udf.server.data_model.data_collection import DataCollection, ObjectCollection, TimeStamps
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -32,9 +32,9 @@ class TopologicalDataCollectionTest(unittest.TestCase):
 
         bbox = SpatialBoundingBox(min_x=0, max_x=3, min_y=0, max_y=2, min_z=0, max_z=0)
 
-        sf1 = SimpleFeature(type="LineString", geometry=0, field=[0, 0], timestamp=0, predecessors=[])
-        sf2 = SimpleFeature(type="LineString", geometry=1, field=[0, 0], timestamp=0, predecessors=[])
-        sf3 = SimpleFeature(type="LineString", geometry=2, field=[0, 0], timestamp=0, predecessors=[])
+        sf1 = SimpleFeature(type="LineString", geometry=0, variable=[0, 0], timestamp=0, predecessors=[])
+        sf2 = SimpleFeature(type="LineString", geometry=1, variable=[0, 0], timestamp=0, predecessors=[])
+        sf3 = SimpleFeature(type="LineString", geometry=2, variable=[0, 0], timestamp=0, predecessors=[])
         sfs = SimpleFeatureCollection(name="Boundary of three lines",
                                       description="Boundary of three lines",
                                       number_of_features=3,
@@ -42,16 +42,16 @@ class TopologicalDataCollectionTest(unittest.TestCase):
                                       bbox=bbox,
                                       reference_system=4326)
 
-        br = Field(name="Landuse", description="Landuse", unit="category", values=[], labels=["Border"])
+        br = Variable(name="Landuse", description="Landuse", unit="category", values=[], labels=["Border"])
 
-        f3 = FieldCollection(name="Border", size=[1], number_of_fields=1, fields=[br])
+        f3 = VariablesCollection(name="Border", size=[1], number_of_variables=1, variables=[br])
 
         oc = ObjectCollection(data_cubes=[], simple_feature_collections=[sfs])
 
         ts = TimeStamps(calendar="gregorian", intervals=[("2001-01-01T10:00:00", "2001-01-01T00:02:00")])
 
         t = DataCollection(metadata=m, object_collections=oc, geometry_collection=g,
-                           field_collections=[f3], timestamps=ts)
+                           variables_collections=[f3], timestamps=ts)
 
         self.assertIsNotNone(t.json())
         print(t.json())
