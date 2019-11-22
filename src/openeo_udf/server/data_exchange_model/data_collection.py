@@ -4,7 +4,7 @@ from typing import List, Union, Tuple
 from pydantic import BaseModel, Schema as Field
 
 from openeo_udf.server.data_exchange_model.data_cube import DataCube
-from openeo_udf.server.data_exchange_model.field_collection import FieldCollection
+from openeo_udf.server.data_exchange_model.variables_collection import VariablesCollection
 from openeo_udf.server.data_exchange_model.metadata import Metadata
 from openeo_udf.server.data_exchange_model.simple_feature_collection import SimpleFeatureCollection
 
@@ -43,6 +43,6 @@ class DataCollection(BaseModel):
     geometry_collection: List[str] = Field(...,
                                            description="A list of WKT geometry strings that are referenced by the "
                                                        "objects in the object collection.")
-    field_collections: List[FieldCollection] = Field(..., description="A list of field collections")
+    variables_collections: List[VariablesCollection] = Field(..., description="A list of field collections")
     timestamps: TimeStamps = Field(..., description="The time stamps of the data collection, that can be references "
                                                     "by each object (feature, cube, ...).")
