@@ -10,7 +10,6 @@ from openeo_udf.api.machine_learn_model import MachineLearnModel
 from openeo_udf.api.raster_collection_tile import RasterCollectionTile
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
-from openeo_udf.api.custom_udf_parameter import CustomUdfParameter
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -110,20 +109,19 @@ class UdfData:
     >>> import json
     >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
     ...                                # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "hypercubes": [], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "hypercubes": [], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "hypercubes": [], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "hypercubes": [], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
 
     >>> sd_list = StructuredData(description="Data list", data={"list":[1,2,3]}, type="list")
     >>> sd_dict = StructuredData(description="Data dict", data={"A":{"B": 1}}, type="dict")
     >>> udf = UdfData(proj={"EPSG":4326}, structured_data_list=[sd_list, sd_dict])
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [], "hypercubes": [], "feature_collection_tiles": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "machine_learn_models": []}'
-
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "raster_collection_tiles": [], "hypercubes": [], "feature_collection_tiles": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "machine_learn_models": []}'
 
 
     >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
@@ -131,16 +129,22 @@ class UdfData:
     >>> array.name = "testdata"
     >>> h = HyperCube(array=array)
     >>> udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[h])
+    >>> udf_data.user_context = {"kernel": 3}
+    >>> udf_data.server_context = {"reduction_dimension": "t"}
+    >>> udf_data.user_context
+    {'kernel': 3}
+    >>> udf_data.server_context
+    {'reduction_dimension': 't'}
     >>> print(udf_data.get_hypercube_by_id("testdata").to_dict())
     {'id': 'testdata', 'data': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], 'dimensions': [{'name': 'x', 'coordinates': [1, 2]}, {'name': 'y', 'coordinates': [1, 2, 3]}], 'description': 'This is an xarray with two dimensions'}
     >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [], "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_tiles": [], "structured_data_list": [], "machine_learn_models": []}'
+    '{"proj": {"EPSG": 4326}, "user_context": {"kernel": 3}, "server_context": {"reduction_dimension": "t"}, "raster_collection_tiles": [], "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_tiles": [], "structured_data_list": [], "machine_learn_models": []}'
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "raster_collection_tiles": [], "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_tiles": [], "structured_data_list": [], "machine_learn_models": []}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "raster_collection_tiles": [], "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_tiles": [], "structured_data_list": [], "machine_learn_models": []}'
 
     """
 
@@ -172,6 +176,9 @@ class UdfData:
         self._ml_model_list = []
         self.proj = proj
 
+        self._user_context : Dict = dict()
+        self._server_context : Dict = dict()
+
         if raster_collection_tiles:
             self.set_raster_collection_tiles(raster_collection_tiles=raster_collection_tiles)
         if hypercube_list:
@@ -182,6 +189,26 @@ class UdfData:
             self.set_structured_data_list(structured_data_list=structured_data_list)
         if ml_model_list:
             self.set_ml_model_list(ml_model_list=ml_model_list)
+
+    @property
+    def user_context(self) -> Dict:
+        """Return the user context that was passed to the run_udf function"""
+        return self._user_context
+
+    @user_context.setter
+    def user_context(self, context: Dict):
+        """Set the user context"""
+        self._user_context = context
+
+    @property
+    def server_context(self) -> Dict:
+        """Return the server context that is passed from the backend to the UDF server for runtime configuration"""
+        return self._server_context
+
+    @server_context.setter
+    def server_context(self, context: Dict):
+        """Return the server context"""
+        self._server_context = context
 
     def get_raster_collection_tile_by_id(self, id: str) -> Optional[RasterCollectionTile]:
         """Get an raster collection tile by its id
@@ -443,7 +470,7 @@ class UdfData:
             UdfData object as a dictionary
         """
 
-        d = {"proj": self.proj}
+        d = {"proj": self.proj, "user_context": self.user_context, "server_context": self.server_context}
 
         if self._raster_tile_list is not None:
             l = []
@@ -495,6 +522,12 @@ class UdfData:
             raise Exception("Missing projection in dictionary")
 
         udf_data = UdfData(proj=udf_dict["proj"])
+
+        if "user_context" not in udf_dict:
+            udf_data.user_context = udf_dict["user_context"]
+
+        if "server_context" not in udf_dict:
+            udf_data.server_context = udf_dict["server_context"]
 
         if "raster_collection_tiles" in udf_dict:
             l = udf_dict["raster_collection_tiles"]
