@@ -2,6 +2,8 @@
 
 from openeo_udf.api.hypercube import HyperCube
 from openeo_udf.api.udf_data import UdfData
+from typing import Dict
+import xarray
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -10,42 +12,26 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def hyper_ndvi(udf_data: UdfData):
-    """Compute the NDVI based on RED and NIR hypercubes
+def apply_hypercube(cube: HyperCube,context:Dict) -> HyperCube:
+    """Compute the NDVI based on a hypercube
 
-    Hypercubes with ids "red" and "nir" are required. The NDVI computation will be applied
-    to all hypercube dimensions.
+    A hypercube with a 'band' dimension is required. A 'red' and 'nir' band should be available.
+    The NDVI computation will be applied to all hypercube dimensions.
 
     Args:
-        udf_data (UdfData): The UDF data object that contains raster and vector tiles as well as hypercubes
-        and structured data.
+        cube (HyperCube): The hypercube object containing an xarray DaraArray
 
     Returns:
-        This function will not return anything, the UdfData object "udf_data" must be used to store the resulting
-        data.
+        a HyperCube containing the computed NDVI, the band dimension will be dropped.
 
     """
-    red = None
-    nir = None
+    array:xarray.DataArray = cube.get_array()
+    red = array.sel(band='red')
+    nir = array.sel(band='nir')
 
-    # Iterate over each tile
-    for cube in udf_data.get_hypercube_list():
-        if "red" in cube.id.lower():
-            red = cube
-        if "nir" in cube.id.lower():
-            nir = cube
-    if red is None:
-        raise Exception("Red hypercube is missing in input")
-    if nir is None:
-        raise Exception("Nir hypercube is missing in input")
-
-    ndvi = (nir.array - red.array) / (nir.array + red.array)
+    ndvi = (nir - red) / (nir + red)
     ndvi.name = "NDVI"
 
     hc = HyperCube(array=ndvi)
-    udf_data.set_hypercube_list([hc, ])
+    return hc
 
-
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.
-hyper_ndvi(data)

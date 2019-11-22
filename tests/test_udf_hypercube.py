@@ -52,9 +52,7 @@ class AllTestCase(unittest.TestCase):
         file_name = os.path.join(dir, "hypercube_ndvi.py")
         udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
 
-        hc_red = create_hypercube(name="red", value=1, shape=(3, 3, 3))
-        hc_nir = create_hypercube(name="nir", value=3, shape=(3, 3, 3))
-        udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[hc_red, hc_nir])
+        udf_data = self._create_ndvi_udfdata()
 
         udf_request = UdfRequestSchema(data=udf_data.to_dict(), code=udf_code)
         pprint.pprint(udf_request)
@@ -64,6 +62,14 @@ class AllTestCase(unittest.TestCase):
         pprint.pprint(dict_data)
         self.checkHyperCube(dict_data=dict_data)
 
+    def _create_ndvi_udfdata(self):
+        red = create_hypercube(name="red", value=1, shape=( 3, 3, 3), dims=("time", "x", "y"))
+        nir = create_hypercube(name="nir", value=3, shape=( 3, 3, 3), dims=("time", "x", "y"))
+        bands = xarray.concat([red.array,nir.array],'band')
+        hc = HyperCube(bands.assign_coords(band=['red', 'nir']))
+        udf_data = UdfData(proj={"EPSG": 4326}, hypercube_list=[hc])
+        return udf_data
+
     def test_hypercube_ndvi_message_pack(self):
         """Test the hypercube NDVI computation with the message pack protocol"""
 
@@ -71,9 +77,7 @@ class AllTestCase(unittest.TestCase):
         file_name = os.path.join(dir, "hypercube_ndvi.py")
         udf_code = UdfCodeSchema(language="python", source=open(file_name, "r").read())
 
-        hc_red = create_hypercube(name="red", value=1, shape=(3, 3, 3))
-        hc_nir = create_hypercube(name="nir", value=3, shape=(3, 3, 3))
-        udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[hc_red, hc_nir])
+        udf_data = self._create_ndvi_udfdata()
 
         udf_request = UdfRequestSchema(data=udf_data.to_dict(), code=udf_code)
         # pprint.pprint(udf_request)
