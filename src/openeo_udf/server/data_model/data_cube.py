@@ -50,9 +50,9 @@ class DataCube(BaseModel):
 
     description: str = Field(None, description="Description of the data cube.")
     dim: List[str] = Field(...,
-                            description="A an ordered list of dimension names of the data cube. The dimensions "
-                                        "are applied in the provided order.",
-                            examples=[{"dim": ["t", "y", "x"]}])
+                           description="A an ordered list of dimension names of the data cube. The dimensions "
+                                       "are applied in the provided order.",
+                           examples=[{"dim": ["t", "y", "x"]}])
     size: List[int] = Field(..., description="The size of the dimensions as an ordered list of integer values.",
                             examples=[[3, 3, 3]])
 
@@ -61,7 +61,9 @@ class DataCube(BaseModel):
                                                               "The id of the dimension is a string, that should "
                                                               "follow the convention: t -> time, "
                                                               "x, y, z -> spatial dimensions.")
-    field_collection: int = Field(None, description="The integer index of the field collection. All fields and their "
-                                                    "values of this indexed collection are assigned to the "
-                                                    "data cube and must have the same size")
+    variable_collection: int = Field(None,
+                                     description="The integer index of the variable collection. "
+                                                 "All variables and their "
+                                                 "values of this indexed collection are assigned to the "
+                                                 "data cube and must have the same size")
     timestamp: int = Field(None, description="The integer index of the assigned timestamp from the timestamp array")

@@ -35,5 +35,5 @@ class VariablesCollection(BaseModel):
                                                "as one dimensional arrays and must be "
                                                "re-shaped in the multi-dimensional form for processing.",
                               examples=[{"size": [100]}, {"size": [3, 3, 3]}])
-    number_of_fields: int = pyField(..., description="The number of variables in this collection." )
+    number_of_variables: int = pyField(..., description="The number of variables in this collection.")
     variables: List[Variable] = pyField(..., description="A list of variables with the same size.")

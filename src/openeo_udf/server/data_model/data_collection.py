@@ -3,10 +3,10 @@ from typing import List, Union, Tuple
 
 from pydantic import BaseModel, Schema as Field
 
-from openeo_udf.server.data_exchange_model.data_cube import DataCube
-from openeo_udf.server.data_exchange_model.variables_collection import VariablesCollection
-from openeo_udf.server.data_exchange_model.metadata import Metadata
-from openeo_udf.server.data_exchange_model.simple_feature_collection import SimpleFeatureCollection
+from openeo_udf.server.data_model.data_cube import DataCube
+from openeo_udf.server.data_model.variables_collection import VariablesCollection
+from openeo_udf.server.data_model.metadata import Metadata
+from openeo_udf.server.data_model.simple_feature_collection import SimpleFeatureCollection
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"

@@ -3,7 +3,7 @@ from typing import List, Union, Dict
 
 from pydantic import BaseModel, Schema as Field
 
-from openeo_udf.server.data_exchange_model.bounding_box import SpatialBoundingBox
+from openeo_udf.server.data_model.bounding_box import SpatialBoundingBox
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -19,8 +19,8 @@ class SimpleFeature(BaseModel):
                                   "Polygon, MultiPoint, MultiLine, MultiPolygon.")
     predecessors: List[int] = Field(None, description="A list of predecessors from which this feature was created.")
     geometry: int = Field(..., description="The index of a geometry from the geometry collection.")
-    field: List[int] = Field(None, description="The index of the assigned "
-                                               "field collection and the value/label index.")
+    variable: List[int] = Field(None, description="The index of the assigned "
+                                                  "field collection and the value/label index.")
     timestamp: int = Field(None, description="The index of the assigned timestamp.")
 
 

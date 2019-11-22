@@ -34,12 +34,12 @@
         "type": "string"
       }
     },
-    "field_collections": {
-      "title": "Field_Collections",
+    "variables_collections": {
+      "title": "Variables_Collections",
       "description": "A list of field collections",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/FieldCollection"
+        "$ref": "#/definitions/VariablesCollection"
       }
     },
     "timestamps": {
@@ -56,7 +56,7 @@
     "metadata",
     "object_collections",
     "geometry_collection",
-    "field_collections",
+    "variables_collections",
     "timestamps"
   ],
   "definitions": {
@@ -157,7 +157,7 @@
         },
         "unit": {
           "title": "Unit",
-          "description": "The unit of the dimension in SI units or UDUNITS.",
+          "description": "The unit of the dimension in SI units or UDUNITS. Time instances or intervals are defined as ISO8601 strings",
           "examples": [
             {
               "unit": "seconds"
@@ -176,6 +176,9 @@
             },
             {
               "unit": "km"
+            },
+            {
+              "unit": "ISO8601"
             }
           ],
           "type": "string"
@@ -200,7 +203,22 @@
         },
         "values": {
           "title": "Values",
-          "description": "A list of coordinates for this dimension",
+          "description": "A list of coordinates for this dimension. Use ISO8601 to specify time instances and intervals.If spatial axis are irregular, then the values parameter should be used to specify this axis. Otherwise the extent and the number of cells is sufficient.",
+          "examples": [
+            {
+              "values": [
+                50,
+                51,
+                52
+              ]
+            },
+            {
+              "values": [
+                "2001-01-01T10:00:00 / 2001-01-01T12:00:00",
+                "2001-01-01T12:00:00 / 2001-01-01T14:00:00"
+              ]
+            }
+          ],
           "type": "array",
           "items": {
             "anyOf": [
@@ -216,20 +234,10 @@
             ]
           }
         },
-        "step": {
-          "title": "Step",
-          "description": "The step size of the dimension.",
-          "anyOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            }
-          ]
+        "number_of_cells": {
+          "title": "Number_Of_Cells",
+          "description": "The number of cells in the spatial dimension or intervals / time instances in case of temporal dimension.",
+          "type": "integer"
         },
         "axis": {
           "title": "Axis",
@@ -238,7 +246,7 @@
         },
         "reference_system": {
           "title": "Reference_System",
-          "description": "The definition of the coordinate system. If an integer was provided, it will be interpreted as EPSG code. If a string was provided it will be interpreted as WKT2 definition. In case of a dictionary object PROJSON is expected.",
+          "description": "The definition of the coordinate system. If an integer was provided, it will be interpreted as EPSG code. If a string was provided it will be interpreted as WKT2 definition or in case of a temporal dimension as the calendar. In case of a dictionary object PROJSON is expected.",
           "anyOf": [
             {
               "type": "string"
@@ -313,7 +321,7 @@
         },
         "dimensions": {
           "title": "Dimensions",
-          "description": "A dictionary of dimension descriptions. Dimensions are references by their name that is the key of the dict.",
+          "description": "A dictionary of dimension descriptions. Dimensions are references by their name that is the key of the dict. The id of the dimension is a string, that should follow the convention: t -> time, x, y, z -> spatial dimensions.",
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/Dimension"
@@ -405,8 +413,8 @@
           "description": "The index of a geometry from the geometry collection.",
           "type": "integer"
         },
-        "field": {
-          "title": "Field",
+        "variable": {
+          "title": "Variable",
           "description": "The index of the assigned field collection and the value/label index.",
           "type": "array",
           "items": {
@@ -512,24 +520,24 @@
         }
       }
     },
-    "Field": {
-      "title": "Field",
-      "description": "This represents a field definition with values and labels",
+    "Variable": {
+      "title": "Variable",
+      "description": "This represents a variable definition with values and labels",
       "type": "object",
       "properties": {
         "name": {
           "title": "Name",
-          "description": "Name of the attribute.",
+          "description": "Name of the variable.",
           "type": "string"
         },
         "description": {
           "title": "Description",
-          "description": "Description of the attribute.",
+          "description": "Description of the variable.",
           "type": "string"
         },
         "unit": {
           "title": "Unit",
-          "description": "The unit of the field.",
+          "description": "The unit of the variable.",
           "examples": [
             {
               "unit": "m"
@@ -545,7 +553,7 @@
         },
         "values": {
           "title": "Values",
-          "description": "The field values that must be numeric.",
+          "description": "The variable values that must be numeric.",
           "examples": [
             {
               "values": [
@@ -569,7 +577,7 @@
         },
         "labels": {
           "title": "Labels",
-          "description": "Label for each field value.",
+          "description": "Label for each variable value.",
           "examples": [
             {
               "labels": [
@@ -592,19 +600,19 @@
         "labels"
       ]
     },
-    "FieldCollection": {
-      "title": "FieldCollection",
-      "description": "A collection of fields that all have the same size",
+    "VariablesCollection": {
+      "title": "VariablesCollection",
+      "description": "A collection of variables that all have the same size",
       "type": "object",
       "properties": {
         "name": {
           "title": "Name",
-          "description": "Name of the field collection.",
+          "description": "Name of the variables collection.",
           "type": "string"
         },
         "size": {
           "title": "Size",
-          "description": "The size of the field collection. Each field of this collection must have the same size. The size of the fields can be mutli-dimensional. However, fields are stored as one dimensional array and must be re-shaped in the multi-dimensional form for processing.",
+          "description": "The size of the variables collection. Each variable of this collection must have the same size. The size of the variable can be mutli-dimensional. However, variables are stored as one dimensional arrays and must be re-shaped in the multi-dimensional form for processing.",
           "examples": [
             {
               "size": [
@@ -624,25 +632,25 @@
             "type": "integer"
           }
         },
-        "number_of_fields": {
-          "title": "Number_Of_Fields",
-          "description": "The number of fields in this collection.",
+        "number_of_variables": {
+          "title": "Number_Of_Variables",
+          "description": "The number of variables in this collection.",
           "type": "integer"
         },
-        "fields": {
-          "title": "Fields",
-          "description": "A list of fields with the same size.",
+        "variables": {
+          "title": "Variables",
+          "description": "A list of variables with the same size.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Field"
+            "$ref": "#/definitions/Variable"
           }
         }
       },
       "required": [
         "name",
         "size",
-        "number_of_fields",
-        "fields"
+        "number_of_variables",
+        "variables"
       ]
     },
     "TimeStamps": {

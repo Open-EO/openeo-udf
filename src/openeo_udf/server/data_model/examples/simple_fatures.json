@@ -35,21 +35,21 @@
             "type": "LineString",
             "predecessors": [],
             "geometry": 0,
-            "field": [0, 0],
+            "variable": [0, 0],
             "timestamp": 0
           },
           {
             "type": "LineString",
             "predecessors": [],
             "geometry": 1,
-            "field": [0, 0],
+            "variable": [0, 0],
             "timestamp": 0
           },
           {
             "type": "LineString",
             "predecessors": [],
             "geometry": 2,
-            "field": [0, 0],
+            "variable": [0, 0],
             "timestamp": 0
           }
         ]
@@ -61,14 +61,12 @@
     "LineString (2 2, 0 1, 2 0)",
     "LineString (2 2, 3 1, 2 0)"
   ],
-  "field_collections": [
+  "variables_collections": [
     {
       "name": "Border",
-      "size": [
-        1
-      ],
-      "number_of_fields": 1,
-      "attributes": [
+      "size": [1],
+      "number_of_variables": 1,
+      "variables": [
         {
           "name": "Landuse",
           "description": "Landuse",
