@@ -78,6 +78,15 @@ def run_user_code(code:str,udf_data:UdfData) -> UdfData:
             #this is a UDF that transforms pandas series
             from .udf_wrapper import apply_timeseries_generic
             return apply_timeseries_generic(udf_data,func[1])
+        elif( func[0] == 'apply_hypercube' and 'cube' in params and 'context' in params and params['cube'].annotation == 'openeo_udf.api.hypercube.HyperCube' and sig.return_annotation == 'openeo_udf.api.hypercube.HyperCube'):
+            #found a hypercube mapping function
+            if len(udf_data.get_hypercube_list()) != 1:
+                raise ValueError("The provided UDF expects exactly one hypercube, but only: %s were provided." % len(udf_data.get_hypercube_list()))
+            result_cube = func[1](udf_data.get_hypercube_list()[0])
+            if not isinstance(result_cube,HyperCube):
+                raise ValueError("The provided UDF did not return a HyperCube, but got: %s" %result_cube)
+            udf_data.set_hypercube_list([result_cube])
+            break
         elif len(params_list) == 1 and (params_list[0].annotation == 'openeo_udf.api.udf_data.UdfData' or params_list[0].annotation == UdfData) :
             #found a generic UDF function
             func[1](udf_data)
