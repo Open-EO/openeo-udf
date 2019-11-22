@@ -6,7 +6,7 @@ Temporal framework doctests
 import doctest
 import unittest
 from openeo_udf.api import collection_tile, feature_collection_tile, hypercube, \
-    machine_learn_model, spatial_extent, udf_data, structured_data, custom_udf_parameter
+    machine_learn_model, spatial_extent, udf_data, structured_data
 
 
 def load_tests(loader, tests, ignore):
@@ -17,7 +17,6 @@ def load_tests(loader, tests, ignore):
     tests.addTests(doctest.DocTestSuite(machine_learn_model))
     tests.addTests(doctest.DocTestSuite(spatial_extent))
     tests.addTests(doctest.DocTestSuite(structured_data))
-    tests.addTests(doctest.DocTestSuite(custom_udf_parameter))
     tests.addTests(doctest.DocTestSuite(udf_data))
     return tests
 
