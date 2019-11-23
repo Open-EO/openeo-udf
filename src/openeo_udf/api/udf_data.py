@@ -4,10 +4,9 @@
 
 import xarray
 from typing import Optional, List, Dict
-from openeo_udf.api.feature_collection_tile import FeatureCollectionTile
+from openeo_udf.api.feature_collection import FeatureCollection
 from openeo_udf.api.hypercube import HyperCube
 from openeo_udf.api.machine_learn_model import MachineLearnModel
-from openeo_udf.api.raster_collection_tile import RasterCollectionTile
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
 
@@ -32,12 +31,6 @@ class UdfData:
     >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
     >>> starts = pandas.DatetimeIndex([pandas.Timestamp('2012-05-01')])
     >>> ends = pandas.DatetimeIndex([pandas.Timestamp('2012-05-02')])
-    >>> A = RasterCollectionTile(id="A", extent=extent,
-    ...                         data=data, wavelength=420,
-    ...                         start_times=starts, end_times=ends)
-    >>> B = RasterCollectionTile(id="B", extent=extent,
-    ...                         data=data, wavelength=380,
-    ...                         start_times=starts, end_times=ends)
     >>> p1 = Point(0,0)
     >>> p2 = Point(100,100)
     >>> p3 = Point(100,0)
@@ -45,43 +38,16 @@ class UdfData:
     >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
     >>> data["a"] = [1,2,3]
     >>> data["b"] = ["a","b","c"]
-    >>> C = FeatureCollectionTile(id="C", data=data)
-    >>> D = FeatureCollectionTile(id="D", data=data)
-    >>> udf_data = UdfData(proj={"EPSG":4326}, raster_collection_tiles=[A, B],
-    ...                        feature_collection_tiles=[C, D])
+    >>> C = FeatureCollection(id="C", data=data)
+    >>> D = FeatureCollection(id="D", data=data)
+    >>> udf_data = UdfData(proj={"EPSG":4326}, feature_collection_list=[C, D])
     >>> model = RandomForestRegressor(n_estimators=10, max_depth=2, verbose=0)
     >>> path = '/tmp/test.pkl.xz'
     >>> dummy = joblib.dump(value=model, filename=path, compress=("xz", 3))
     >>> m = MachineLearnModel(framework="sklearn", name="test",
     ...                       description="Machine learn model", path=path)
     >>> udf_data.append_machine_learn_model(m)
-    >>> print(udf_data.get_raster_collection_tile_by_id("A"))
-    id: A
-    extent: top: 100
-    bottom: 0
-    right: 100
-    left: 0
-    height: 10
-    width: 10
-    wavelength: 420
-    start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
-    end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
-    data: [[[0.]]]
-    >>> print(udf_data.get_raster_collection_tile_by_id("B"))
-    id: B
-    extent: top: 100
-    bottom: 0
-    right: 100
-    left: 0
-    height: 10
-    width: 10
-    wavelength: 380
-    start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
-    end_times: DatetimeIndex(['2012-05-02'], dtype='datetime64[ns]', freq=None)
-    data: [[[0.]]]
-    >>> print(udf_data.get_raster_collection_tile_by_id("C"))
-    None
-    >>> print(udf_data.get_feature_collection_tile_by_id("C"))
+    >>> print(udf_data.get_feature_collection_by_id("C"))
     id: C
     start_times: None
     end_times: None
@@ -89,7 +55,7 @@ class UdfData:
     0  1  a      POINT (0 0)
     1  2  b  POINT (100 100)
     2  3  c    POINT (100 0)
-    >>> print(udf_data.get_feature_collection_tile_by_id("D"))
+    >>> print(udf_data.get_feature_collection_by_id("D"))
     id: D
     start_times: None
     end_times: None
@@ -97,9 +63,7 @@ class UdfData:
     0  1  a      POINT (0 0)
     1  2  b  POINT (100 100)
     2  3  c    POINT (100 0)
-    >>> print(len(udf_data.get_feature_collection_tiles()) == 2)
-    True
-    >>> print(len(udf_data.get_raster_collection_tiles()) == 2)
+    >>> print(len(udf_data.get_feature_collection_list()) == 2)
     True
     >>> print(udf_data.ml_model_list[0].path)
     /tmp/test.pkl.xz
@@ -109,20 +73,19 @@ class UdfData:
     >>> import json
     >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
     ...                                # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "hypercubes": [], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "hypercubes": [], "feature_collection_list": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "raster_collection_tiles": [{"id": "A", "data": [[[0.0]]], "wavelength": 420, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}, {"id": "B", "data": [[[0.0]]], "wavelength": 380, "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"], "extent": {"top": 100, "bottom": 0, "right": 100, "left": 0, "width": 10, "height": 10}}], "hypercubes": [], "feature_collection_tiles": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "hypercubes": [], "feature_collection_list": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
 
     >>> sd_list = StructuredData(description="Data list", data={"list":[1,2,3]}, type="list")
     >>> sd_dict = StructuredData(description="Data dict", data={"A":{"B": 1}}, type="dict")
     >>> udf = UdfData(proj={"EPSG":4326}, structured_data_list=[sd_list, sd_dict])
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "raster_collection_tiles": [], "hypercubes": [], "feature_collection_tiles": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "machine_learn_models": []}'
-
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "hypercubes": [], "feature_collection_list": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "machine_learn_models": []}'
 
     >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
     >>> array.attrs["description"] = "This is an xarray with two dimensions"
@@ -139,19 +102,18 @@ class UdfData:
     {'id': 'testdata', 'data': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], 'dimensions': [{'name': 'x', 'coordinates': [1, 2]}, {'name': 'y', 'coordinates': [1, 2, 3]}], 'description': 'This is an xarray with two dimensions'}
     >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {"kernel": 3}, "server_context": {"reduction_dimension": "t"}, "raster_collection_tiles": [], "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_tiles": [], "structured_data_list": [], "machine_learn_models": []}'
+    '{"proj": {"EPSG": 4326}, "user_context": {"kernel": 3}, "server_context": {"reduction_dimension": "t"}, "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_list": [], "structured_data_list": [], "machine_learn_models": []}'
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "raster_collection_tiles": [], "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_tiles": [], "structured_data_list": [], "machine_learn_models": []}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_list": [], "structured_data_list": [], "machine_learn_models": []}'
 
     """
 
     def __init__(self, proj: Dict,
-                 raster_collection_tiles: Optional[List[RasterCollectionTile]]=None,
                  hypercube_list: Optional[List[HyperCube]]=None,
-                 feature_collection_tiles: Optional[List[FeatureCollectionTile]]=None,
+                 feature_collection_list: Optional[List[FeatureCollection]]=None,
                  structured_data_list: Optional[List[StructuredData]]=None,
                  ml_model_list: Optional[List[MachineLearnModel]]=None):
         """The constructor of the UDF argument class that stores all data required by the
@@ -159,17 +121,14 @@ class UdfData:
 
         Args:
             proj (dict): A dictionary of form {"proj type string": "projection decription"} i. e. {"EPSG":4326}
-            raster_collection_tiles (list[RasterCollectionTile]): A list of RasterCollectionTile objects
             hypercube_list (list(HyperCube)): A list of HyperCube objects
-            feature_collection_tiles (list[FeatureCollectionTile]): A list of VectorTile objects
+            feature_collection_list (list[FeatureCollection]): A list of VectorTile objects
             structured_data_list (list[StructuredData]): A list of structured data objects
             ml_model_list (list[MachineLearnModel]): A list of machine learn models
         """
 
-        self._raster_tile_list = []
         self._hypercube_list = []
         self._feature_tile_list = []
-        self._raster_tile_dict = {}
         self._hypercube_dict = {}
         self._feature_tile_dict = {}
         self._structured_data_list = []
@@ -179,12 +138,10 @@ class UdfData:
         self._user_context : Dict = dict()
         self._server_context : Dict = dict()
 
-        if raster_collection_tiles:
-            self.set_raster_collection_tiles(raster_collection_tiles=raster_collection_tiles)
         if hypercube_list:
             self.set_hypercube_list(hypercube_list=hypercube_list)
-        if feature_collection_tiles:
-            self.set_feature_collection_tiles(feature_collection_tiles=feature_collection_tiles)
+        if feature_collection_list:
+            self.set_feature_collection_list(feature_collection_list=feature_collection_list)
         if structured_data_list:
             self.set_structured_data_list(structured_data_list=structured_data_list)
         if ml_model_list:
@@ -210,78 +167,33 @@ class UdfData:
         """Return the server context"""
         self._server_context = context
 
-    def get_raster_collection_tile_by_id(self, id: str) -> Optional[RasterCollectionTile]:
-        """Get an raster collection tile by its id
-
-        Args:
-            id (str): The raster collection tile id
-
-        Returns:
-            RasterCollectionTile: the requested raster collection tile of None if not found
-
-        """
-        if id in self._raster_tile_dict:
-            return self._raster_tile_dict[id]
-        return None
-
     def get_hypercube_by_id(self, id: str) -> Optional[HyperCube]:
         """Get a hypercube by its id
 
         Args:
-            id (str): The raster collection tile id
+            id (str): The hypercube id
 
         Returns:
-            HypeCube: the requested raster collection tile of None if not found
+            HypeCube: the requested hypercube or None if not found
 
         """
         if id in self._hypercube_dict:
             return self._hypercube_dict[id]
         return None
 
-    def get_feature_collection_tile_by_id(self, id: str) -> Optional[FeatureCollectionTile]:
-        """Get a vector tile by its id
+    def get_feature_collection_by_id(self, id: str) -> Optional[FeatureCollection]:
+        """Get a feature collection by its id
 
         Args:
             id (str): The vector tile id
 
         Returns:
-            FeatureCollectionTile: the requested vector tile of None if not found
+            FeatureCollection: the requested feature collection or None if not found
 
         """
         if id in self._feature_tile_dict:
             return self._feature_tile_dict[id]
         return None
-
-    def get_raster_collection_tiles(self) -> Optional[List[RasterCollectionTile]]:
-        """Get all raster collection tiles
-
-        Returns:
-            list[RasterCollectionTile]: The list of raster collection tiles
-
-        """
-        return self._raster_tile_list
-
-    def set_raster_collection_tiles(self, raster_collection_tiles: Optional[List[RasterCollectionTile]]):
-        """Set the raster collection tiles list
-
-        If raster_collection_tiles is None, then the list will be cleared
-
-        Args:
-            raster_collection_tiles (list[RasterCollectionTile]): A list of RasterCollectionTile's
-        """
-
-        self.del_raster_collection_tiles()
-        if raster_collection_tiles is None:
-            return
-
-        for entry in raster_collection_tiles:
-            self.append_raster_collection_tile(entry)
-
-    def del_raster_collection_tiles(self):
-        """Delete all raster collection tiles
-        """
-        self._raster_tile_list.clear()
-        self._raster_tile_dict.clear()
 
     def get_hypercube_list(self) -> Optional[List[HyperCube]]:
         """Get the hypercube list
@@ -310,32 +222,32 @@ class UdfData:
         self._hypercube_list.clear()
         self._hypercube_dict.clear()
 
-    def get_feature_collection_tiles(self) -> Optional[List[FeatureCollectionTile]]:
-        """Get all feature collection tiles
+    def get_feature_collection_list(self) -> Optional[List[FeatureCollection]]:
+        """Get all feature collections as list
 
         Returns:
-            list[FeatureCollectionTile]: The list of feature collection tiles
+            list[FeatureCollection]: The list of feature collections
 
         """
         return self._feature_tile_list
 
-    def set_feature_collection_tiles(self, feature_collection_tiles: Optional[List[FeatureCollectionTile]]):
+    def set_feature_collection_list(self, feature_collection_list: Optional[List[FeatureCollection]]):
         """Set the feature collection tiles
 
         If feature_collection_tiles is None, then the list will be cleared
 
         Args:
-            feature_collection_tiles (list[FeatureCollectionTile]): A list of FeatureCollectionTile's
+            feature_collection_list (list[FeatureCollection]): A list of FeatureCollectionTile's
         """
 
-        self.del_feature_collection_tiles()
-        if feature_collection_tiles is None:
+        self.del_feature_collection_list()
+        if feature_collection_list is None:
             return
 
-        for entry in feature_collection_tiles:
-            self.append_feature_collection_tile(entry)
+        for entry in feature_collection_list:
+            self.append_feature_collection(entry)
 
-    def del_feature_collection_tiles(self):
+    def del_feature_collection_list(self):
         """Delete all feature collection tiles
         """
         self._feature_tile_list.clear()
@@ -401,27 +313,15 @@ class UdfData:
         """
         self._ml_model_list.clear()
 
-    raster_collection_tiles = property(fget=get_raster_collection_tiles,
-                                       fset=set_raster_collection_tiles, fdel=del_raster_collection_tiles)
     hypercube_list = property(fget=get_hypercube_list,
                               fset=set_hypercube_list, fdel=del_hypercube_list)
-    feature_collection_tiles = property(fget=get_feature_collection_tiles,
-                                        fset=set_feature_collection_tiles, fdel=del_feature_collection_tiles)
+    feature_collection_list = property(fget=get_feature_collection_list,
+                                       fset=set_feature_collection_list, fdel=del_feature_collection_list)
     structured_data_list = property(fget=get_structured_data_list,
                                     fset=set_structured_data_list, fdel=del_structured_data_list)
     ml_model_list = property(fget=get_ml_model_list,
                                   fset=set_ml_model_list, fdel=del_ml_model_list)
 
-    def append_raster_collection_tile(self, raster_collection_tile: RasterCollectionTile):
-        """Append a raster collection tile to the list
-
-        It will be automatically added to the dictionary of all raster collection tiles
-
-        Args:
-            raster_collection_tile (RasterCollectionTile): The raster collection tile to append
-        """
-        self._raster_tile_list.append(raster_collection_tile)
-        self._raster_tile_dict[raster_collection_tile.id] = raster_collection_tile
 
     def append_hypercube(self, hypercube: HyperCube):
         """Append a HyperCube to the list
@@ -434,13 +334,13 @@ class UdfData:
         self._hypercube_list.append(hypercube)
         self._hypercube_dict[hypercube.id] = hypercube
 
-    def append_feature_collection_tile(self, feature_collection_tile: FeatureCollectionTile):
+    def append_feature_collection(self, feature_collection_tile: FeatureCollection):
         """Append a feature collection tile to the list
 
         It will be automatically added to the dictionary of all feature collection tiles
 
         Args:
-            feature_collection_tile (FeatureCollectionTile): The feature collection tile to append
+            feature_collection_tile (FeatureCollection): The feature collection tile to append
         """
         self._feature_tile_list.append(feature_collection_tile)
         self._feature_tile_dict[feature_collection_tile.id] = feature_collection_tile
@@ -472,12 +372,6 @@ class UdfData:
 
         d = {"proj": self.proj, "user_context": self.user_context, "server_context": self.server_context}
 
-        if self._raster_tile_list is not None:
-            l = []
-            for tile in self._raster_tile_list:
-                l.append(tile.to_dict())
-            d["raster_collection_tiles"] = l
-
         if self._hypercube_list is not None:
             l = []
             for hypercube in self._hypercube_list:
@@ -488,7 +382,7 @@ class UdfData:
             l = []
             for tile in self._feature_tile_list:
                 l.append(tile.to_dict())
-            d["feature_collection_tiles"] = l
+            d["feature_collection_list"] = l
 
         if self._structured_data_list is not None:
             l = []
@@ -529,23 +423,17 @@ class UdfData:
         if "server_context" not in udf_dict:
             udf_data.server_context = udf_dict["server_context"]
 
-        if "raster_collection_tiles" in udf_dict:
-            l = udf_dict["raster_collection_tiles"]
-            for entry in l:
-                rct = RasterCollectionTile.from_dict(entry)
-                udf_data.append_raster_collection_tile(rct)
-
         if "hypercubes" in udf_dict:
             l = udf_dict["hypercubes"]
             for entry in l:
                 h = HyperCube.from_dict(entry)
                 udf_data.append_hypercube(h)
 
-        if "feature_collection_tiles" in udf_dict:
-            l = udf_dict["feature_collection_tiles"]
+        if "feature_collection_list" in udf_dict:
+            l = udf_dict["feature_collection_list"]
             for entry in l:
-                fct = FeatureCollectionTile.from_dict(entry)
-                udf_data.append_feature_collection_tile(fct)
+                fct = FeatureCollection.from_dict(entry)
+                udf_data.append_feature_collection(fct)
 
         if "structured_data_list" in udf_dict:
             l = udf_dict["structured_data_list"]
