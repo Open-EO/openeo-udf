@@ -98,18 +98,10 @@ class UdfDataModel(BaseModel):
 
     server_context: dict = Schema({}, description="A dictionary that contains the server context")
 
-    raster_collection_tiles: List[RasterCollectionTileModel] = Schema([],
-                                                                      description="A list of raster "
-                                                                                     "collection tiles."
-                                                                                     " Each tile represents a single "
-                                                                                     "image band or other scalar "
-                                                                                     "values like temperature.")
+    feature_collection: List[FeatureCollectionTileModel] = Schema([],
+                                                                  description="A list of feature collections")
 
-    feature_collection_tiles: List[FeatureCollectionTileModel] = Schema([],
-                                                                        description="A list of feature "
-                                                                                       "collection tiles.")
-
-    hypercubes: List[HyperCubeModel] = Schema([], description="A list of hyper cubes.")
+    datacubes: List[HyperCubeModel] = Schema([], description="A list of data cubes.")
 
     structured_data_list: List[StructuredDataModel] = Schema([], description="A list of structured data objects "
                                                                                   "that contain processing results that "
