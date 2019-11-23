@@ -14,7 +14,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-class HyperCube:
+class DataCube:
     """This class is a hypercube representation of multi-dimensional data
     that stores an xarray and provides methods to convert the xarray into
     the HyperCube JSON representation
@@ -23,7 +23,7 @@ class HyperCube:
     >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
     >>> array.attrs["description"] = "This is an xarray with two dimensions"
     >>> array.name = "testdata"
-    >>> h = HyperCube(array=array)
+    >>> h = DataCube(array=array)
     >>> d = h.to_dict()
     >>> d["id"]
     'testdata'
@@ -34,7 +34,7 @@ class HyperCube:
     >>> d["description"]
     'This is an xarray with two dimensions'
 
-    >>> new_h = HyperCube.from_dict(d)
+    >>> new_h = DataCube.from_dict(d)
     >>> d = new_h.to_dict()
     >>> d["id"]
     'testdata'
@@ -46,7 +46,7 @@ class HyperCube:
     'This is an xarray with two dimensions'
 
     >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
-    >>> h = HyperCube(array=array)
+    >>> h = DataCube(array=array)
     >>> d = h.to_dict()
     >>> d["id"]
     >>> d["data"]
@@ -56,7 +56,7 @@ class HyperCube:
     >>> "description" not in d
     True
 
-    >>> new_h = HyperCube.from_dict(d)
+    >>> new_h = DataCube.from_dict(d)
     >>> d = new_h.to_dict()
     >>> d["id"]
     >>> d["data"]
@@ -67,7 +67,7 @@ class HyperCube:
     True
 
     >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)))
-    >>> h = HyperCube(array=array)
+    >>> h = DataCube(array=array)
     >>> d = h.to_dict()
     >>> d["id"]
     >>> d["data"]
@@ -77,7 +77,7 @@ class HyperCube:
     >>> "description" not in d
     True
 
-    >>> new_h = HyperCube.from_dict(d)
+    >>> new_h = DataCube.from_dict(d)
     >>> d = new_h.to_dict()
     >>> d["id"]
     >>> d["data"]
@@ -180,7 +180,7 @@ class HyperCube:
         return d
 
     @staticmethod
-    def from_dict(hc_dict: Dict) -> "HyperCube":
+    def from_dict(hc_dict: Dict) -> "DataCube":
         """Create a hypercube from a python dictionary that was created from
         the JSON definition of the HyperCube
 
@@ -219,7 +219,7 @@ class HyperCube:
         if "description" in hc_dict:
             data.attrs["description"] = hc_dict["description"]
 
-        hc = HyperCube(array=data)
+        hc = DataCube(array=data)
 
         return hc
 

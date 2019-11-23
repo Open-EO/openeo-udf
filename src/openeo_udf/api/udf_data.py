@@ -5,7 +5,7 @@
 import xarray
 from typing import Optional, List, Dict
 from openeo_udf.api.feature_collection import FeatureCollection
-from openeo_udf.api.hypercube import HyperCube
+from openeo_udf.api.datacube import DataCube
 from openeo_udf.api.machine_learn_model import MachineLearnModel
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
@@ -73,46 +73,46 @@ class UdfData:
     >>> import json
     >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
     ...                                # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "hypercubes": [], "feature_collection_list": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "datacubes": [], "feature_collection_list": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "hypercubes": [], "feature_collection_list": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "datacubes": [], "feature_collection_list": [{"id": "C", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}, {"id": "D", "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"a": 2, "b": "b"}, "geometry": {"type": "Point", "coordinates": [100.0, 100.0]}}, {"id": "2", "type": "Feature", "properties": {"a": 3, "b": "c"}, "geometry": {"type": "Point", "coordinates": [100.0, 0.0]}}]}}], "structured_data_list": [], "machine_learn_models": [{"description": "Machine learn model", "name": "test", "framework": "sklearn", "path": "/tmp/test.pkl.xz", "md5_hash": null}]}'
 
     >>> sd_list = StructuredData(description="Data list", data={"list":[1,2,3]}, type="list")
     >>> sd_dict = StructuredData(description="Data dict", data={"A":{"B": 1}}, type="dict")
     >>> udf = UdfData(proj={"EPSG":4326}, structured_data_list=[sd_list, sd_dict])
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "hypercubes": [], "feature_collection_list": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "machine_learn_models": []}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "datacubes": [], "feature_collection_list": [], "structured_data_list": [{"description": "Data list", "data": {"list": [1, 2, 3]}, "type": "list"}, {"description": "Data dict", "data": {"A": {"B": 1}}, "type": "dict"}], "machine_learn_models": []}'
 
     >>> array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={'x': [1, 2], 'y': [1, 2, 3]}, dims=('x', 'y'))
     >>> array.attrs["description"] = "This is an xarray with two dimensions"
     >>> array.name = "testdata"
-    >>> h = HyperCube(array=array)
-    >>> udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[h])
+    >>> h = DataCube(array=array)
+    >>> udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[h])
     >>> udf_data.user_context = {"kernel": 3}
     >>> udf_data.server_context = {"reduction_dimension": "t"}
     >>> udf_data.user_context
     {'kernel': 3}
     >>> udf_data.server_context
     {'reduction_dimension': 't'}
-    >>> print(udf_data.get_hypercube_by_id("testdata").to_dict())
+    >>> print(udf_data.get_datacube_by_id("testdata").to_dict())
     {'id': 'testdata', 'data': [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], 'dimensions': [{'name': 'x', 'coordinates': [1, 2]}, {'name': 'y', 'coordinates': [1, 2, 3]}], 'description': 'This is an xarray with two dimensions'}
     >>> json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {"kernel": 3}, "server_context": {"reduction_dimension": "t"}, "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_list": [], "structured_data_list": [], "machine_learn_models": []}'
+    '{"proj": {"EPSG": 4326}, "user_context": {"kernel": 3}, "server_context": {"reduction_dimension": "t"}, "datacubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_list": [], "structured_data_list": [], "machine_learn_models": []}'
 
     >>> udf = UdfData.from_dict(udf_data.to_dict())
     >>> json.dumps(udf.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
-    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "hypercubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_list": [], "structured_data_list": [], "machine_learn_models": []}'
+    '{"proj": {"EPSG": 4326}, "user_context": {}, "server_context": {}, "datacubes": [{"id": "testdata", "data": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], "dimensions": [{"name": "x", "coordinates": [1, 2]}, {"name": "y", "coordinates": [1, 2, 3]}], "description": "This is an xarray with two dimensions"}], "feature_collection_list": [], "structured_data_list": [], "machine_learn_models": []}'
 
     """
 
     def __init__(self, proj: Dict,
-                 hypercube_list: Optional[List[HyperCube]]=None,
+                 datacube_list: Optional[List[DataCube]]=None,
                  feature_collection_list: Optional[List[FeatureCollection]]=None,
                  structured_data_list: Optional[List[StructuredData]]=None,
                  ml_model_list: Optional[List[MachineLearnModel]]=None):
@@ -121,15 +121,15 @@ class UdfData:
 
         Args:
             proj (dict): A dictionary of form {"proj type string": "projection decription"} i. e. {"EPSG":4326}
-            hypercube_list (list(HyperCube)): A list of HyperCube objects
+            datacube_list (list(HyperCube)): A list of HyperCube objects
             feature_collection_list (list[FeatureCollection]): A list of VectorTile objects
             structured_data_list (list[StructuredData]): A list of structured data objects
             ml_model_list (list[MachineLearnModel]): A list of machine learn models
         """
 
-        self._hypercube_list = []
+        self._datacube_list = []
         self._feature_tile_list = []
-        self._hypercube_dict = {}
+        self._datacube_dict = {}
         self._feature_tile_dict = {}
         self._structured_data_list = []
         self._ml_model_list = []
@@ -138,8 +138,8 @@ class UdfData:
         self._user_context : Dict = dict()
         self._server_context : Dict = dict()
 
-        if hypercube_list:
-            self.set_hypercube_list(hypercube_list=hypercube_list)
+        if datacube_list:
+            self.set_datacube_list(datacube_list=datacube_list)
         if feature_collection_list:
             self.set_feature_collection_list(feature_collection_list=feature_collection_list)
         if structured_data_list:
@@ -167,18 +167,18 @@ class UdfData:
         """Return the server context"""
         self._server_context = context
 
-    def get_hypercube_by_id(self, id: str) -> Optional[HyperCube]:
-        """Get a hypercube by its id
+    def get_datacube_by_id(self, id: str) -> Optional[DataCube]:
+        """Get a datacube by its id
 
         Args:
-            id (str): The hypercube id
+            id (str): The datacube id
 
         Returns:
-            HypeCube: the requested hypercube or None if not found
+            HypeCube: the requested datacube or None if not found
 
         """
-        if id in self._hypercube_dict:
-            return self._hypercube_dict[id]
+        if id in self._datacube_dict:
+            return self._datacube_dict[id]
         return None
 
     def get_feature_collection_by_id(self, id: str) -> Optional[FeatureCollection]:
@@ -195,32 +195,32 @@ class UdfData:
             return self._feature_tile_dict[id]
         return None
 
-    def get_hypercube_list(self) -> Optional[List[HyperCube]]:
-        """Get the hypercube list
+    def get_datacube_list(self) -> Optional[List[DataCube]]:
+        """Get the datacube list
         """
-        return self._hypercube_list
+        return self._datacube_list
 
-    def set_hypercube_list(self, hypercube_list: List[HyperCube]):
-        """Set the hypercube list
+    def set_datacube_list(self, datacube_list: List[DataCube]):
+        """Set the datacube list
 
-        If hypercube_list is None, then the list will be cleared
+        If datacube_list is None, then the list will be cleared
 
         Args:
-            hypercube_list (List[HyperCube]): A list of HyperCube's
+            datacube_list (List[DataCube]): A list of HyperCube's
         """
 
-        self.del_hypercube_list()
-        if hypercube_list is None:
+        self.del_datacube_list()
+        if datacube_list is None:
             return
 
-        for hypercube in hypercube_list:
-            self.append_hypercube(hypercube)
+        for datacube in datacube_list:
+            self.append_datacube(datacube)
 
-    def del_hypercube_list(self):
-        """Delete all hypercubes
+    def del_datacube_list(self):
+        """Delete all datacubes
         """
-        self._hypercube_list.clear()
-        self._hypercube_dict.clear()
+        self._datacube_list.clear()
+        self._datacube_dict.clear()
 
     def get_feature_collection_list(self) -> Optional[List[FeatureCollection]]:
         """Get all feature collections as list
@@ -313,8 +313,8 @@ class UdfData:
         """
         self._ml_model_list.clear()
 
-    hypercube_list = property(fget=get_hypercube_list,
-                              fset=set_hypercube_list, fdel=del_hypercube_list)
+    datacube_list = property(fget=get_datacube_list,
+                             fset=set_datacube_list, fdel=del_datacube_list)
     feature_collection_list = property(fget=get_feature_collection_list,
                                        fset=set_feature_collection_list, fdel=del_feature_collection_list)
     structured_data_list = property(fget=get_structured_data_list,
@@ -323,16 +323,16 @@ class UdfData:
                                   fset=set_ml_model_list, fdel=del_ml_model_list)
 
 
-    def append_hypercube(self, hypercube: HyperCube):
+    def append_datacube(self, datacube: DataCube):
         """Append a HyperCube to the list
 
-        It will be automatically added to the dictionary of all hypercubes
+        It will be automatically added to the dictionary of all datacubes
 
         Args:
-            hypercube (HyperCube): The HyperCube to append
+            datacube (DataCube): The HyperCube to append
         """
-        self._hypercube_list.append(hypercube)
-        self._hypercube_dict[hypercube.id] = hypercube
+        self._datacube_list.append(datacube)
+        self._datacube_dict[datacube.id] = datacube
 
     def append_feature_collection(self, feature_collection_tile: FeatureCollection):
         """Append a feature collection tile to the list
@@ -372,11 +372,11 @@ class UdfData:
 
         d = {"proj": self.proj, "user_context": self.user_context, "server_context": self.server_context}
 
-        if self._hypercube_list is not None:
+        if self._datacube_list is not None:
             l = []
-            for hypercube in self._hypercube_list:
-                l.append(hypercube.to_dict())
-            d["hypercubes"] = l
+            for datacube in self._datacube_list:
+                l.append(datacube.to_dict())
+            d["datacubes"] = l
 
         if self._feature_tile_list is not None:
             l = []
@@ -423,11 +423,11 @@ class UdfData:
         if "server_context" not in udf_dict:
             udf_data.server_context = udf_dict["server_context"]
 
-        if "hypercubes" in udf_dict:
-            l = udf_dict["hypercubes"]
+        if "datacubes" in udf_dict:
+            l = udf_dict["datacubes"]
             for entry in l:
-                h = HyperCube.from_dict(entry)
-                udf_data.append_hypercube(h)
+                h = DataCube.from_dict(entry)
+                udf_data.append_datacube(h)
 
         if "feature_collection_list" in udf_dict:
             l = udf_dict["feature_collection_list"]
