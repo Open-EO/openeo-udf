@@ -8,11 +8,8 @@ This document describes the UDF interface and provides reference implementation 
 implementation includes:
 
     - An OpenEO UDF REST test server that processes user defined data with user defined functions
-      and describes its interface using swagger2.0.
-    - A command line tool to apply user defined functions on raster and vector data
+      and describes its interface using OpenAPI 3.0.
     - A Python3 API that specifies how UDF must be implemented in Python3
-    - The UDF test server and the command line tool are examples howto implement the
-      UDF approach in an OpenEO processing backend
 
 Documentation is available online (see list below) and through the test server.
 
@@ -52,7 +49,7 @@ These basic data-types are:
 The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.
 
-The schemas SpatialExtentSchema, RasterCollectionTileSchema, FeatureCollectionTileSchema, HyperCubeSchema,
+The schemas SpatialExtentSchema, FeatureCollectionTileSchema, HyperCubeSchema,
 StructuredDataSchema, MachineLearnModelSchema and UdfDataSchema are a OpenAPI 3.0 based definitions for the UDF API.
 These schemas are implemented as python3 classes with additional functionality in the Python3 REST test server.
 
@@ -61,10 +58,9 @@ test server to provide the POST endpoint. They are not part of the UDF API.
 
 To support UDF's in the backend the following approaches can be used:
 
-  - The backend implements for specific languages the UDF API based on the provided swagger 2.0 API description
+  - The backend implements for specific languages the UDF API based on the provided OpenAPI 3.0 description
   - The backend uses the Python prototype implementation for Python based UDF's
   - The backend uses the UDF test server to run Python UDF's with JSON protocol or message pack binary protocol
-  - The backend uses the command line tool to execute Python UDF's.
 
 Installation
 ============
@@ -138,51 +134,6 @@ Local installation
 
         firefox http://localhost:5000/redoc
         firefox http://localhost:5000/docs
-    ..
-
-5. Run the UDF execution command line tool:
-
-    The following command computes the NDVI on a raster
-    image series of three multi-band tiff files. Two bands are provided with the names RED and NIR for
-    the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.
-
-    .. code-block:: bash
-
-        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
-                    -b RED,NIR \
-                    -u src/openeo_udf/functions/raster_collections_ndvi.py
-    ..
-
-    This command computes the sum of the raster series for each band. A single raster image
-    with two bands is written as GeoTiff file to the directory /tmp.
-
-    .. code-block:: bash
-
-        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
-                    -b RED,NIR \
-                    -u src/openeo_udf/functions/raster_collections_reduce_time_sum.py
-    ..
-
-    This command reads a feature collection stored in a gepackge file
-    and applies the UDF buffer function. The result is a new geopackage
-    that contains the buffers written in directory /tmp:
-
-    .. code-block:: bash
-
-        execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
-    ..
-
-
-    This command reads a series of raster GeoTiff files and a feature collection stored in a gepackge file
-    and applies the UDF sampling function. The result is a new geopackage
-    that contains the sampled attributes written in directory /tmp:
-
-    .. code-block:: bash
-
-        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
-                    -b RED,NIR \
-                    -v data/sampling_points.gpkg \
-                    -u src/openeo_udf/functions/raster_collections_sampling.py
     ..
 
 Docker image
@@ -264,34 +215,24 @@ the handling of the API with simple examples. This document and the full API des
 is available when you installed openeo_udf locally or if you use the docker image.
 However, the original python3 file that implements the OpenEO UDF python3 API is available here:
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/collection_tile.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/feature_collection_tile.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/collection.py
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/feature_collection.py
     * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/hypercube.py
     * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/machine_learn_model.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/raster_collection_tile.py
     * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/spatial_extent.py
     * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/structured_data.py
     * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/udf_data.py
 
 The UDF's are directly available for download from the repository:
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_ndvi.py
-
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_reduce_time_min_max_mean_sum.py
-
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_reduce_time_sum.py
-
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/feature_collections_buffer.py
-
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_sampling.py
-
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_statistics.py
-
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_pytorch_ml.py
-
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/raster_collections_sklearn_ml.py
 
     * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_ndvi.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_pytorch_ml.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_statistics.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_sklearn_ml.py
 
     * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_map_fabs.py
 
@@ -302,23 +243,28 @@ The UDF's are directly available for download from the repository:
 Several UDF were implemented and provide and example howto develop an UDF. Unittest were implemented for
 each UDF including machine learn models and hypercube approach. The tests are available here:
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_map_fabs.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_ndvi.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_sklearn_ml.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_pytorch_ml.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_pytorch_ml.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_mean.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_sum.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_sklearn_ml.py
+
+    * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_pytorch_ml.py
 
     * https://github.com/Open-EO/openeo-udf/blob/master/tests/test_ml_storage.py
 
-The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend
+The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend Python
 driver:
 
     * SpatialExtent
-    * RasterCollectionTile
     * Hypercube
-    * FeatureCollectionTile
+    * FeatureCollection
     * StructuredData
     * MachineLearnModel
     * UdfData
@@ -331,182 +277,9 @@ of python3 UDF's without running it in a dedicated backend.
     2. Implement your own function and put it into the **functions** directory for easier access in your tests
     3. Clone an existing unittest in the test directory and write your tests with generic raster, vector or xarray data
 
-Using the UDF command line tool
--------------------------------
-
-The python3 reference implementation provides a command line tool to run an UDF on raster images that
-are supported by GDAL and/or vector files support by OGR.
-The command line tool has a help interface with examples that run on test data available in the
-OpenEO UDF repository:
-
-    .. code-block:: bash
-
-        (openeo_venv) soeren@Knecht:~/src/openeo/openeo-udf$ execute_udf --help
-        usage: execute_udf [-h] [-r RASTER_FILES] [-v VECTOR_FILES]
-                           [-t RASTER_TIME_STAMPS] [-b BAND_NAMES]
-                           [-o RASTER_OUTPUT_DIR] -u PATH_TO_UDF
-
-        This program reads a list of single- or multi-band GeoTiff files and vector files
-        and applies a user defined function (UDF) on them.
-        The GeoTiff files must be provided as comma separated list, as well as the band names.
-        The vector files must be provides as comma separated list of files as well. The UDF
-        must be accessible on the file system. The computed results are single- or multi-band GeoTiff files
-        in case of raster output and geopackage vector files in case of vector output
-        that are written into a specific output directory. Raster and vector files can be specified together.
-        However, all provided files must have the same projection.
-
-        Examples:
-
-            The following command computes the NDVI on a raster
-            image series of three multi-band tiff files. Two bands are provided with the names RED and NIR for
-            the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.
-
-                execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
-                            -b RED,NIR \
-                            -u src/openeo_udf/functions/raster_collections_ndvi.py
-
-            This command computes the sum of the raster series for each band. A single raster image
-            with two bands is written as GeoTiff file to the directory /tmp.
-
-                execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
-                            -b RED,NIR \
-                            -u src/openeo_udf/functions/raster_collections_reduce_time_sum.py
-
-
-            This command reads a feature collection stored in a gepackge file
-            and applies the UDF buffer function. The result is a new geopackage
-            that contains the buffers written in directory /tmp:
-
-                execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
-
-            This command reads a series of raster GeoTiff files and a feature collection stored in a gepackge file
-            and applies the UDF sampling function. The result is a new geopackage
-            that contains the sampled attributes written in directory /tmp:
-
-                execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif \
-                            -b RED,NIR \
-                            -v data/sampling_points.gpkg \
-                            -u src/openeo_udf/functions/raster_collections_sampling.py
-
-        optional arguments:
-          -h, --help            show this help message and exit
-          -r RASTER_FILES, --raster_files RASTER_FILES
-                                Comma separated list of raster files. If several
-                                raster files are provided, then each raster file must
-                                have the same number of bands.
-          -v VECTOR_FILES, --vector_files VECTOR_FILES
-                                Comma separated list of vector files. Each vector file
-                                will be converted into a vector collection tile.
-          -t RASTER_TIME_STAMPS, --raster_time_stamps RASTER_TIME_STAMPS
-                                A comma separated list of time stamps, that must have
-                                the same number of entries as the list of raster
-                                files.
-          -b BAND_NAMES, --band_names BAND_NAMES
-                                A comma separated list of band names.
-          -o RASTER_OUTPUT_DIR, --raster_output_dir RASTER_OUTPUT_DIR
-                                The output directory to store the computed results.
-          -u PATH_TO_UDF, --path_to_udf PATH_TO_UDF
-                                The UDF file to execute.
-    ..
-
 
 Using the UDF server
 --------------------
-
-**Raster Example**
-
-The first example removes the raster collection tiles from the provided input data. The code is very simple
-and removes all raster collection tiles in the input object that always has the name **data**:
-
-    .. code-block:: python
-
-        data.del_raster_collection_tiles()
-    ..
-
-The following JSON definition includes the python3 code and a simple raster collection
-with two 2x2 tiles with two start and end time stamps.
-
-    .. code-block:: json
-
-      {
-        "code": {
-          "source": "data.del_raster_collection_tiles()",
-          "language": "python"
-        },
-        "data": {
-          "proj": "EPSG:4326",
-          "raster_collection_tiles": [
-            {
-              "data": [
-                [
-                  [
-                    0,
-                    1
-                  ],
-                  [
-                    2,
-                    3
-                  ]
-                ],
-                [
-                  [
-                    0,
-                    1
-                  ],
-                  [
-                    2,
-                    3
-                  ]
-                ]
-              ],
-              "extent": {
-                "top": 53,
-                "bottom": 52,
-                "right": 30,
-                "left": 28,
-                "height": 1,
-                "width": 1
-              },
-              "end_times": [
-                "2001-01-02T00:00:00",
-                "2001-01-03T00:00:00"
-              ],
-              "start_times": [
-                "2001-01-01T00:00:00",
-                "2001-01-02T00:00:00"
-              ],
-              "id": "test_data",
-              "wavelength": 420
-            }
-          ]
-        }
-      }
-
-    ..
-
-Running the code, with the assumption that the JSON code was
-placed in the shell environmental variable "JSON", should look like this:
-
-    .. code-block:: bash
-
-        curl -H "Content-Type: application/json" -X POST -d "${JSON}" http://localhost:5000/udf
-    ..
-
-The result of the processing should be the elimination of the raster and feature collections,
-since the provided data object will be used to create the resulting data:
-
-    .. code-block:: json
-
-        {
-          "feature_collection_tiles": [],
-          "models": {},
-          "proj": "EPSG:4326",
-          "raster_collection_tiles": []
-        }
-    ..
-
-Hence, a data object that contains the raster and feature collections is provided to the
-user defined function. The UDF code works on the data and stores the result in the same data object.
 
 **Vector Example**
 
@@ -674,7 +447,6 @@ The result of the processing are two polygons (coordinates are truncated):
         ],
         "models": {},
         "proj": "EPSG:4326",
-        "raster_collection_tiles": []
       }
 
    ..
