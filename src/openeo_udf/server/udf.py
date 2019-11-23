@@ -9,7 +9,7 @@ from starlette.responses import PlainTextResponse
 from starlette.requests import Request
 
 from openeo_udf.server.app import app
-from openeo_udf.server.udf_schemas import UdfRequestModel, ErrorResponseModel, UdfDataModel, EXAMPLE
+from openeo_udf.server.data_model.udf_schemas import UdfRequestModel, ErrorResponseModel, UdfDataModel
 from openeo_udf.api.run_code import run_json_user_code
 
 __license__ = "Apache License, Version 2.0"
@@ -59,7 +59,7 @@ Out[10]: {1: [1, 2, 3, 4, 5, 6], b'w': b'fffff', b'd': {b'd': b'd'}}
 """
 
 
-@app.post("/udf", response_model=UdfDataModel, responses={200: {"content": {"application/json": {"example": EXAMPLE}},
+@app.post("/udf", response_model=UdfDataModel, responses={200: {"content": {"application/json": {"example": ""}},
                                                                 "description": "The processed data"},
                                                           400: {"content": {"application/json": {}}}})
 async def udf_json(request: UdfRequestModel = Body(...)):

@@ -4,10 +4,10 @@ from typing import List
 
 import unittest
 from hashlib import md5
-from openeo_udf.server.main import app
+from openeo_udf.server.app import app
 from starlette.testclient import TestClient
 
-from openeo_udf.server.endpoints import create_storage_directory
+from openeo_udf.server.tools import create_storage_directory
 from openeo_udf.server.machine_learn_database import RequestStorageModel, ResponseStorageModel
 
 __license__ = "Apache License, Version 2.0"

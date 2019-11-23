@@ -15,7 +15,7 @@ from pydantic import BaseModel, Schema
 from starlette.responses import PlainTextResponse
 import ujson
 from openeo_udf.server.app import app
-from openeo_udf.server.udf_schemas import ErrorResponseModel
+from openeo_udf.server.data_model.udf_schemas import ErrorResponseModel
 from openeo_udf.server.config import UdfConfiguration
 
 __license__ = "Apache License, Version 2.0"

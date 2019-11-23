@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
-from typing import Tuple
-
 import numpy
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import xarray
-from openeo_udf.api.run_code import run_json_user_code, run_user_code
+from openeo_udf.api.run_code import run_user_code
 
 from openeo_udf.api.machine_learn_model import MachineLearnModel
 
-from openeo_udf.api.datacube import DataCube
 from torch.autograd import Variable
 import torch.optim as optim
 from pprint import pprint
@@ -20,10 +16,10 @@ import unittest
 
 from openeo_udf.api.tools import create_datacube
 from openeo_udf.api.udf_data import UdfData
-from openeo_udf.server.main import app
+from openeo_udf.server.app import app
 from starlette.testclient import TestClient
-from openeo_udf.server.endpoints import create_storage_directory
-from openeo_udf.server.udf_schemas import UdfCodeModel, UdfRequestModel
+from openeo_udf.server.tools import create_storage_directory
+from openeo_udf.server.data_model.udf_schemas import UdfCodeModel
 import openeo_udf.functions
 
 

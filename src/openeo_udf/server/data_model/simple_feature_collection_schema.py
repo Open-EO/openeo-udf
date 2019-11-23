@@ -3,7 +3,7 @@ from typing import List, Union, Dict
 
 from pydantic import BaseModel, Schema as Field
 
-from openeo_udf.server.data_model.bounding_box import SpatialBoundingBox
+from openeo_udf.server.data_model.bounding_box_schema import SpatialBoundingBox
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"

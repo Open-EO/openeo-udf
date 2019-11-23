@@ -2,10 +2,10 @@
 
 import unittest
 
-from openeo_udf.server.data_model.data_cube import DataCube, Dimension
-from openeo_udf.server.data_model.variables_collection import Variable, VariablesCollection
-from openeo_udf.server.data_model.metadata import Metadata
-from openeo_udf.server.data_model.data_collection import DataCollection, ObjectCollection, TimeStamps
+from openeo_udf.server.data_model.datacube_schema import DataCube, Dimension
+from openeo_udf.server.data_model.variables_collection_schema import Variable, VariablesCollection
+from openeo_udf.server.data_model.metadata_schema import Metadata
+from openeo_udf.server.data_model.data_collection_schema import DataCollection, ObjectCollection, TimeStamps
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import base64
-from copy import deepcopy
 from typing import Dict
 
 import msgpack
@@ -15,10 +14,10 @@ from openeo_udf.api.udf_data import UdfData
 
 from openeo_udf.server.machine_learn_database import RequestStorageModel
 from openeo_udf.api.tools import create_datacube
-from openeo_udf.server.main import app
+from openeo_udf.server.app import app
 from starlette.testclient import TestClient
-from openeo_udf.server.endpoints import create_storage_directory
-from openeo_udf.server.udf_schemas import UdfCodeModel, UdfRequestModel
+from openeo_udf.server.tools import create_storage_directory
+from openeo_udf.server.data_model.udf_schemas import UdfCodeModel, UdfRequestModel
 import openeo_udf.functions
 import numpy as np
 from sklearn.metrics import mean_squared_error
@@ -31,55 +30,6 @@ __author__ = "Soeren Gebbert"
 __copyright__ = "Copyright 2018, Soeren Gebbert"
 __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
-
-PIXEL = {
-    "proj": {"EPSG":4326},
-    "raster_collection_tiles": [
-        {
-            "id": "RED",
-            "wavelength": 420,
-            "start_times": ["2001-01-01T00:00:00",
-                            "2001-01-02T00:00:00"],
-            "end_times": ["2001-01-02T00:00:00",
-                          "2001-01-03T00:00:00"],
-            "data": [[[1, 2]],
-                     [[3, 2]]],
-            "extent": {
-                "top": 53,
-                "bottom": 51,
-                "right": 30,
-                "left": 28,
-                "height": 1,
-                "width": 1
-            }
-        },
-        {
-            "id": "NIR",
-            "wavelength": 670,
-            "start_times": ["2001-01-01T00:00:00",
-                            "2001-01-02T00:00:00"],
-            "end_times": ["2001-01-02T00:00:00",
-                          "2001-01-03T00:00:00"],
-            "data": [[[2, 1]],
-                     [[2, 3]]],
-            "extent": {
-                "top": 53,
-                "bottom": 51,
-                "right": 30,
-                "left": 28,
-                "height": 1,
-                "width": 1
-            }
-        }
-    ],
-    "machine_learn_models": [
-        {"framework": "sklearn",
-         "name": "random_forest",
-         "description": "A sklearn model that adds two numbers in range of [1,3]",
-         "path": "/tmp/rf_add_model.pkl.xz"
-         }
-    ]
-}
 
 
 class MachineLearningTestCase(unittest.TestCase):
