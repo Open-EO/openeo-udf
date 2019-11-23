@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
 # Uncomment the import only for coding support
-import numpy
-import pandas
-import torch
-import torchvision
-import tensorflow
-import tensorboard
-import xarray
-
-from openeo_udf.api.hypercube import HyperCube
-from sklearn.ensemble import RandomForestRegressor
-
-from openeo_udf.api.raster_collection_tile import RasterCollectionTile
-from openeo_udf.api.udf_data import UdfData
+#import numpy
+#import pandas
+#import xarray
+#from openeo_udf.api.hypercube import HyperCube
+#from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
