@@ -3,7 +3,7 @@ import pprint
 import os
 import unittest
 
-from openeo_udf.api.run_code import run_json_user_code
+from openeo_udf.api.run_code import run_json_user_code, run_user_code
 
 from openeo_udf.api.tools import create_datacube
 from openeo_udf.server.main import app
@@ -37,16 +37,13 @@ class HypercubeSumTestCase(unittest.TestCase):
         temp = create_datacube(name="temp", value=1, dims=("t", "x", "y"), shape=(3, 3, 3))
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[temp])
 
-        udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
-        result = run_json_user_code(dict_data=udf_request.dict())
+        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        self.checkHyperCubeSum(udf_data=udf_data)
 
-        self.checkHyperCubeSum(dict_data=result)
-
-    def checkHyperCubeSum(self, dict_data):
+    def checkHyperCubeSum(self, udf_data: UdfData):
         """Check the mean hyper cube data that was processed in the UDF server"""
-        udata = UdfData.from_dict(dict_data)
 
-        hc: DataCube = udata.datacube_list[0]
+        hc: DataCube = udf_data.datacube_list[0]
         self.assertEqual(hc.id, "temp_sum")
         self.assertEqual(hc.array.name, "temp_sum")
         self.assertEqual(hc.array.data.shape, (3, 3))

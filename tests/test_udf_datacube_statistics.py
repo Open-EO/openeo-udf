@@ -3,7 +3,7 @@ import pprint
 import os
 import unittest
 
-from openeo_udf.api.run_code import run_json_user_code
+from openeo_udf.api.run_code import run_json_user_code, run_user_code
 
 from openeo_udf.api.tools import create_datacube
 from openeo_udf.server.main import app
@@ -36,8 +36,8 @@ class HypercubeStatisticsTestCase(unittest.TestCase):
         temp = create_datacube(name="temp", value=1, dims=("t", "x", "y"), shape=(3, 3, 3))
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[temp])
 
-        udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
-        result = run_json_user_code(dict_data=udf_request.dict())
+        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        result = udf_data.to_dict()
 
         self.assertEqual(len(result["datacubes"]), 0)
         self.assertEqual(len(result["structured_data_list"]), 1)

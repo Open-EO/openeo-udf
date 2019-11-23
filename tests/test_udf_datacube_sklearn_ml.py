@@ -8,7 +8,7 @@ import os
 import pprint
 import unittest
 
-from openeo_udf.api.run_code import run_json_user_code
+from openeo_udf.api.run_code import run_json_user_code, run_user_code
 
 from openeo_udf.api.machine_learn_model import MachineLearnModel
 from openeo_udf.api.udf_data import UdfData
@@ -178,11 +178,12 @@ class MachineLearningTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[red, nir], ml_model_list=[ml])
         pprint.pprint(udf_data.to_dict())
 
-        result = self.send_json_request(data=udf_data, code=udf_code)
+        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        result = udf_data.to_dict()
         self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 
-        result = self.send_msgpack_request(data=udf_data, code=udf_code)
-        self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
+        #result = self.send_msgpack_request(data=udf_data, code=udf_code)
+        #self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 
     def test_sklearn_random_forest_with_msgpack(self):
         """Test random forest model training and UDF application"""
@@ -246,11 +247,12 @@ class MachineLearningTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[red, nir], ml_model_list=[ml])
         pprint.pprint(udf_data.to_dict())
 
-        result = self.send_json_request(data=udf_data, code=udf_code)
+        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        result = udf_data.to_dict()
         self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 
-        result = self.send_msgpack_request(data=udf_data, code=udf_code)
-        self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
+        #result = self.send_msgpack_request(data=udf_data, code=udf_code)
+        #self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 
         response = self.app.delete(f'/storage/{md5_hash}')
         self.assertEqual(response.status_code, 200)

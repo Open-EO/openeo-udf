@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import xarray
-from openeo_udf.api.run_code import run_json_user_code
+from openeo_udf.api.run_code import run_json_user_code, run_user_code
 
 from openeo_udf.api.machine_learn_model import MachineLearnModel
 
@@ -103,9 +103,8 @@ class MachineLearningPytorchTestCase(unittest.TestCase):
                                description="A pytorch model that adds two numbers in range of [1,1]",
                                path="/tmp/simple_linear_nn_pytorch.pt")
         udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[temp], ml_model_list=[ml])
-        udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
-        dict_data = run_json_user_code(dict_data=udf_request.dict())
-        pprint.pprint(dict_data)
+        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        pprint.pprint(udf_data.to_dict())
 
 
 if __name__ == "__main__":

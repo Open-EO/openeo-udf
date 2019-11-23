@@ -5,7 +5,7 @@ import unittest
 import msgpack
 import base64
 
-from openeo_udf.api.run_code import run_json_user_code
+from openeo_udf.api.run_code import run_json_user_code, run_user_code
 
 from openeo_udf.api.tools import create_datacube
 from openeo_udf.server.main import app
@@ -38,8 +38,8 @@ class HypercubeSamplingTestCase(unittest.TestCase):
         temp = create_datacube(name="temp", value=1, shape=(3, 3, 3))
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[temp])
 
-        udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
-        result = run_json_user_code(dict_data=udf_request.dict())
+        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        result = udf_data.to_dict()
 
         self.assertEqual(len(result["feature_collection_tiles"]), 1)
         self.assertEqual(len(result["feature_collection_tiles"][0]["data"]["features"]), 1)
