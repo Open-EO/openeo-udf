@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
+from typing import Tuple
 
 import numpy
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import xarray
+from openeo_udf.api.machine_learn_model import MachineLearnModel
+
+from openeo_udf.api.hypercube import HyperCube
 from torch.autograd import Variable
 import torch.optim as optim
 from pprint import pprint
@@ -11,6 +16,8 @@ import os
 import pprint
 import unittest
 
+from openeo_udf.api.tools import create_hypercube
+from openeo_udf.api.udf_data import UdfData
 from openeo_udf.server.main import app
 from starlette.testclient import TestClient
 from openeo_udf.server.endpoints import create_storage_directory
@@ -23,38 +30,6 @@ __author__ = "Soeren Gebbert"
 __copyright__ = "Copyright 2018, Soeren Gebbert"
 __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
-
-PIXEL = {
-    "proj": {"EPSG":4326},
-    "raster_collection_tiles": [
-        {
-            "id": "test",
-            "wavelength": 420,
-            "start_times": ["2001-01-01T00:00:00",
-                            "2001-01-02T00:00:00"],
-            "end_times": ["2001-01-02T00:00:00",
-                          "2001-01-03T00:00:00"],
-            "data": [[[1, 2]],
-                     [[3, 4]]],
-            "extent": {
-                "top": 53,
-                "bottom": 52,
-                "right": 30,
-                "left": 28,
-                "height": 1,
-                "width": 1
-            }
-        }
-    ],
-    "machine_learn_models": [
-        {"framework": "pytorch",
-         "name": "linear_model",
-         "description": "A pytorch model that adds two numbers in range of [1,4]",
-         "path": "/tmp/simple_linear_nn_pytorch.pt"
-         }
-    ]
-}
-
 
 class SimpleNetwork(nn.Module):
 
@@ -117,12 +92,21 @@ class MachineLearningPytorchTestCase(unittest.TestCase):
         MachineLearningPytorchTestCase.train_pytorch_model(model=model)
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
-        file_name = os.path.join(dir, "raster_collections_pytorch_ml.py")
+        file_name = os.path.join(dir, "hypercube_pytorch_ml.py")
         udf_code = UdfCodeModel(language="python", source=open(file_name, "r").read())
-        udf_data = PIXEL
 
-        udf_request = UdfRequestModel(data=udf_data, code=udf_code)
+        temp = create_hypercube(name="temp", value=1, dims=("x", "y"), shape=(2, 2))
+
+        ml = MachineLearnModel(framework="pytorch", name="linear_model",
+                               description="A pytorch model that adds two numbers in range of [1,1]",
+                               path="/tmp/simple_linear_nn_pytorch.pt")
+        udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[temp], ml_model_list=[ml])
+        print(udf_data.to_dict())
+
+        udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
         response = self.app.post('/udf', json=udf_request.dict())
+        result = response.json()
+        pprint.pprint(result)
         self.assertEqual(response.status_code, 200)
         result = response.json()
 
