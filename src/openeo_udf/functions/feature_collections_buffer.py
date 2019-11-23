@@ -9,7 +9,7 @@
 # import tensorboard
 # from shapely.geometry import Point
 
-from openeo_udf.api.feature_collection_tile import FeatureCollectionTile
+from openeo_udf.api.feature_collection import FeatureCollection
 from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
@@ -36,18 +36,18 @@ def fct_buffer(udf_data: UdfData):
     fct_list = []
 
     # Iterate over each tile
-    for tile in udf_data.feature_collection_tiles:
+    for tile in udf_data.feature_collection_list:
         # Buffer all features
         gseries = tile.data.buffer(distance=10)
         # Create a new GeoDataFrame that includes the buffered geometry and the attribute data
         new_data = tile.data.set_geometry(gseries)
         # Create the new feature collection tile
-        fct = FeatureCollectionTile(id=tile.id + "_buffer", data=new_data,
-                                    start_times=tile.start_times, end_times=tile.end_times)
+        fct = FeatureCollection(id=tile.id + "_buffer", data=new_data,
+                                start_times=tile.start_times, end_times=tile.end_times)
         fct_list.append(fct)
     # Insert the new tiles as list of feature collection tiles in the input object. The new tiles will
     # replace the original input tiles.
-    udf_data.set_feature_collection_tiles(fct_list)
+    udf_data.set_feature_collection_list(fct_list)
 
 
 # This function call is the entry point for the UDF.
