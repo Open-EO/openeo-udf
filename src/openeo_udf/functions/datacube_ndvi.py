@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from openeo_udf.api.hypercube import HyperCube
+from openeo_udf.api.datacube import DataCube
 from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
@@ -29,7 +29,7 @@ def hyper_ndvi(udf_data: UdfData):
     nir = None
 
     # Iterate over each tile
-    for cube in udf_data.get_hypercube_list():
+    for cube in udf_data.get_datacube_list():
         if "red" in cube.id.lower():
             red = cube
         if "nir" in cube.id.lower():
@@ -42,8 +42,8 @@ def hyper_ndvi(udf_data: UdfData):
     ndvi = (nir.array - red.array) / (nir.array + red.array)
     ndvi.name = "NDVI"
 
-    hc = HyperCube(array=ndvi)
-    udf_data.set_hypercube_list([hc, ])
+    hc = DataCube(array=ndvi)
+    udf_data.set_datacube_list([hc, ])
 
 
 # This function call is the entry point for the UDF.

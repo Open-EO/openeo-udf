@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from openeo_udf.api.hypercube import HyperCube
+from openeo_udf.api.datacube import DataCube
 from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
@@ -27,11 +27,11 @@ def hyper_mean(udf_data: UdfData):
     """
     # Iterate over each tile
     cube_list = []
-    for cube in udf_data.get_hypercube_list():
+    for cube in udf_data.get_datacube_list():
         mean = cube.array.mean(dim="t")
         mean.name = cube.id + "_mean"
-        cube_list.append(HyperCube(array=mean))
-    udf_data.set_hypercube_list(cube_list)
+        cube_list.append(DataCube(array=mean))
+    udf_data.set_datacube_list(cube_list)
 
 
 # This function call is the entry point for the UDF.

@@ -23,7 +23,7 @@ def rct_stats(udf_data: UdfData):
     # The dictionary that stores the statistical data
     stats = {}
     # Iterate over each raster collection cube and compute statistical values
-    for cube in udf_data.hypercube_list:
+    for cube in udf_data.get_datacube_list():
         # make sure to cast the values to floats, otherwise they are not serializable
         stats[cube.id] = dict(sum=float(cube.array.sum()), mean=float(cube.array.mean()),
                               min=float(cube.array.min()), max=float(cube.array.max()))
@@ -33,7 +33,7 @@ def rct_stats(udf_data: UdfData):
                         data=stats,
                         type="dict")
     # Remove all collections and set the StructuredData list
-    udf_data.del_hypercube_list()
+    udf_data.del_datacube_list()
     udf_data.del_feature_collection_list()
     udf_data.set_structured_data_list([sd,])
 

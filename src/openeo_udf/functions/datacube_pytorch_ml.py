@@ -26,7 +26,7 @@ def hyper_pytorch_ml(udf_data: UdfData):
         data.
 
     """
-    cube = udf_data.get_hypercube_list()[0]
+    cube = udf_data.get_datacube_list()[0]
 
     # This is the input data of the model.
     input = torch.autograd.Variable(torch.Tensor(cube.array.values))
@@ -38,9 +38,9 @@ def hyper_pytorch_ml(udf_data: UdfData):
     result = xarray.DataArray(data=pred.detach().numpy(), dims=cube.array.dims,
                               coords=cube.array.coords, name=cube.id + "_pytorch")
     # Create the new raster collection tile
-    result_cube = HyperCube(array=result)
+    result_cube = DataCube(array=result)
     # Insert the new  hypercube in the input object.
-    udf_data.set_hypercube_list([result_cube])
+    udf_data.set_datacube_list([result_cube])
 
 
 # This function call is the entry point for the UDF.

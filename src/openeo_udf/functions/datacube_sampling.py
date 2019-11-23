@@ -51,7 +51,7 @@ def fct_sampling(udf_data: UdfData):
     features = fct.data
 
     # Iterate over each raster cube
-    for cube in udf_data.hypercube_list:
+    for cube in udf_data.get_datacube_list():
 
         # Compute the number and names of the attribute columns
         num_slices = len(cube.data)
@@ -92,7 +92,7 @@ def fct_sampling(udf_data: UdfData):
     # replace the original input tiles.
     udf_data.set_feature_collection_list([fct, ])
     # Remove the raster collection tiles
-    udf_data.del_hypercube_list()
+    udf_data.set_datacube_list()
 
 
 # This function call is the entry point for the UDF.

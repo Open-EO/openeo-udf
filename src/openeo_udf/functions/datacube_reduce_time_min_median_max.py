@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from openeo_udf.api.hypercube import HyperCube
+from openeo_udf.api.datacube import DataCube
 from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
@@ -27,7 +27,7 @@ def hyper_min_median_max(udf_data: UdfData):
     """
     # Iterate over each tile
     cube_list = []
-    for cube in udf_data.get_hypercube_list():
+    for cube in udf_data.get_datacube_list():
         min = cube.array.min(dim="t")
         median = cube.array.median(dim="t")
         max = cube.array.max(dim="t")
@@ -36,11 +36,11 @@ def hyper_min_median_max(udf_data: UdfData):
         median.name = cube.id + "_median"
         max.name = cube.id + "_max"
 
-        cube_list.append(HyperCube(array=min))
-        cube_list.append(HyperCube(array=median))
-        cube_list.append(HyperCube(array=max))
+        cube_list.append(DataCube(array=min))
+        cube_list.append(DataCube(array=median))
+        cube_list.append(DataCube(array=max))
 
-    udf_data.set_hypercube_list(cube_list)
+    udf_data.set_datacube_list(cube_list)
 
 
 # This function call is the entry point for the UDF.

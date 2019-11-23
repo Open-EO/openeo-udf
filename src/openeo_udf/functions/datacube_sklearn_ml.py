@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# Uncomment the import only for coding support
-#import numpy
-#import pandas
-#import xarray
-#from openeo_udf.api.hypercube import HyperCube
-#from openeo_udf.api.udf_data import UdfData
+import numpy
+import pandas
+import xarray
+
+from openeo_udf.api.datacube import DataCube
+from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -34,7 +34,7 @@ def rct_sklearn_ml(udf_data: UdfData):
     nir = None
 
     # Iterate over each cube
-    for cube in udf_data.hypercube_list:
+    for cube in udf_data.get_datacube_list():
         if "red" in cube.id.lower():
             red = cube
         if "nir" in cube.id.lower():
@@ -67,10 +67,10 @@ def rct_sklearn_ml(udf_data: UdfData):
     result = xarray.DataArray(data=pred_reshape, dims=red.array.dims,
                               coords=red.array.coords, name=red.id + "_pytorch")
     # Create the new raster collection cube
-    h = HyperCube(array=result)
+    h = DataCube(array=result)
     # Insert the new hypercubes in the input object. The new tiles will
     # replace the original input tiles.
-    udf_data.set_hypercube_list([h,])
+    udf_data.set_datacube_list([h, ])
 
 
 # This function call is the entry point for the UDF.
