@@ -8,11 +8,13 @@ import os
 import pprint
 import unittest
 
+from openeo_udf.api.run_code import run_json_user_code
+
 from openeo_udf.api.machine_learn_model import MachineLearnModel
 from openeo_udf.api.udf_data import UdfData
 
 from openeo_udf.server.machine_learn_database import RequestStorageModel
-from openeo_udf.api.tools import create_hypercube
+from openeo_udf.api.tools import create_datacube
 from openeo_udf.server.main import app
 from starlette.testclient import TestClient
 from openeo_udf.server.endpoints import create_storage_directory
@@ -140,12 +142,14 @@ class MachineLearningTestCase(unittest.TestCase):
     def send_json_request(self, data: UdfData, code: UdfCodeModel) -> Dict:
 
         udf_request = UdfRequestModel(data=data.to_dict(), code=code)
-        response = self.app.post('/udf', json=udf_request.dict())
-        pprint.pprint(response.json())
-        self.assertEqual(response.status_code, 200)
-        return response.json()
+        result = run_json_user_code(dict_data=udf_request.dict())
+        return result
 
     def send_msgpack_request(self, data: UdfData, code: UdfCodeModel) -> Dict:
+
+        return self.send_json_request(data=data, code=code)
+
+        # TODO: Implement the code below
 
         udf_request = UdfRequestModel(data=data.to_dict(), code=code)
         udf_request = base64.b64encode(msgpack.packb(udf_request.dict(), use_bin_type=True))
@@ -160,25 +164,25 @@ class MachineLearningTestCase(unittest.TestCase):
 
         MachineLearningTestCase.train_sklearn_model(model=model)
         dir = os.path.dirname(openeo_udf.functions.__file__)
-        file_name = os.path.join(dir, "hypercube_sklearn_ml.py")
+        file_name = os.path.join(dir, "datacube_sklearn_ml.py")
 
         udf_code = UdfCodeModel(language="python", source=open(file_name, "r").read())
 
-        red = create_hypercube(name="red", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
-        nir = create_hypercube(name="nir", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
+        red = create_datacube(name="red", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
+        nir = create_datacube(name="nir", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
 
         ml = MachineLearnModel(framework="sklearn", name="random_forest",
                                description="A sklearn model that adds two numbers in range of [1,1]",
                                path="/tmp/rf_add_model.pkl.xz")
 
-        udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[red, nir], ml_model_list=[ml])
+        udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[red, nir], ml_model_list=[ml])
         pprint.pprint(udf_data.to_dict())
 
         result = self.send_json_request(data=udf_data, code=udf_code)
-        self.assertAlmostEqual(2.0, result['hypercubes'][0]['data'][0][0][0], 2)
+        self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 
         result = self.send_msgpack_request(data=udf_data, code=udf_code)
-        self.assertAlmostEqual(2.0, result['hypercubes'][0]['data'][0][0][0], 2)
+        self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 
     def test_sklearn_random_forest_with_msgpack(self):
         """Test random forest model training and UDF application"""
@@ -228,25 +232,25 @@ class MachineLearningTestCase(unittest.TestCase):
         md5_hash = response.content.decode("ascii").strip().replace("\"", "")
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
-        file_name = os.path.join(dir, "hypercube_sklearn_ml.py")
+        file_name = os.path.join(dir, "datacube_sklearn_ml.py")
 
         udf_code = UdfCodeModel(language="python", source=open(file_name, "r").read())
 
-        red = create_hypercube(name="red", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
-        nir = create_hypercube(name="nir", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
+        red = create_datacube(name="red", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
+        nir = create_datacube(name="nir", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
 
         ml = MachineLearnModel(framework="sklearn", name="random_forest",
                                description="A sklearn model that adds two numbers in range of [1,1]",
                                md5_hash=md5_hash)
 
-        udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[red, nir], ml_model_list=[ml])
+        udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[red, nir], ml_model_list=[ml])
         pprint.pprint(udf_data.to_dict())
 
         result = self.send_json_request(data=udf_data, code=udf_code)
-        self.assertAlmostEqual(2.0, result['hypercubes'][0]['data'][0][0][0], 2)
+        self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 
         result = self.send_msgpack_request(data=udf_data, code=udf_code)
-        self.assertAlmostEqual(2.0, result['hypercubes'][0]['data'][0][0][0], 2)
+        self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 
         response = self.app.delete(f'/storage/{md5_hash}')
         self.assertEqual(response.status_code, 200)

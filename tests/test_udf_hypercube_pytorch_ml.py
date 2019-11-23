@@ -6,9 +6,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import xarray
+from openeo_udf.api.run_code import run_json_user_code
+
 from openeo_udf.api.machine_learn_model import MachineLearnModel
 
-from openeo_udf.api.hypercube import HyperCube
+from openeo_udf.api.datacube import DataCube
 from torch.autograd import Variable
 import torch.optim as optim
 from pprint import pprint
@@ -16,7 +18,7 @@ import os
 import pprint
 import unittest
 
-from openeo_udf.api.tools import create_hypercube
+from openeo_udf.api.tools import create_datacube
 from openeo_udf.api.udf_data import UdfData
 from openeo_udf.server.main import app
 from starlette.testclient import TestClient
@@ -92,25 +94,18 @@ class MachineLearningPytorchTestCase(unittest.TestCase):
         MachineLearningPytorchTestCase.train_pytorch_model(model=model)
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
-        file_name = os.path.join(dir, "hypercube_pytorch_ml.py")
+        file_name = os.path.join(dir, "datacube_pytorch_ml.py")
         udf_code = UdfCodeModel(language="python", source=open(file_name, "r").read())
 
-        temp = create_hypercube(name="temp", value=1, dims=("x", "y"), shape=(2, 2))
+        temp = create_datacube(name="temp", value=1, dims=("x", "y"), shape=(2, 2))
 
         ml = MachineLearnModel(framework="pytorch", name="linear_model",
                                description="A pytorch model that adds two numbers in range of [1,1]",
                                path="/tmp/simple_linear_nn_pytorch.pt")
-        udf_data = UdfData(proj={"EPSG":4326}, hypercube_list=[temp], ml_model_list=[ml])
-        print(udf_data.to_dict())
-
+        udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[temp], ml_model_list=[ml])
         udf_request = UdfRequestModel(data=udf_data.to_dict(), code=udf_code)
-        response = self.app.post('/udf', json=udf_request.dict())
-        result = response.json()
-        pprint.pprint(result)
-        self.assertEqual(response.status_code, 200)
-        result = response.json()
-
-        pprint.pprint(result)
+        dict_data = run_json_user_code(dict_data=udf_request.dict())
+        pprint.pprint(dict_data)
 
 
 if __name__ == "__main__":
