@@ -34,8 +34,7 @@ def rct_stats(udf_data: UdfData):
                         type="dict")
     # Remove all collections and set the StructuredData list
     udf_data.del_hypercube_list()
-    udf_data.del_raster_collection_tiles()
-    udf_data.del_feature_collection_tiles()
+    udf_data.del_feature_collection_list()
     udf_data.set_structured_data_list([sd,])
 
 
