@@ -43,3 +43,9 @@ def run_json_user_code(dict_data: Dict) -> Dict:
 
     exec(code)
     return data.to_dict()
+
+
+def run_user_code(udf_code: str, udf_data: UdfData) -> None:
+
+    data = udf_data
+    exec(udf_code)
