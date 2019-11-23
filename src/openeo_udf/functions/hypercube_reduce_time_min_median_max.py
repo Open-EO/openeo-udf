@@ -28,9 +28,9 @@ def hyper_min_median_max(udf_data: UdfData):
     # Iterate over each tile
     cube_list = []
     for cube in udf_data.get_hypercube_list():
-        min = cube.array.min(dim="time")
-        median = cube.array.median(dim="time")
-        max = cube.array.max(dim="time")
+        min = cube.array.min(dim="t")
+        median = cube.array.median(dim="t")
+        max = cube.array.max(dim="t")
 
         min.name = cube.id + "_min"
         median.name = cube.id + "_median"

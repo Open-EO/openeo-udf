@@ -28,7 +28,7 @@ def hyper_sum(udf_data: UdfData):
     # Iterate over each tile
     cube_list = []
     for cube in udf_data.get_hypercube_list():
-        mean = cube.array.sum(dim="time")
+        mean = cube.array.sum(dim="t")
         mean.name = cube.id + "_sum"
         cube_list.append(HyperCube(array=mean))
     udf_data.set_hypercube_list(cube_list)

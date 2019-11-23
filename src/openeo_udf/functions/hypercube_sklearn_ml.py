@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 # Uncomment the import only for coding support
-#import numpy
-#import pandas
-#import torch
-#import torchvision
-#import tensorflow
-#import tensorboard
-#from sklearn.ensemble import RandomForestRegressor
+import numpy
+import pandas
+import torch
+import torchvision
+import tensorflow
+import tensorboard
+import xarray
+
+from openeo_udf.api.hypercube import HyperCube
+from sklearn.ensemble import RandomForestRegressor
 
 from openeo_udf.api.raster_collection_tile import RasterCollectionTile
 from openeo_udf.api.udf_data import UdfData
@@ -38,23 +41,23 @@ def rct_sklearn_ml(udf_data: UdfData):
     red = None
     nir = None
 
-    # Iterate over each tile
-    for tile in udf_data.raster_collection_tiles:
-        if "red" in tile.id.lower():
-            red = tile
-        if "nir" in tile.id.lower():
-            nir = tile
+    # Iterate over each cube
+    for cube in udf_data.hypercube_list:
+        if "red" in cube.id.lower():
+            red = cube
+        if "nir" in cube.id.lower():
+            nir = cube
     if red is None:
-        raise Exception("Red raster collection tile is missing in input")
+        raise Exception("Red data cube is missing in input")
     if nir is None:
-        raise Exception("Nir raster collection tile is missing in input")
+        raise Exception("Nir data cube is missing in input")
 
     # We need to reshape the data for prediction into one dimensional arrays
-    three_dim_shape = red.data.shape
+    three_dim_shape = red.array.shape
     one_dim_shape = numpy.prod(three_dim_shape)
 
-    red_reshape = red.data.reshape((one_dim_shape))
-    nir_reshape = nir.data.reshape((one_dim_shape))
+    red_reshape = red.array.values.reshape((one_dim_shape))
+    nir_reshape = nir.array.values.reshape((one_dim_shape))
 
     # This is the input data of the model. It must be trained with a DataFrame using the same names.
     X = pandas.DataFrame()
@@ -69,12 +72,13 @@ def rct_sklearn_ml(udf_data: UdfData):
     # Reshape the one dimensional predicted values to three dimensions based on the input shape
     pred_reshape = pred.reshape(three_dim_shape)
 
-    # Create the new raster collection tile
-    rct = RasterCollectionTile(id=mlm.name, extent=red.extent, data=pred_reshape,
-                               start_times=red.start_times, end_times=red.end_times)
-    # Insert the new tiles as list of raster collection tiles in the input object. The new tiles will
+    result = xarray.DataArray(data=pred_reshape, dims=red.array.dims,
+                              coords=red.array.coords, name=red.id + "_pytorch")
+    # Create the new raster collection cube
+    h = HyperCube(array=result)
+    # Insert the new hypercubes in the input object. The new tiles will
     # replace the original input tiles.
-    udf_data.set_raster_collection_tiles([rct,])
+    udf_data.set_hypercube_list([h,])
 
 
 # This function call is the entry point for the UDF.
