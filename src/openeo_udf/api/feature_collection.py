@@ -6,7 +6,7 @@ import geopandas
 import pandas
 import json
 from typing import Optional, Dict
-from openeo_udf.api.collection_tile import CollectionTile
+from openeo_udf.api.collection_tile import CollectionBase
 
 
 __license__ = "Apache License, Version 2.0"
@@ -16,8 +16,8 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-class FeatureCollectionTile(CollectionTile):
-    """A feature collection tile that represents a subset or a whole feature collection
+class FeatureCollection(CollectionBase):
+    """A feature collection  that represents a subset or a whole feature collection
     where single vector features may have time stamps assigned.
 
     Some basic tests:
@@ -31,7 +31,7 @@ class FeatureCollectionTile(CollectionTile):
     >>> data = geopandas.GeoDataFrame(geometry=pseries, columns=["a", "b"])
     >>> data["a"] = [1,2,3]
     >>> data["b"] = ["a","b","c"]
-    >>> fct = FeatureCollectionTile(id="test", data=data)
+    >>> fct = FeatureCollection(id="test", data=data)
     >>> print(fct)
     id: test
     start_times: None
@@ -58,7 +58,7 @@ class FeatureCollectionTile(CollectionTile):
     >>> starts = pandas.DatetimeIndex(dates)
     >>> dates = [pandas.Timestamp('2012-05-02')]
     >>> ends = pandas.DatetimeIndex(dates)
-    >>> fct = FeatureCollectionTile(id="test", start_times=starts, end_times=ends, data=data)
+    >>> fct = FeatureCollection(id="test", start_times=starts, end_times=ends, data=data)
     >>> print(fct)
     id: test
     start_times: DatetimeIndex(['2012-05-01'], dtype='datetime64[ns]', freq=None)
@@ -73,7 +73,7 @@ class FeatureCollectionTile(CollectionTile):
     "data": {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature",
     "properties": {"a": 1, "b": "a"}, "geometry": {"type": "Point", "coordinates": [0.0, 0.0]}}]}}'
 
-    >>> fct = FeatureCollectionTile.from_dict(fct.to_dict())
+    >>> fct = FeatureCollection.from_dict(fct.to_dict())
     >>> json.dumps(fct.to_dict()) # doctest: +ELLIPSIS
     ...                           # doctest: +NORMALIZE_WHITESPACE
     '{"id": "test", "start_times": ["2012-05-01T00:00:00"], "end_times": ["2012-05-02T00:00:00"],
@@ -85,17 +85,17 @@ class FeatureCollectionTile(CollectionTile):
     def __init__(self, id: str, data: geopandas.GeoDataFrame,
                  start_times: Optional[pandas.DatetimeIndex]=None,
                  end_times: Optional[pandas.DatetimeIndex]=None):
-        """Constructor of the tile of a vector collection
+        """Constructor of the  of a vector collection
 
         Args:
-            id (str): The unique id of the vector collection tile
+            id (str): The unique id of the vector collection
             data (geopandas.GeoDataFrame): A GeoDataFrame with geometry column and attribute data
             start_times (pandas.DateTimeIndex): The vector with start times for each spatial x,y slice
             end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times
                                               for each spatial x,y slice, if no
                        end times are defined, then time instances are assumed not intervals
         """
-        CollectionTile.__init__(self, id=id, start_times=start_times, end_times=end_times)
+        CollectionBase.__init__(self, id=id, start_times=start_times, end_times=end_times)
 
         self.set_data(data)
         self.check_data_with_time()
@@ -135,12 +135,12 @@ class FeatureCollectionTile(CollectionTile):
     data = property(fget=get_data, fset=set_data)
 
     def to_dict(self) -> Dict:
-        """Convert this FeatureCollectionTile into a dictionary that can be converted into
+        """Convert this FeatureCollection into a dictionary that can be converted into
         a valid JSON representation
 
         Returns:
             dict:
-            FeatureCollectionTile as a dictionary
+            FeatureCollection as a dictionary
         """
 
         d = {"id": self.id}
@@ -155,15 +155,15 @@ class FeatureCollectionTile(CollectionTile):
 
     @staticmethod
     def from_dict(fct_dict: Dict):
-        """Create a feature collection tile from a python dictionary that was created from
-        the JSON definition of the FeatureCollectionTile
+        """Create a feature collection  from a python dictionary that was created from
+        the JSON definition of the FeatureCollection
 
         Args:
-            fct_dict (dict): The dictionary that contains the feature collection tile definition
+            fct_dict (dict): The dictionary that contains the feature collection  definition
 
         Returns:
-            FeatureCollectionTile:
-            A new FeatureCollectionTile object
+            FeatureCollection:
+            A new FeatureCollection object
 
         """
 
@@ -173,8 +173,8 @@ class FeatureCollectionTile(CollectionTile):
         if "data" not in fct_dict:
             raise Exception("Missing data in dictionary")
 
-        fct = FeatureCollectionTile(id =fct_dict["id"],
-                                    data=geopandas.GeoDataFrame.from_features(fct_dict["data"]))
+        fct = FeatureCollection(id =fct_dict["id"],
+                                data=geopandas.GeoDataFrame.from_features(fct_dict["data"]))
 
         if "start_times" in fct_dict:
             fct.set_start_times_from_list(fct_dict["start_times"])
