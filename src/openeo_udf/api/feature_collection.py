@@ -6,7 +6,7 @@ import geopandas
 import pandas
 import json
 from typing import Optional, Dict
-from openeo_udf.api.collection_tile import CollectionBase
+from openeo_udf.api.collection_base import CollectionBase
 
 
 __license__ = "Apache License, Version 2.0"
