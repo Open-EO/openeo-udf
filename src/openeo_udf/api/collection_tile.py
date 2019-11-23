@@ -14,14 +14,14 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-class CollectionTile:
+class CollectionBase:
     """This is the base class for raster and vector collection tiles. It implements
     start time, end time and spatial extent handling.
 
     Some basic tests:
 
     >>> extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)
-    >>> coll = CollectionTile(id="test", extent=extent)
+    >>> coll = CollectionBase(id="test", extent=extent)
     >>> print(coll)
     id: test
     extent: top: 100
@@ -39,7 +39,7 @@ class CollectionTile:
     >>> starts = pandas.DatetimeIndex(dates)
     >>> dates = [pandas.Timestamp('2012-05-02')]
     >>> ends = pandas.DatetimeIndex(dates)
-    >>> rdc = CollectionTile(id="test", extent=extent,
+    >>> rdc = CollectionBase(id="test", extent=extent,
     ...                      start_times=starts, end_times=ends)
     >>> "extent" in rdc.extent_to_dict()
     True
@@ -62,7 +62,7 @@ class CollectionTile:
     >>> json.dumps(rdc.end_times_to_dict())
     '{"end_times": ["2012-05-02T00:00:00"]}'
 
-    >>> ct = CollectionTile(id="test")
+    >>> ct = CollectionBase(id="test")
     >>> ct.set_extent_from_dict({"top": 53, "bottom": 50, "right": 30, "left": 24, "height": 0.01, "width": 0.01})
     >>> ct.set_start_times_from_list(["2012-05-01T00:00:00"])
     >>> ct.set_end_times_from_list(["2012-05-02T00:00:00"])
