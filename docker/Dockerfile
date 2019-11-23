@@ -71,6 +71,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install --upgrade setuptools
 RUN pip3 install -r requirements.txt
 RUN python3 setup.py install
+RUN python3 setup.py test
 
 WORKDIR /tmp/src/
 COPY start.sh /tmp/src/start.sh

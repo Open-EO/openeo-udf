@@ -20,64 +20,6 @@ wget http://localhost:5000/openapi.json -O /tmp/openeo_udf.json
 JSON='
 {
   "code": {
-    "source": "data.del_raster_collection_tiles()",
-    "language": "python"
-  },
-  "data": {
-    "proj": {"EPSG":4326},
-    "raster_collection_tiles": [
-      {
-        "data": [
-          [
-            [
-              0,
-              1
-            ],
-            [
-              2,
-              3
-            ]
-          ],
-          [
-            [
-              0,
-              1
-            ],
-            [
-              2,
-              3
-            ]
-          ]
-        ],
-        "extent": {
-            "top": 53,
-            "bottom": 52,
-            "right": 30,
-            "left": 28,
-            "height": 1,
-            "width": 1
-        },
-        "end_times": [
-          "2001-01-02T00:00:00",
-          "2001-01-03T00:00:00"
-        ],
-        "start_times": [
-          "2001-01-01T00:00:00",
-          "2001-01-02T00:00:00"
-        ],
-        "id": "test_data",
-        "wavelength": 420
-      }
-    ]
-  }
-}
-'
-
-curl -H "Content-Type: application/json" -X POST -d "${JSON}" http://localhost:5000/udf
-
-JSON='
-{
-  "code": {
     "source": "tile = data.get_feature_collection_tiles()[0] \nbuf = tile.data.buffer(5) \nnew_data = tile.data.set_geometry(buf) \ndata.set_feature_collection_tiles([FeatureCollectionTile(id=tile.id + \"_buffer\", data=new_data, start_times=tile.start_times, end_times=tile.end_times),])\n",
     "language": "python"
   },
