@@ -15,10 +15,9 @@ import tensorboard
 import math
 from typing import Dict
 
-from openeo_udf.api.feature_collection_tile import FeatureCollectionTile
+from openeo_udf.api.feature_collection import FeatureCollection
 from openeo_udf.api.hypercube import HyperCube
 from openeo_udf.api.machine_learn_model import MachineLearnModel
-from openeo_udf.api.raster_collection_tile import RasterCollectionTile
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
 from openeo_udf.api.udf_data import UdfData
