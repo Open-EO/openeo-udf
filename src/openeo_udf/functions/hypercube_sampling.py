@@ -10,7 +10,7 @@
 # import math
 # from shapely.geometry import Point
 
-from openeo_udf.api.feature_collection_tile import FeatureCollectionTile
+from openeo_udf.api.feature_collection import FeatureCollection
 from openeo_udf.api.udf_data import UdfData
 # from pprint import pprint
 
@@ -40,14 +40,14 @@ def fct_sampling(udf_data: UdfData):
 
     """
 
-    if not udf_data.feature_collection_tiles:
+    if not udf_data.feature_collection_list:
         raise Exception("A single feature collection is required as input")
 
-    if len(udf_data.feature_collection_tiles) > 1:
+    if len(udf_data.feature_collection_list) > 1:
         raise Exception("The first feature collection will be used for sampling")
 
     # Get the first feature collection
-    fct = udf_data.feature_collection_tiles[0]
+    fct = udf_data.feature_collection_list[0]
     features = fct.data
 
     # Iterate over each raster cube
@@ -86,11 +86,11 @@ def fct_sampling(udf_data: UdfData):
         for column_name in column_names:
             features[column_name] = columns[column_name]
     # Create the output feature collection
-    fct = FeatureCollectionTile(id=fct.id + "_sample", data=features,
-                                start_times=fct.start_times, end_times=fct.end_times)
+    fct = FeatureCollection(id=fct.id + "_sample", data=features,
+                            start_times=fct.start_times, end_times=fct.end_times)
     # Insert the new tiles as list of feature collection tiles in the input object. The new tiles will
     # replace the original input tiles.
-    udf_data.set_feature_collection_tiles([fct,])
+    udf_data.set_feature_collection_list([fct, ])
     # Remove the raster collection tiles
     udf_data.del_hypercube_list()
 
