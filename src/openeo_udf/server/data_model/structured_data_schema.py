@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
 from pydantic import BaseModel, Schema
 
+
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
 __copyright__ = "Copyright 2018, Soeren Gebbert"
 __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
-
-
-EXAMPLE = {"description": "Output of a statistical analysis. The univariate analysis "
-                          "of multiple raster collection tiles. Each entry in the output dict/map contains "
-                          "min, mean and max of all pixels in a raster collection tile. The key "
-                          "is the id of the raster collection tile.",
-           "data": {"RED": {"min": 0, "max": 100, "mean": 50}, "NIR": {"min": 0, "max": 100, "mean": 50}},
-           "type": "dict"}
 
 
 class StructuredDataModel(BaseModel):
@@ -43,7 +36,3 @@ class StructuredDataModel(BaseModel):
                                       "This is just a hint for the user how to interpret the provided data.",
                        enum=["dict", "table", "list"])
 
-    class Config:
-        schema_extra = {
-            'examples': [EXAMPLE]
-        }

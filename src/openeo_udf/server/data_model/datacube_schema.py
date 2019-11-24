@@ -2,6 +2,7 @@
 from typing import List, Union, Dict
 from pydantic import BaseModel, Schema as Field
 
+
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
 __copyright__ = "Copyright 2018, Soeren Gebbert"
@@ -9,7 +10,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class Dimension(BaseModel):
+class DimensionModel(BaseModel):
     """Description of a data cube dimension. See the STAC dimension definition for more details and examples."""
     description: str = Field(..., description="The description of the dimension.")
     type: str = Field(..., description="The type of the dimension (spatial, temporal, bands, other)")
@@ -42,7 +43,7 @@ class Dimension(BaseModel):
                                                                       "is expected.")
 
 
-class DataCube(BaseModel):
+class DataCubeModel(BaseModel):
     """A multidimensional representation of a data cube"""
     name: str = Field(...,
                       description="The unique name of the data cube. Allowed characters [a-z][A-Z][0-9][_].",
@@ -56,7 +57,7 @@ class DataCube(BaseModel):
     size: List[int] = Field(..., description="The size of the dimensions as an ordered list of integer values.",
                             examples=[[3, 3, 3]])
 
-    dimensions: Dict[str, Dimension] = Field(..., description="A dictionary of dimension descriptions. Dimensions are "
+    dimensions: Dict[str, DimensionModel] = Field(..., description="A dictionary of dimension descriptions. Dimensions are "
                                                               "references by their name that is the key of the dict. "
                                                               "The id of the dimension is a string, that should "
                                                               "follow the convention: t -> time, "

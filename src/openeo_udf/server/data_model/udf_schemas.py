@@ -4,7 +4,7 @@ from typing import List
 from pydantic import BaseModel, Schema
 from openeo_udf.server.data_model.machine_learn_schema import MachineLearnModel
 from openeo_udf.server.data_model.structured_data_schema import StructuredDataModel
-from openeo_udf.server.data_model.data_collection_schema import DataCollection
+from openeo_udf.server.data_model.data_collection_schema import DataCollectionModel
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -25,7 +25,7 @@ class UdfDataModel(BaseModel):
 
     server_context: dict = Schema({}, description="A dictionary that contains the server context")
 
-    data_collection: DataCollection = Schema([], description="The data collection with data cubes and "
+    data_collection: DataCollectionModel = Schema([], description="The data collection with data cubes and "
                                                              "feature collections.")
 
     structured_data_list: List[StructuredDataModel] = Schema([], description="A list of structured data objects "
@@ -35,11 +35,6 @@ class UdfDataModel(BaseModel):
                                                                              "collection tiles.")
 
     machine_learn_models: List[MachineLearnModel] = Schema([], description="A list of machine learn models.")
-
-    class Config:
-        schema_extra = {
-            'examples': []
-        }
 
 
 # The following classes are used to implement the UDF test server POST endpoint

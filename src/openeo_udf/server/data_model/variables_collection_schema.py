@@ -10,7 +10,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class Variable(BaseModel):
+class VariableModel(BaseModel):
     """This represents a variable definition with values and labels"""
     name: str = pyField(...,
                         description="Name of the variable.")
@@ -26,7 +26,7 @@ class Variable(BaseModel):
                                 examples=[{"labels": ["a", "b", "c"]}])
 
 
-class VariablesCollection(BaseModel):
+class VariablesCollectionModel(BaseModel):
     """A collection of variables that all have the same size"""
     name: str = pyField(..., description="Name of the variables collection.")
     size: List[int] = pyField(..., description="The size of the variables collection. Each variable of "
@@ -36,4 +36,4 @@ class VariablesCollection(BaseModel):
                                                "re-shaped in the multi-dimensional form for processing.",
                               examples=[{"size": [100]}, {"size": [3, 3, 3]}])
     number_of_variables: int = pyField(..., description="The number of variables in this collection.")
-    variables: List[Variable] = pyField(..., description="A list of variables with the same size.")
+    variables: List[VariableModel] = pyField(..., description="A list of variables with the same size.")

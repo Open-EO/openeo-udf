@@ -3,7 +3,7 @@ from typing import List, Union, Dict
 
 from pydantic import BaseModel, Schema as Field
 
-from openeo_udf.server.data_model.bounding_box_schema import SpatialBoundingBox
+from openeo_udf.server.data_model.bounding_box_schema import SpatialBoundingBoxModel
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -12,7 +12,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class SimpleFeature(BaseModel):
+class SimpleFeatureModel(BaseModel):
     """A simple feature definition that may contain (multi)points, (multi)lines or (multi)polygons"""
     type: str = Field(...,
                       description="The type of the simple feature: Point, LineString, "
@@ -24,7 +24,7 @@ class SimpleFeature(BaseModel):
     timestamp: int = Field(None, description="The index of the assigned timestamp.")
 
 
-class SimpleFeatureCollection(BaseModel):
+class SimpleFeatureCollectionModel(BaseModel):
     """Simple feature collection: (multi)points, (multi)lines or (multi)polygons"""
     name: str = Field(...,
                       description="The unique name of the simple feature collection."
@@ -32,7 +32,7 @@ class SimpleFeatureCollection(BaseModel):
                       examples=[{"name": "borders_1984"}])
     description: str = Field(None, description="Description.")
     number_of_features: int = Field(..., description="The number of features.")
-    bbox: SpatialBoundingBox = Field(..., description="The bounding box of all features.")
+    bbox: SpatialBoundingBoxModel = Field(..., description="The bounding box of all features.")
     reference_system: Union[str, int, Dict] = Field(None,
                                                     description="The definition of the spatial reference system. If an "
                                                                 "integer was provided it will be interpreted "
@@ -40,4 +40,4 @@ class SimpleFeatureCollection(BaseModel):
                                                                 "be interpreted as WKT2 definition. In case of a "
                                                                 "dictionary object, PROJSON is expected. "
                                                                 "The definition is identical to the dimension srs")
-    features: List[SimpleFeature] = Field(..., description="A list of features.")
+    features: List[SimpleFeatureModel] = Field(..., description="A list of features.")

@@ -8,7 +8,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class SpatialBoundingBox(BaseModel):
+class SpatialBoundingBoxModel(BaseModel):
     """Spatial bounding box definitions"""
     min_x: float = Field(..., description="The minimum x coordinate of the 3d bounding box.")
     max_x: float = Field(..., description="The maximum x coordinate of the 3d bounding box.")
