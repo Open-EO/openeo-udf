@@ -3,10 +3,10 @@ import os
 from openeo_udf.server.config import UdfConfiguration
 
 __license__ = "Apache License, Version 2.0"
-__author__     = "Soeren Gebbert"
-__copyright__  = "Copyright 2018, Soeren Gebbert"
+__author__ = "Soeren Gebbert"
+__copyright__ = "Copyright 2018, Soeren Gebbert"
 __maintainer__ = "Soeren Gebbert"
-__email__      = "soerengebbert@googlemail.com"
+__email__ = "soerengebbert@googlemail.com"
 
 created = False
 
