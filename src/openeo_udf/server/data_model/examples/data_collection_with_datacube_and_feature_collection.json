@@ -1,0 +1,109 @@
+{
+  "type": "DataCollection",
+  "metadata": {
+    "name": "SimpleFeatureCollection",
+    "description": "New collection with data cube and simple features",
+    "number_of_object_collections": 2,
+    "number_of_geometries": 3,
+    "number_of_field_collections": 2,
+    "number_of_time_stamps": 1,
+    "creator": "Soeren",
+    "creation_time": "2001-01-01T10:00:00",
+    "modification_time": "2001-01-01T10:00:00",
+    "source": null,
+    "link": null,
+    "userdata": null
+  },
+  "object_collections": {
+    "data_cubes": [],
+    "simple_feature_collections": [
+      {
+        "name": "Boundary of three lines",
+        "description": "Boundary of three lines",
+        "number_of_features": 3,
+        "bbox": {
+          "min_x": 0.0,
+          "max_x": 3.0,
+          "min_y": 0.0,
+          "max_y": 2.0,
+          "min_z": 0.0,
+          "max_z": 0.0
+        },
+        "reference_system": "4326",
+        "features": [
+          {
+            "type": "LineString",
+            "predecessors": [],
+            "geometry": 0,
+            "variable": [0, 0],
+            "timestamp": 0
+          },
+          {
+            "type": "LineString",
+            "predecessors": [],
+            "geometry": 1,
+            "variable": [0, 0],
+            "timestamp": 0
+          },
+          {
+            "type": "LineString",
+            "predecessors": [],
+            "geometry": 2,
+            "variable": [0, 0],
+            "timestamp": 0
+          }
+        ]
+      }
+    ]
+  },
+  "geometry_collection": [
+    "LineString (2 0, 2 2)",
+    "LineString (2 2, 0 1, 2 0)",
+    "LineString (2 2, 3 1, 2 0)"
+  ],
+  "variables_collections": [
+    {
+      "name": "Climate data",
+      "size": [3, 3, 3],
+      "number_of_variables": 2,
+      "variables": [
+        {
+          "name": "Temperature",
+          "description": "Temperature",
+          "unit": "degree celsius",
+          "values": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+            10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0,
+            19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0],
+          "labels": []
+        },
+        {
+          "name": "Precipitation",
+          "description": "Precipitation",
+          "unit": "mm",
+          "values": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+            10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0,
+            19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0],
+          "labels": []
+        }
+      ]
+    },
+    {
+      "name": "Border",
+      "size": [1],
+      "number_of_variables": 1,
+      "variables": [
+        {
+          "name": "Landuse",
+          "description": "Landuse",
+          "unit": "category",
+          "values": [],
+          "labels": ["Border"]
+        }
+      ]
+    }
+  ],
+  "timestamps": {
+    "intervals": [["2001-01-01T10:00:00", "2001-01-01T00:02:00"]],
+    "calendar": "gregorian"
+  }
+}
