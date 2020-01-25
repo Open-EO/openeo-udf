@@ -32,8 +32,3 @@ def hyper_mean(udf_data: UdfData):
         mean.name = cube.id + "_mean"
         cube_list.append(DataCube(array=mean))
     udf_data.set_datacube_list(cube_list)
-
-
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.
-hyper_mean(data)
