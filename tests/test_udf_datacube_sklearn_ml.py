@@ -128,7 +128,7 @@ class MachineLearningTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[red, nir], ml_model_list=[ml])
         pprint.pprint(udf_data.to_dict())
 
-        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        run_user_code(code=udf_code.source, data=udf_data)
         result = udf_data.to_dict()
         self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 
@@ -197,7 +197,7 @@ class MachineLearningTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[red, nir], ml_model_list=[ml])
         pprint.pprint(udf_data.to_dict())
 
-        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        run_user_code(code=udf_code.source, data=udf_data)
         result = udf_data.to_dict()
         self.assertAlmostEqual(2.0, result['datacubes'][0]['data'][0][0][0], 2)
 

@@ -35,7 +35,7 @@ class HypercubeMinMedianMaxTestCase(unittest.TestCase):
 
         temp = create_datacube(name="temp", value=1, dims=("t", "y", "x"), shape=(3, 3, 3))
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[temp])
-        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        run_user_code(code=udf_code.source, data=udf_data)
         self.check_hyper_cube_min_median_max(udf_data=udf_data)
 
     def check_hyper_cube_min_median_max(self, udf_data):

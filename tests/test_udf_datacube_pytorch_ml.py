@@ -99,7 +99,7 @@ class MachineLearningPytorchTestCase(unittest.TestCase):
                                description="A pytorch model that adds two numbers in range of [1,1]",
                                path="/tmp/simple_linear_nn_pytorch.pt")
         udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[temp], ml_model_list=[ml])
-        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        run_user_code(code=udf_code.source, data=udf_data)
         pprint.pprint(udf_data.to_dict())
 
 

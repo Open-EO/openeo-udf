@@ -39,10 +39,10 @@ class HypercubeNdviTestCase(unittest.TestCase):
         hc_nir = create_datacube(name="nir", value=3, dims=("t", "y", "x"), shape=(3, 3, 3))
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[hc_red, hc_nir])
 
-        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        run_user_code(code=udf_code.source, data=udf_data)
         self.checkHyperCubeNdvi(udf_data=udf_data)
 
-    def unued_test_hypercube_ndvi_message_pack(self):
+    def unused_test_hypercube_ndvi_message_pack(self):
         """Test the hypercube NDVI computation with the message pack protocol"""
         # TODO: Reactivate this test
 

@@ -34,7 +34,7 @@ class HypercubeMapFabsTestCase(unittest.TestCase):
 
         temp = create_datacube(name="temp", value=1, dims=("t", "x", "y"), shape=(3, 3, 3))
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[temp])
-        run_user_code(udf_code=udf_code.source, udf_data=udf_data)
+        run_user_code(code=udf_code.source, data=udf_data)
         self.checkHyperCubeMapFabs(udf_data=udf_data)
 
     def checkHyperCubeMapFabs(self, udf_data: UdfData):
