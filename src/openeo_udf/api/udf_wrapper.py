@@ -1,8 +1,13 @@
-from openeo_udf.api.udf_data import UdfData,RasterCollectionTile
-from typing import Dict
-
+from openeo_udf.api.datacube import DataCube
+from openeo_udf.api.udf_data import UdfData
+from typing import Dict, Callable
+import xarray
+import numpy
+import pandas
 from pandas import Series
-def apply_timeseries(series: Series,context:Dict)->Series:
+
+
+def apply_timeseries(series: Series, context:Dict)->Series:
     """
     Do something with the timeseries
     :param series:
@@ -11,9 +16,7 @@ def apply_timeseries(series: Series,context:Dict)->Series:
     """
     return series
 
-import numpy
-import pandas
-def apply_timeseries_generic(udf_data: UdfData,callback):
+def apply_timeseries_generic(udf_data: UdfData, callback: Callable = apply_timeseries):
     """
     Implements the UDF contract by calling a user provided time series transformation function (apply_timeseries).
     Multiple bands are currently handled separately, another approach could provide a dataframe with a timeseries for each band.
@@ -24,27 +27,26 @@ def apply_timeseries_generic(udf_data: UdfData,callback):
     # The list of tiles that were created
     tile_results = []
 
-    # Iterate over each tile
-    for tile in udf_data.raster_collection_tiles:
+    # Iterate over each cube
+    for cube in udf_data.get_datacube_list():
         array3d = []
         #use rollaxis to make the time dimension the last one
-        for time_x_slice in numpy.rollaxis(tile.data, 1):
+        for time_x_slice in numpy.rollaxis(cube.array.values, 1):
             time_x_result = []
             for time_slice in time_x_slice:
-                series = pandas.Series(time_slice,index=tile.start_times)
+                series = pandas.Series(time_slice)
                 transformed_series = callback(series,{})
                 time_x_result.append(transformed_series)
             array3d.append(time_x_result)
 
         # We need to create a new 3D array with the correct shape for the computed aggregate
         result_tile = numpy.rollaxis(numpy.asarray(array3d),1)
-        assert result_tile.shape == tile.data.shape
-        # Create the new raster collection tile
-        rct = RasterCollectionTile(id=tile.id, extent=tile.extent, data=result_tile,
-                                   start_times=tile.start_times, end_times=tile.end_times)
+        assert result_tile.shape == cube.array.shape
+        # Create the new raster collection cube
+        rct = DataCube(xarray.DataArray(result_tile))
         tile_results.append(rct)
     # Insert the new tiles as list of raster collection tiles in the input object. The new tiles will
     # replace the original input tiles.
-    udf_data.set_raster_collection_tiles(tile_results)
+    udf_data.set_datacube_list(tile_results)
     return udf_data
 
