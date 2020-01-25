@@ -41,8 +41,3 @@ def hyper_min_median_max(udf_data: UdfData):
         cube_list.append(DataCube(array=max))
 
     udf_data.set_datacube_list(cube_list)
-
-
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.
-hyper_min_median_max(data)
