@@ -417,10 +417,10 @@ class UdfData:
 
         udf_data = UdfData(proj=udf_dict["proj"])
 
-        if "user_context" not in udf_dict:
+        if "user_context" in udf_dict:
             udf_data.user_context = udf_dict["user_context"]
 
-        if "server_context" not in udf_dict:
+        if "server_context" in udf_dict:
             udf_data.server_context = udf_dict["server_context"]
 
         if "datacubes" in udf_dict:
