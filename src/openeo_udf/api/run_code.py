@@ -41,13 +41,15 @@ def run_json_user_code(dict_data: Dict) -> Dict:
     """
     code = dict_data["code"]["source"]
     data = UdfData.from_dict(dict_data["data"])
-    result_data = run_user_code(code,data)
+    result_data = run_user_code(code, data)
 
     return result_data.to_dict()
+
 
 def _build_default_execution_context():
     return {
         'numpy': numpy,
+        'xarray': xarray,
         'geopandas': geopandas,
         'pandas': pandas,
         'shapely': shapely,
@@ -58,12 +60,14 @@ def _build_default_execution_context():
         'MachineLearnModel':MachineLearnModel,
         'torch':torch,
         'tensorflow':tensorflow,
-        'DataCube':DataCube
+        'DataCube':DataCube,
+        'UdfData':UdfData
     }
 
-def run_user_code(code:str,udf_data:UdfData) -> UdfData:
+
+def run_user_code(code:str, data:UdfData) -> UdfData:
     module={}
-    exec(code,_build_default_execution_context(),module)
+    exec(code, _build_default_execution_context(), module)
 
     functions = {t[0]:t[1] for t in module.items() if callable(t[1])}
 
@@ -71,22 +75,24 @@ def run_user_code(code:str,udf_data:UdfData) -> UdfData:
         sig = signature(func[1])
         params = sig.parameters
         params_list = [t[1] for t in sig.parameters.items()]
-        if(func[0] == 'apply_timeseries' and 'series' in params and 'context' in params and 'pandas.core.series.Series' in str(params['series'].annotation) and 'pandas.core.series.Series' in str(sig.return_annotation) ):
+        if(func[0] == 'apply_timeseries' and 'series' in params and 'context' in params and 'pandas.core.series.Series'
+                in str(params['series'].annotation) and 'pandas.core.series.Series' in str(sig.return_annotation) ):
             #this is a UDF that transforms pandas series
             from .udf_wrapper import apply_timeseries_generic
-            return apply_timeseries_generic(udf_data,func[1])
-        elif( func[0] == 'apply_hypercube' and 'cube' in params and 'context' in params and 'openeo_udf.api.datacube.DataCube' in str(params['cube'].annotation) and 'openeo_udf.api.datacube.DataCube' in str(sig.return_annotation) ):
+            return apply_timeseries_generic(data, func[1])
+        elif( func[0] == 'apply_hypercube' and 'cube' in params and 'context' in params and 'openeo_udf.api.datacube.DataCube'
+              in str(params['cube'].annotation) and 'openeo_udf.api.datacube.DataCube' in str(sig.return_annotation) ):
             #found a datacube mapping function
-            if len(udf_data.get_datacube_list()) != 1:
-                raise ValueError("The provided UDF expects exactly one datacube, but only: %s were provided." % len(udf_data.get_datacube_list()))
-            result_cube = func[1](udf_data.get_datacube_list()[0],{})
+            if len(data.get_datacube_list()) != 1:
+                raise ValueError("The provided UDF expects exactly one datacube, but only: %s were provided." % len(data.get_datacube_list()))
+            result_cube = func[1](data.get_datacube_list()[0], {})
             if not isinstance(result_cube,DataCube):
                 raise ValueError("The provided UDF did not return a HyperCube, but got: %s" %result_cube)
-            udf_data.get_datacube_list([result_cube])
+            data.get_datacube_list([result_cube])
             break
         elif len(params_list) == 1 and (params_list[0].annotation == 'openeo_udf.api.udf_data.UdfData' or params_list[0].annotation == UdfData) :
             #found a generic UDF function
-            func[1](udf_data)
+            func[1](data)
             break
 
-    return udf_data
+    return data
