@@ -9,10 +9,10 @@ from typing import Union,Dict
 
 from pandas import Series
 
-from openeo_udf.api.hypercube import HyperCube
+from openeo_udf.api.datacube import DataCube
 
 
-def apply_timeseries(series: Series,context:Dict)->Series:
+def apply_timeseries(series: Series,context:Dict)-> Series:
     """
     Process a timeseries of values, without changing the time instants.
     This can for instance be used for smoothing or gap-filling.
@@ -27,15 +27,15 @@ def apply_timeseries(series: Series,context:Dict)->Series:
 
 
 
-def apply_hypercube(cube: HyperCube,context:Dict)->HyperCube:
+def apply_hypercube(cube: DataCube,context:Dict)-> DataCube:
     """
-    Map a hypercube to another hypercube. Depending on the context in which this function is used, the hypercube dimensions
+    Map a DataCube to another DataCube. Depending on the context in which this function is used, the DataCube dimensions
     have to be retained or can be chained.
     For instance, in the context of a reducing operation along a dimension, that dimension will have to be reduced to a single value.
     In the context of a 1 to 1 mapping operation, all dimensions have to be retained.
 
-    :param cube: A HyperCube object
+    :param cube: A DataCube object
     :param context: A dictionary containing user context.
-    :return: A HyperCube object
+    :return: A DataCube object
     """
     pass
