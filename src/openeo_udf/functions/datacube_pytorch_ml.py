@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # Uncomment the import only for coding support
-#import xarray
-#import torch
-#from openeo_udf.api.hypercube import HyperCube
-#from openeo_udf.api.udf_data import UdfData
+import xarray
+import torch
+
+from openeo_udf.api.datacube import DataCube
+from openeo_udf.api.udf_data import UdfData
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -41,8 +42,3 @@ def hyper_pytorch_ml(udf_data: UdfData):
     result_cube = DataCube(array=result)
     # Insert the new  hypercube in the input object.
     udf_data.set_datacube_list([result_cube])
-
-
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.
-hyper_pytorch_ml(data)
