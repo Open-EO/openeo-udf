@@ -71,8 +71,3 @@ def rct_sklearn_ml(udf_data: UdfData):
     # Insert the new hypercubes in the input object. The new tiles will
     # replace the original input tiles.
     udf_data.set_datacube_list([h, ])
-
-
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.
-rct_sklearn_ml(data)
