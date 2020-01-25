@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import numpy
 from openeo_udf.api.datacube import DataCube
 from openeo_udf.api.udf_data import UdfData
 
@@ -28,8 +29,3 @@ def hyper_map_fabs(udf_data: UdfData):
         result.name = cube.id + "_fabs"
         cube_list.append(DataCube(array=result))
     udf_data.set_datacube_list(cube_list)
-
-
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.
-hyper_map_fabs(data)
