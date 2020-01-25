@@ -44,8 +44,3 @@ def hyper_ndvi(udf_data: UdfData):
 
     hc = DataCube(array=ndvi)
     udf_data.set_datacube_list([hc, ])
-
-
-# This function call is the entry point for the UDF.
-# The caller will provide all required data in the **data** object.
-hyper_ndvi(data)
