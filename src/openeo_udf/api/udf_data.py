@@ -9,6 +9,7 @@ from openeo_udf.api.datacube import DataCube
 from openeo_udf.api.machine_learn_model import MachineLearnModel
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
+from openeo_udf.server.data_model.metadata_schema import MetadataModel
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -115,7 +116,8 @@ class UdfData:
                  datacube_list: Optional[List[DataCube]]=None,
                  feature_collection_list: Optional[List[FeatureCollection]]=None,
                  structured_data_list: Optional[List[StructuredData]]=None,
-                 ml_model_list: Optional[List[MachineLearnModel]]=None):
+                 ml_model_list: Optional[List[MachineLearnModel]]=None,
+                 metadata: MetadataModel = None):
         """The constructor of the UDF argument class that stores all data required by the
         user defined function.
 
@@ -125,6 +127,7 @@ class UdfData:
             feature_collection_list (list[FeatureCollection]): A list of VectorTile objects
             structured_data_list (list[StructuredData]): A list of structured data objects
             ml_model_list (list[MachineLearnModel]): A list of machine learn models
+            metadata (MetadataModel): additional metadata
         """
 
         self._datacube_list = []
@@ -134,9 +137,10 @@ class UdfData:
         self._structured_data_list = []
         self._ml_model_list = []
         self.proj = proj
+        self._metadata: MetadataModel = None
 
-        self._user_context : Dict = dict()
-        self._server_context : Dict = dict()
+        self._user_context: Dict = dict()
+        self._server_context: Dict = dict()
 
         if datacube_list:
             self.set_datacube_list(datacube_list=datacube_list)
@@ -146,6 +150,16 @@ class UdfData:
             self.set_structured_data_list(structured_data_list=structured_data_list)
         if ml_model_list:
             self.set_ml_model_list(ml_model_list=ml_model_list)
+        if metadata:
+            self.metadata = metadata
+
+    @property
+    def metadata(self) -> MetadataModel:
+        return self._metadata
+
+    @metadata.setter
+    def metadata(self, model: MetadataModel):
+        self._metadata = model
 
     @property
     def user_context(self) -> Dict:
