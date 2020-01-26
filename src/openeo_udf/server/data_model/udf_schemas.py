@@ -26,7 +26,7 @@ class UdfDataModel(BaseModel):
     server_context: dict = Schema({}, description="A dictionary that contains the server context")
 
     data_collection: DataCollectionModel = Schema([], description="The data collection with data cubes and "
-                                                             "feature collections.")
+                                                                  "feature collections.")
 
     structured_data_list: List[StructuredDataModel] = Schema([], description="A list of structured data objects "
                                                                              "that contain processing results that "

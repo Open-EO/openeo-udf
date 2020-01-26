@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from openeo_udf.api.run_code import run_user_code
 
-from openeo_udf.api.machine_learn_model import MachineLearnModel
+from openeo_udf.api.machine_learn_model import MachineLearnModelConfig
 
 from torch.autograd import Variable
 import torch.optim as optim
@@ -95,9 +95,9 @@ class MachineLearningPytorchTestCase(unittest.TestCase):
 
         temp = create_datacube(name="temp", value=1, dims=("x", "y"), shape=(2, 2))
 
-        ml = MachineLearnModel(framework="pytorch", name="linear_model",
-                               description="A pytorch model that adds two numbers in range of [1,1]",
-                               path="/tmp/simple_linear_nn_pytorch.pt")
+        ml = MachineLearnModelConfig(framework="pytorch", name="linear_model",
+                                     description="A pytorch model that adds two numbers in range of [1,1]",
+                                     path="/tmp/simple_linear_nn_pytorch.pt")
         udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[temp], ml_model_list=[ml])
         run_user_code(code=udf_code.source, data=udf_data)
         pprint.pprint(udf_data.to_dict())

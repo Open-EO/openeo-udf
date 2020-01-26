@@ -6,7 +6,7 @@ import xarray
 from typing import Optional, List, Dict
 from openeo_udf.api.feature_collection import FeatureCollection
 from openeo_udf.api.datacube import DataCube
-from openeo_udf.api.machine_learn_model import MachineLearnModel
+from openeo_udf.api.machine_learn_model import MachineLearnModelConfig
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
 from openeo_udf.server.data_model.metadata_schema import MetadataModel
@@ -45,7 +45,7 @@ class UdfData:
     >>> model = RandomForestRegressor(n_estimators=10, max_depth=2, verbose=0)
     >>> path = '/tmp/test.pkl.xz'
     >>> dummy = joblib.dump(value=model, filename=path, compress=("xz", 3))
-    >>> m = MachineLearnModel(framework="sklearn", name="test",
+    >>> m = MachineLearnModelConfig(framework="sklearn", name="test",
     ...                       description="Machine learn model", path=path)
     >>> udf_data.append_machine_learn_model(m)
     >>> print(udf_data.get_feature_collection_by_id("C"))
@@ -116,7 +116,7 @@ class UdfData:
                  datacube_list: Optional[List[DataCube]]=None,
                  feature_collection_list: Optional[List[FeatureCollection]]=None,
                  structured_data_list: Optional[List[StructuredData]]=None,
-                 ml_model_list: Optional[List[MachineLearnModel]]=None,
+                 ml_model_list: Optional[List[MachineLearnModelConfig]]=None,
                  metadata: MetadataModel = None):
         """The constructor of the UDF argument class that stores all data required by the
         user defined function.
@@ -126,7 +126,7 @@ class UdfData:
             datacube_list (list(HyperCube)): A list of HyperCube objects
             feature_collection_list (list[FeatureCollection]): A list of VectorTile objects
             structured_data_list (list[StructuredData]): A list of structured data objects
-            ml_model_list (list[MachineLearnModel]): A list of machine learn models
+            ml_model_list (list[MachineLearnModelConfig]): A list of machine learn models
             metadata (MetadataModel): additional metadata
         """
 
@@ -297,7 +297,7 @@ class UdfData:
         """
         self._structured_data_list.clear()
 
-    def get_ml_model_list(self) -> Optional[List[MachineLearnModel]]:
+    def get_ml_model_list(self) -> Optional[List[MachineLearnModelConfig]]:
         """Get all machine learn models
 
         Returns:
@@ -306,13 +306,13 @@ class UdfData:
         """
         return self._ml_model_list
 
-    def set_ml_model_list(self, ml_model_list: Optional[List[MachineLearnModel]]):
+    def set_ml_model_list(self, ml_model_list: Optional[List[MachineLearnModelConfig]]):
         """Set the list of machine learn models
 
         If ml_model_list is None, then the list will be cleared
 
         Args:
-            ml_model_list (list[MachineLearnModel]): A list of MachineLearnModel objects
+            ml_model_list (list[MachineLearnModelConfig]): A list of MachineLearnModel objects
         """
 
         self.del_ml_model_list()
@@ -367,11 +367,11 @@ class UdfData:
         """
         self._structured_data_list.append(structured_data)
 
-    def append_machine_learn_model(self, machine_learn_model: MachineLearnModel):
+    def append_machine_learn_model(self, machine_learn_model: MachineLearnModelConfig):
         """Append a machine learn model to the list
 
         Args:
-            machine_learn_model (MachineLearnModel): A MachineLearnModel objects
+            machine_learn_model (MachineLearnModelConfig): A MachineLearnModel objects
         """
         self._ml_model_list.append(machine_learn_model)
 
@@ -458,7 +458,7 @@ class UdfData:
         if "machine_learn_models" in udf_dict:
             l = udf_dict["machine_learn_models"]
             for entry in l:
-                mlm = MachineLearnModel.from_dict(entry)
+                mlm = MachineLearnModelConfig.from_dict(entry)
                 udf_data.append_machine_learn_model(mlm)
 
         return udf_data

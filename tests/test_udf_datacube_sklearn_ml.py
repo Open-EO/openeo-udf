@@ -9,7 +9,7 @@ import unittest
 
 from openeo_udf.api.run_code import run_json_user_code, run_user_code
 
-from openeo_udf.api.machine_learn_model import MachineLearnModel
+from openeo_udf.api.machine_learn_model import MachineLearnModelConfig
 from openeo_udf.api.udf_data import UdfData
 
 from openeo_udf.server.machine_learn_database import RequestStorageModel
@@ -121,9 +121,9 @@ class MachineLearningTestCase(unittest.TestCase):
         red = create_datacube(name="red", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
         nir = create_datacube(name="nir", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
 
-        ml = MachineLearnModel(framework="sklearn", name="random_forest",
-                               description="A sklearn model that adds two numbers in range of [1,1]",
-                               path="/tmp/rf_add_model.pkl.xz")
+        ml = MachineLearnModelConfig(framework="sklearn", name="random_forest",
+                                     description="A sklearn model that adds two numbers in range of [1,1]",
+                                     path="/tmp/rf_add_model.pkl.xz")
 
         udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[red, nir], ml_model_list=[ml])
         pprint.pprint(udf_data.to_dict())
@@ -190,9 +190,9 @@ class MachineLearningTestCase(unittest.TestCase):
         red = create_datacube(name="red", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
         nir = create_datacube(name="nir", value=1, dims=("t", "x", "y"), shape=(2, 2, 2))
 
-        ml = MachineLearnModel(framework="sklearn", name="random_forest",
-                               description="A sklearn model that adds two numbers in range of [1,1]",
-                               md5_hash=md5_hash)
+        ml = MachineLearnModelConfig(framework="sklearn", name="random_forest",
+                                     description="A sklearn model that adds two numbers in range of [1,1]",
+                                     md5_hash=md5_hash)
 
         udf_data = UdfData(proj={"EPSG":4326}, datacube_list=[red, nir], ml_model_list=[ml])
         pprint.pprint(udf_data.to_dict())

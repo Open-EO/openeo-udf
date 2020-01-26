@@ -18,7 +18,7 @@ from inspect import signature
 
 from openeo_udf.api.feature_collection import FeatureCollection
 from openeo_udf.api.datacube import DataCube
-from openeo_udf.api.machine_learn_model import MachineLearnModel
+from openeo_udf.api.machine_learn_model import MachineLearnModelConfig
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
 from openeo_udf.api.udf_data import UdfData
@@ -57,7 +57,7 @@ def _build_default_execution_context():
         'FeatureCollection':FeatureCollection,
         'SpatialExtent':SpatialExtent,
         'StructuredData':StructuredData,
-        'MachineLearnModel':MachineLearnModel,
+        'MachineLearnModel':MachineLearnModelConfig,
         'torch':torch,
         'tensorflow':tensorflow,
         'DataCube':DataCube,
