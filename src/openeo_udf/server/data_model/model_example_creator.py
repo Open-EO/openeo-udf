@@ -47,7 +47,7 @@ def create_dimension_model_example():
                            number_of_cells=3)
     dim_model["time"] = dim_t
     dim_x = DimensionModel(description="Spatial dimension", type="spatial", reference_system=4326, axis="x",
-                           unit="degree", values=[0.5, 1.5, 2.5], extent=[0, 3],
+                           unit="degree", values=[3.5, 4.5, 5.5], extent=[0, 3],
                            number_of_cells=3)
     dim_model["x"] = dim_x
     dim_y = DimensionModel(description="Spatial dimension", type="spatial", reference_system=4326, axis="y",
