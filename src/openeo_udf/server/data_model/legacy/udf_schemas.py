@@ -2,8 +2,8 @@
 from typing import List
 from pydantic import BaseModel, Schema
 
-from openeo_udf.server.data_model.legacy.feature_collection_tile_schema import FeatureCollectionTileModel
-from openeo_udf.server.data_model.legacy.hypercube_schema import HyperCubeModel
+from openeo_udf.server.data_model.legacy.feature_collection_schema import FeatureCollectionModel
+from openeo_udf.server.data_model.legacy.datacube_schema import DataCubeModel
 from openeo_udf.server.data_model.machine_learn_schema import MachineLearnModel
 from openeo_udf.server.data_model.structured_data_schema import StructuredDataModel
 
@@ -16,7 +16,7 @@ __email__ = "soerengebbert@googlemail.com"
 
 class UdfLegacyDataModel(BaseModel):
     """
-    The UDF data object that stores raster collection tiles, feature collection tiles,
+    The UDF data object that feature collections, data cubes,,
     projection information and machine learn models. This object is argument for the
     UDF as well as their return value.
     """
@@ -28,11 +28,11 @@ class UdfLegacyDataModel(BaseModel):
 
     server_context: dict = Schema({}, description="A dictionary that contains the server context")
 
-    feature_collection_tiles: List[FeatureCollectionTileModel] = Schema([],
-                                                                        description="A list of feature "
-                                                                                    "collection tiles.")
+    feature_collection_list: List[FeatureCollectionModel] = Schema([],
+                                                                   description="A list of feature "
+                                                                               "collection tiles.")
 
-    hypercubes: List[HyperCubeModel] = Schema([], description="A list of hyper cubes.")
+    datacubes: List[DataCubeModel] = Schema([], description="A list of data cubes.")
 
     structured_data_list: List[StructuredDataModel] = Schema([], description="A list of structured data objects "
                                                                              "that contain processing results that "

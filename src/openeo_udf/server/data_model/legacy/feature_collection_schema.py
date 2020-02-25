@@ -23,11 +23,11 @@ EXAMPLE = {
 }
 
 
-class FeatureCollectionTileModel(BaseModel):
-    """A tile of vector data that represents a spatio-temporal
+class FeatureCollectionModel(BaseModel):
+    """Vector data that represents a spatio-temporal
     subset of a spatio-temporal vector dataset."""
 
-    id: str = Schema(..., description="The identifier of this vector tile.", examples=[{"id": "test_data"}])
+    id: str = Schema(..., description="The identifier of this feature collection.", examples=[{"id": "test_data"}])
 
     data: Dict = Schema(..., description="A GeoJSON FeatureCollection.",
                         examples=[
