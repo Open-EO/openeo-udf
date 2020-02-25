@@ -17,17 +17,17 @@ from fastapi import HTTPException
 from starlette.responses import PlainTextResponse
 import ujson
 from openeo_udf.server.config import UdfConfiguration
+from openeo_udf.server.data_model.legacy.udf_schemas import UdfLegacyDataModel, UdfLegacyRequestModel
 
 from openeo_udf.server.data_model.udf_schemas import UdfRequestModel, ErrorResponseModel, UdfDataModel
-from openeo_udf.api.run_code import run_json_user_code
+from openeo_udf.api.run_code import run_legacy_user_code, run_udf_model_user_code
 from openeo_udf.server.machine_learn_database import ResponseStorageModel, RequestStorageModel, store_model
 
 __license__ = "Apache License, Version 2.0"
-__author__     = "Soeren Gebbert"
-__copyright__  = "Copyright 2018, Soeren Gebbert"
+__author__ = "Soeren Gebbert"
+__copyright__ = "Copyright 2018, Soeren Gebbert"
 __maintainer__ = "Soeren Gebbert"
-__email__      = "soerengebbert@googlemail.com"
-
+__email__ = "soerengebbert@googlemail.com"
 
 """
 There are several different approached available in python that can be implemented:
@@ -73,12 +73,12 @@ app = FastAPI(title="UDF Server for geodata processing",
               description="This server processes UDF data")
 
 
-@app.post("/udf", response_model=UdfDataModel)
-async def udf_json(request: UdfRequestModel = Body(...)):
+@app.post("/udf", response_model=UdfLegacyDataModel, tags=["udf legacy"])
+async def udf_json(request: UdfLegacyRequestModel = Body(...)):
     """Run a Python user defined function (UDF) on the provided data"""
 
     try:
-        result = run_json_user_code(dict_data=request.dict())
+        result = run_legacy_user_code(dict_data=request.dict())
         return result
     except Exception:
         e_type, e_value, e_tb = sys.exc_info()
@@ -86,17 +86,19 @@ async def udf_json(request: UdfRequestModel = Body(...)):
         raise HTTPException(status_code=400, detail=response.dict())
 
 
-@app.post("/udf_message_pack", response_model=str, responses={200: {"content": {"application/base64": {}},
-                                                                    "description": "The base64 encoded string"},
-                                                              400: {"content": {"application/json": {}}}})
+@app.post("/udf_message_pack", response_model=str, tags=["udf legacy"],
+          responses={200: {"content": {"application/base64": {}},
+                           "description": "The base64 encoded string"},
+                     400: {"content": {"application/json": {}}}})
 async def udf_message_pack(request: Request):
-    """Run a Python user defined function (UDF) on the provided data that are base64 encoded message pack objects"""
+    """Run a Python user defined function (UDF) on the provided legacy
+    data that are base64 encoded message pack objects"""
 
     try:
         data = await request.body()
         blob = base64.b64decode(data)
         dict_data = msgpack.unpackb(blob, raw=False)
-        result = run_json_user_code(dict_data=dict_data)
+        result = run_legacy_user_code(dict_data=dict_data)
         result = base64.b64encode(msgpack.packb(result))
         return PlainTextResponse(result)
     except Exception:
@@ -105,7 +107,41 @@ async def udf_message_pack(request: Request):
         raise HTTPException(status_code=400, detail=response.dict())
 
 
-@app.get("/storage", response_model=List[ResponseStorageModel],
+@app.post("/udf_data_collection", response_model=UdfDataModel, tags=["udf data collection"])
+async def udf_json(request: UdfRequestModel = Body(...)):
+    """Run a Python user defined function (UDF) on the provided data collection"""
+
+    try:
+        result = run_udf_model_user_code(udf_model=request)
+        return result
+    except Exception:
+        e_type, e_value, e_tb = sys.exc_info()
+        response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+        raise HTTPException(status_code=400, detail=response.dict())
+
+
+@app.post("/udf_data_collection_message_pack", tags=["udf data collection"], response_model=str,
+          responses={200: {"content": {"application/base64": {}},
+                           "description": "The base64 encoded string"},
+                     400: {"content": {"application/json": {}}}})
+async def udf_message_pack(request: Request):
+    """Run a Python user defined function (UDF) on the provided data collection
+    that are base64 encoded message pack objects"""
+
+    try:
+        data = await request.body()
+        blob = base64.b64decode(data)
+        udf_model: UdfRequestModel = msgpack.unpackb(blob, raw=False)
+        result = run_udf_model_user_code(udf_model=udf_model)
+        result = base64.b64encode(msgpack.packb(result.to_dict()))
+        return PlainTextResponse(result)
+    except Exception:
+        e_type, e_value, e_tb = sys.exc_info()
+        response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+        raise HTTPException(status_code=400, detail=response.dict())
+
+
+@app.get("/storage", response_model=List[ResponseStorageModel], tags=["ML Storage"],
          responses={200: {"content": {"application/json": {}},
                           "description": "A list of metadata information about the stored machine model that include "
                                          "the md5 hash, the source, the title and the description.."},
@@ -138,9 +174,10 @@ async def ml_get():
         raise HTTPException(status_code=400, detail=response.dict())
 
 
-@app.delete("/storage/{md5_hash}", response_model=str, responses={200: {"content": {"text/plain": {}},
-                                                                        "description": "The removed md5 hash"},
-                                                                  400: {"content": {"application/json": {}}}})
+@app.delete("/storage/{md5_hash}", response_model=str, tags=["ML Storage"],
+            responses={200: {"content": {"text/plain": {}},
+                             "description": "The removed md5 hash"},
+                       400: {"content": {"application/json": {}}}})
 async def ml_delete(md5_hash: str):
     """
     Delete a machine learn model in the udf machine learn database
@@ -166,9 +203,9 @@ async def ml_delete(md5_hash: str):
         raise HTTPException(status_code=400, detail=response.dict())
 
 
-@app.post("/storage", response_model=str, responses={200: {"content": {"text/plain": {}},
-                                                           "description": "The generated md5 hash"},
-                                                     400: {"content": {"application/json": {}}}})
+@app.post("/storage", response_model=str, tags=["ML Storage"], responses={200: {"content": {"text/plain": {}},
+                                                                                "description": "The generated md5 hash"},
+                                                                          400: {"content": {"application/json": {}}}})
 async def ml_post(request_storage: RequestStorageModel):
     """
     Store a machine learn model in the udf machine learn database
