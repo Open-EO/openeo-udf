@@ -20,14 +20,14 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class HypercubeMeanTestCase(unittest.TestCase):
+class DataCubeMeanTestCase(unittest.TestCase):
     create_storage_directory()
 
     def setUp(self):
         self.app = TestClient(app=app)
 
-    def test_hypercube_reduce_mean(self):
-        """Test the hypercube mean reduction"""
+    def test_DataCube_reduce_mean(self):
+        """Test the DataCube mean reduction"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "datacube_reduce_time_mean.py")
@@ -37,9 +37,9 @@ class HypercubeMeanTestCase(unittest.TestCase):
         prec = create_datacube(name="prec", value=3, dims=("t", "y", "x"), shape=(3, 3, 3))
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[temp, prec])
         run_user_code(code=udf_code.source, data=udf_data)
-        self.checkHyperCubeMean(udf_data=udf_data)
+        self.checkDataCubeMean(udf_data=udf_data)
 
-    def checkHyperCubeMean(self, udf_data: UdfData):
+    def checkDataCubeMean(self, udf_data: UdfData):
         """Check the mean hyper cube data that was processed in the UDF server"""
 
         hc: DataCube = udf_data.datacube_list[0]

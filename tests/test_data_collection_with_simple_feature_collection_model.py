@@ -21,7 +21,7 @@ class DataCollectionModelWithSimpleFeaturesTest(unittest.TestCase):
                           modification_time="2001-01-01T10:00:00",
                           number_of_object_collections=1,
                           number_of_geometries=3,
-                          number_of_field_collections=1,
+                          number_of_variable_collections=1,
                           number_of_time_stamps=1)
 
         sfc, f_sfc, g = create_simple_feature_collection_model_example()

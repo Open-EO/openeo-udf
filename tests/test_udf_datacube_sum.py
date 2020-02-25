@@ -20,13 +20,13 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class HypercubeSumTestCase(unittest.TestCase):
+class DataCubeSumTestCase(unittest.TestCase):
     create_storage_directory()
 
     def setUp(self):
         self.app = TestClient(app=app)
 
-    def test_hypercube_reduce_sum(self):
+    def test_DataCube_reduce_sum(self):
         """Test the hypercube sum reduction"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
@@ -37,9 +37,9 @@ class HypercubeSumTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[temp])
 
         run_user_code(code=udf_code.source, data=udf_data)
-        self.checkHyperCubeSum(udf_data=udf_data)
+        self.checkDataCubeSum(udf_data=udf_data)
 
-    def checkHyperCubeSum(self, udf_data: UdfData):
+    def checkDataCubeSum(self, udf_data: UdfData):
         """Check the mean hyper cube data that was processed in the UDF server"""
 
         hc: DataCube = udf_data.datacube_list[0]

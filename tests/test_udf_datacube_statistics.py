@@ -19,7 +19,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class HypercubeStatisticsTestCase(unittest.TestCase):
+class DataCubeStatisticsTestCase(unittest.TestCase):
     create_storage_directory()
 
     def setUp(self):

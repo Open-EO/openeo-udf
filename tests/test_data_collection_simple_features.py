@@ -27,7 +27,7 @@ class TopologicalDataCollectionTest(unittest.TestCase):
                           modification_time="2001-01-01T10:00:00",
                           number_of_object_collections=1,
                           number_of_geometries=3,
-                          number_of_field_collections=1,
+                          number_of_variable_collections=1,
                           number_of_time_stamps=1)
 
         g = ["LineString (2 0, 2 2)", "LineString (2 2, 0 1, 2 0)", "LineString (2 2, 3 1, 2 0)"]

@@ -22,14 +22,14 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class HypercubeNdviTestCase(unittest.TestCase):
+class DataCubeNdviTestCase(unittest.TestCase):
     create_storage_directory()
 
     def setUp(self):
         self.app = TestClient(app=app)
 
-    def test_hypercube_ndvi(self):
-        """Test the hypercube NDVI computation"""
+    def test_DataCube_ndvi(self):
+        """Test the DataCube NDVI computation"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "datacube_ndvi.py")
@@ -40,10 +40,10 @@ class HypercubeNdviTestCase(unittest.TestCase):
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[hc_red, hc_nir])
 
         run_user_code(code=udf_code.source, data=udf_data)
-        self.checkHyperCubeNdvi(udf_data=udf_data)
+        self.checkDataCubeNdvi(udf_data=udf_data)
 
-    def unused_test_hypercube_ndvi_message_pack(self):
-        """Test the hypercube NDVI computation with the message pack protocol"""
+    def unused_test_DataCube_ndvi_message_pack(self):
+        """Test the DataCube NDVI computation with the message pack protocol"""
         # TODO: Reactivate this test
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
@@ -62,9 +62,9 @@ class HypercubeNdviTestCase(unittest.TestCase):
         blob = base64.b64decode(response.content)
         udf_data = msgpack.unpackb(blob, raw=False)
 
-        self.checkHyperCubeNdvi(udf_data=udf_data)
+        self.checkDataCubeNdvi(udf_data=udf_data)
 
-    def checkHyperCubeNdvi(self, udf_data:UdfData):
+    def checkDataCubeNdvi(self, udf_data:UdfData):
         """Check the ndvi hyper cube data that was processed in the UDF server"""
 
         hc_ndvi: DataCube = udf_data.datacube_list[0]
