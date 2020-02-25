@@ -39,11 +39,11 @@ class DataCollectionModel(BaseModel):
     metadata: MetadataModel = Field(..., description="The metadata object for the data collection")
     object_collections: ObjectCollectionModel = Field(...,
                                                       description="A collection of different "
-                                                             "data objects like data cubes and feature collections")
+                                                                 "data objects like data cubes and feature collections")
     geometry_collection: List[str] = Field(...,
                                            description="A list of WKT geometry strings that are referenced by the "
                                                        "objects in the object collection.")
-    variables_collections: List[VariablesCollectionModel] = Field(..., description="A list of field collections")
+    variables_collections: List[VariablesCollectionModel] = Field(..., description="A list of variable collections")
     timestamps: TimeStampsModel = Field(..., description="The time stamps of the data collection, that can be references "
-                                                    "by each object (feature, cube, ...).")
+                                                         "by each object (feature, cube, ...).")
 
