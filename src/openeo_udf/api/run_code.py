@@ -30,7 +30,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def run_json_user_code(dict_data: Dict) -> Dict:
+def run_json_user_code(dict_data: Dict) -> UdfData:
     """Run the user defined python code
 
     Args:
@@ -43,7 +43,7 @@ def run_json_user_code(dict_data: Dict) -> Dict:
     data = UdfData.from_dict(dict_data["data"])
     result_data = run_user_code(code, data)
 
-    return result_data.to_dict()
+    return result_data
 
 
 def _build_default_execution_context():
