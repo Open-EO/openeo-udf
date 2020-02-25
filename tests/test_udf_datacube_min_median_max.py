@@ -20,14 +20,14 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-class HypercubeMinMedianMaxTestCase(unittest.TestCase):
+class DataCubeMinMedianMaxTestCase(unittest.TestCase):
     create_storage_directory()
 
     def setUp(self):
         self.app = TestClient(app=app)
 
-    def test_hypercube_reduce_min_median_max(self):
-        """Test the hypercube min, median, max reduction"""
+    def test_DataCube_reduce_min_median_max(self):
+        """Test the DataCube min, median, max reduction"""
 
         dir = os.path.dirname(openeo_udf.functions.__file__)
         file_name = os.path.join(dir, "datacube_reduce_time_min_median_max.py")
@@ -36,9 +36,9 @@ class HypercubeMinMedianMaxTestCase(unittest.TestCase):
         temp = create_datacube(name="temp", value=1, dims=("t", "y", "x"), shape=(3, 3, 3))
         udf_data = UdfData(proj={"EPSG": 4326}, datacube_list=[temp])
         run_user_code(code=udf_code.source, data=udf_data)
-        self.check_hyper_cube_min_median_max(udf_data=udf_data)
+        self.check_DataCube_min_median_max(udf_data=udf_data)
 
-    def check_hyper_cube_min_median_max(self, udf_data):
+    def check_DataCube_min_median_max(self, udf_data):
         """Check the min, median, max hyper cube data that was processed in the UDF server"""
 
         hc: DataCube = udf_data.datacube_list[0]
