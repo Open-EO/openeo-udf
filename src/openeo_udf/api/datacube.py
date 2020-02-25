@@ -224,15 +224,18 @@ class DataCube:
 
         return hc
 
+    def to_data_collection(self):
+        pass
+
     @staticmethod
-    def from_data_collection(data_collection: DataCollectionModel, model_index: int) -> List['DataCube']:
+    def from_data_collection(data_collection: DataCollectionModel) -> List['DataCube']:
         """Create data cubes from a data collection
 
         Args:
             data_collection:
-            model_index:
 
         Returns:
+            A list of data cubes
 
         """
 
@@ -241,39 +244,36 @@ class DataCube:
         data_cubes = data_collection.object_collections.data_cubes
         variables_collections = data_collection.variables_collections
 
-        if len(data_cubes) < model_index:
-            raise Exception(f"Index {model_index} was not found in data cube list")
+        for cube in data_cubes:
+            variable_collection = variables_collections[cube.variable_collection]
 
-        cube = data_cubes[model_index]
-        variable_collection = variables_collections[cube.variable_collection]
+            # Read the one dimensional array and reshape it
+            coords = {}
+            for key in cube.dimensions.keys():
+                d = cube.dimensions[key]
+                if d.values:
+                    coords[key] = d.values
+                else:
+                    l = d.number_of_cells
+                    if l != 0 and d.extent:
+                        stepsize = (d.extent[1] - d.extent[0])/l
+                        values = []
+                        predecessor = d.extent[0]
+                        for i in range(l):
+                            value = predecessor + stepsize/2.0
+                            values.append(value)
+                            predecessor = predecessor + stepsize
+                        coords[key] = values
 
-        # Read the one dimensional array and reshape it
-        coords = {}
-        for key in cube.dimensions.keys():
-            d = cube.dimensions[key]
-            if d.values:
-                coords[key] = d.values
-            else:
-                l = d.number_of_cells
-                if l != 0 and d.extent:
-                    stepsize = (d.extent[1] - d.extent[0])/l
-                    values = []
-                    predecessor = d.extent[0]
-                    for i in range(l):
-                        value = predecessor + stepsize/2.0
-                        values.append(value)
-                        predecessor = predecessor + stepsize
-                    coords[key] = values
+            for variable in variable_collection.variables:
+                array = numpy.asarray(variable.values)
+                array = array.reshape(variable_collection.size)
 
-        for variable in variable_collection.variables:
-            array = numpy.asarray(variable.values)
-            array = array.reshape(variable_collection.size)
+                data = xarray.DataArray(array, dims=cube.dim, coords=coords)
+                data.name = variable.name
 
-            data = xarray.DataArray(array, dims=cube.dim, coords=coords)
-            data.name = variable.name
-
-            dc = DataCube(array=data)
-            dc_list.append(dc)
+                dc = DataCube(array=data)
+                dc_list.append(dc)
 
         return dc_list
 

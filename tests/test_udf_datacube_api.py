@@ -27,7 +27,7 @@ class DataCubeApiTestCase(unittest.TestCase):
         """Test the hypercube mean reduction"""
 
         dcm = create_data_collection_model_example()
-        dc = DataCube.from_data_collection(data_collection=dcm, model_index=0)
+        dc = DataCube.from_data_collection(data_collection=dcm)
         print(dc[0].get_array())
         print(dc[1].get_array())
 
