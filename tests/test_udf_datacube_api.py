@@ -3,7 +3,7 @@ import unittest
 import xarray
 import numpy
 
-from openeo_udf.server.app import app
+from openeo_udf.server.udf import app
 from starlette.testclient import TestClient
 
 from openeo_udf.server.data_model.model_example_creator import create_data_collection_model_example

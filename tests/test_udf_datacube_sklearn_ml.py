@@ -14,7 +14,7 @@ from openeo_udf.api.udf_data import UdfData
 
 from openeo_udf.server.machine_learn_database import RequestStorageModel
 from openeo_udf.api.tools import create_datacube
-from openeo_udf.server.app import app
+from openeo_udf.server.udf import app
 from starlette.testclient import TestClient
 from openeo_udf.server.tools import create_storage_directory
 from openeo_udf.server.data_model.udf_schemas import UdfCodeModel, UdfRequestModel
