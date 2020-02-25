@@ -15,7 +15,48 @@
     "userdata": null
   },
   "object_collections": {
-    "data_cubes": [],
+    "data_cubes": [
+      {
+        "name": "Data Cube",
+        "description": "This is a data cube",
+        "dim": ["time", "y", "x"],
+        "size": [3, 3, 3],
+        "dimensions": {
+          "time": {
+            "description": "Temporal dimension",
+            "type": "temporal",
+            "unit": "ISO:8601",
+            "extent": ["2001-01-01T00:00:00", "2001-01-01T00:02:00"],
+            "values": ["2001-01-01T00:00:00", "2001-01-01T00:01:00", "2001-01-01T00:02:00"],
+            "number_of_cells": 3,
+            "axis": null,
+            "reference_system": "gregorian"
+          },
+          "x": {
+            "description": "Spatial dimension",
+            "type": "spatial",
+            "unit": "degree",
+            "extent": [0, 3],
+            "values": [0, 1, 2, 3],
+            "number_of_cells": 3,
+            "axis": "x",
+            "reference_system": "4326"
+          },
+          "y": {
+            "description": "Spatial dimension",
+            "type": "spatial",
+            "unit": "degree",
+            "extent": [0, 3],
+            "values": null,
+            "number_of_cells": 3,
+            "axis": "y",
+            "reference_system": "4326"
+          }
+        },
+        "variable_collection": 0,
+        "timestamp": 0
+      }
+    ],
     "simple_feature_collections": [
       {
         "name": "Boundary of three lines",
@@ -63,6 +104,20 @@
   ],
   "variables_collections": [
     {
+      "name": "Border",
+      "size": [1],
+      "number_of_variables": 1,
+      "variables": [
+        {
+          "name": "Landuse",
+          "description": "Landuse",
+          "unit": "category",
+          "values": [],
+          "labels": ["Border"]
+        }
+      ]
+    },
+    {
       "name": "Climate data",
       "size": [3, 3, 3],
       "number_of_variables": 2,
@@ -84,20 +139,6 @@
             10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0,
             19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0],
           "labels": []
-        }
-      ]
-    },
-    {
-      "name": "Border",
-      "size": [1],
-      "number_of_variables": 1,
-      "variables": [
-        {
-          "name": "Landuse",
-          "description": "Landuse",
-          "unit": "category",
-          "values": [],
-          "labels": ["Border"]
         }
       ]
     }
