@@ -21,7 +21,7 @@ class MetadataModel(BaseModel):
                                                                "simple feature collections,"
                                                                "topological feature collections).")
     number_of_geometries: int = Field(..., description="Number of all geometries.")
-    number_of_field_collections: int = Field(..., description="Number of all field collections.")
+    number_of_variable_collections: int = Field(..., description="Number of all variable collections.")
     number_of_time_stamps: int = Field(..., description="Number of time tamps.")
     creator: str = Field(None, description="The name of the creator.")
     creation_time: str = Field(None, description="Time of creation.")
