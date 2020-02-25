@@ -10,6 +10,7 @@ from openeo_udf.api.machine_learn_model import MachineLearnModelConfig
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
 from openeo_udf.server.data_model.metadata_schema import MetadataModel
+from openeo_udf.server.data_model.udf_schemas import UdfDataModel
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -112,7 +113,7 @@ class UdfData:
 
     """
 
-    def __init__(self, proj: Dict,
+    def __init__(self, proj: Dict = None,
                  datacube_list: Optional[List[DataCube]]=None,
                  feature_collection_list: Optional[List[FeatureCollection]]=None,
                  structured_data_list: Optional[List[StructuredData]]=None,
@@ -461,6 +462,19 @@ class UdfData:
                 mlm = MachineLearnModelConfig.from_dict(entry)
                 udf_data.append_machine_learn_model(mlm)
 
+        return udf_data
+
+    @staticmethod
+    def from_udf_data_model(udf_model: UdfDataModel) -> 'UdfData':
+        """TODO: Must be implemented
+
+        Args:
+            udf_model:
+
+        Returns:
+
+        """
+        udf_data = UdfData()
         return udf_data
 
 

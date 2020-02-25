@@ -22,6 +22,7 @@ from openeo_udf.api.machine_learn_model import MachineLearnModelConfig
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
 from openeo_udf.api.udf_data import UdfData
+from openeo_udf.server.data_model.udf_schemas import UdfRequestModel
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -30,7 +31,23 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def run_json_user_code(dict_data: Dict) -> UdfData:
+def run_udf_model_user_code(udf_model: UdfRequestModel) -> UdfData:
+    """Run the user defined python code
+
+    Args:
+        python: the udf request object with code and data
+
+    Returns:
+
+    """
+    code = udf_model.code
+    data = UdfData.from_udf_data_model(udf_model.data)
+    result_data = run_user_code(code.source, data)
+
+    return result_data
+
+
+def run_json_user_code(dict_data: Dict) -> Dict:
     """Run the user defined python code
 
     Args:
@@ -43,7 +60,9 @@ def run_json_user_code(dict_data: Dict) -> UdfData:
     data = UdfData.from_dict(dict_data["data"])
     result_data = run_user_code(code, data)
 
-    return result_data
+    return result_data.to_dict()
+
+
 
 
 def _build_default_execution_context():
