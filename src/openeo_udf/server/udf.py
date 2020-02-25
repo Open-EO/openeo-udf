@@ -17,7 +17,7 @@ from fastapi import HTTPException
 from starlette.responses import PlainTextResponse
 import ujson
 from openeo_udf.server.config import UdfConfiguration
-from openeo_udf.server.data_model.legacy.udf_schemas import UdfLegacyDataModel, UdfLegacyRequestModel
+from openeo_udf.server.data_model.legacy.udf_legacy_schemas import UdfLegacyDataModel, UdfLegacyRequestModel
 
 from openeo_udf.server.data_model.udf_schemas import UdfRequestModel, ErrorResponseModel, UdfDataModel
 from openeo_udf.api.run_code import run_legacy_user_code, run_udf_model_user_code
@@ -73,42 +73,8 @@ app = FastAPI(title="UDF Server for geodata processing",
               description="This server processes UDF data")
 
 
-@app.post("/udf", response_model=UdfLegacyDataModel, tags=["udf legacy"])
-async def udf_json(request: UdfLegacyRequestModel = Body(...)):
-    """Run a Python user defined function (UDF) on the provided data"""
-
-    try:
-        result = run_legacy_user_code(dict_data=request.dict())
-        return result
-    except Exception:
-        e_type, e_value, e_tb = sys.exc_info()
-        response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
-        raise HTTPException(status_code=400, detail=response.dict())
-
-
-@app.post("/udf_message_pack", response_model=str, tags=["udf legacy"],
-          responses={200: {"content": {"application/base64": {}},
-                           "description": "The base64 encoded string"},
-                     400: {"content": {"application/json": {}}}})
-async def udf_message_pack(request: Request):
-    """Run a Python user defined function (UDF) on the provided legacy
-    data that are base64 encoded message pack objects"""
-
-    try:
-        data = await request.body()
-        blob = base64.b64decode(data)
-        dict_data = msgpack.unpackb(blob, raw=False)
-        result = run_legacy_user_code(dict_data=dict_data)
-        result = base64.b64encode(msgpack.packb(result))
-        return PlainTextResponse(result)
-    except Exception:
-        e_type, e_value, e_tb = sys.exc_info()
-        response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
-        raise HTTPException(status_code=400, detail=response.dict())
-
-
-@app.post("/udf_data_collection", response_model=UdfDataModel, tags=["udf data collection"])
-async def udf_json(request: UdfRequestModel = Body(...)):
+@app.post("/udf", response_model=UdfDataModel, tags=["udf"])
+async def udf(request: UdfRequestModel = Body(...)):
     """Run a Python user defined function (UDF) on the provided data collection"""
 
     try:
@@ -120,7 +86,7 @@ async def udf_json(request: UdfRequestModel = Body(...)):
         raise HTTPException(status_code=400, detail=response.dict())
 
 
-@app.post("/udf_data_collection_message_pack", tags=["udf data collection"], response_model=str,
+@app.post("/udf_message_pack", tags=["udf"], response_model=str,
           responses={200: {"content": {"application/base64": {}},
                            "description": "The base64 encoded string"},
                      400: {"content": {"application/json": {}}}})
@@ -134,6 +100,40 @@ async def udf_message_pack(request: Request):
         udf_model: UdfRequestModel = msgpack.unpackb(blob, raw=False)
         result = run_udf_model_user_code(udf_model=udf_model)
         result = base64.b64encode(msgpack.packb(result.to_dict()))
+        return PlainTextResponse(result)
+    except Exception:
+        e_type, e_value, e_tb = sys.exc_info()
+        response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+        raise HTTPException(status_code=400, detail=response.dict())
+
+
+@app.post("/udf_legacy", response_model=UdfLegacyDataModel, tags=["udf legacy"])
+async def udf_legacy(request: UdfLegacyRequestModel = Body(...)):
+    """Run a Python user defined function (UDF) on the provided legacy data"""
+
+    try:
+        result = run_legacy_user_code(dict_data=request.dict())
+        return result
+    except Exception:
+        e_type, e_value, e_tb = sys.exc_info()
+        response = ErrorResponseModel(message=str(e_value), traceback=str(traceback.format_tb(e_tb)))
+        raise HTTPException(status_code=400, detail=response.dict())
+
+
+@app.post("/udf_legacy_message_pack", response_model=str, tags=["udf legacy"],
+          responses={200: {"content": {"application/base64": {}},
+                           "description": "The base64 encoded string"},
+                     400: {"content": {"application/json": {}}}})
+async def udf_legacy_message_pack(request: Request):
+    """Run a Python user defined function (UDF) on the provided legacy
+    data that are base64 encoded message pack objects"""
+
+    try:
+        data = await request.body()
+        blob = base64.b64decode(data)
+        dict_data = msgpack.unpackb(blob, raw=False)
+        result = run_legacy_user_code(dict_data=dict_data)
+        result = base64.b64encode(msgpack.packb(result))
         return PlainTextResponse(result)
     except Exception:
         e_type, e_value, e_tb = sys.exc_info()
