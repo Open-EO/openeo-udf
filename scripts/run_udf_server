@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 import uvicorn
-from openeo_udf.server.app import app
+from openeo_udf.server.udf import app
 from openeo_udf.server.tools import create_storage_directory
 
 __license__ = "Apache License, Version 2.0"
