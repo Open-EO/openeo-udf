@@ -226,7 +226,7 @@ class DataCube:
 
     @staticmethod
     def from_data_collection(data_collection: DataCollectionModel, model_index: int) -> List['DataCube']:
-        """Create a data cube from a data collection
+        """Create data cubes from a data collection
 
         Args:
             data_collection:
@@ -250,24 +250,20 @@ class DataCube:
         # Read the one dimensional array and reshape it
         coords = {}
         for key in cube.dimensions.keys():
-            print(key)
             d = cube.dimensions[key]
-            print(d)
             if d.values:
                 coords[key] = d.values
             else:
                 l = d.number_of_cells
                 if l != 0 and d.extent:
                     stepsize = (d.extent[1] - d.extent[0])/l
-                    values = [d.extent[0]]
+                    values = []
                     predecessor = d.extent[0]
                     for i in range(l):
                         value = predecessor + stepsize/2.0
                         values.append(value)
-                        predecessor = value
-                    coords[key] = d.values
-
-        print(coords)
+                        predecessor = predecessor + stepsize
+                    coords[key] = values
 
         for variable in variable_collection.variables:
             array = numpy.asarray(variable.values)
