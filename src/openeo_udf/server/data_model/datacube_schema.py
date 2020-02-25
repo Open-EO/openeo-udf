@@ -21,12 +21,12 @@ class DimensionModel(BaseModel):
                                 {"unit": "days"}, {"unit": "mm"}, {"unit": "km"}, {"unit": "ISO8601"}])
     extent: List[Union[int, float, str]] = Field(..., description="The spatial or temporal extent of the dimension. "
                                                                   "It must be a tuple of values.")
-    values: List[Union[int, float, str]] = Field(None, description="A list of coordinates for this dimension. Use "
-                                                                   "ISO8601 to specify time instances and intervals."
-                                                                   "If spatial axis are irregular, then the values "
-                                                                   "parameter should be used to specify this axis. "
-                                                                   "Otherwise the extent and the number of cells "
-                                                                   "is sufficient.",
+    values: List[Union[float, str]] = Field(None, description="A list of coordinates for this dimension. Use "
+                                                              "ISO8601 to specify time instances and intervals."
+                                                              "If spatial axis are irregular, then the values "
+                                                              "parameter should be used to specify this axis. "
+                                                              "Otherwise the extent and the number of cells "
+                                                              "is sufficient.",
                                                  examples=[{"values": [50, 51, 52]},
                                                            {"values": ["2001-01-01T10:00:00 / 2001-01-01T12:00:00",
                                                                        "2001-01-01T12:00:00 / 2001-01-01T14:00:00"]}])
@@ -53,15 +53,15 @@ class DataCubeModel(BaseModel):
     dim: List[str] = Field(...,
                            description="A an ordered list of dimension names of the data cube. The dimensions "
                                        "are applied in the provided order.",
-                           examples=[{"dim": ["t", "y", "x"]}])
+                           examples=[{"dim": ["time", "y", "x"]}])
     size: List[int] = Field(..., description="The size of the dimensions as an ordered list of integer values.",
                             examples=[[3, 3, 3]])
 
     dimensions: Dict[str, DimensionModel] = Field(..., description="A dictionary of dimension descriptions. Dimensions are "
-                                                              "references by their name that is the key of the dict. "
-                                                              "The id of the dimension is a string, that should "
-                                                              "follow the convention: t -> time, "
-                                                              "x, y, z -> spatial dimensions.")
+                                                                   "references by their name that is the key of the dict. "
+                                                                   "The id of the dimension is a string, that should "
+                                                                   "follow the convention: t -> time, "
+                                                                   "x, y, z -> spatial dimensions.")
     variable_collection: int = Field(None,
                                      description="The integer index of the variable collection. "
                                                  "All variables and their "
