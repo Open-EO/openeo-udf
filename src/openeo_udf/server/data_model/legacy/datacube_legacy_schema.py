@@ -29,7 +29,7 @@ EXAMPLE = {
 }
 
 
-class DataCubeModel(BaseModel):
+class DataCubeLegacyModel(BaseModel):
     """A multi dimensional hypercube with configurable dimensions."""
 
     id: str = Schema(..., description="The identifier of this hyper cube.", examples=[{"id": "test_data"}])

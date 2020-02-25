@@ -2,8 +2,8 @@
 from typing import List
 from pydantic import BaseModel, Schema
 
-from openeo_udf.server.data_model.legacy.feature_collection_schema import FeatureCollectionModel
-from openeo_udf.server.data_model.legacy.datacube_schema import DataCubeModel
+from openeo_udf.server.data_model.legacy.feature_collection_legacy_schema import FeatureCollectionLegacyModel
+from openeo_udf.server.data_model.legacy.datacube_legacy_schema import DataCubeLegacyModel
 from openeo_udf.server.data_model.machine_learn_schema import MachineLearnModel
 from openeo_udf.server.data_model.structured_data_schema import StructuredDataModel
 
@@ -28,11 +28,11 @@ class UdfLegacyDataModel(BaseModel):
 
     server_context: dict = Schema({}, description="A dictionary that contains the server context")
 
-    feature_collection_list: List[FeatureCollectionModel] = Schema([],
-                                                                   description="A list of feature "
+    feature_collection_list: List[FeatureCollectionLegacyModel] = Schema([],
+                                                                         description="A list of feature "
                                                                                "collection tiles.")
 
-    datacubes: List[DataCubeModel] = Schema([], description="A list of data cubes.")
+    datacubes: List[DataCubeLegacyModel] = Schema([], description="A list of data cubes.")
 
     structured_data_list: List[StructuredDataModel] = Schema([], description="A list of structured data objects "
                                                                              "that contain processing results that "

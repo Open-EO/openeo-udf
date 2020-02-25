@@ -23,7 +23,7 @@ EXAMPLE = {
 }
 
 
-class FeatureCollectionModel(BaseModel):
+class FeatureCollectionLegacyModel(BaseModel):
     """Vector data that represents a spatio-temporal
     subset of a spatio-temporal vector dataset."""
 
