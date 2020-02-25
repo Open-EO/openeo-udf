@@ -4,8 +4,9 @@
 
 import numpy
 import xarray
-from typing import Dict
+from typing import Dict, List
 
+from openeo_udf.server.data_model.data_collection_schema import DataCollectionModel
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -222,6 +223,63 @@ class DataCube:
         hc = DataCube(array=data)
 
         return hc
+
+    @staticmethod
+    def from_data_collection(data_collection: DataCollectionModel, model_index: int) -> List['DataCube']:
+        """Create a data cube from a data collection
+
+        Args:
+            data_collection:
+            model_index:
+
+        Returns:
+
+        """
+
+        dc_list = []
+
+        data_cubes = data_collection.object_collections.data_cubes
+        variables_collections = data_collection.variables_collections
+
+        if len(data_cubes) < model_index:
+            raise Exception(f"Index {model_index} was not found in data cube list")
+
+        cube = data_cubes[model_index]
+        variable_collection = variables_collections[cube.variable_collection]
+
+        # Read the one dimensional array and reshape it
+        coords = {}
+        for key in cube.dimensions.keys():
+            print(key)
+            d = cube.dimensions[key]
+            print(d)
+            if d.values:
+                coords[key] = d.values
+            else:
+                l = d.number_of_cells
+                if l != 0 and d.extent:
+                    stepsize = (d.extent[1] - d.extent[0])/l
+                    values = [d.extent[0]]
+                    predecessor = d.extent[0]
+                    for i in range(l):
+                        value = predecessor + stepsize/2.0
+                        values.append(value)
+                        predecessor = value
+                    coords[key] = d.values
+
+        print(coords)
+
+        for variable in variable_collection.variables:
+            array = numpy.asarray(variable.values)
+            array = array.reshape(variable_collection.size)
+
+            data = xarray.DataArray(array, dims=cube.dim, coords=coords)
+            data.name = variable.name
+
+            dc = DataCube(array=data)
+            dc_list.append(dc)
+
+        return dc_list
 
 
 if __name__ == "__main__":
