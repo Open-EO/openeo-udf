@@ -7,7 +7,7 @@ import os
 import pprint
 import unittest
 
-from openeo_udf.api.run_code import run_json_user_code, run_user_code
+from openeo_udf.api.run_code import run_legacy_user_code, run_user_code
 
 from openeo_udf.api.machine_learn_model import MachineLearnModelConfig
 from openeo_udf.api.udf_data import UdfData
@@ -92,7 +92,7 @@ class MachineLearningTestCase(unittest.TestCase):
     def send_json_request(self, data: UdfData, code: UdfCodeModel) -> Dict:
 
         udf_request = UdfRequestModel(data=data.to_dict(), code=code)
-        result = run_json_user_code(dict_data=udf_request.dict())
+        result = run_legacy_user_code(dict_data=udf_request.dict())
         return result
 
     def send_msgpack_request(self, data: UdfData, code: UdfCodeModel) -> Dict:
