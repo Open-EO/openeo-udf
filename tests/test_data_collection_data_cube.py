@@ -38,11 +38,11 @@ class DataCollectionTest(unittest.TestCase):
                                number_of_cells=3)
         dim_dict["time"] = dim_t
         dim_x = DimensionModel(description="Spatial dimension", type="spatial", reference_system=4326, axis="x",
-                               unit="degree", values=[0, 1, 2], extent=[0, 2],
+                               unit="degree", values=[0, 1, 2, 3], extent=[0, 3],
                                number_of_cells=3)
         dim_dict["x"] = dim_x
         dim_y = DimensionModel(description="Spatial dimension", type="spatial", reference_system=4326, axis="y",
-                               unit="degree", step=1, extent=[0, 2],
+                               unit="degree", step=1, extent=[0, 3],
                                number_of_cells=3)
         dim_dict["y"] = dim_y
 
