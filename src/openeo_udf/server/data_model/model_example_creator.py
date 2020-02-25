@@ -39,31 +39,30 @@ def create_variable_collection_model_example():
 
 
 def create_dimension_model_example():
-
-    dim_dict = {}
+    dim_model = {}
     dim_t = DimensionModel(description="Temporal dimension", type="temporal", reference_system="gregorian",
                            unit="ISO:8601",
                            values=["2001-01-01T00:00:00", "2001-01-01T00:01:00", "2001-01-01T00:02:00"],
                            extent=["2001-01-01T00:00:00", "2001-01-01T00:02:00"],
                            number_of_cells=3)
-    dim_dict["time"] = dim_t
+    dim_model["time"] = dim_t
     dim_x = DimensionModel(description="Spatial dimension", type="spatial", reference_system=4326, axis="x",
-                           unit="degree", values=[0, 1, 2], extent=[0, 2],
+                           unit="degree", values=[0.5, 1.5, 2.5], extent=[0, 3],
                            number_of_cells=3)
-    dim_dict["x"] = dim_x
+    dim_model["x"] = dim_x
     dim_y = DimensionModel(description="Spatial dimension", type="spatial", reference_system=4326, axis="y",
-                           unit="degree", step=1, extent=[0, 2],
+                           unit="degree", step=1, extent=[0, 3],
                            number_of_cells=3)
-    dim_dict["y"] = dim_y
+    dim_model["y"] = dim_y
 
-    return dim_dict
+    return dim_model
 
 
 def create_datacube_model_example() -> Tuple[DataCubeModel, VariablesCollectionModel]:
 
-    dim_dict = create_dimension_model_example()
+    dim_model = create_dimension_model_example()
     dc = DataCubeModel(name="Data Cube", description="This is a data cube", dim=["time", "y", "x"], size=[3, 3, 3],
-                       dimensions=dim_dict, field_collection=0, timestamp=0)
+                       dimensions=dim_model, variable_collection=0, timestamp=0)
 
     vc = create_variable_collection_model_example()
 
@@ -102,7 +101,7 @@ def create_metadata_model_example() -> MetadataModel:
                       modification_time="2001-01-01T10:00:00",
                       number_of_object_collections=2,
                       number_of_geometries=3,
-                      number_of_field_collections=2,
+                      number_of_variable_collections=2,
                       number_of_time_stamps=1)
     return m
 
