@@ -35,7 +35,7 @@ def run_udf_model_user_code(udf_model: UdfRequestModel) -> UdfData:
     """Run the user defined python code
 
     Args:
-        python: the udf request object with code and data
+        python: the udf request object with code and data collection
 
     Returns:
 
@@ -47,11 +47,11 @@ def run_udf_model_user_code(udf_model: UdfRequestModel) -> UdfData:
     return result_data
 
 
-def run_json_user_code(dict_data: Dict) -> Dict:
-    """Run the user defined python code
+def run_legacy_user_code(dict_data: Dict) -> Dict:
+    """Run the user defined python code on legacy data
 
     Args:
-        dict_data: the udf request object with code and data organized in a dictionary
+        dict_data: the udf request object with code and legacy data organized in a dictionary
 
     Returns:
 
@@ -61,8 +61,6 @@ def run_json_user_code(dict_data: Dict) -> Dict:
     result_data = run_user_code(code, data)
 
     return result_data.to_dict()
-
-
 
 
 def _build_default_execution_context():
