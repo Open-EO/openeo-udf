@@ -16,7 +16,7 @@ __email__ = "soerengebbert@googlemail.com"
 
 class UdfLegacyDataModel(BaseModel):
     """
-    The UDF data object that feature collections, data cubes,,
+    The UDF data object that feature collections, data cubes and
     projection information and machine learn models. This object is argument for the
     UDF as well as their return value.
     """
@@ -30,7 +30,7 @@ class UdfLegacyDataModel(BaseModel):
 
     feature_collection_list: List[FeatureCollectionLegacyModel] = Schema([],
                                                                          description="A list of feature "
-                                                                               "collection tiles.")
+                                                                                     "collections.")
 
     datacubes: List[DataCubeLegacyModel] = Schema([], description="A list of data cubes.")
 
