@@ -15,9 +15,8 @@ __email__ = "soerengebbert@googlemail.com"
 
 class UdfDataModel(BaseModel):
     """
-    The UDF data object that stores raster collection tiles, feature collection tiles,
-    projection information and machine learn models. This object is argument for the
-    UDF as well as their return value.
+    The UDF data object that stores data cubes, simple feature collection and machine learn models.
+    This object is argument for the UDF as well as their return value.
     """
 
     user_context: dict = Schema({}, description="A dictionary that contains the user context, "
@@ -26,7 +25,7 @@ class UdfDataModel(BaseModel):
     server_context: dict = Schema({}, description="A dictionary that contains the server context")
 
     data_collection: DataCollectionModel = Schema([], description="The data collection with data cubes and "
-                                                                  "feature collections.")
+                                                                  "simple feature collections.")
 
     structured_data_list: List[StructuredDataModel] = Schema([], description="A list of structured data objects "
                                                                              "that contain processing results that "
