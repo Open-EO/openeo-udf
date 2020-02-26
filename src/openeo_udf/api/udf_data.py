@@ -474,7 +474,20 @@ class UdfData:
         Returns:
 
         """
+
         udf_data = UdfData()
+
+        udf_data.server_context = udf_model.server_context
+        udf_data.user_context = udf_model.user_context
+        for d in udf_model.structured_data_list:
+            sd = StructuredData.from_dict(d)
+            udf_data.append_structured_data(sd)
+        for m in udf_model.machine_learn_models:
+            mlm = MachineLearnModelConfig.from_dict(m.dict())
+            udf_data.append_machine_learn_model(mlm)
+        cubes = DataCube.from_data_collection(udf_model.data_collection)
+        udf_data.set_datacube_list(cubes)
+
         return udf_data
 
 
