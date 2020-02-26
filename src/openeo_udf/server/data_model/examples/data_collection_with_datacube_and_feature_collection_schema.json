@@ -90,9 +90,9 @@
           "description": "Number of all geometries.",
           "type": "integer"
         },
-        "number_of_field_collections": {
-          "title": "Number_Of_Field_Collections",
-          "description": "Number of all field collections.",
+        "number_of_variable_collections": {
+          "title": "Number_Of_Variable_Collections",
+          "description": "Number of all variable collections.",
           "type": "integer"
         },
         "number_of_time_stamps": {
@@ -136,7 +136,7 @@
         "description",
         "number_of_object_collections",
         "number_of_geometries",
-        "number_of_field_collections",
+        "number_of_variable_collections",
         "number_of_time_stamps"
       ]
     },

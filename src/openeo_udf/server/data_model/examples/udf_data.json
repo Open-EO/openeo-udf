@@ -60,7 +60,7 @@
               "reference_system": "4326"
             }
           },
-          "variable_collection": null,
+          "variable_collection": 0,
           "timestamp": 0
         }
       ],

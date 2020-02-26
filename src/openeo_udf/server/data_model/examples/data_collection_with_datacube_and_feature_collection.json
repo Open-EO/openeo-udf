@@ -5,7 +5,7 @@
     "description": "New collection with data cube and simple features",
     "number_of_object_collections": 2,
     "number_of_geometries": 3,
-    "number_of_field_collections": 2,
+    "number_of_variable_collections": 2,
     "number_of_time_stamps": 1,
     "creator": "Soeren",
     "creation_time": "2001-01-01T10:00:00",
