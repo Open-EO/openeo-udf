@@ -104,8 +104,8 @@ def run_user_code(code:str, data:UdfData) -> UdfData:
                 raise ValueError("The provided UDF expects exactly one datacube, but only: %s were provided." % len(data.get_datacube_list()))
             result_cube = func[1](data.get_datacube_list()[0], {})
             if not isinstance(result_cube,DataCube):
-                raise ValueError("The provided UDF did not return a HyperCube, but got: %s" %result_cube)
-            data.get_datacube_list([result_cube])
+                raise ValueError("The provided UDF did not return a DataCube, but got: %s" %result_cube)
+            data.set_datacube_list([result_cube])
             break
         elif len(params_list) == 1 and (params_list[0].annotation == 'openeo_udf.api.udf_data.UdfData' or params_list[0].annotation == UdfData) :
             #found a generic UDF function
