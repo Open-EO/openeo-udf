@@ -27,7 +27,7 @@ def apply_timeseries(series: Series,context:Dict)-> Series:
 
 
 
-def apply_hypercube(cube: DataCube,context:Dict)-> DataCube:
+def apply_datacube(cube: DataCube,context:Dict)-> DataCube:
     """
     Map a DataCube to another DataCube. Depending on the context in which this function is used, the DataCube dimensions
     have to be retained or can be chained.

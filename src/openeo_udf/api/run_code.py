@@ -97,7 +97,7 @@ def run_user_code(code:str, data:UdfData) -> UdfData:
             #this is a UDF that transforms pandas series
             from .udf_wrapper import apply_timeseries_generic
             return apply_timeseries_generic(data, func[1])
-        elif( func[0] == 'apply_hypercube' and 'cube' in params and 'context' in params and 'openeo_udf.api.datacube.DataCube'
+        elif( (func[0] == 'apply_hypercube' or func[0] == 'apply_datacube' )  and 'cube' in params and 'context' in params and 'openeo_udf.api.datacube.DataCube'
               in str(params['cube'].annotation) and 'openeo_udf.api.datacube.DataCube' in str(sig.return_annotation) ):
             #found a datacube mapping function
             if len(data.get_datacube_list()) != 1:
