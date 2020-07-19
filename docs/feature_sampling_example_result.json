@@ -1,0 +1,75 @@
+{
+  "proj": {
+    "EPSG": 4326
+  },
+  "raster_collection_tiles": [],
+  "feature_collection_tiles": [
+    {
+      "id": "test_data_sample",
+      "data": {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "id": "0",
+            "type": "Feature",
+            "properties": {
+              "RED_0": 3,
+              "RED_1": 8,
+              "NIR_0": 4,
+              "NIR_1": 6,
+              "NIR_2": 1
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                28.5,
+                51.5
+              ]
+            }
+          },
+          {
+            "id": "1",
+            "type": "Feature",
+            "properties": {
+              "RED_0": 4,
+              "RED_1": 10,
+              "NIR_0": 1,
+              "NIR_1": 8,
+              "NIR_2": 0
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                29.5,
+                52.5
+              ]
+            }
+          },
+          {
+            "id": "2",
+            "type": "Feature",
+            "properties": {
+              "RED_0": null,
+              "RED_1": null,
+              "NIR_0": null,
+              "NIR_1": null,
+              "NIR_2": null
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                25,
+                55
+              ]
+            }
+          }
+        ]
+      },
+      "start_time": null,
+      "end_time": null
+    }
+  ],
+  "hypercubes": [],
+  "structured_data_list": [],
+  "machine_learn_models": []
+}

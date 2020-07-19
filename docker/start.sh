@@ -17,12 +17,6 @@ run_udf_server --port ${PORT} --host 0.0.0.0 &
 # Wait for the server to start
 sleep 3
 
-# Catch the swagger json description
-wget http://localhost:5000/api/v0/swagger.json -O /tmp/openeo_udf.json
-
-# Then run spectacle to generate the HTML documentation
-spectacle /tmp/openeo_udf.json -t /var/www/html/api_docs
-
 # Start the nginx process by request
 if [ "${START_NGINX}" -eq 1 ]; then
     # Run the nginx server

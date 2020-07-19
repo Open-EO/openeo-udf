@@ -1,0 +1,99 @@
+{
+  "proj": {
+    "EPSG": 4326
+  },
+  "raster_collection_tiles": [],
+  "feature_collection_tiles": [],
+  "hypercubes": [
+    {
+      "id": "NDVI",
+      "data": [
+        [
+          [
+            0.5,
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5,
+            0.5
+          ]
+        ],
+        [
+          [
+            0.5,
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5,
+            0.5
+          ]
+        ],
+        [
+          [
+            0.5,
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5,
+            0.5
+          ]
+        ]
+      ],
+      "dimensions": [
+        {
+          "name": "time",
+          "description": null,
+          "unit": null,
+          "coordinates": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "x",
+          "description": null,
+          "unit": null,
+          "coordinates": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "y",
+          "description": null,
+          "unit": null,
+          "coordinates": [
+            0,
+            1,
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "structured_data_list": [],
+  "machine_learn_models": []
+}

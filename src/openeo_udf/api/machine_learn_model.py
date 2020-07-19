@@ -14,7 +14,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__      = "soerengebbert@googlemail.com"
 
 
-class MachineLearnModel:
+class MachineLearnModelConfig:
     """This class represents a machine learn model. The model will be loaded
     at construction, based on the machine learn framework.
 
@@ -27,7 +27,7 @@ class MachineLearnModel:
     >>> model = RandomForestRegressor(n_estimators=10, max_depth=2, verbose=0)
     >>> path = '/tmp/test.pkl.xz'
     >>> dummy = joblib.dump(value=model, filename=path, compress=("xz", 3))
-    >>> m = MachineLearnModel(framework="sklearn", name="test",
+    >>> m = MachineLearnModelConfig(framework="sklearn", name="test",
     ...                       description="Machine learn model", path=path)
     >>> m.get_model()# doctest: +ELLIPSIS
     ...              # doctest: +NORMALIZE_WHITESPACE
@@ -42,7 +42,7 @@ class MachineLearnModel:
     {'description': 'Machine learn model', 'name': 'test', 'framework': 'sklearn', 'path': '/tmp/test.pkl.xz', 'md5_hash': None}
     >>> d = {'description': 'Machine learn model', 'name': 'test', 'framework': 'sklearn',
     ...      'path': '/tmp/test.pkl.xz', "md5_hash": None}
-    >>> m = MachineLearnModel.from_dict(d)
+    >>> m = MachineLearnModelConfig.from_dict(d)
     >>> m.get_model() # doctest: +ELLIPSIS
     ...               # doctest: +NORMALIZE_WHITESPACE
     RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=2,
@@ -57,7 +57,7 @@ class MachineLearnModel:
     >>> model = nn.Module
     >>> path = '/tmp/test.pt'
     >>> torch.save(model, path)
-    >>> m = MachineLearnModel(framework="pytorch", name="test",
+    >>> m = MachineLearnModelConfig(framework="pytorch", name="test",
     ...                       description="Machine learn model", path=path)
     >>> m.get_model()# doctest: +ELLIPSIS
     ...              # doctest: +NORMALIZE_WHITESPACE
@@ -67,7 +67,7 @@ class MachineLearnModel:
     {'description': 'Machine learn model', 'name': 'test', 'framework': 'pytorch', 'path': '/tmp/test.pt', 'md5_hash': None}
     >>> d = {'description': 'Machine learn model', 'name': 'test', 'framework': 'pytorch',
     ...      'path': '/tmp/test.pt', "md5_hash": None}
-    >>> m = MachineLearnModel.from_dict(d)
+    >>> m = MachineLearnModelConfig.from_dict(d)
     >>> m.get_model() # doctest: +ELLIPSIS
     ...               # doctest: +NORMALIZE_WHITESPACE
     <class 'torch.nn.modules.module.Module'>
@@ -141,8 +141,8 @@ class MachineLearnModel:
         if "md5_hash" in machine_learn_model:
             md5_hash = machine_learn_model["md5_hash"]
 
-        return MachineLearnModel(description=description, name=name,
-                                 framework=framework, path=path, md5_hash=md5_hash)
+        return MachineLearnModelConfig(description=description, name=name,
+                                       framework=framework, path=path, md5_hash=md5_hash)
 
 
 if __name__ == "__main__":

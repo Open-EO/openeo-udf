@@ -1,0 +1,146 @@
+{
+  "code": {
+    "language": "python",
+    "source": "# -*- coding: utf-8 -*-\n# Uncomment the import only for coding support\n# import numpy\n# import pandas\n# import geopandas\n# import torch\n# import torchvision\n# import tensorflow\n# import tensorboard\n# import math\n# from shapely.geometry import Point\n\nfrom openeo_udf.api.feature_collection_tile import FeatureCollectionTile\nfrom openeo_udf.api.udf_data import UdfData\n# from pprint import pprint\n\n__license__ = \"Apache License, Version 2.0\"\n__author__ = \"Soeren Gebbert\"\n__copyright__ = \"Copyright 2018, Soeren Gebbert\"\n__maintainer__ = \"Soeren Gebbert\"\n__email__ = \"soerengebbert@googlemail.com\"\n\n\ndef fct_sampling(udf_data: UdfData):\n    \"\"\"Sample any number of raster collection tiles with a single feature collection (the first if several are provided)\n    and store the samples values in the input feature collection. Each time-slice of a raster collection is\n    stored as a separate column in the feature collection. Hence, the size of the feature collection attributes\n    is (number_of_raster_tile * number_of_xy_slices) x number_of_features.\n    The number of columns is equal to (number_of_raster_tile * number_of_xy_slices).\n\n    A single feature collection id stored in the input data object that contains the sample attributes and\n    the original data.\n\n    Args:\n        udf_data (UdfData): The UDF data object that contains raster and vector tiles\n\n    Returns:\n        This function will not return anything, the UdfData object \"udf_data\" must be used to store the resulting\n        data.\n\n    \"\"\"\n\n    if not udf_data.feature_collection_tiles:\n        raise Exception(\"A single feature collection is required as input\")\n\n    if len(udf_data.feature_collection_tiles) > 1:\n        raise Exception(\"The first feature collection will be used for sampling\")\n\n    # Get the first feature collection\n    fct = udf_data.feature_collection_tiles[0]\n    features = fct.data\n\n    # Iterate over each raster tile\n    for tile in udf_data.raster_collection_tiles:\n\n        # Compute the number and names of the attribute columns\n        num_slices = len(tile.data)\n        columns = {}\n        column_names = []\n        for slice in range(num_slices):\n            column_name = tile.id + \"_%i\"%slice\n            column_names.append(column_name)\n            columns[column_name] = []\n\n        # Sample the raster data with each point\n        for feature in features.geometry:\n            # Check if the feature is a point\n            if feature.type == 'Point':\n                x = feature.x\n                y = feature.y\n                values = tile.sample(top=y, left=x)\n                # Store the values in column specific arrays\n                if values:\n                    for column_name, value in zip(column_names, values):\n                        columns[column_name].append(value)\n                else:\n                    for column_name in column_names:\n                        columns[column_name].append(math.nan)\n            else:\n                raise Exception(\"Only points are allowed for sampling\")\n        # Attach the sampled attribute data to the GeoDataFrame\n        for column_name in column_names:\n            features[column_name] = columns[column_name]\n    # Create the output feature collection\n    fct = FeatureCollectionTile(id=fct.id + \"_sample\", data=features,\n                                start_times=fct.start_times, end_times=fct.end_times)\n    # Insert the new tiles as list of feature collection tiles in the input object. The new tiles will\n    # replace the original input tiles.\n    udf_data.set_feature_collection_tiles([fct,])\n    # Remove the raster collection tiles\n    udf_data.del_raster_collection_tiles()\n\n\n# This function call is the entry point for the UDF.\n# The caller will provide all required data in the **data** object.\nfct_sampling(data)\n\n"
+  },
+  "data": {
+    "proj": {
+      "EPSG": 4326
+    },
+    "raster_collection_tiles": [
+      {
+        "extent": {
+          "top": 53.0,
+          "bottom": 51.0,
+          "right": 30.0,
+          "left": 28.0,
+          "height": 1.0,
+          "width": 1.0
+        },
+        "id": "RED",
+        "wavelength": 420.0,
+        "data": [
+          [
+            [
+              5.0,
+              4.0
+            ],
+            [
+              3.0,
+              2.0
+            ]
+          ],
+          [
+            [
+              9.0,
+              10.0
+            ],
+            [
+              8.0,
+              9.0
+            ]
+          ]
+        ],
+        "start_time": null,
+        "end_time": null
+      },
+      {
+        "extent": {
+          "top": 53.0,
+          "bottom": 51.0,
+          "right": 30.0,
+          "left": 28.0,
+          "height": 1.0,
+          "width": 1.0
+        },
+        "id": "NIR",
+        "wavelength": 670.0,
+        "data": [
+          [
+            [
+              2.0,
+              1.0
+            ],
+            [
+              4.0,
+              3.0
+            ]
+          ],
+          [
+            [
+              7.0,
+              8.0
+            ],
+            [
+              6.0,
+              7.0
+            ]
+          ],
+          [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0
+            ]
+          ]
+        ],
+        "start_time": null,
+        "end_time": null
+      }
+    ],
+    "feature_collection_tiles": [
+      {
+        "id": "test_data",
+        "data": {
+          "features": [
+            {
+              "id": "0",
+              "type": "Feature",
+              "properties": {},
+              "geometry": {
+                "coordinates": [
+                  28.5,
+                  51.5
+                ],
+                "type": "Point"
+              }
+            },
+            {
+              "id": "1",
+              "type": "Feature",
+              "properties": {},
+              "geometry": {
+                "coordinates": [
+                  29.5,
+                  52.5
+                ],
+                "type": "Point"
+              }
+            },
+            {
+              "id": "2",
+              "type": "Feature",
+              "properties": {},
+              "geometry": {
+                "coordinates": [
+                  25,
+                  55
+                ],
+                "type": "Point"
+              }
+            }
+          ],
+          "type": "FeatureCollection"
+        },
+        "start_time": null,
+        "end_time": null
+      }
+    ],
+    "hypercubes": [],
+    "structured_data_list": [],
+    "machine_learn_models": []
+  }
+}

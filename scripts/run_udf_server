@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import argparse
-from openeo_udf.server.app import flask_app
-from openeo_udf.server.endpoints import create_endpoints
+import uvicorn
+from openeo_udf.server.udf import app
+from openeo_udf.server.tools import create_storage_directory
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -21,13 +22,13 @@ def main():
     parser.add_argument("--port", type=int, required=False, default=5000,
                         help="The port that should be used for the server")
 
-    parser.add_argument("--debug", type=bool, required=False, default=False,
-                        help="Set True to activate debugging")
+    parser.add_argument("--log_level", type=str, required=False, default="info",
+                        help="Set the log level of the uvicorn server")
 
     args = parser.parse_args()
 
-    create_endpoints()
-    flask_app.run(host=args.host, port=args.port, debug=args.debug)
+    create_storage_directory()
+    uvicorn.run(app, host=args.host, port=args.port, log_level=args.log_level, reload=True)
 
 
 if __name__ == '__main__':

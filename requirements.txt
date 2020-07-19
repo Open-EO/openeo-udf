@@ -1,10 +1,9 @@
 # The requirements for openeo-udf python 3.6 environment
 
-geopandas==0.3.0
+geopandas==0.7.0
 Shapely==1.6.4.post1
-pyproj==1.9.5.1
-pandas==0.22.0
-numpy==1.14.2
+pandas==0.23.4
+numpy<2.0,>=1.15.0
 xarray==0.11.2
 scipy
 Pillow==5.0.0
@@ -13,12 +12,8 @@ PyScaffold==3.0.2
 PyYAML==4.2b1
 scikit-learn==0.19.1
 six==1.11.0
-tensorflow
+tensorflow<=2.1.0
 Sphinx==1.7.2
-Flask==1.0.2
-Flask-Cors==3.0.3
-Flask-RESTful==0.3.6
-flask-restful-swagger-2==0.35
 # The torch installation depends on the available python version
 #http://download.pytorch.org/whl/cpu/torch-0.3.1-cp35-cp35m-linux_x86_64.whl
 #torch==0.3.1
@@ -29,3 +24,9 @@ pygdal==2.2.3.3
 msgpack==0.6.1
 # Rasterio has a bug recognizing the numpy header files so we must install it after the requirements installation by hand
 # rasterio==0.36.0
+
+# FastAPI requirements
+uvicorn==0.8.6
+fastapi==0.35.0
+pydantic==0.30
+ujson==1.35

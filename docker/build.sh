@@ -4,72 +4,18 @@
 docker build -t openeo_udf .
 
 # Test it with enabled nginx
-docker run -v /tmp:/var/www/http --name "openeo-udf-server" -p 5000:5000 -p 80:80 -t -e START_NGINX=1 openeo_udf
+mkdir /tmp/www
+docker run -v /tmp/www:/var/www/http --name "openeo-udf-server" -p 5000:5000 -p 8080:80 -t -e START_NGINX=1 openeo_udf
 
 docker stop "openeo-udf-server" &&  docker rm "openeo-udf-server"
 
 # Documentation
-curl -X GET http://localhost:80/index.html
-curl -X GET http://localhost:80/api_docs/index.html
+curl -X GET http://localhost:8080/index.html
+curl -X GET http://localhost:8080/api_docs/index.html
+curl -X GET http://localhost:5000/redoc
+curl -X GET http://localhost:5000/docs
+wget http://localhost:5000/openapi.json -O /tmp/openeo_udf.json
 
-
-JSON='
-{
-  "code": {
-    "source": "data.del_raster_collection_tiles()",
-    "language": "python"
-  },
-  "data": {
-    "proj": "EPSG:4326",
-    "raster_collection_tiles": [
-      {
-        "data": [
-          [
-            [
-              0,
-              1
-            ],
-            [
-              2,
-              3
-            ]
-          ],
-          [
-            [
-              0,
-              1
-            ],
-            [
-              2,
-              3
-            ]
-          ]
-        ],
-        "extent": {
-            "top": 53,
-            "bottom": 52,
-            "right": 30,
-            "left": 28,
-            "height": 1,
-            "width": 1
-        },
-        "end_times": [
-          "2001-01-02T00:00:00",
-          "2001-01-03T00:00:00"
-        ],
-        "start_times": [
-          "2001-01-01T00:00:00",
-          "2001-01-02T00:00:00"
-        ],
-        "id": "test_data",
-        "wavelength": 420
-      }
-    ]
-  }
-}
-'
-
-curl -H "Content-Type: application/json" -X POST -d "${JSON}" http://localhost:5000/udf
 
 JSON='
 {
@@ -78,7 +24,7 @@ JSON='
     "language": "python"
   },
   "data": {
-    "proj": "EPSG:4326",
+    "proj": {"EPSG":4326},
     "feature_collection_tiles": [
       {
         "id": "test_data",

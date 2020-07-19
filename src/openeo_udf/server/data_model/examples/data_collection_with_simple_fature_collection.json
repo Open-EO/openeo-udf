@@ -1,0 +1,84 @@
+{
+  "type": "DataCollection",
+  "metadata": {
+    "name": "SimpleFeatureCollection",
+    "description": "New collection of simple features",
+    "number_of_object_collections": 1,
+    "number_of_geometries": 3,
+    "number_of_variable_collections": 1,
+    "number_of_time_stamps": 1,
+    "creator": "Soeren",
+    "creation_time": "2001-01-01T10:00:00",
+    "modification_time": "2001-01-01T10:00:00",
+    "source": null,
+    "link": null,
+    "userdata": null
+  },
+  "object_collections": {
+    "data_cubes": [],
+    "simple_feature_collections": [
+      {
+        "name": "Boundary of three lines",
+        "description": "Boundary of three lines",
+        "number_of_features": 3,
+        "bbox": {
+          "min_x": 0.0,
+          "max_x": 3.0,
+          "min_y": 0.0,
+          "max_y": 2.0,
+          "min_z": 0.0,
+          "max_z": 0.0
+        },
+        "reference_system": "4326",
+        "features": [
+          {
+            "type": "LineString",
+            "predecessors": [],
+            "geometry": 0,
+            "variable": [0, 0],
+            "timestamp": 0
+          },
+          {
+            "type": "LineString",
+            "predecessors": [],
+            "geometry": 1,
+            "variable": [0, 0],
+            "timestamp": 0
+          },
+          {
+            "type": "LineString",
+            "predecessors": [],
+            "geometry": 2,
+            "variable": [0, 0],
+            "timestamp": 0
+          }
+        ]
+      }
+    ]
+  },
+  "geometry_collection": [
+    "LineString (2 0, 2 2)",
+    "LineString (2 2, 0 1, 2 0)",
+    "LineString (2 2, 3 1, 2 0)"
+  ],
+  "variables_collections": [
+    {
+      "name": "Border",
+      "size": [1],
+      "number_of_variables": 1,
+      "variables": [
+        {
+          "name": "Landuse",
+          "description": "Landuse",
+          "unit": "category",
+          "values": [],
+          "labels": ["Border"]
+        }
+      ]
+    }
+  ],
+  "timestamps": {
+    "intervals": [["2001-01-01T10:00:00", "2001-01-01T00:02:00"]],
+    "calendar": "gregorian"
+  }
+}

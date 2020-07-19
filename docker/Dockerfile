@@ -14,7 +14,7 @@ RUN echo "resolvconf resolvconf/linkify-resolvconf boolean false" | debconf-set-
 # Install the dependencies
 RUN apt update && apt upgrade -y && \
     apt install software-properties-common -y && \
-    apt update && apt install --no-install-recommends --no-install-suggests \
+    apt update && apt install \
     build-essential \
     flex \
     make \
@@ -38,6 +38,9 @@ RUN apt update && apt upgrade -y && \
     libpq-dev \
     proj-data \
     gdal-bin \
+    default-libmysqlclient-dev \
+    libmysqlclient-dev \
+    libssl-dev \
     libgdal-dev \
     libspatialite7 \
     moreutils \
@@ -47,16 +50,24 @@ RUN apt update && apt upgrade -y && \
     iperf \
     attr \
     git \
+    mercurial \
     vim \
     curl \
     wget \
     unzip \
     zip \
     nginx \
-    npm \
     bzip2 -y && \
     apt-get clean && \
     apt-get autoremove
+
+# Install the dependencies
+RUN apt install \
+    libssl1.0-dev \
+    node-gyp \
+    nodejs-dev \
+    npm -y
+
 
 RUN echo LANG="en_US.UTF-8" > /etc/default/locale
 # RUN apt-get install nodejs-legacy
@@ -66,10 +77,15 @@ WORKDIR /tmp/src
 RUN ps
 RUN git clone https://github.com/Open-EO/openeo-udf.git openeo_udf
 WORKDIR /tmp/src/openeo_udf
+RUN git fetch
+RUN git checkout fastapi
 RUN pip3 install --upgrade pip
 RUN pip3 install --upgrade setuptools
+RUN apt install libgdal-dev -y
 RUN pip3 install -r requirements.txt
+RUN python3 setup.py test
 RUN python3 setup.py install
+RUN python3 setup.py test
 
 WORKDIR /tmp/src/
 COPY start.sh /tmp/src/start.sh

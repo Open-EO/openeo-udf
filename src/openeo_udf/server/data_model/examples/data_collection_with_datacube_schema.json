@@ -1,0 +1,688 @@
+{
+  "title": "DataCollection",
+  "description": "Data collection",
+  "type": "object",
+  "properties": {
+    "type": {
+      "title": "Type",
+      "default": "DataCollection",
+      "type": "string"
+    },
+    "metadata": {
+      "title": "Metadata",
+      "description": "The metadata object for the data collection",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Metadata"
+        }
+      ]
+    },
+    "object_collections": {
+      "title": "Object_Collections",
+      "description": "A collection of different data objects like data cubes and feature collections",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ObjectCollection"
+        }
+      ]
+    },
+    "geometry_collection": {
+      "title": "Geometry_Collection",
+      "description": "A list of WKT geometry strings that are referenced by the objects in the object collection.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "variables_collections": {
+      "title": "Variables_Collections",
+      "description": "A list of field collections",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/VariablesCollection"
+      }
+    },
+    "timestamps": {
+      "title": "Timestamps",
+      "description": "The time stamps of the data collection, that can be references by each object (feature, cube, ...).",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TimeStamps"
+        }
+      ]
+    }
+  },
+  "required": [
+    "metadata",
+    "object_collections",
+    "geometry_collection",
+    "variables_collections",
+    "timestamps"
+  ],
+  "definitions": {
+    "Metadata": {
+      "title": "Metadata",
+      "description": "Metadata description of the topological data collection",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "description": "The name of topological data collection. Allowed characters [a-z][A-Z][0-9][_].",
+          "examples": [
+            {
+              "name": "Climate_data_collection_1984"
+            }
+          ],
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "description": "Description of the topological data collection.",
+          "type": "string"
+        },
+        "number_of_object_collections": {
+          "title": "Number_Of_Object_Collections",
+          "description": "Number of all collections (data cubes, image collection, simple feature collections,topological feature collections).",
+          "type": "integer"
+        },
+        "number_of_geometries": {
+          "title": "Number_Of_Geometries",
+          "description": "Number of all geometries.",
+          "type": "integer"
+        },
+        "number_of_variable_collections": {
+          "title": "Number_Of_Variable_Collections",
+          "description": "Number of all variable collections.",
+          "type": "integer"
+        },
+        "number_of_time_stamps": {
+          "title": "Number_Of_Time_Stamps",
+          "description": "Number of time tamps.",
+          "type": "integer"
+        },
+        "creator": {
+          "title": "Creator",
+          "description": "The name of the creator.",
+          "type": "string"
+        },
+        "creation_time": {
+          "title": "Creation_Time",
+          "description": "Time of creation.",
+          "type": "string"
+        },
+        "modification_time": {
+          "title": "Modification_Time",
+          "description": "Time of last modification.",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "description": "The source of the data collections.",
+          "type": "string"
+        },
+        "link": {
+          "title": "Link",
+          "description": "URL link to a specific web source.",
+          "type": "string"
+        },
+        "userdata": {
+          "title": "Userdata",
+          "description": "A dictionary of additional metadata (STAC).",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "number_of_object_collections",
+        "number_of_geometries",
+        "number_of_variable_collections",
+        "number_of_time_stamps"
+      ]
+    },
+    "Dimension": {
+      "title": "Dimension",
+      "description": "Description of a data cube dimension. See the STAC dimension definition for more details and examples.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "title": "Description",
+          "description": "The description of the dimension.",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "description": "The type of the dimension (spatial, temporal, bands, other)",
+          "type": "string"
+        },
+        "unit": {
+          "title": "Unit",
+          "description": "The unit of the dimension in SI units or UDUNITS. Time instances or intervals are defined as ISO8601 strings",
+          "examples": [
+            {
+              "unit": "seconds"
+            },
+            {
+              "unit": "m"
+            },
+            {
+              "unit": "hours"
+            },
+            {
+              "unit": "days"
+            },
+            {
+              "unit": "mm"
+            },
+            {
+              "unit": "km"
+            },
+            {
+              "unit": "ISO8601"
+            }
+          ],
+          "type": "string"
+        },
+        "extent": {
+          "title": "Extent",
+          "description": "The spatial or temporal extent of the dimension. It must be a tuple of values.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "values": {
+          "title": "Values",
+          "description": "A list of coordinates for this dimension. Use ISO8601 to specify time instances and intervals.If spatial axis are irregular, then the values parameter should be used to specify this axis. Otherwise the extent and the number of cells is sufficient.",
+          "examples": [
+            {
+              "values": [
+                50,
+                51,
+                52
+              ]
+            },
+            {
+              "values": [
+                "2001-01-01T10:00:00 / 2001-01-01T12:00:00",
+                "2001-01-01T12:00:00 / 2001-01-01T14:00:00"
+              ]
+            }
+          ],
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "number_of_cells": {
+          "title": "Number_Of_Cells",
+          "description": "The number of cells in the spatial dimension or intervals / time instances in case of temporal dimension.",
+          "type": "integer"
+        },
+        "axis": {
+          "title": "Axis",
+          "description": "If the dimension is spatial, then the axis x, y or z can be specified with this parameter.",
+          "type": "string"
+        },
+        "reference_system": {
+          "title": "Reference_System",
+          "description": "The definition of the coordinate system. If an integer was provided, it will be interpreted as EPSG code. If a string was provided it will be interpreted as WKT2 definition or in case of a temporal dimension as the calendar. In case of a dictionary object PROJSON is expected.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "required": [
+        "description",
+        "type",
+        "unit",
+        "extent"
+      ]
+    },
+    "DataCube": {
+      "title": "DataCube",
+      "description": "A multidimensional representation of a data cube",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "description": "The unique name of the data cube. Allowed characters [a-z][A-Z][0-9][_].",
+          "examples": [
+            {
+              "name": "Climate_data_cube_1984"
+            }
+          ],
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "description": "Description of the data cube.",
+          "type": "string"
+        },
+        "dim": {
+          "title": "Dim",
+          "description": "A an ordered list of dimension names of the data cube. The dimensions are applied in the provided order.",
+          "examples": [
+            {
+              "dim": [
+                "t",
+                "y",
+                "x"
+              ]
+            }
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "size": {
+          "title": "Size",
+          "description": "The size of the dimensions as an ordered list of integer values.",
+          "examples": [
+            [
+              3,
+              3,
+              3
+            ]
+          ],
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "dimensions": {
+          "title": "Dimensions",
+          "description": "A dictionary of dimension descriptions. Dimensions are references by their name that is the key of the dict. The id of the dimension is a string, that should follow the convention: t -> time, x, y, z -> spatial dimensions.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Dimension"
+          }
+        },
+        "field_collection": {
+          "title": "Field_Collection",
+          "description": "The integer index of the field collection. All fields and their values of this indexed collection are assigned to the data cube and must have the same size",
+          "type": "integer"
+        },
+        "timestamp": {
+          "title": "Timestamp",
+          "description": "The integer index of the assigned timestamp from the timestamp array",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "dim",
+        "size",
+        "dimensions"
+      ]
+    },
+    "SpatialBoundingBox": {
+      "title": "SpatialBoundingBox",
+      "description": "Spatial bounding box definitions",
+      "type": "object",
+      "properties": {
+        "min_x": {
+          "title": "Min_X",
+          "description": "The minimum x coordinate of the 3d bounding box.",
+          "type": "number"
+        },
+        "max_x": {
+          "title": "Max_X",
+          "description": "The maximum x coordinate of the 3d bounding box.",
+          "type": "number"
+        },
+        "min_y": {
+          "title": "Min_Y",
+          "description": "The minimum y coordinate of the 3d bounding box.",
+          "type": "number"
+        },
+        "max_y": {
+          "title": "Max_Y",
+          "description": "The maximum y coordinate of the 3d bounding box.",
+          "type": "number"
+        },
+        "min_z": {
+          "title": "Min_Z",
+          "description": "The minimum z coordinate of the 3d bounding box.",
+          "type": "number"
+        },
+        "max_z": {
+          "title": "Max_Z",
+          "description": "The maximum z coordinate of the 3d bounding box.",
+          "type": "number"
+        }
+      },
+      "required": [
+        "min_x",
+        "max_x",
+        "min_y",
+        "max_y",
+        "min_z",
+        "max_z"
+      ]
+    },
+    "SimpleFeature": {
+      "title": "SimpleFeature",
+      "description": "A simple feature definition that may contain (multi)points, (multi)lines or (multi)polygons",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "description": "The type of the simple feature: Point, LineString, Polygon, MultiPoint, MultiLine, MultiPolygon.",
+          "type": "string"
+        },
+        "predecessors": {
+          "title": "Predecessors",
+          "description": "A list of predecessors from which this feature was created.",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "geometry": {
+          "title": "Geometry",
+          "description": "The index of a geometry from the geometry collection.",
+          "type": "integer"
+        },
+        "variable": {
+          "title": "Variable",
+          "description": "The index of the assigned field collection and the value/label index.",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "timestamp": {
+          "title": "Timestamp",
+          "description": "The index of the assigned timestamp.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "geometry"
+      ]
+    },
+    "SimpleFeatureCollection": {
+      "title": "SimpleFeatureCollection",
+      "description": "Simple feature collection: (multi)points, (multi)lines or (multi)polygons",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "description": "The unique name of the simple feature collection. Allowed characters [a-z][A-Z][0-9][_].",
+          "examples": [
+            {
+              "name": "borders_1984"
+            }
+          ],
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "description": "Description.",
+          "type": "string"
+        },
+        "number_of_features": {
+          "title": "Number_Of_Features",
+          "description": "The number of features.",
+          "type": "integer"
+        },
+        "bbox": {
+          "title": "Bbox",
+          "description": "The bounding box of all features.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/SpatialBoundingBox"
+            }
+          ]
+        },
+        "reference_system": {
+          "title": "Reference_System",
+          "description": "The definition of the spatial reference system. If an integer was provided it will be interpreted as EPSG code. If a string was provided it will be interpreted as WKT2 definition. In case of a dictionary object, PROJSON is expected. The definition is identical to the dimension srs",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "features": {
+          "title": "Features",
+          "description": "A list of features.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SimpleFeature"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "number_of_features",
+        "bbox",
+        "features"
+      ]
+    },
+    "ObjectCollection": {
+      "title": "ObjectCollection",
+      "description": "Object collection that contains data cubes and simple feature collections",
+      "type": "object",
+      "properties": {
+        "data_cubes": {
+          "title": "Data_Cubes",
+          "description": "A list of data cubes",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataCube"
+          }
+        },
+        "simple_feature_collections": {
+          "title": "Simple_Feature_Collections",
+          "description": "A list of simple features collections",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SimpleFeatureCollection"
+          }
+        }
+      }
+    },
+    "Variable": {
+      "title": "Variable",
+      "description": "This represents a variable definition with values and labels",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "description": "Name of the variable.",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "description": "Description of the variable.",
+          "type": "string"
+        },
+        "unit": {
+          "title": "Unit",
+          "description": "The unit of the variable.",
+          "examples": [
+            {
+              "unit": "m"
+            },
+            {
+              "unit": "NDVI"
+            },
+            {
+              "unit": "Watt"
+            }
+          ],
+          "type": "string"
+        },
+        "values": {
+          "title": "Values",
+          "description": "The variable values that must be numeric.",
+          "examples": [
+            {
+              "values": [
+                1,
+                2,
+                3
+              ]
+            }
+          ],
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          }
+        },
+        "labels": {
+          "title": "Labels",
+          "description": "Label for each variable value.",
+          "examples": [
+            {
+              "labels": [
+                "a",
+                "b",
+                "c"
+              ]
+            }
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "unit",
+        "values",
+        "labels"
+      ]
+    },
+    "VariablesCollection": {
+      "title": "VariablesCollection",
+      "description": "A collection of variables that all have the same size",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "description": "Name of the variables collection.",
+          "type": "string"
+        },
+        "size": {
+          "title": "Size",
+          "description": "The size of the variables collection. Each variable of this collection must have the same size. The size of the variable can be mutli-dimensional. However, variables are stored as one dimensional arrays and must be re-shaped in the multi-dimensional form for processing.",
+          "examples": [
+            {
+              "size": [
+                100
+              ]
+            },
+            {
+              "size": [
+                3,
+                3,
+                3
+              ]
+            }
+          ],
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "number_of_variables": {
+          "title": "Number_Of_Variables",
+          "description": "The number of variables in this collection.",
+          "type": "integer"
+        },
+        "variables": {
+          "title": "Variables",
+          "description": "A list of variables with the same size.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Variable"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "size",
+        "number_of_variables",
+        "variables"
+      ]
+    },
+    "TimeStamps": {
+      "title": "TimeStamps",
+      "description": "The time stamps of the data collections",
+      "type": "object",
+      "properties": {
+        "intervals": {
+          "title": "Intervals",
+          "description": "A list of timestamp tuples as strings. Here start and end time can be specified. If only the start time is given, then the end time can be None.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "calendar": {
+          "title": "Calendar",
+          "description": "The definition of the temporal reference system of the  time stamps. Either the gregorian or julian calendar.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "intervals"
+      ]
+    }
+  }
+}
