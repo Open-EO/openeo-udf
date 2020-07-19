@@ -84,7 +84,8 @@ def _build_default_execution_context():
 
 def run_user_code(code:str, data:UdfData) -> UdfData:
     module={}
-    exec(code, _build_default_execution_context(), module)
+    exec(code, _build_default_execution_context())
+
 
     functions = {t[0]:t[1] for t in module.items() if callable(t[1])}
 
