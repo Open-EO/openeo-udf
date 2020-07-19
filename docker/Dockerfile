@@ -78,7 +78,6 @@ RUN ps
 RUN git clone https://github.com/Open-EO/openeo-udf.git openeo_udf
 WORKDIR /tmp/src/openeo_udf
 RUN git fetch
-RUN git checkout fastapi
 RUN pip3 install --upgrade pip
 RUN pip3 install --upgrade setuptools
 RUN apt install libgdal-dev -y
