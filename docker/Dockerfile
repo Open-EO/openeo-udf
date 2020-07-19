@@ -50,6 +50,7 @@ RUN apt update && apt upgrade -y && \
     iperf \
     attr \
     git \
+    mercurial \
     vim \
     curl \
     wget \
