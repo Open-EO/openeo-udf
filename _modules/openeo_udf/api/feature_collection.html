@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.api.feature_collection_tile &#8212; openeo-udf 0.0.post0.dev269+g6263df3 documentation</title>
+    <title>openeo_udf.api.feature_collection &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -36,7 +36,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for openeo_udf.api.feature_collection_tile</h1><div class="highlight"><pre>
+  <h1>Source code for openeo_udf.api.feature_collection</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;OpenEO Python UDF interface&quot;&quot;&quot;</span>
@@ -44,8 +44,8 @@
 <span class="kn">import</span> <span class="nn">geopandas</span>
 <span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.api.collection_tile</span> <span class="k">import</span> <span class="n">CollectionTile</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.collection_base</span> <span class="kn">import</span> <span class="n">CollectionBase</span>
 
 
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
@@ -55,8 +55,8 @@
 <span class="n">__email__</span>      <span class="o">=</span> <span class="s2">&quot;soerengebbert@googlemail.com&quot;</span>
 
 
-<div class="viewcode-block" id="FeatureCollectionTile"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection_tile.FeatureCollectionTile">[docs]</a><span class="k">class</span> <span class="nc">FeatureCollectionTile</span><span class="p">(</span><span class="n">CollectionTile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A feature collection tile that represents a subset or a whole feature collection</span>
+<div class="viewcode-block" id="FeatureCollection"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection.FeatureCollection">[docs]</a><span class="k">class</span> <span class="nc">FeatureCollection</span><span class="p">(</span><span class="n">CollectionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A feature collection  that represents a subset or a whole feature collection</span>
 <span class="sd">    where single vector features may have time stamps assigned.</span>
 
 <span class="sd">    Some basic tests:</span>
@@ -70,7 +70,7 @@
 <span class="sd">    &gt;&gt;&gt; data = geopandas.GeoDataFrame(geometry=pseries, columns=[&quot;a&quot;, &quot;b&quot;])</span>
 <span class="sd">    &gt;&gt;&gt; data[&quot;a&quot;] = [1,2,3]</span>
 <span class="sd">    &gt;&gt;&gt; data[&quot;b&quot;] = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]</span>
-<span class="sd">    &gt;&gt;&gt; fct = FeatureCollectionTile(id=&quot;test&quot;, data=data)</span>
+<span class="sd">    &gt;&gt;&gt; fct = FeatureCollection(id=&quot;test&quot;, data=data)</span>
 <span class="sd">    &gt;&gt;&gt; print(fct)</span>
 <span class="sd">    id: test</span>
 <span class="sd">    start_times: None</span>
@@ -97,7 +97,7 @@
 <span class="sd">    &gt;&gt;&gt; starts = pandas.DatetimeIndex(dates)</span>
 <span class="sd">    &gt;&gt;&gt; dates = [pandas.Timestamp(&#39;2012-05-02&#39;)]</span>
 <span class="sd">    &gt;&gt;&gt; ends = pandas.DatetimeIndex(dates)</span>
-<span class="sd">    &gt;&gt;&gt; fct = FeatureCollectionTile(id=&quot;test&quot;, start_times=starts, end_times=ends, data=data)</span>
+<span class="sd">    &gt;&gt;&gt; fct = FeatureCollection(id=&quot;test&quot;, start_times=starts, end_times=ends, data=data)</span>
 <span class="sd">    &gt;&gt;&gt; print(fct)</span>
 <span class="sd">    id: test</span>
 <span class="sd">    start_times: DatetimeIndex([&#39;2012-05-01&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
@@ -112,7 +112,7 @@
 <span class="sd">    &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;,</span>
 <span class="sd">    &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}]}}&#39;</span>
 
-<span class="sd">    &gt;&gt;&gt; fct = FeatureCollectionTile.from_dict(fct.to_dict())</span>
+<span class="sd">    &gt;&gt;&gt; fct = FeatureCollection.from_dict(fct.to_dict())</span>
 <span class="sd">    &gt;&gt;&gt; json.dumps(fct.to_dict()) # doctest: +ELLIPSIS</span>
 <span class="sd">    ...                           # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    &#39;{&quot;id&quot;: &quot;test&quot;, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;],</span>
@@ -121,25 +121,25 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span>
                  <span class="n">start_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">end_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Constructor of the tile of a vector collection</span>
+        <span class="sd">&quot;&quot;&quot;Constructor of the  of a vector collection</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            id (str): The unique id of the vector collection tile</span>
+<span class="sd">            id (str): The unique id of the vector collection</span>
 <span class="sd">            data (geopandas.GeoDataFrame): A GeoDataFrame with geometry column and attribute data</span>
 <span class="sd">            start_times (pandas.DateTimeIndex): The vector with start times for each spatial x,y slice</span>
 <span class="sd">            end_times (pandas.DateTimeIndex): The pandas.DateTimeIndex vector with end times</span>
 <span class="sd">                                              for each spatial x,y slice, if no</span>
 <span class="sd">                       end times are defined, then time instances are assumed not intervals</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">CollectionTile</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">start_times</span><span class="o">=</span><span class="n">start_times</span><span class="p">,</span> <span class="n">end_times</span><span class="o">=</span><span class="n">end_times</span><span class="p">)</span>
+        <span class="n">CollectionBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">start_times</span><span class="o">=</span><span class="n">start_times</span><span class="p">,</span> <span class="n">end_times</span><span class="o">=</span><span class="n">end_times</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_data_with_time</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;id: </span><span class="si">%(id)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
                <span class="s2">&quot;start_times: </span><span class="si">%(start_times)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
                <span class="s2">&quot;end_times: </span><span class="si">%(end_times)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
@@ -147,7 +147,7 @@
                                  <span class="s2">&quot;start_times&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">start_times</span><span class="p">,</span>
                                  <span class="s2">&quot;end_times&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">end_times</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">}</span>
 
-<div class="viewcode-block" id="FeatureCollectionTile.get_data"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection_tile.FeatureCollectionTile.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="FeatureCollection.get_data"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection.FeatureCollection.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns</span>
 
 <span class="sd">        Returns:</span>
@@ -156,7 +156,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span></div>
 
-<div class="viewcode-block" id="FeatureCollectionTile.set_data"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection_tile.FeatureCollectionTile.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">):</span>
+<div class="viewcode-block" id="FeatureCollection.set_data"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection.FeatureCollection.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the geopandas.GeoDataFrame that contains the geometry column and any number of attribute columns</span>
 
 <span class="sd">        This function will check if the provided data is a geopandas.GeoDataFrame and raises</span>
@@ -173,13 +173,13 @@
 
     <span class="n">data</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_data</span><span class="p">,</span> <span class="n">fset</span><span class="o">=</span><span class="n">set_data</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FeatureCollectionTile.to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection_tile.FeatureCollectionTile.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Convert this FeatureCollectionTile into a dictionary that can be converted into</span>
+<div class="viewcode-block" id="FeatureCollection.to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection.FeatureCollection.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert this FeatureCollection into a dictionary that can be converted into</span>
 <span class="sd">        a valid JSON representation</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict:</span>
-<span class="sd">            FeatureCollectionTile as a dictionary</span>
+<span class="sd">            FeatureCollection as a dictionary</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
@@ -192,17 +192,17 @@
 
         <span class="k">return</span> <span class="n">d</span></div>
 
-<div class="viewcode-block" id="FeatureCollectionTile.from_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection_tile.FeatureCollectionTile.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FeatureCollection.from_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.feature_collection.FeatureCollection.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">fct_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a feature collection tile from a python dictionary that was created from</span>
-<span class="sd">        the JSON definition of the FeatureCollectionTile</span>
+        <span class="sd">&quot;&quot;&quot;Create a feature collection  from a python dictionary that was created from</span>
+<span class="sd">        the JSON definition of the FeatureCollection</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            fct_dict (dict): The dictionary that contains the feature collection tile definition</span>
+<span class="sd">            fct_dict (dict): The dictionary that contains the feature collection  definition</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            FeatureCollectionTile:</span>
-<span class="sd">            A new FeatureCollectionTile object</span>
+<span class="sd">            FeatureCollection:</span>
+<span class="sd">            A new FeatureCollection object</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -212,8 +212,8 @@
         <span class="k">if</span> <span class="s2">&quot;data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fct_dict</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Missing data in dictionary&quot;</span><span class="p">)</span>
 
-        <span class="n">fct</span> <span class="o">=</span> <span class="n">FeatureCollectionTile</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span><span class="n">fct_dict</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
-                                    <span class="n">data</span><span class="o">=</span><span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_features</span><span class="p">(</span><span class="n">fct_dict</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]))</span>
+        <span class="n">fct</span> <span class="o">=</span> <span class="n">FeatureCollection</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span><span class="n">fct_dict</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                <span class="n">data</span><span class="o">=</span><span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_features</span><span class="p">(</span><span class="n">fct_dict</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]))</span>
 
         <span class="k">if</span> <span class="s2">&quot;start_times&quot;</span> <span class="ow">in</span> <span class="n">fct_dict</span><span class="p">:</span>
             <span class="n">fct</span><span class="o">.</span><span class="n">set_start_times_from_list</span><span class="p">(</span><span class="n">fct_dict</span><span class="p">[</span><span class="s2">&quot;start_times&quot;</span><span class="p">])</span>
@@ -259,7 +259,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

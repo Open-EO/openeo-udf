@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.api.machine_learn_model &#8212; openeo-udf 0.0.post0.dev269+g6263df3 documentation</title>
+    <title>openeo_udf.api.machine_learn_model &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -42,8 +42,8 @@
 <span class="sd">&quot;&quot;&quot;OpenEO Python UDF interface&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.server.config</span> <span class="k">import</span> <span class="n">UdfConfiguration</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.server.config</span> <span class="kn">import</span> <span class="n">UdfConfiguration</span>
 
 
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
@@ -53,7 +53,7 @@
 <span class="n">__email__</span>      <span class="o">=</span> <span class="s2">&quot;soerengebbert@googlemail.com&quot;</span>
 
 
-<div class="viewcode-block" id="MachineLearnModel"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModel">[docs]</a><span class="k">class</span> <span class="nc">MachineLearnModel</span><span class="p">:</span>
+<div class="viewcode-block" id="MachineLearnModelConfig"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModelConfig">[docs]</a><span class="k">class</span> <span class="nc">MachineLearnModelConfig</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This class represents a machine learn model. The model will be loaded</span>
 <span class="sd">    at construction, based on the machine learn framework.</span>
 
@@ -66,7 +66,7 @@
 <span class="sd">    &gt;&gt;&gt; model = RandomForestRegressor(n_estimators=10, max_depth=2, verbose=0)</span>
 <span class="sd">    &gt;&gt;&gt; path = &#39;/tmp/test.pkl.xz&#39;</span>
 <span class="sd">    &gt;&gt;&gt; dummy = joblib.dump(value=model, filename=path, compress=(&quot;xz&quot;, 3))</span>
-<span class="sd">    &gt;&gt;&gt; m = MachineLearnModel(framework=&quot;sklearn&quot;, name=&quot;test&quot;,</span>
+<span class="sd">    &gt;&gt;&gt; m = MachineLearnModelConfig(framework=&quot;sklearn&quot;, name=&quot;test&quot;,</span>
 <span class="sd">    ...                       description=&quot;Machine learn model&quot;, path=path)</span>
 <span class="sd">    &gt;&gt;&gt; m.get_model()# doctest: +ELLIPSIS</span>
 <span class="sd">    ...              # doctest: +NORMALIZE_WHITESPACE</span>
@@ -81,7 +81,7 @@
 <span class="sd">    {&#39;description&#39;: &#39;Machine learn model&#39;, &#39;name&#39;: &#39;test&#39;, &#39;framework&#39;: &#39;sklearn&#39;, &#39;path&#39;: &#39;/tmp/test.pkl.xz&#39;, &#39;md5_hash&#39;: None}</span>
 <span class="sd">    &gt;&gt;&gt; d = {&#39;description&#39;: &#39;Machine learn model&#39;, &#39;name&#39;: &#39;test&#39;, &#39;framework&#39;: &#39;sklearn&#39;,</span>
 <span class="sd">    ...      &#39;path&#39;: &#39;/tmp/test.pkl.xz&#39;, &quot;md5_hash&quot;: None}</span>
-<span class="sd">    &gt;&gt;&gt; m = MachineLearnModel.from_dict(d)</span>
+<span class="sd">    &gt;&gt;&gt; m = MachineLearnModelConfig.from_dict(d)</span>
 <span class="sd">    &gt;&gt;&gt; m.get_model() # doctest: +ELLIPSIS</span>
 <span class="sd">    ...               # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    RandomForestRegressor(bootstrap=True, criterion=&#39;mse&#39;, max_depth=2,</span>
@@ -96,7 +96,7 @@
 <span class="sd">    &gt;&gt;&gt; model = nn.Module</span>
 <span class="sd">    &gt;&gt;&gt; path = &#39;/tmp/test.pt&#39;</span>
 <span class="sd">    &gt;&gt;&gt; torch.save(model, path)</span>
-<span class="sd">    &gt;&gt;&gt; m = MachineLearnModel(framework=&quot;pytorch&quot;, name=&quot;test&quot;,</span>
+<span class="sd">    &gt;&gt;&gt; m = MachineLearnModelConfig(framework=&quot;pytorch&quot;, name=&quot;test&quot;,</span>
 <span class="sd">    ...                       description=&quot;Machine learn model&quot;, path=path)</span>
 <span class="sd">    &gt;&gt;&gt; m.get_model()# doctest: +ELLIPSIS</span>
 <span class="sd">    ...              # doctest: +NORMALIZE_WHITESPACE</span>
@@ -106,13 +106,13 @@
 <span class="sd">    {&#39;description&#39;: &#39;Machine learn model&#39;, &#39;name&#39;: &#39;test&#39;, &#39;framework&#39;: &#39;pytorch&#39;, &#39;path&#39;: &#39;/tmp/test.pt&#39;, &#39;md5_hash&#39;: None}</span>
 <span class="sd">    &gt;&gt;&gt; d = {&#39;description&#39;: &#39;Machine learn model&#39;, &#39;name&#39;: &#39;test&#39;, &#39;framework&#39;: &#39;pytorch&#39;,</span>
 <span class="sd">    ...      &#39;path&#39;: &#39;/tmp/test.pt&#39;, &quot;md5_hash&quot;: None}</span>
-<span class="sd">    &gt;&gt;&gt; m = MachineLearnModel.from_dict(d)</span>
+<span class="sd">    &gt;&gt;&gt; m = MachineLearnModelConfig.from_dict(d)</span>
 <span class="sd">    &gt;&gt;&gt; m.get_model() # doctest: +ELLIPSIS</span>
 <span class="sd">    ...               # doctest: +NORMALIZE_WHITESPACE</span>
 <span class="sd">    &lt;class &#39;torch.nn.modules.module.Module&#39;&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">framework</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">framework</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">md5_hash</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The constructor to create a machine learn model object</span>
 
@@ -131,7 +131,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
 
-<div class="viewcode-block" id="MachineLearnModel.load_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModel.load_model">[docs]</a>    <span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MachineLearnModelConfig.load_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModelConfig.load_model">[docs]</a>    <span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Load the machine learn model from the path or md5 hash.</span>
 
 <span class="sd">        Supported model:</span>
@@ -147,26 +147,26 @@
 
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">framework</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="s2">&quot;sklearn&quot;</span><span class="p">:</span>
-                <span class="kn">from</span> <span class="nn">sklearn.externals</span> <span class="k">import</span> <span class="n">joblib</span>
+                <span class="kn">from</span> <span class="nn">sklearn.externals</span> <span class="kn">import</span> <span class="n">joblib</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">framework</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="s2">&quot;pytorch&quot;</span><span class="p">:</span>
                 <span class="kn">import</span> <span class="nn">torch</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unable to find the specified machine learn model at path </span><span class="si">{filepath}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to find the specified machine learn model at path </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MachineLearnModel.get_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModel.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MachineLearnModelConfig.get_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModelConfig.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the loaded machine learn model. This function will return None if the model was not loaded</span>
 
 <span class="sd">        :return: the loaded model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
 
-<div class="viewcode-block" id="MachineLearnModel.to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModel.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<div class="viewcode-block" id="MachineLearnModelConfig.to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModelConfig.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                     <span class="n">framework</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">framework</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">md5_hash</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">md5_hash</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MachineLearnModel.from_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModel.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="MachineLearnModelConfig.from_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.machine_learn_model.MachineLearnModelConfig.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">machine_learn_model</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
         <span class="n">description</span> <span class="o">=</span> <span class="n">machine_learn_model</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">machine_learn_model</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
@@ -180,8 +180,8 @@
         <span class="k">if</span> <span class="s2">&quot;md5_hash&quot;</span> <span class="ow">in</span> <span class="n">machine_learn_model</span><span class="p">:</span>
             <span class="n">md5_hash</span> <span class="o">=</span> <span class="n">machine_learn_model</span><span class="p">[</span><span class="s2">&quot;md5_hash&quot;</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">MachineLearnModel</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                                 <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">md5_hash</span><span class="o">=</span><span class="n">md5_hash</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">MachineLearnModelConfig</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                                       <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">md5_hash</span><span class="o">=</span><span class="n">md5_hash</span><span class="p">)</span></div></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -219,7 +219,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

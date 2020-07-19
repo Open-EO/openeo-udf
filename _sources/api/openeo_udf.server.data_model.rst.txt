@@ -1,0 +1,94 @@
+openeo\_udf.server.data\_model package
+======================================
+
+Submodules
+----------
+
+openeo\_udf.server.data\_model.bounding\_box\_schema module
+-----------------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.bounding_box_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.data\_model.data\_collection\_schema module
+--------------------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.data_collection_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.data\_model.datacube\_schema module
+------------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.datacube_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.data\_model.machine\_learn\_schema module
+------------------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.machine_learn_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.data\_model.metadata\_schema module
+------------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.metadata_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.data\_model.model\_example\_creator module
+-------------------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.model_example_creator
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.data\_model.simple\_feature\_collection\_schema module
+-------------------------------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.simple_feature_collection_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.data\_model.structured\_data\_schema module
+--------------------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.structured_data_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.data\_model.udf\_schemas module
+--------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.udf_schemas
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.server.data\_model.variables\_collection\_schema module
+-------------------------------------------------------------------
+
+.. automodule:: openeo_udf.server.data_model.variables_collection_schema
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: openeo_udf.server.data_model
+    :members:
+    :undoc-members:
+    :show-inheritance:

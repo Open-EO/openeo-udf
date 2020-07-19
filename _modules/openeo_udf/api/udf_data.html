@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.api.udf_data &#8212; openeo-udf 0.0.post0.dev269+g6263df3 documentation</title>
+    <title>openeo_udf.api.udf_data &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -42,14 +42,14 @@
 <span class="sd">&quot;&quot;&quot;OpenEO Python UDF interface&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">xarray</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.api.feature_collection_tile</span> <span class="k">import</span> <span class="n">FeatureCollectionTile</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.api.hypercube</span> <span class="k">import</span> <span class="n">HyperCube</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.api.machine_learn_model</span> <span class="k">import</span> <span class="n">MachineLearnModel</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.api.raster_collection_tile</span> <span class="k">import</span> <span class="n">RasterCollectionTile</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.api.spatial_extent</span> <span class="k">import</span> <span class="n">SpatialExtent</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.api.structured_data</span> <span class="k">import</span> <span class="n">StructuredData</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.api.custom_udf_parameter</span> <span class="k">import</span> <span class="n">CustomUdfParameter</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.feature_collection</span> <span class="kn">import</span> <span class="n">FeatureCollection</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.datacube</span> <span class="kn">import</span> <span class="n">DataCube</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.machine_learn_model</span> <span class="kn">import</span> <span class="n">MachineLearnModelConfig</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.spatial_extent</span> <span class="kn">import</span> <span class="n">SpatialExtent</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.structured_data</span> <span class="kn">import</span> <span class="n">StructuredData</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.server.data_model.metadata_schema</span> <span class="kn">import</span> <span class="n">MetadataModel</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.server.data_model.udf_schemas</span> <span class="kn">import</span> <span class="n">UdfDataModel</span>
 
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
 <span class="n">__author__</span>     <span class="o">=</span> <span class="s2">&quot;Soeren Gebbert&quot;</span>
@@ -72,12 +72,6 @@
 <span class="sd">    &gt;&gt;&gt; extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)</span>
 <span class="sd">    &gt;&gt;&gt; starts = pandas.DatetimeIndex([pandas.Timestamp(&#39;2012-05-01&#39;)])</span>
 <span class="sd">    &gt;&gt;&gt; ends = pandas.DatetimeIndex([pandas.Timestamp(&#39;2012-05-02&#39;)])</span>
-<span class="sd">    &gt;&gt;&gt; A = RasterCollectionTile(id=&quot;A&quot;, extent=extent,</span>
-<span class="sd">    ...                         data=data, wavelength=420,</span>
-<span class="sd">    ...                         start_times=starts, end_times=ends)</span>
-<span class="sd">    &gt;&gt;&gt; B = RasterCollectionTile(id=&quot;B&quot;, extent=extent,</span>
-<span class="sd">    ...                         data=data, wavelength=380,</span>
-<span class="sd">    ...                         start_times=starts, end_times=ends)</span>
 <span class="sd">    &gt;&gt;&gt; p1 = Point(0,0)</span>
 <span class="sd">    &gt;&gt;&gt; p2 = Point(100,100)</span>
 <span class="sd">    &gt;&gt;&gt; p3 = Point(100,0)</span>
@@ -85,43 +79,16 @@
 <span class="sd">    &gt;&gt;&gt; data = geopandas.GeoDataFrame(geometry=pseries, columns=[&quot;a&quot;, &quot;b&quot;])</span>
 <span class="sd">    &gt;&gt;&gt; data[&quot;a&quot;] = [1,2,3]</span>
 <span class="sd">    &gt;&gt;&gt; data[&quot;b&quot;] = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]</span>
-<span class="sd">    &gt;&gt;&gt; C = FeatureCollectionTile(id=&quot;C&quot;, data=data)</span>
-<span class="sd">    &gt;&gt;&gt; D = FeatureCollectionTile(id=&quot;D&quot;, data=data)</span>
-<span class="sd">    &gt;&gt;&gt; udf_data = UdfData(proj={&quot;EPSG&quot;:4326}, raster_collection_tiles=[A, B],</span>
-<span class="sd">    ...                        feature_collection_tiles=[C, D])</span>
+<span class="sd">    &gt;&gt;&gt; C = FeatureCollection(id=&quot;C&quot;, data=data)</span>
+<span class="sd">    &gt;&gt;&gt; D = FeatureCollection(id=&quot;D&quot;, data=data)</span>
+<span class="sd">    &gt;&gt;&gt; udf_data = UdfData(proj={&quot;EPSG&quot;:4326}, feature_collection_list=[C, D])</span>
 <span class="sd">    &gt;&gt;&gt; model = RandomForestRegressor(n_estimators=10, max_depth=2, verbose=0)</span>
 <span class="sd">    &gt;&gt;&gt; path = &#39;/tmp/test.pkl.xz&#39;</span>
 <span class="sd">    &gt;&gt;&gt; dummy = joblib.dump(value=model, filename=path, compress=(&quot;xz&quot;, 3))</span>
-<span class="sd">    &gt;&gt;&gt; m = MachineLearnModel(framework=&quot;sklearn&quot;, name=&quot;test&quot;,</span>
+<span class="sd">    &gt;&gt;&gt; m = MachineLearnModelConfig(framework=&quot;sklearn&quot;, name=&quot;test&quot;,</span>
 <span class="sd">    ...                       description=&quot;Machine learn model&quot;, path=path)</span>
 <span class="sd">    &gt;&gt;&gt; udf_data.append_machine_learn_model(m)</span>
-<span class="sd">    &gt;&gt;&gt; print(udf_data.get_raster_collection_tile_by_id(&quot;A&quot;))</span>
-<span class="sd">    id: A</span>
-<span class="sd">    extent: top: 100</span>
-<span class="sd">    bottom: 0</span>
-<span class="sd">    right: 100</span>
-<span class="sd">    left: 0</span>
-<span class="sd">    height: 10</span>
-<span class="sd">    width: 10</span>
-<span class="sd">    wavelength: 420</span>
-<span class="sd">    start_times: DatetimeIndex([&#39;2012-05-01&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
-<span class="sd">    end_times: DatetimeIndex([&#39;2012-05-02&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
-<span class="sd">    data: [[[0.]]]</span>
-<span class="sd">    &gt;&gt;&gt; print(udf_data.get_raster_collection_tile_by_id(&quot;B&quot;))</span>
-<span class="sd">    id: B</span>
-<span class="sd">    extent: top: 100</span>
-<span class="sd">    bottom: 0</span>
-<span class="sd">    right: 100</span>
-<span class="sd">    left: 0</span>
-<span class="sd">    height: 10</span>
-<span class="sd">    width: 10</span>
-<span class="sd">    wavelength: 380</span>
-<span class="sd">    start_times: DatetimeIndex([&#39;2012-05-01&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
-<span class="sd">    end_times: DatetimeIndex([&#39;2012-05-02&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)</span>
-<span class="sd">    data: [[[0.]]]</span>
-<span class="sd">    &gt;&gt;&gt; print(udf_data.get_raster_collection_tile_by_id(&quot;C&quot;))</span>
-<span class="sd">    None</span>
-<span class="sd">    &gt;&gt;&gt; print(udf_data.get_feature_collection_tile_by_id(&quot;C&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; print(udf_data.get_feature_collection_by_id(&quot;C&quot;))</span>
 <span class="sd">    id: C</span>
 <span class="sd">    start_times: None</span>
 <span class="sd">    end_times: None</span>
@@ -129,7 +96,7 @@
 <span class="sd">    0  1  a      POINT (0 0)</span>
 <span class="sd">    1  2  b  POINT (100 100)</span>
 <span class="sd">    2  3  c    POINT (100 0)</span>
-<span class="sd">    &gt;&gt;&gt; print(udf_data.get_feature_collection_tile_by_id(&quot;D&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; print(udf_data.get_feature_collection_by_id(&quot;D&quot;))</span>
 <span class="sd">    id: D</span>
 <span class="sd">    start_times: None</span>
 <span class="sd">    end_times: None</span>
@@ -137,9 +104,7 @@
 <span class="sd">    0  1  a      POINT (0 0)</span>
 <span class="sd">    1  2  b  POINT (100 100)</span>
 <span class="sd">    2  3  c    POINT (100 0)</span>
-<span class="sd">    &gt;&gt;&gt; print(len(udf_data.get_feature_collection_tiles()) == 2)</span>
-<span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; print(len(udf_data.get_raster_collection_tiles()) == 2)</span>
+<span class="sd">    &gt;&gt;&gt; print(len(udf_data.get_feature_collection_list()) == 2)</span>
 <span class="sd">    True</span>
 <span class="sd">    &gt;&gt;&gt; print(udf_data.ml_model_list[0].path)</span>
 <span class="sd">    /tmp/test.pkl.xz</span>
@@ -149,205 +114,194 @@
 <span class="sd">    &gt;&gt;&gt; import json</span>
 <span class="sd">    &gt;&gt;&gt; json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS</span>
 <span class="sd">    ...                                # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;raster_collection_tiles&quot;: [{&quot;id&quot;: &quot;A&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 420, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;], &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 10, &quot;height&quot;: 10}}, {&quot;id&quot;: &quot;B&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 380, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;], &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 10, &quot;height&quot;: 10}}], &quot;hypercubes&quot;: [], &quot;feature_collection_tiles&quot;: [{&quot;id&quot;: &quot;C&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}, {&quot;id&quot;: &quot;D&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: [{&quot;description&quot;: &quot;Machine learn model&quot;, &quot;name&quot;: &quot;test&quot;, &quot;framework&quot;: &quot;sklearn&quot;, &quot;path&quot;: &quot;/tmp/test.pkl.xz&quot;, &quot;md5_hash&quot;: null}]}&#39;</span>
+<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;user_context&quot;: {}, &quot;server_context&quot;: {}, &quot;datacubes&quot;: [], &quot;feature_collection_list&quot;: [{&quot;id&quot;: &quot;C&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}, {&quot;id&quot;: &quot;D&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: [{&quot;description&quot;: &quot;Machine learn model&quot;, &quot;name&quot;: &quot;test&quot;, &quot;framework&quot;: &quot;sklearn&quot;, &quot;path&quot;: &quot;/tmp/test.pkl.xz&quot;, &quot;md5_hash&quot;: null}]}&#39;</span>
 
 <span class="sd">    &gt;&gt;&gt; udf = UdfData.from_dict(udf_data.to_dict())</span>
 <span class="sd">    &gt;&gt;&gt; json.dumps(udf.to_dict()) # doctest: +ELLIPSIS</span>
 <span class="sd">    ...                           # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;raster_collection_tiles&quot;: [{&quot;id&quot;: &quot;A&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 420, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;], &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 10, &quot;height&quot;: 10}}, {&quot;id&quot;: &quot;B&quot;, &quot;data&quot;: [[[0.0]]], &quot;wavelength&quot;: 380, &quot;start_times&quot;: [&quot;2012-05-01T00:00:00&quot;], &quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;], &quot;extent&quot;: {&quot;top&quot;: 100, &quot;bottom&quot;: 0, &quot;right&quot;: 100, &quot;left&quot;: 0, &quot;width&quot;: 10, &quot;height&quot;: 10}}], &quot;hypercubes&quot;: [], &quot;feature_collection_tiles&quot;: [{&quot;id&quot;: &quot;C&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}, {&quot;id&quot;: &quot;D&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: [{&quot;description&quot;: &quot;Machine learn model&quot;, &quot;name&quot;: &quot;test&quot;, &quot;framework&quot;: &quot;sklearn&quot;, &quot;path&quot;: &quot;/tmp/test.pkl.xz&quot;, &quot;md5_hash&quot;: null}]}&#39;</span>
+<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;user_context&quot;: {}, &quot;server_context&quot;: {}, &quot;datacubes&quot;: [], &quot;feature_collection_list&quot;: [{&quot;id&quot;: &quot;C&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}, {&quot;id&quot;: &quot;D&quot;, &quot;data&quot;: {&quot;type&quot;: &quot;FeatureCollection&quot;, &quot;features&quot;: [{&quot;id&quot;: &quot;0&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 1, &quot;b&quot;: &quot;a&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [0.0, 0.0]}}, {&quot;id&quot;: &quot;1&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 2, &quot;b&quot;: &quot;b&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 100.0]}}, {&quot;id&quot;: &quot;2&quot;, &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;a&quot;: 3, &quot;b&quot;: &quot;c&quot;}, &quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [100.0, 0.0]}}]}}], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: [{&quot;description&quot;: &quot;Machine learn model&quot;, &quot;name&quot;: &quot;test&quot;, &quot;framework&quot;: &quot;sklearn&quot;, &quot;path&quot;: &quot;/tmp/test.pkl.xz&quot;, &quot;md5_hash&quot;: null}]}&#39;</span>
 
 <span class="sd">    &gt;&gt;&gt; sd_list = StructuredData(description=&quot;Data list&quot;, data={&quot;list&quot;:[1,2,3]}, type=&quot;list&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; sd_dict = StructuredData(description=&quot;Data dict&quot;, data={&quot;A&quot;:{&quot;B&quot;: 1}}, type=&quot;dict&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; udf = UdfData(proj={&quot;EPSG&quot;:4326}, structured_data_list=[sd_list, sd_dict])</span>
 <span class="sd">    &gt;&gt;&gt; json.dumps(udf.to_dict()) # doctest: +ELLIPSIS</span>
 <span class="sd">    ...                           # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;raster_collection_tiles&quot;: [], &quot;hypercubes&quot;: [], &quot;feature_collection_tiles&quot;: [], &quot;structured_data_list&quot;: [{&quot;description&quot;: &quot;Data list&quot;, &quot;data&quot;: {&quot;list&quot;: [1, 2, 3]}, &quot;type&quot;: &quot;list&quot;}, {&quot;description&quot;: &quot;Data dict&quot;, &quot;data&quot;: {&quot;A&quot;: {&quot;B&quot;: 1}}, &quot;type&quot;: &quot;dict&quot;}], &quot;machine_learn_models&quot;: []}&#39;</span>
-
-
+<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;user_context&quot;: {}, &quot;server_context&quot;: {}, &quot;datacubes&quot;: [], &quot;feature_collection_list&quot;: [], &quot;structured_data_list&quot;: [{&quot;description&quot;: &quot;Data list&quot;, &quot;data&quot;: {&quot;list&quot;: [1, 2, 3]}, &quot;type&quot;: &quot;list&quot;}, {&quot;description&quot;: &quot;Data dict&quot;, &quot;data&quot;: {&quot;A&quot;: {&quot;B&quot;: 1}}, &quot;type&quot;: &quot;dict&quot;}], &quot;machine_learn_models&quot;: []}&#39;</span>
 
 <span class="sd">    &gt;&gt;&gt; array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={&#39;x&#39;: [1, 2], &#39;y&#39;: [1, 2, 3]}, dims=(&#39;x&#39;, &#39;y&#39;))</span>
 <span class="sd">    &gt;&gt;&gt; array.attrs[&quot;description&quot;] = &quot;This is an xarray with two dimensions&quot;</span>
 <span class="sd">    &gt;&gt;&gt; array.name = &quot;testdata&quot;</span>
-<span class="sd">    &gt;&gt;&gt; h = HyperCube(array=array)</span>
-<span class="sd">    &gt;&gt;&gt; udf_data = UdfData(proj={&quot;EPSG&quot;:4326}, hypercube_list=[h])</span>
-<span class="sd">    &gt;&gt;&gt; print(udf_data.get_hypercube_by_id(&quot;testdata&quot;).to_dict())</span>
+<span class="sd">    &gt;&gt;&gt; h = DataCube(array=array)</span>
+<span class="sd">    &gt;&gt;&gt; udf_data = UdfData(proj={&quot;EPSG&quot;:4326}, datacube_list=[h])</span>
+<span class="sd">    &gt;&gt;&gt; udf_data.user_context = {&quot;kernel&quot;: 3}</span>
+<span class="sd">    &gt;&gt;&gt; udf_data.server_context = {&quot;reduction_dimension&quot;: &quot;t&quot;}</span>
+<span class="sd">    &gt;&gt;&gt; udf_data.user_context</span>
+<span class="sd">    {&#39;kernel&#39;: 3}</span>
+<span class="sd">    &gt;&gt;&gt; udf_data.server_context</span>
+<span class="sd">    {&#39;reduction_dimension&#39;: &#39;t&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; print(udf_data.get_datacube_by_id(&quot;testdata&quot;).to_dict())</span>
 <span class="sd">    {&#39;id&#39;: &#39;testdata&#39;, &#39;data&#39;: [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], &#39;dimensions&#39;: [{&#39;name&#39;: &#39;x&#39;, &#39;coordinates&#39;: [1, 2]}, {&#39;name&#39;: &#39;y&#39;, &#39;coordinates&#39;: [1, 2, 3]}], &#39;description&#39;: &#39;This is an xarray with two dimensions&#39;}</span>
 <span class="sd">    &gt;&gt;&gt; json.dumps(udf_data.to_dict()) # doctest: +ELLIPSIS</span>
 <span class="sd">    ...                           # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;raster_collection_tiles&quot;: [], &quot;hypercubes&quot;: [{&quot;id&quot;: &quot;testdata&quot;, &quot;data&quot;: [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], &quot;dimensions&quot;: [{&quot;name&quot;: &quot;x&quot;, &quot;coordinates&quot;: [1, 2]}, {&quot;name&quot;: &quot;y&quot;, &quot;coordinates&quot;: [1, 2, 3]}], &quot;description&quot;: &quot;This is an xarray with two dimensions&quot;}], &quot;feature_collection_tiles&quot;: [], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: []}&#39;</span>
+<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;user_context&quot;: {&quot;kernel&quot;: 3}, &quot;server_context&quot;: {&quot;reduction_dimension&quot;: &quot;t&quot;}, &quot;datacubes&quot;: [{&quot;id&quot;: &quot;testdata&quot;, &quot;data&quot;: [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], &quot;dimensions&quot;: [{&quot;name&quot;: &quot;x&quot;, &quot;coordinates&quot;: [1, 2]}, {&quot;name&quot;: &quot;y&quot;, &quot;coordinates&quot;: [1, 2, 3]}], &quot;description&quot;: &quot;This is an xarray with two dimensions&quot;}], &quot;feature_collection_list&quot;: [], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: []}&#39;</span>
 
 <span class="sd">    &gt;&gt;&gt; udf = UdfData.from_dict(udf_data.to_dict())</span>
 <span class="sd">    &gt;&gt;&gt; json.dumps(udf.to_dict()) # doctest: +ELLIPSIS</span>
 <span class="sd">    ...                           # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;raster_collection_tiles&quot;: [], &quot;hypercubes&quot;: [{&quot;id&quot;: &quot;testdata&quot;, &quot;data&quot;: [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], &quot;dimensions&quot;: [{&quot;name&quot;: &quot;x&quot;, &quot;coordinates&quot;: [1, 2]}, {&quot;name&quot;: &quot;y&quot;, &quot;coordinates&quot;: [1, 2, 3]}], &quot;description&quot;: &quot;This is an xarray with two dimensions&quot;}], &quot;feature_collection_tiles&quot;: [], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: []}&#39;</span>
+<span class="sd">    &#39;{&quot;proj&quot;: {&quot;EPSG&quot;: 4326}, &quot;user_context&quot;: {}, &quot;server_context&quot;: {}, &quot;datacubes&quot;: [{&quot;id&quot;: &quot;testdata&quot;, &quot;data&quot;: [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]], &quot;dimensions&quot;: [{&quot;name&quot;: &quot;x&quot;, &quot;coordinates&quot;: [1, 2]}, {&quot;name&quot;: &quot;y&quot;, &quot;coordinates&quot;: [1, 2, 3]}], &quot;description&quot;: &quot;This is an xarray with two dimensions&quot;}], &quot;feature_collection_list&quot;: [], &quot;structured_data_list&quot;: [], &quot;machine_learn_models&quot;: []}&#39;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proj</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
-                 <span class="n">raster_collection_tiles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">RasterCollectionTile</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">hypercube_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">HyperCube</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">feature_collection_tiles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FeatureCollectionTile</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proj</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">datacube_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">DataCube</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">feature_collection_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FeatureCollection</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">structured_data_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StructuredData</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">ml_model_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MachineLearnModel</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">ml_model_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MachineLearnModelConfig</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataModel</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The constructor of the UDF argument class that stores all data required by the</span>
 <span class="sd">        user defined function.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            proj (dict): A dictionary of form {&quot;proj type string&quot;: &quot;projection decription&quot;} i. e. {&quot;EPSG&quot;:4326}</span>
-<span class="sd">            raster_collection_tiles (list[RasterCollectionTile]): A list of RasterCollectionTile objects</span>
-<span class="sd">            hypercube_list (list(HyperCube)): A list of HyperCube objects</span>
-<span class="sd">            feature_collection_tiles (list[FeatureCollectionTile]): A list of VectorTile objects</span>
+<span class="sd">            datacube_list (list(HyperCube)): A list of HyperCube objects</span>
+<span class="sd">            feature_collection_list (list[FeatureCollection]): A list of VectorTile objects</span>
 <span class="sd">            structured_data_list (list[StructuredData]): A list of structured data objects</span>
-<span class="sd">            ml_model_list (list[MachineLearnModel]): A list of machine learn models</span>
+<span class="sd">            ml_model_list (list[MachineLearnModelConfig]): A list of machine learn models</span>
+<span class="sd">            metadata (MetadataModel): additional metadata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_structured_data_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ml_model_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">proj</span> <span class="o">=</span> <span class="n">proj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">:</span> <span class="n">MetadataModel</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="n">raster_collection_tiles</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_raster_collection_tiles</span><span class="p">(</span><span class="n">raster_collection_tiles</span><span class="o">=</span><span class="n">raster_collection_tiles</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">hypercube_list</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_hypercube_list</span><span class="p">(</span><span class="n">hypercube_list</span><span class="o">=</span><span class="n">hypercube_list</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">feature_collection_tiles</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_feature_collection_tiles</span><span class="p">(</span><span class="n">feature_collection_tiles</span><span class="o">=</span><span class="n">feature_collection_tiles</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_context</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_server_context</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">datacube_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_datacube_list</span><span class="p">(</span><span class="n">datacube_list</span><span class="o">=</span><span class="n">datacube_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">feature_collection_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_feature_collection_list</span><span class="p">(</span><span class="n">feature_collection_list</span><span class="o">=</span><span class="n">feature_collection_list</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">structured_data_list</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_structured_data_list</span><span class="p">(</span><span class="n">structured_data_list</span><span class="o">=</span><span class="n">structured_data_list</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ml_model_list</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_ml_model_list</span><span class="p">(</span><span class="n">ml_model_list</span><span class="o">=</span><span class="n">ml_model_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">metadata</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
 
-<div class="viewcode-block" id="UdfData.get_raster_collection_tile_by_id"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_raster_collection_tile_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_raster_collection_tile_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RasterCollectionTile</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get an raster collection tile by its id</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MetadataModel</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span>
+
+    <span class="nd">@metadata</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">MetadataModel</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span> <span class="o">=</span> <span class="n">model</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">user_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the user context that was passed to the run_udf function&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_context</span>
+
+    <span class="nd">@user_context</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">user_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the user context&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_context</span> <span class="o">=</span> <span class="n">context</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">server_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the server context that is passed from the backend to the UDF server for runtime configuration&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_context</span>
+
+    <span class="nd">@server_context</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">server_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the server context&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_server_context</span> <span class="o">=</span> <span class="n">context</span>
+
+<div class="viewcode-block" id="UdfData.get_datacube_by_id"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_datacube_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_datacube_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataCube</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get a datacube by its id</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            id (str): The raster collection tile id</span>
+<span class="sd">            id (str): The datacube id</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            RasterCollectionTile: the requested raster collection tile of None if not found</span>
+<span class="sd">            HypeCube: the requested datacube or None if not found</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_dict</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_dict</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_dict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_dict</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="UdfData.get_hypercube_by_id"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_hypercube_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_hypercube_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HyperCube</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get a hypercube by its id</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            id (str): The raster collection tile id</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            HypeCube: the requested raster collection tile of None if not found</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_dict</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_dict</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
-<div class="viewcode-block" id="UdfData.get_feature_collection_tile_by_id"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_feature_collection_tile_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_feature_collection_tile_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FeatureCollectionTile</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get a vector tile by its id</span>
+<div class="viewcode-block" id="UdfData.get_feature_collection_by_id"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_feature_collection_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_feature_collection_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FeatureCollection</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get a feature collection by its id</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            id (str): The vector tile id</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            FeatureCollectionTile: the requested vector tile of None if not found</span>
+<span class="sd">            FeatureCollection: the requested feature collection or None if not found</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_dict</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_dict</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="UdfData.get_raster_collection_tiles"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_raster_collection_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">get_raster_collection_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">RasterCollectionTile</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Get all raster collection tiles</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            list[RasterCollectionTile]: The list of raster collection tiles</span>
-
+<div class="viewcode-block" id="UdfData.get_datacube_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_datacube_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_datacube_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">DataCube</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Get the datacube list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_list</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_list</span></div>
 
-<div class="viewcode-block" id="UdfData.set_raster_collection_tiles"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.set_raster_collection_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">set_raster_collection_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_collection_tiles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">RasterCollectionTile</span><span class="p">]]):</span>
-        <span class="sd">&quot;&quot;&quot;Set the raster collection tiles list</span>
+<div class="viewcode-block" id="UdfData.set_datacube_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.set_datacube_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_datacube_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datacube_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DataCube</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;Set the datacube list</span>
 
-<span class="sd">        If raster_collection_tiles is None, then the list will be cleared</span>
+<span class="sd">        If datacube_list is None, then the list will be cleared</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            raster_collection_tiles (list[RasterCollectionTile]): A list of RasterCollectionTile&#39;s</span>
+<span class="sd">            datacube_list (List[DataCube]): A list of HyperCube&#39;s</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">del_raster_collection_tiles</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">raster_collection_tiles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">del_datacube_list</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">datacube_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">raster_collection_tiles</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">append_raster_collection_tile</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">datacube</span> <span class="ow">in</span> <span class="n">datacube_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">append_datacube</span><span class="p">(</span><span class="n">datacube</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="UdfData.del_raster_collection_tiles"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.del_raster_collection_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">del_raster_collection_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Delete all raster collection tiles</span>
+<div class="viewcode-block" id="UdfData.del_datacube_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.del_datacube_list">[docs]</a>    <span class="k">def</span> <span class="nf">del_datacube_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete all datacubes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_dict</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_dict</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="UdfData.get_hypercube_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_hypercube_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_hypercube_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">HyperCube</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Get the hypercube list</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_list</span></div>
-
-<div class="viewcode-block" id="UdfData.set_hypercube_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.set_hypercube_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_hypercube_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hypercube_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">HyperCube</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;Set the hypercube list</span>
-
-<span class="sd">        If hypercube_list is None, then the list will be cleared</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            hypercube_list (List[HyperCube]): A list of HyperCube&#39;s</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">del_hypercube_list</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">hypercube_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span>
-
-        <span class="k">for</span> <span class="n">hypercube</span> <span class="ow">in</span> <span class="n">hypercube_list</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">append_hypercube</span><span class="p">(</span><span class="n">hypercube</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="UdfData.del_hypercube_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.del_hypercube_list">[docs]</a>    <span class="k">def</span> <span class="nf">del_hypercube_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Delete all hypercubes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_dict</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="UdfData.get_feature_collection_tiles"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_feature_collection_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">get_feature_collection_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FeatureCollectionTile</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Get all feature collection tiles</span>
+<div class="viewcode-block" id="UdfData.get_feature_collection_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_feature_collection_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_feature_collection_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FeatureCollection</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Get all feature collections as list</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list[FeatureCollectionTile]: The list of feature collection tiles</span>
+<span class="sd">            list[FeatureCollection]: The list of feature collections</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_list</span></div>
 
-<div class="viewcode-block" id="UdfData.set_feature_collection_tiles"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.set_feature_collection_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">set_feature_collection_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_collection_tiles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FeatureCollectionTile</span><span class="p">]]):</span>
+<div class="viewcode-block" id="UdfData.set_feature_collection_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.set_feature_collection_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_feature_collection_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_collection_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FeatureCollection</span><span class="p">]]):</span>
         <span class="sd">&quot;&quot;&quot;Set the feature collection tiles</span>
 
 <span class="sd">        If feature_collection_tiles is None, then the list will be cleared</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            feature_collection_tiles (list[FeatureCollectionTile]): A list of FeatureCollectionTile&#39;s</span>
+<span class="sd">            feature_collection_list (list[FeatureCollection]): A list of FeatureCollectionTile&#39;s</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">del_feature_collection_tiles</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">feature_collection_tiles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">del_feature_collection_list</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">feature_collection_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feature_collection_tiles</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">append_feature_collection_tile</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feature_collection_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">append_feature_collection</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="UdfData.del_feature_collection_tiles"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.del_feature_collection_tiles">[docs]</a>    <span class="k">def</span> <span class="nf">del_feature_collection_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="UdfData.del_feature_collection_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.del_feature_collection_list">[docs]</a>    <span class="k">def</span> <span class="nf">del_feature_collection_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Delete all feature collection tiles</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -383,7 +337,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_structured_data_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="UdfData.get_ml_model_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_ml_model_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_ml_model_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MachineLearnModel</span><span class="p">]]:</span>
+<div class="viewcode-block" id="UdfData.get_ml_model_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.get_ml_model_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_ml_model_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MachineLearnModelConfig</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Get all machine learn models</span>
 
 <span class="sd">        Returns:</span>
@@ -392,13 +346,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ml_model_list</span></div>
 
-<div class="viewcode-block" id="UdfData.set_ml_model_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.set_ml_model_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_ml_model_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ml_model_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MachineLearnModel</span><span class="p">]]):</span>
+<div class="viewcode-block" id="UdfData.set_ml_model_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.set_ml_model_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_ml_model_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ml_model_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MachineLearnModelConfig</span><span class="p">]]):</span>
         <span class="sd">&quot;&quot;&quot;Set the list of machine learn models</span>
 
 <span class="sd">        If ml_model_list is None, then the list will be cleared</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            ml_model_list (list[MachineLearnModel]): A list of MachineLearnModel objects</span>
+<span class="sd">            ml_model_list (list[MachineLearnModelConfig]): A list of MachineLearnModel objects</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">del_ml_model_list</span><span class="p">()</span>
@@ -413,46 +367,34 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ml_model_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 
-    <span class="n">raster_collection_tiles</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_raster_collection_tiles</span><span class="p">,</span>
-                                       <span class="n">fset</span><span class="o">=</span><span class="n">set_raster_collection_tiles</span><span class="p">,</span> <span class="n">fdel</span><span class="o">=</span><span class="n">del_raster_collection_tiles</span><span class="p">)</span>
-    <span class="n">hypercube_list</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_hypercube_list</span><span class="p">,</span>
-                              <span class="n">fset</span><span class="o">=</span><span class="n">set_hypercube_list</span><span class="p">,</span> <span class="n">fdel</span><span class="o">=</span><span class="n">del_hypercube_list</span><span class="p">)</span>
-    <span class="n">feature_collection_tiles</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_feature_collection_tiles</span><span class="p">,</span>
-                                        <span class="n">fset</span><span class="o">=</span><span class="n">set_feature_collection_tiles</span><span class="p">,</span> <span class="n">fdel</span><span class="o">=</span><span class="n">del_feature_collection_tiles</span><span class="p">)</span>
+    <span class="n">datacube_list</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_datacube_list</span><span class="p">,</span>
+                             <span class="n">fset</span><span class="o">=</span><span class="n">set_datacube_list</span><span class="p">,</span> <span class="n">fdel</span><span class="o">=</span><span class="n">del_datacube_list</span><span class="p">)</span>
+    <span class="n">feature_collection_list</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_feature_collection_list</span><span class="p">,</span>
+                                       <span class="n">fset</span><span class="o">=</span><span class="n">set_feature_collection_list</span><span class="p">,</span> <span class="n">fdel</span><span class="o">=</span><span class="n">del_feature_collection_list</span><span class="p">)</span>
     <span class="n">structured_data_list</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_structured_data_list</span><span class="p">,</span>
                                     <span class="n">fset</span><span class="o">=</span><span class="n">set_structured_data_list</span><span class="p">,</span> <span class="n">fdel</span><span class="o">=</span><span class="n">del_structured_data_list</span><span class="p">)</span>
     <span class="n">ml_model_list</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_ml_model_list</span><span class="p">,</span>
                                   <span class="n">fset</span><span class="o">=</span><span class="n">set_ml_model_list</span><span class="p">,</span> <span class="n">fdel</span><span class="o">=</span><span class="n">del_ml_model_list</span><span class="p">)</span>
 
-<div class="viewcode-block" id="UdfData.append_raster_collection_tile"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.append_raster_collection_tile">[docs]</a>    <span class="k">def</span> <span class="nf">append_raster_collection_tile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raster_collection_tile</span><span class="p">:</span> <span class="n">RasterCollectionTile</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Append a raster collection tile to the list</span>
 
-<span class="sd">        It will be automatically added to the dictionary of all raster collection tiles</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            raster_collection_tile (RasterCollectionTile): The raster collection tile to append</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raster_collection_tile</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_dict</span><span class="p">[</span><span class="n">raster_collection_tile</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">raster_collection_tile</span></div>
-
-<div class="viewcode-block" id="UdfData.append_hypercube"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.append_hypercube">[docs]</a>    <span class="k">def</span> <span class="nf">append_hypercube</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hypercube</span><span class="p">:</span> <span class="n">HyperCube</span><span class="p">):</span>
+<div class="viewcode-block" id="UdfData.append_datacube"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.append_datacube">[docs]</a>    <span class="k">def</span> <span class="nf">append_datacube</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datacube</span><span class="p">:</span> <span class="n">DataCube</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Append a HyperCube to the list</span>
 
-<span class="sd">        It will be automatically added to the dictionary of all hypercubes</span>
+<span class="sd">        It will be automatically added to the dictionary of all datacubes</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            hypercube (HyperCube): The HyperCube to append</span>
+<span class="sd">            datacube (DataCube): The HyperCube to append</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hypercube</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_dict</span><span class="p">[</span><span class="n">hypercube</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hypercube</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datacube</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_dict</span><span class="p">[</span><span class="n">datacube</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">datacube</span></div>
 
-<div class="viewcode-block" id="UdfData.append_feature_collection_tile"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.append_feature_collection_tile">[docs]</a>    <span class="k">def</span> <span class="nf">append_feature_collection_tile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_collection_tile</span><span class="p">:</span> <span class="n">FeatureCollectionTile</span><span class="p">):</span>
+<div class="viewcode-block" id="UdfData.append_feature_collection"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.append_feature_collection">[docs]</a>    <span class="k">def</span> <span class="nf">append_feature_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_collection_tile</span><span class="p">:</span> <span class="n">FeatureCollection</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Append a feature collection tile to the list</span>
 
 <span class="sd">        It will be automatically added to the dictionary of all feature collection tiles</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            feature_collection_tile (FeatureCollectionTile): The feature collection tile to append</span>
+<span class="sd">            feature_collection_tile (FeatureCollection): The feature collection tile to append</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature_collection_tile</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_dict</span><span class="p">[</span><span class="n">feature_collection_tile</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">feature_collection_tile</span></div>
@@ -465,11 +407,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_structured_data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">structured_data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="UdfData.append_machine_learn_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.append_machine_learn_model">[docs]</a>    <span class="k">def</span> <span class="nf">append_machine_learn_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">machine_learn_model</span><span class="p">:</span> <span class="n">MachineLearnModel</span><span class="p">):</span>
+<div class="viewcode-block" id="UdfData.append_machine_learn_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.append_machine_learn_model">[docs]</a>    <span class="k">def</span> <span class="nf">append_machine_learn_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">machine_learn_model</span><span class="p">:</span> <span class="n">MachineLearnModelConfig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Append a machine learn model to the list</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            machine_learn_model (MachineLearnModel): A MachineLearnModel objects</span>
+<span class="sd">            machine_learn_model (MachineLearnModelConfig): A MachineLearnModel objects</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ml_model_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">machine_learn_model</span><span class="p">)</span></div>
 
@@ -482,25 +424,19 @@
 <span class="sd">            UdfData object as a dictionary</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">}</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">,</span> <span class="s2">&quot;user_context&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_context</span><span class="p">,</span> <span class="s2">&quot;server_context&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_context</span><span class="p">}</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raster_tile_list</span><span class="p">:</span>
-                <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
-            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;raster_collection_tiles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">hypercube</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hypercube_list</span><span class="p">:</span>
-                <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hypercube</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
-            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;hypercubes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+            <span class="k">for</span> <span class="n">datacube</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datacube_list</span><span class="p">:</span>
+                <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datacube</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;datacubes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_tile_list</span><span class="p">:</span>
                 <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
-            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;feature_collection_tiles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;feature_collection_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_structured_data_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
@@ -535,23 +471,23 @@
 
         <span class="n">udf_data</span> <span class="o">=</span> <span class="n">UdfData</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;proj&quot;</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="s2">&quot;raster_collection_tiles&quot;</span> <span class="ow">in</span> <span class="n">udf_dict</span><span class="p">:</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;raster_collection_tiles&quot;</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
-                <span class="n">rct</span> <span class="o">=</span> <span class="n">RasterCollectionTile</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
-                <span class="n">udf_data</span><span class="o">.</span><span class="n">append_raster_collection_tile</span><span class="p">(</span><span class="n">rct</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;user_context&quot;</span> <span class="ow">in</span> <span class="n">udf_dict</span><span class="p">:</span>
+            <span class="n">udf_data</span><span class="o">.</span><span class="n">user_context</span> <span class="o">=</span> <span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;user_context&quot;</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="s2">&quot;hypercubes&quot;</span> <span class="ow">in</span> <span class="n">udf_dict</span><span class="p">:</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;hypercubes&quot;</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
-                <span class="n">h</span> <span class="o">=</span> <span class="n">HyperCube</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
-                <span class="n">udf_data</span><span class="o">.</span><span class="n">append_hypercube</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;server_context&quot;</span> <span class="ow">in</span> <span class="n">udf_dict</span><span class="p">:</span>
+            <span class="n">udf_data</span><span class="o">.</span><span class="n">server_context</span> <span class="o">=</span> <span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;server_context&quot;</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="s2">&quot;feature_collection_tiles&quot;</span> <span class="ow">in</span> <span class="n">udf_dict</span><span class="p">:</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;feature_collection_tiles&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;datacubes&quot;</span> <span class="ow">in</span> <span class="n">udf_dict</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;datacubes&quot;</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
-                <span class="n">fct</span> <span class="o">=</span> <span class="n">FeatureCollectionTile</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
-                <span class="n">udf_data</span><span class="o">.</span><span class="n">append_feature_collection_tile</span><span class="p">(</span><span class="n">fct</span><span class="p">)</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="n">DataCube</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+                <span class="n">udf_data</span><span class="o">.</span><span class="n">append_datacube</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;feature_collection_list&quot;</span> <span class="ow">in</span> <span class="n">udf_dict</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;feature_collection_list&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+                <span class="n">fct</span> <span class="o">=</span> <span class="n">FeatureCollection</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+                <span class="n">udf_data</span><span class="o">.</span><span class="n">append_feature_collection</span><span class="p">(</span><span class="n">fct</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="s2">&quot;structured_data_list&quot;</span> <span class="ow">in</span> <span class="n">udf_dict</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;structured_data_list&quot;</span><span class="p">]</span>
@@ -562,8 +498,34 @@
         <span class="k">if</span> <span class="s2">&quot;machine_learn_models&quot;</span> <span class="ow">in</span> <span class="n">udf_dict</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">udf_dict</span><span class="p">[</span><span class="s2">&quot;machine_learn_models&quot;</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
-                <span class="n">mlm</span> <span class="o">=</span> <span class="n">MachineLearnModel</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+                <span class="n">mlm</span> <span class="o">=</span> <span class="n">MachineLearnModelConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
                 <span class="n">udf_data</span><span class="o">.</span><span class="n">append_machine_learn_model</span><span class="p">(</span><span class="n">mlm</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">udf_data</span></div>
+
+<div class="viewcode-block" id="UdfData.from_udf_data_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.from_udf_data_model">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_udf_data_model</span><span class="p">(</span><span class="n">udf_model</span><span class="p">:</span> <span class="n">UdfDataModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;UdfData&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;TODO: Must be implemented</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            udf_model:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">udf_data</span> <span class="o">=</span> <span class="n">UdfData</span><span class="p">()</span>
+
+        <span class="n">udf_data</span><span class="o">.</span><span class="n">server_context</span> <span class="o">=</span> <span class="n">udf_model</span><span class="o">.</span><span class="n">server_context</span>
+        <span class="n">udf_data</span><span class="o">.</span><span class="n">user_context</span> <span class="o">=</span> <span class="n">udf_model</span><span class="o">.</span><span class="n">user_context</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">udf_model</span><span class="o">.</span><span class="n">structured_data_list</span><span class="p">:</span>
+            <span class="n">sd</span> <span class="o">=</span> <span class="n">StructuredData</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+            <span class="n">udf_data</span><span class="o">.</span><span class="n">append_structured_data</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">udf_model</span><span class="o">.</span><span class="n">machine_learn_models</span><span class="p">:</span>
+            <span class="n">mlm</span> <span class="o">=</span> <span class="n">MachineLearnModelConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+            <span class="n">udf_data</span><span class="o">.</span><span class="n">append_machine_learn_model</span><span class="p">(</span><span class="n">mlm</span><span class="p">)</span>
+        <span class="n">cubes</span> <span class="o">=</span> <span class="n">DataCube</span><span class="o">.</span><span class="n">from_data_collection</span><span class="p">(</span><span class="n">udf_model</span><span class="o">.</span><span class="n">data_collection</span><span class="p">)</span>
+        <span class="n">udf_data</span><span class="o">.</span><span class="n">set_datacube_list</span><span class="p">(</span><span class="n">cubes</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">udf_data</span></div></div>
 
@@ -603,7 +565,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.server.config &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
+    <title>openeo_udf.functions.datacube_map_fabs &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -36,15 +36,38 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for openeo_udf.server.config</h1><div class="highlight"><pre>
+  <h1>Source code for openeo_udf.functions.datacube_map_fabs</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.datacube</span> <span class="kn">import</span> <span class="n">DataCube</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.udf_data</span> <span class="kn">import</span> <span class="n">UdfData</span>
+
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Soeren Gebbert&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright 2018, Soeren Gebbert&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Soeren Gebbert&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;soerengebbert@googlemail.com&quot;</span>
 
 
-<div class="viewcode-block" id="UdfConfiguration"><a class="viewcode-back" href="../../../api/openeo_udf.server.html#openeo_udf.server.config.UdfConfiguration">[docs]</a><span class="k">class</span> <span class="nc">UdfConfiguration</span><span class="p">:</span>
+<div class="viewcode-block" id="hyper_map_fabs"><a class="viewcode-back" href="../../../api/openeo_udf.functions.html#openeo_udf.functions.datacube_map_fabs.hyper_map_fabs">[docs]</a><span class="k">def</span> <span class="nf">hyper_map_fabs</span><span class="p">(</span><span class="n">udf_data</span><span class="p">:</span> <span class="n">UdfData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the absolute values of each hyper cube in the provided data</span>
 
-    <span class="n">machine_learn_storage_path</span> <span class="o">=</span> <span class="s2">&quot;/tmp/ml_storage&quot;</span>  <span class="c1"># Path to store machine learn objects</span>
-    <span class="n">temporary_storage_path</span> <span class="o">=</span> <span class="s2">&quot;/tmp&quot;</span></div>
+<span class="sd">    Args:</span>
+<span class="sd">        udf_data (UdfData): The UDF data object that contains raster and vector tiles as well as hypercubes</span>
+<span class="sd">        and structured data.</span>
 
+<span class="sd">    Returns:</span>
+<span class="sd">        This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting</span>
+<span class="sd">        data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Iterate over each tile</span>
+    <span class="n">cube_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="n">udf_data</span><span class="o">.</span><span class="n">get_datacube_list</span><span class="p">():</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;_fabs&quot;</span>
+        <span class="n">cube_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataCube</span><span class="p">(</span><span class="n">array</span><span class="o">=</span><span class="n">result</span><span class="p">))</span>
+    <span class="n">udf_data</span><span class="o">.</span><span class="n">set_datacube_list</span><span class="p">(</span><span class="n">cube_list</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

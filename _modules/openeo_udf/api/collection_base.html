@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.api.collection_tile &#8212; openeo-udf 0.0.post0.dev269+g6263df3 documentation</title>
+    <title>openeo_udf.api.collection_base &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -36,14 +36,14 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for openeo_udf.api.collection_tile</h1><div class="highlight"><pre>
+  <h1>Source code for openeo_udf.api.collection_base</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;OpenEO Python UDF interface&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.api.spatial_extent</span> <span class="k">import</span> <span class="n">SpatialExtent</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">openeo_udf.api.spatial_extent</span> <span class="kn">import</span> <span class="n">SpatialExtent</span>
 
 
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
@@ -53,14 +53,14 @@
 <span class="n">__email__</span>      <span class="o">=</span> <span class="s2">&quot;soerengebbert@googlemail.com&quot;</span>
 
 
-<div class="viewcode-block" id="CollectionTile"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile">[docs]</a><span class="k">class</span> <span class="nc">CollectionTile</span><span class="p">:</span>
+<div class="viewcode-block" id="CollectionBase"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase">[docs]</a><span class="k">class</span> <span class="nc">CollectionBase</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This is the base class for raster and vector collection tiles. It implements</span>
 <span class="sd">    start time, end time and spatial extent handling.</span>
 
 <span class="sd">    Some basic tests:</span>
 
 <span class="sd">    &gt;&gt;&gt; extent = SpatialExtent(top=100, bottom=0, right=100, left=0, height=10, width=10)</span>
-<span class="sd">    &gt;&gt;&gt; coll = CollectionTile(id=&quot;test&quot;, extent=extent)</span>
+<span class="sd">    &gt;&gt;&gt; coll = CollectionBase(id=&quot;test&quot;, extent=extent)</span>
 <span class="sd">    &gt;&gt;&gt; print(coll)</span>
 <span class="sd">    id: test</span>
 <span class="sd">    extent: top: 100</span>
@@ -78,7 +78,7 @@
 <span class="sd">    &gt;&gt;&gt; starts = pandas.DatetimeIndex(dates)</span>
 <span class="sd">    &gt;&gt;&gt; dates = [pandas.Timestamp(&#39;2012-05-02&#39;)]</span>
 <span class="sd">    &gt;&gt;&gt; ends = pandas.DatetimeIndex(dates)</span>
-<span class="sd">    &gt;&gt;&gt; rdc = CollectionTile(id=&quot;test&quot;, extent=extent,</span>
+<span class="sd">    &gt;&gt;&gt; rdc = CollectionBase(id=&quot;test&quot;, extent=extent,</span>
 <span class="sd">    ...                      start_times=starts, end_times=ends)</span>
 <span class="sd">    &gt;&gt;&gt; &quot;extent&quot; in rdc.extent_to_dict()</span>
 <span class="sd">    True</span>
@@ -101,7 +101,7 @@
 <span class="sd">    &gt;&gt;&gt; json.dumps(rdc.end_times_to_dict())</span>
 <span class="sd">    &#39;{&quot;end_times&quot;: [&quot;2012-05-02T00:00:00&quot;]}&#39;</span>
 
-<span class="sd">    &gt;&gt;&gt; ct = CollectionTile(id=&quot;test&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ct = CollectionBase(id=&quot;test&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; ct.set_extent_from_dict({&quot;top&quot;: 53, &quot;bottom&quot;: 50, &quot;right&quot;: 30, &quot;left&quot;: 24, &quot;height&quot;: 0.01, &quot;width&quot;: 0.01})</span>
 <span class="sd">    &gt;&gt;&gt; ct.set_start_times_from_list([&quot;2012-05-01T00:00:00&quot;])</span>
 <span class="sd">    &gt;&gt;&gt; ct.set_end_times_from_list([&quot;2012-05-02T00:00:00&quot;])</span>
@@ -118,7 +118,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SpatialExtent</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SpatialExtent</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">start_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">end_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Constructor of the base class for tile of a collection</span>
@@ -142,7 +142,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_start_times</span><span class="p">(</span><span class="n">start_times</span><span class="o">=</span><span class="n">start_times</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_end_times</span><span class="p">(</span><span class="n">end_times</span><span class="o">=</span><span class="n">end_times</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CollectionTile.check_data_with_time"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.check_data_with_time">[docs]</a>    <span class="k">def</span> <span class="nf">check_data_with_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CollectionBase.check_data_with_time"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.check_data_with_time">[docs]</a>    <span class="k">def</span> <span class="nf">check_data_with_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check if the start and end date vectors have the same size as the data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -156,7 +156,7 @@
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The size of the end times vector just be equal &quot;</span>
                                 <span class="s2">&quot;to the size of data&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;id: </span><span class="si">%(id)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
                <span class="s2">&quot;extent: </span><span class="si">%(extent)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
                <span class="s2">&quot;start_times: </span><span class="si">%(start_times)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
@@ -165,7 +165,7 @@
                                              <span class="s2">&quot;start_times&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">start_times</span><span class="p">,</span>
                                              <span class="s2">&quot;end_times&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">end_times</span><span class="p">}</span>
 
-<div class="viewcode-block" id="CollectionTile.get_start_times"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.get_start_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_start_times</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]:</span>
+<div class="viewcode-block" id="CollectionBase.get_start_times"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.get_start_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_start_times</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns the start time vector</span>
 
 <span class="sd">        Returns:</span>
@@ -174,7 +174,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_times</span></div>
 
-<div class="viewcode-block" id="CollectionTile.set_start_times"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.set_start_times">[docs]</a>    <span class="k">def</span> <span class="nf">set_start_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]):</span>
+<div class="viewcode-block" id="CollectionBase.set_start_times"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.set_start_times">[docs]</a>    <span class="k">def</span> <span class="nf">set_start_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;Set the start times vector</span>
 
 <span class="sd">        Args:</span>
@@ -189,7 +189,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_start_times</span> <span class="o">=</span> <span class="n">start_times</span></div>
 
-<div class="viewcode-block" id="CollectionTile.get_end_times"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.get_end_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_end_times</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]:</span>
+<div class="viewcode-block" id="CollectionBase.get_end_times"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.get_end_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_end_times</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns the end time vector</span>
 
 <span class="sd">        Returns:</span>
@@ -198,7 +198,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_times</span></div>
 
-<div class="viewcode-block" id="CollectionTile.set_end_times"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.set_end_times">[docs]</a>    <span class="k">def</span> <span class="nf">set_end_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]):</span>
+<div class="viewcode-block" id="CollectionBase.set_end_times"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.set_end_times">[docs]</a>    <span class="k">def</span> <span class="nf">set_end_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;Set the end times vector</span>
 
 <span class="sd">        Args:</span>
@@ -212,7 +212,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_end_times</span> <span class="o">=</span> <span class="n">end_times</span></div>
 
-<div class="viewcode-block" id="CollectionTile.get_extent"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.get_extent">[docs]</a>    <span class="k">def</span> <span class="nf">get_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpatialExtent</span><span class="p">:</span>
+<div class="viewcode-block" id="CollectionBase.get_extent"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.get_extent">[docs]</a>    <span class="k">def</span> <span class="nf">get_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpatialExtent</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the spatial extent</span>
 
 <span class="sd">        Returns:</span>
@@ -221,7 +221,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extent</span></div>
 
-<div class="viewcode-block" id="CollectionTile.set_extent"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.set_extent">[docs]</a>    <span class="k">def</span> <span class="nf">set_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extent</span><span class="p">:</span> <span class="n">SpatialExtent</span><span class="p">):</span>
+<div class="viewcode-block" id="CollectionBase.set_extent"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.set_extent">[docs]</a>    <span class="k">def</span> <span class="nf">set_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extent</span><span class="p">:</span> <span class="n">SpatialExtent</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the spatial extent</span>
 
 <span class="sd">        Args:</span>
@@ -239,7 +239,7 @@
     <span class="n">end_times</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_end_times</span><span class="p">,</span> <span class="n">fset</span><span class="o">=</span><span class="n">set_end_times</span><span class="p">)</span>
     <span class="n">extent</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_extent</span><span class="p">,</span> <span class="n">fset</span><span class="o">=</span><span class="n">set_extent</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CollectionTile.extent_to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.extent_to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">extent_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<div class="viewcode-block" id="CollectionBase.extent_to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.extent_to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">extent_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Convert the extent into a dictionary representation that can be converted to JSON</span>
 
 <span class="sd">        Returns:</span>
@@ -249,7 +249,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extent</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="CollectionTile.start_times_to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.start_times_to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">start_times_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<div class="viewcode-block" id="CollectionBase.start_times_to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.start_times_to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">start_times_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Convert the start times vector into a dictionary representation that can be converted to JSON</span>
 
 <span class="sd">        Returns:</span>
@@ -259,7 +259,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">start_times</span><span class="o">=</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_times</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="CollectionTile.end_times_to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.end_times_to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">end_times_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<div class="viewcode-block" id="CollectionBase.end_times_to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.end_times_to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">end_times_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Convert the end times vector into a dictionary representation that can be converted to JSON</span>
 
 <span class="sd">        Returns:</span>
@@ -269,7 +269,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">end_times</span><span class="o">=</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_times</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="CollectionTile.set_extent_from_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.set_extent_from_dict">[docs]</a>    <span class="k">def</span> <span class="nf">set_extent_from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extent</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+<div class="viewcode-block" id="CollectionBase.set_extent_from_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.set_extent_from_dict">[docs]</a>    <span class="k">def</span> <span class="nf">set_extent_from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extent</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the spatial extent from a dictionary</span>
 
 <span class="sd">        Args:</span>
@@ -277,7 +277,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">SpatialExtent</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">extent</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="CollectionTile.set_start_times_from_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.set_start_times_from_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_start_times_from_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_times</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+<div class="viewcode-block" id="CollectionBase.set_start_times_from_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.set_start_times_from_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_start_times_from_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_times</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the start times vector from a dictionary</span>
 
 <span class="sd">        Args:</span>
@@ -285,7 +285,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_start_times</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">start_times</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="CollectionTile.set_end_times_from_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_tile.CollectionTile.set_end_times_from_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_end_times_from_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_times</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+<div class="viewcode-block" id="CollectionBase.set_end_times_from_list"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.collection_base.CollectionBase.set_end_times_from_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_end_times_from_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_times</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the end times vector from a dictionary</span>
 
 <span class="sd">        Args:</span>
@@ -329,7 +329,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

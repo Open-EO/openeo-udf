@@ -4,34 +4,26 @@ openeo\_udf.api package
 Submodules
 ----------
 
-openeo\_udf.api.collection\_tile module
+openeo\_udf.api.collection\_base module
 ---------------------------------------
 
-.. automodule:: openeo_udf.api.collection_tile
+.. automodule:: openeo_udf.api.collection_base
     :members:
     :undoc-members:
     :show-inheritance:
 
-openeo\_udf.api.custom\_udf\_parameter module
----------------------------------------------
+openeo\_udf.api.datacube module
+-------------------------------
 
-.. automodule:: openeo_udf.api.custom_udf_parameter
+.. automodule:: openeo_udf.api.datacube
     :members:
     :undoc-members:
     :show-inheritance:
 
-openeo\_udf.api.feature\_collection\_tile module
-------------------------------------------------
+openeo\_udf.api.feature\_collection module
+------------------------------------------
 
-.. automodule:: openeo_udf.api.feature_collection_tile
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-openeo\_udf.api.hypercube module
---------------------------------
-
-.. automodule:: openeo_udf.api.hypercube
+.. automodule:: openeo_udf.api.feature_collection
     :members:
     :undoc-members:
     :show-inheritance:
@@ -40,14 +32,6 @@ openeo\_udf.api.machine\_learn\_model module
 --------------------------------------------
 
 .. automodule:: openeo_udf.api.machine_learn_model
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-openeo\_udf.api.raster\_collection\_tile module
------------------------------------------------
-
-.. automodule:: openeo_udf.api.raster_collection_tile
     :members:
     :undoc-members:
     :show-inheritance:
@@ -76,10 +60,34 @@ openeo\_udf.api.structured\_data module
     :undoc-members:
     :show-inheritance:
 
+openeo\_udf.api.tools module
+----------------------------
+
+.. automodule:: openeo_udf.api.tools
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 openeo\_udf.api.udf\_data module
 --------------------------------
 
 .. automodule:: openeo_udf.api.udf_data
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.udf\_signatures module
+--------------------------------------
+
+.. automodule:: openeo_udf.api.udf_signatures
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+openeo\_udf.api.udf\_wrapper module
+-----------------------------------
+
+.. automodule:: openeo_udf.api.udf_wrapper
     :members:
     :undoc-members:
     :show-inheritance:

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.api.hypercube &#8212; openeo-udf 0.0.post0.dev269+g6263df3 documentation</title>
+    <title>openeo_udf.api.datacube &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -36,15 +36,16 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for openeo_udf.api.hypercube</h1><div class="highlight"><pre>
+  <h1>Source code for openeo_udf.api.datacube</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;OpenEO Python UDF interface&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">xarray</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
+<span class="kn">from</span> <span class="nn">openeo_udf.server.data_model.data_collection_schema</span> <span class="kn">import</span> <span class="n">DataCollectionModel</span>
 
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
 <span class="n">__author__</span>     <span class="o">=</span> <span class="s2">&quot;Soeren Gebbert&quot;</span>
@@ -53,7 +54,7 @@
 <span class="n">__email__</span>      <span class="o">=</span> <span class="s2">&quot;soerengebbert@googlemail.com&quot;</span>
 
 
-<div class="viewcode-block" id="HyperCube"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.hypercube.HyperCube">[docs]</a><span class="k">class</span> <span class="nc">HyperCube</span><span class="p">:</span>
+<div class="viewcode-block" id="DataCube"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.datacube.DataCube">[docs]</a><span class="k">class</span> <span class="nc">DataCube</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This class is a hypercube representation of multi-dimensional data</span>
 <span class="sd">    that stores an xarray and provides methods to convert the xarray into</span>
 <span class="sd">    the HyperCube JSON representation</span>
@@ -62,7 +63,7 @@
 <span class="sd">    &gt;&gt;&gt; array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={&#39;x&#39;: [1, 2], &#39;y&#39;: [1, 2, 3]}, dims=(&#39;x&#39;, &#39;y&#39;))</span>
 <span class="sd">    &gt;&gt;&gt; array.attrs[&quot;description&quot;] = &quot;This is an xarray with two dimensions&quot;</span>
 <span class="sd">    &gt;&gt;&gt; array.name = &quot;testdata&quot;</span>
-<span class="sd">    &gt;&gt;&gt; h = HyperCube(array=array)</span>
+<span class="sd">    &gt;&gt;&gt; h = DataCube(array=array)</span>
 <span class="sd">    &gt;&gt;&gt; d = h.to_dict()</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;id&quot;]</span>
 <span class="sd">    &#39;testdata&#39;</span>
@@ -73,7 +74,7 @@
 <span class="sd">    &gt;&gt;&gt; d[&quot;description&quot;]</span>
 <span class="sd">    &#39;This is an xarray with two dimensions&#39;</span>
 
-<span class="sd">    &gt;&gt;&gt; new_h = HyperCube.from_dict(d)</span>
+<span class="sd">    &gt;&gt;&gt; new_h = DataCube.from_dict(d)</span>
 <span class="sd">    &gt;&gt;&gt; d = new_h.to_dict()</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;id&quot;]</span>
 <span class="sd">    &#39;testdata&#39;</span>
@@ -85,7 +86,7 @@
 <span class="sd">    &#39;This is an xarray with two dimensions&#39;</span>
 
 <span class="sd">    &gt;&gt;&gt; array = xarray.DataArray(numpy.zeros(shape=(2, 3)), coords={&#39;x&#39;: [1, 2], &#39;y&#39;: [1, 2, 3]}, dims=(&#39;x&#39;, &#39;y&#39;))</span>
-<span class="sd">    &gt;&gt;&gt; h = HyperCube(array=array)</span>
+<span class="sd">    &gt;&gt;&gt; h = DataCube(array=array)</span>
 <span class="sd">    &gt;&gt;&gt; d = h.to_dict()</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;id&quot;]</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;data&quot;]</span>
@@ -95,7 +96,7 @@
 <span class="sd">    &gt;&gt;&gt; &quot;description&quot; not in d</span>
 <span class="sd">    True</span>
 
-<span class="sd">    &gt;&gt;&gt; new_h = HyperCube.from_dict(d)</span>
+<span class="sd">    &gt;&gt;&gt; new_h = DataCube.from_dict(d)</span>
 <span class="sd">    &gt;&gt;&gt; d = new_h.to_dict()</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;id&quot;]</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;data&quot;]</span>
@@ -106,7 +107,7 @@
 <span class="sd">    True</span>
 
 <span class="sd">    &gt;&gt;&gt; array = xarray.DataArray(numpy.zeros(shape=(2, 3)))</span>
-<span class="sd">    &gt;&gt;&gt; h = HyperCube(array=array)</span>
+<span class="sd">    &gt;&gt;&gt; h = DataCube(array=array)</span>
 <span class="sd">    &gt;&gt;&gt; d = h.to_dict()</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;id&quot;]</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;data&quot;]</span>
@@ -116,7 +117,7 @@
 <span class="sd">    &gt;&gt;&gt; &quot;description&quot; not in d</span>
 <span class="sd">    True</span>
 
-<span class="sd">    &gt;&gt;&gt; new_h = HyperCube.from_dict(d)</span>
+<span class="sd">    &gt;&gt;&gt; new_h = DataCube.from_dict(d)</span>
 <span class="sd">    &gt;&gt;&gt; d = new_h.to_dict()</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;id&quot;]</span>
 <span class="sd">    &gt;&gt;&gt; d[&quot;data&quot;]</span>
@@ -128,15 +129,15 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;id: </span><span class="si">%(id)s</span><span class="se">\n</span><span class="s2">&quot;</span> \
                <span class="s2">&quot;data: </span><span class="si">%(data)s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">}</span>
 
-<div class="viewcode-block" id="HyperCube.get_array"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.hypercube.HyperCube.get_array">[docs]</a>    <span class="k">def</span> <span class="nf">get_array</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<div class="viewcode-block" id="DataCube.get_array"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.datacube.DataCube.get_array">[docs]</a>    <span class="k">def</span> <span class="nf">get_array</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the xarray.DataArray that contains the data and dimension definition</span>
 
 <span class="sd">        Returns:</span>
@@ -145,7 +146,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span></div>
 
-<div class="viewcode-block" id="HyperCube.set_array"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.hypercube.HyperCube.set_array">[docs]</a>    <span class="k">def</span> <span class="nf">set_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+<div class="viewcode-block" id="DataCube.set_array"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.datacube.DataCube.set_array">[docs]</a>    <span class="k">def</span> <span class="nf">set_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the xarray.DataArray that contains the data and dimension definition</span>
 
 <span class="sd">        This function will check if the provided data is a geopandas.GeoDataFrame and raises</span>
@@ -166,7 +167,7 @@
 
     <span class="n">array</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">get_array</span><span class="p">,</span> <span class="n">fset</span><span class="o">=</span><span class="n">set_array</span><span class="p">)</span>
 
-<div class="viewcode-block" id="HyperCube.to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.hypercube.HyperCube.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<div class="viewcode-block" id="DataCube.to_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.datacube.DataCube.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Convert this hypercube into a dictionary that can be converted into</span>
 <span class="sd">        a valid JSON representation</span>
 
@@ -218,8 +219,8 @@
 
         <span class="k">return</span> <span class="n">d</span></div>
 
-<div class="viewcode-block" id="HyperCube.from_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.hypercube.HyperCube.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">hc_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;HyperCube&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="DataCube.from_dict"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.datacube.DataCube.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">hc_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;DataCube&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Create a hypercube from a python dictionary that was created from</span>
 <span class="sd">        the JSON definition of the HyperCube</span>
 
@@ -258,9 +259,62 @@
         <span class="k">if</span> <span class="s2">&quot;description&quot;</span> <span class="ow">in</span> <span class="n">hc_dict</span><span class="p">:</span>
             <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hc_dict</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
 
-        <span class="n">hc</span> <span class="o">=</span> <span class="n">HyperCube</span><span class="p">(</span><span class="n">array</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">hc</span> <span class="o">=</span> <span class="n">DataCube</span><span class="p">(</span><span class="n">array</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">hc</span></div></div>
+        <span class="k">return</span> <span class="n">hc</span></div>
+
+<div class="viewcode-block" id="DataCube.to_data_collection"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.datacube.DataCube.to_data_collection">[docs]</a>    <span class="k">def</span> <span class="nf">to_data_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DataCube.from_data_collection"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.datacube.DataCube.from_data_collection">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_data_collection</span><span class="p">(</span><span class="n">data_collection</span><span class="p">:</span> <span class="n">DataCollectionModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;DataCube&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Create data cubes from a data collection</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data_collection:</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of data cubes</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">dc_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">data_cubes</span> <span class="o">=</span> <span class="n">data_collection</span><span class="o">.</span><span class="n">object_collections</span><span class="o">.</span><span class="n">data_cubes</span>
+        <span class="n">variables_collections</span> <span class="o">=</span> <span class="n">data_collection</span><span class="o">.</span><span class="n">variables_collections</span>
+
+        <span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="n">data_cubes</span><span class="p">:</span>
+            <span class="n">variable_collection</span> <span class="o">=</span> <span class="n">variables_collections</span><span class="p">[</span><span class="n">cube</span><span class="o">.</span><span class="n">variable_collection</span><span class="p">]</span>
+
+            <span class="c1"># Read the one dimensional array and reshape it</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">cube</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">dimensions</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+                    <span class="n">coords</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">values</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">number_of_cells</span>
+                    <span class="k">if</span> <span class="n">l</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">d</span><span class="o">.</span><span class="n">extent</span><span class="p">:</span>
+                        <span class="n">stepsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">extent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">d</span><span class="o">.</span><span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">l</span>
+                        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="n">predecessor</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+                            <span class="n">value</span> <span class="o">=</span> <span class="n">predecessor</span> <span class="o">+</span> <span class="n">stepsize</span><span class="o">/</span><span class="mf">2.0</span>
+                            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                            <span class="n">predecessor</span> <span class="o">=</span> <span class="n">predecessor</span> <span class="o">+</span> <span class="n">stepsize</span>
+                        <span class="n">coords</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+
+            <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variable_collection</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                <span class="n">array</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                <span class="n">array</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">variable_collection</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+                <span class="n">data</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">cube</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
+
+                <span class="n">dc</span> <span class="o">=</span> <span class="n">DataCube</span><span class="p">(</span><span class="n">array</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">dc_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dc</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dc_list</span></div></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -298,7 +352,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

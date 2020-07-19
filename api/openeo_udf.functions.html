@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.functions package &#8212; openeo-udf 0.0.post0.dev269+g6263df3 documentation</title>
+    <title>openeo_udf.functions package &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="openeo_udf.api.html" title="openeo_udf.api package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="openeo_udf.html" accesskey="U">openeo_udf package</a> &#187;</li> 
       </ul>
@@ -50,35 +50,252 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="openeo-udf-functions-feature-collections-buffer-module">
-<h2>openeo_udf.functions.feature_collections_buffer module<a class="headerlink" href="#openeo-udf-functions-feature-collections-buffer-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.datacube_map_fabs">
+<span id="openeo-udf-functions-datacube-map-fabs-module"></span><h2>openeo_udf.functions.datacube_map_fabs module<a class="headerlink" href="#module-openeo_udf.functions.datacube_map_fabs" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.datacube_map_fabs.hyper_map_fabs">
+<code class="descclassname">openeo_udf.functions.datacube_map_fabs.</code><code class="descname">hyper_map_fabs</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/datacube_map_fabs.html#hyper_map_fabs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.datacube_map_fabs.hyper_map_fabs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the absolute values of each hyper cube in the provided data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that contains raster and vector tiles as well as hypercubes</li>
+<li><strong>structured data.</strong> (<em>and</em>) -- </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="openeo-udf-functions-hypercube-ndvi-module">
-<h2>openeo_udf.functions.hypercube_ndvi module<a class="headerlink" href="#openeo-udf-functions-hypercube-ndvi-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.datacube_ndvi">
+<span id="openeo-udf-functions-datacube-ndvi-module"></span><h2>openeo_udf.functions.datacube_ndvi module<a class="headerlink" href="#module-openeo_udf.functions.datacube_ndvi" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.datacube_ndvi.hyper_ndvi">
+<code class="descclassname">openeo_udf.functions.datacube_ndvi.</code><code class="descname">hyper_ndvi</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/datacube_ndvi.html#hyper_ndvi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.datacube_ndvi.hyper_ndvi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the NDVI based on RED and NIR hypercubes</p>
+<p>Hypercubes with ids &quot;red&quot; and &quot;nir&quot; are required. The NDVI computation will be applied
+to all hypercube dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that contains raster and vector tiles as well as hypercubes</li>
+<li><strong>structured data.</strong> (<em>and</em>) -- </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="openeo-udf-functions-raster-collections-ndvi-module">
-<h2>openeo_udf.functions.raster_collections_ndvi module<a class="headerlink" href="#openeo-udf-functions-raster-collections-ndvi-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.datacube_pytorch_ml">
+<span id="openeo-udf-functions-datacube-pytorch-ml-module"></span><h2>openeo_udf.functions.datacube_pytorch_ml module<a class="headerlink" href="#module-openeo_udf.functions.datacube_pytorch_ml" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.datacube_pytorch_ml.hyper_pytorch_ml">
+<code class="descclassname">openeo_udf.functions.datacube_pytorch_ml.</code><code class="descname">hyper_pytorch_ml</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/datacube_pytorch_ml.html#hyper_pytorch_ml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.datacube_pytorch_ml.hyper_pytorch_ml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a pre-trained pytorch machine learn model on a hypercube</p>
+<p>The model must be a pytorch model that has expects the input data in the constructor
+The prediction method must accept a torch.autograd.Variable as input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that hypercubes and vector tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="openeo-udf-functions-raster-collections-pytorch-ml-module">
-<h2>openeo_udf.functions.raster_collections_pytorch_ml module<a class="headerlink" href="#openeo-udf-functions-raster-collections-pytorch-ml-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.datacube_reduce_time_mean">
+<span id="openeo-udf-functions-datacube-reduce-time-mean-module"></span><h2>openeo_udf.functions.datacube_reduce_time_mean module<a class="headerlink" href="#module-openeo_udf.functions.datacube_reduce_time_mean" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.datacube_reduce_time_mean.hyper_mean">
+<code class="descclassname">openeo_udf.functions.datacube_reduce_time_mean.</code><code class="descname">hyper_mean</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/datacube_reduce_time_mean.html#hyper_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.datacube_reduce_time_mean.hyper_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the mean of the time dimension of a hyper cube</p>
+<p>Hypercubes with time dimensions are required. The mean reduction of th time axis will be applied
+to all hypercube dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that contains raster and vector tiles as well as hypercubes</li>
+<li><strong>structured data.</strong> (<em>and</em>) -- </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="openeo-udf-functions-raster-collections-reduce-time-median-module">
-<h2>openeo_udf.functions.raster_collections_reduce_time_median module<a class="headerlink" href="#openeo-udf-functions-raster-collections-reduce-time-median-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.datacube_reduce_time_min_median_max">
+<span id="openeo-udf-functions-datacube-reduce-time-min-median-max-module"></span><h2>openeo_udf.functions.datacube_reduce_time_min_median_max module<a class="headerlink" href="#module-openeo_udf.functions.datacube_reduce_time_min_median_max" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.datacube_reduce_time_min_median_max.hyper_min_median_max">
+<code class="descclassname">openeo_udf.functions.datacube_reduce_time_min_median_max.</code><code class="descname">hyper_min_median_max</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/datacube_reduce_time_min_median_max.html#hyper_min_median_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.datacube_reduce_time_min_median_max.hyper_min_median_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the min, median and max of the time dimension of a hyper cube</p>
+<p>Hypercubes with time dimensions are required. The min, median and max reduction of th time axis will be applied
+to all hypercube dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that contains raster and vector tiles as well as hypercubes</li>
+<li><strong>structured data.</strong> (<em>and</em>) -- </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="openeo-udf-functions-raster-collections-reduce-time-min-max-mean-sum-module">
-<h2>openeo_udf.functions.raster_collections_reduce_time_min_max_mean_sum module<a class="headerlink" href="#openeo-udf-functions-raster-collections-reduce-time-min-max-mean-sum-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.datacube_reduce_time_sum">
+<span id="openeo-udf-functions-datacube-reduce-time-sum-module"></span><h2>openeo_udf.functions.datacube_reduce_time_sum module<a class="headerlink" href="#module-openeo_udf.functions.datacube_reduce_time_sum" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.datacube_reduce_time_sum.hyper_sum">
+<code class="descclassname">openeo_udf.functions.datacube_reduce_time_sum.</code><code class="descname">hyper_sum</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/datacube_reduce_time_sum.html#hyper_sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.datacube_reduce_time_sum.hyper_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the sum of the time dimension of a hyper cube</p>
+<p>Hypercubes with time dimensions are required. The sum reduction of th time axis will be applied
+to all hypercube dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that contains raster and vector tiles as well as hypercubes</li>
+<li><strong>structured data.</strong> (<em>and</em>) -- </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="openeo-udf-functions-raster-collections-reduce-time-sum-module">
-<h2>openeo_udf.functions.raster_collections_reduce_time_sum module<a class="headerlink" href="#openeo-udf-functions-raster-collections-reduce-time-sum-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.datacube_sampling">
+<span id="openeo-udf-functions-datacube-sampling-module"></span><h2>openeo_udf.functions.datacube_sampling module<a class="headerlink" href="#module-openeo_udf.functions.datacube_sampling" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.datacube_sampling.fct_sampling">
+<code class="descclassname">openeo_udf.functions.datacube_sampling.</code><code class="descname">fct_sampling</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/datacube_sampling.html#fct_sampling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.datacube_sampling.fct_sampling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample any number of raster collection tiles with a single feature collection (the first if several are provided)
+and store the samples values in the input feature collection. Each time-slice of a raster collection is
+stored as a separate column in the feature collection. Hence, the size of the feature collection attributes
+is (number_of_raster_tile * number_of_xy_slices) x number_of_features.
+The number of columns is equal to (number_of_raster_tile * number_of_xy_slices).</p>
+<p>A single feature collection id stored in the input data object that contains the sample attributes and
+the original data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that contains raster and vector tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="openeo-udf-functions-raster-collections-sampling-module">
-<h2>openeo_udf.functions.raster_collections_sampling module<a class="headerlink" href="#openeo-udf-functions-raster-collections-sampling-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.datacube_sklearn_ml">
+<span id="openeo-udf-functions-datacube-sklearn-ml-module"></span><h2>openeo_udf.functions.datacube_sklearn_ml module<a class="headerlink" href="#module-openeo_udf.functions.datacube_sklearn_ml" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.datacube_sklearn_ml.rct_sklearn_ml">
+<code class="descclassname">openeo_udf.functions.datacube_sklearn_ml.</code><code class="descname">rct_sklearn_ml</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/datacube_sklearn_ml.html#rct_sklearn_ml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.datacube_sklearn_ml.rct_sklearn_ml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a pre-trained sklearn machine learn model on RED and NIR tiles</p>
+<p>The model must be a sklearn model that has a prediction method: m.predict(X)
+The prediction method must accept a pandas.DataFrame as input.</p>
+<p>Tiles with ids &quot;red&quot; and &quot;nir&quot; are required. The machine learn model will be applied to all spatio-temporal pixel
+of the two input raster collections.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that contains raster and vector tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="openeo-udf-functions-raster-collections-sklearn-ml-module">
-<h2>openeo_udf.functions.raster_collections_sklearn_ml module<a class="headerlink" href="#openeo-udf-functions-raster-collections-sklearn-ml-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.datacube_statistics">
+<span id="openeo-udf-functions-datacube-statistics-module"></span><h2>openeo_udf.functions.datacube_statistics module<a class="headerlink" href="#module-openeo_udf.functions.datacube_statistics" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.datacube_statistics.rct_stats">
+<code class="descclassname">openeo_udf.functions.datacube_statistics.</code><code class="descname">rct_stats</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/datacube_statistics.html#rct_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.datacube_statistics.rct_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute univariate statistics for each hypercube</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that contains raster and vector tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="openeo-udf-functions-raster-collections-statistics-module">
-<h2>openeo_udf.functions.raster_collections_statistics module<a class="headerlink" href="#openeo-udf-functions-raster-collections-statistics-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openeo_udf.functions.feature_collections_buffer">
+<span id="openeo-udf-functions-feature-collections-buffer-module"></span><h2>openeo_udf.functions.feature_collections_buffer module<a class="headerlink" href="#module-openeo_udf.functions.feature_collections_buffer" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="openeo_udf.functions.feature_collections_buffer.fct_buffer">
+<code class="descclassname">openeo_udf.functions.feature_collections_buffer.</code><code class="descname">fct_buffer</code><span class="sig-paren">(</span><em>udf_data: openeo_udf.api.udf_data.UdfData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/openeo_udf/functions/feature_collections_buffer.html#fct_buffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openeo_udf.functions.feature_collections_buffer.fct_buffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute buffer of size 10 around features</p>
+<p>This function creates buffer around all features in the provided feature collection tiles.
+The resulting geopandas.GeoDataFrame contains the new geometries and a copy of the original attribute data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>udf_data</strong> (<a class="reference internal" href="openeo_udf.api.html#openeo_udf.api.udf_data.UdfData" title="openeo_udf.api.udf_data.UdfData"><em>UdfData</em></a>) -- The UDF data object that contains raster and vector tiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">This function will not return anything, the UdfData object &quot;udf_data&quot; must be used to store the resulting
+data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-openeo_udf.functions">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-openeo_udf.functions" title="Permalink to this headline">¶</a></h2>
@@ -95,16 +312,16 @@
   <ul>
 <li><a class="reference internal" href="#">openeo_udf.functions package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-feature-collections-buffer-module">openeo_udf.functions.feature_collections_buffer module</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-hypercube-ndvi-module">openeo_udf.functions.hypercube_ndvi module</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-raster-collections-ndvi-module">openeo_udf.functions.raster_collections_ndvi module</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-raster-collections-pytorch-ml-module">openeo_udf.functions.raster_collections_pytorch_ml module</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-raster-collections-reduce-time-median-module">openeo_udf.functions.raster_collections_reduce_time_median module</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-raster-collections-reduce-time-min-max-mean-sum-module">openeo_udf.functions.raster_collections_reduce_time_min_max_mean_sum module</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-raster-collections-reduce-time-sum-module">openeo_udf.functions.raster_collections_reduce_time_sum module</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-raster-collections-sampling-module">openeo_udf.functions.raster_collections_sampling module</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-raster-collections-sklearn-ml-module">openeo_udf.functions.raster_collections_sklearn_ml module</a></li>
-<li><a class="reference internal" href="#openeo-udf-functions-raster-collections-statistics-module">openeo_udf.functions.raster_collections_statistics module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.datacube_map_fabs">openeo_udf.functions.datacube_map_fabs module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.datacube_ndvi">openeo_udf.functions.datacube_ndvi module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.datacube_pytorch_ml">openeo_udf.functions.datacube_pytorch_ml module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.datacube_reduce_time_mean">openeo_udf.functions.datacube_reduce_time_mean module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.datacube_reduce_time_min_median_max">openeo_udf.functions.datacube_reduce_time_min_median_max module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.datacube_reduce_time_sum">openeo_udf.functions.datacube_reduce_time_sum module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.datacube_sampling">openeo_udf.functions.datacube_sampling module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.datacube_sklearn_ml">openeo_udf.functions.datacube_sklearn_ml module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.datacube_statistics">openeo_udf.functions.datacube_statistics module</a></li>
+<li><a class="reference internal" href="#module-openeo_udf.functions.feature_collections_buffer">openeo_udf.functions.feature_collections_buffer module</a></li>
 <li><a class="reference internal" href="#module-openeo_udf.functions">Module contents</a></li>
 </ul>
 </li>
@@ -154,7 +371,7 @@
         <li class="right" >
           <a href="openeo_udf.api.html" title="openeo_udf.api package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >openeo_udf</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="openeo_udf.html" >openeo_udf package</a> &#187;</li> 
       </ul>

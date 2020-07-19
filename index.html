@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>OpenEO UDF Framework &#8212; openeo-udf 0.0.post0.dev269+g6263df3 documentation</title>
+    <title>OpenEO UDF Framework &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="license.html" title="License"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -48,11 +48,8 @@ implementation includes:</p>
 <blockquote>
 <div><ul class="simple">
 <li>An OpenEO UDF REST test server that processes user defined data with user defined functions
-and describes its interface using swagger2.0.</li>
-<li>A command line tool to apply user defined functions on raster and vector data</li>
+and describes its interface using OpenAPI 3.0.</li>
 <li>A Python3 API that specifies how UDF must be implemented in Python3</li>
-<li>The UDF test server and the command line tool are examples howto implement the
-UDF approach in an OpenEO processing backend</li>
 </ul>
 </div></blockquote>
 <p>Documentation is available online (see list below) and through the test server.</p>
@@ -64,24 +61,25 @@ UDF approach in an OpenEO processing backend</li>
 </div></blockquote>
 <div class="section" id="backend-integration">
 <h2>Backend integration<a class="headerlink" href="#backend-integration" title="Permalink to this headline">¶</a></h2>
-<p>This UDF implementation contains an abstract swagger description of schemas that must be used when an API for a specific
+<p>This UDF implementation contains an abstract OpenAPI 3.0 description of schemas that must be used when an API for a specific
 programming language is implemented.
-They are documented in the swagger 2.0 API description that is provided by the UDF test server,
-available at &lt;<a class="reference external" href="https://open-eo.github.io/openeo-udf/api_docs/">https://open-eo.github.io/openeo-udf/api_docs/</a>&gt;. However, the
-Python files that defines the swagger description are available here:</p>
+The schemas are generated from the UDF python3 classes of the REST service, that are implemented using pydantic.
+The documentation will be generated on the fly and can be accessed via browser from the docker container or when the
+udf server started from localhost.</p>
+<p>The following files implement the schemas:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/dimension_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/dimension_schema.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/feature_collection_tile_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/feature_collection_tile_schema.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/hypercube_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/hypercube_schema.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/machine_learn_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/machine_learn_schema.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/raster_collection_tile_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/raster_collection_tile_schema.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/spatial_extent_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/spatial_extent_schema.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/structured_data_schema.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/structured_data_schema.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/udf_schemas.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/udf_schemas.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/dimension_schema.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/dimension_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/feature_collection_tile_schema.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/feature_collection_tile_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/hypercube_schema.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/hypercube_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/machine_learn_schema.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/machine_learn_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/raster_collection_tile_schema.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/raster_collection_tile_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/spatial_extent_schema.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/spatial_extent_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/structured_data_schema.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/structured_data_schema.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/udf_schemas.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/udf_schemas.py</a></li>
 </ul>
 </div></blockquote>
-<p>The basis of the swagger 2.0 API description are basic data-types that are available in many programming languages.
+<p>The basis of the OpenAPI 3.0 description are basic data-types that are available in many programming languages.
 These basic data-types are:</p>
 <blockquote>
 <div><ul class="simple">
@@ -95,18 +93,17 @@ These basic data-types are:</p>
 </div></blockquote>
 <p>The entry point of an UDF is a single dictionary or map, that can be represented by a class object as well,
 depending on the programming language.</p>
-<p>The schemas SpatialExtentSchema, RasterCollectionTileSchema, FeatureCollectionTileSchema, HyperCubeSchema,
-StructuredDataSchema, MachineLearnModelSchema and UdfDataSchema are a swagger 2.0 based definitions for the UDF API.
-These schemas are implemented as classes with additional functionality in the Python3 REST test server.</p>
+<p>The schemas SpatialExtentSchema, FeatureCollectionTileSchema, HyperCubeSchema,
+StructuredDataSchema, MachineLearnModelSchema and UdfDataSchema are a OpenAPI 3.0 based definitions for the UDF API.
+These schemas are implemented as python3 classes with additional functionality in the Python3 REST test server.</p>
 <p>The schemas UdfCodeSchema, UdfRequestSchema and ErrorResponseSchema are used by the UDF
 test server to provide the POST endpoint. They are not part of the UDF API.</p>
 <p>To support UDF's in the backend the following approaches can be used:</p>
 <blockquote>
 <div><ul class="simple">
-<li>The backend implements for specific languages the UDF API based on the provided swagger 2.0 API description</li>
+<li>The backend implements for specific languages the UDF API based on the provided OpenAPI 3.0 description</li>
 <li>The backend uses the Python prototype implementation for Python based UDF's</li>
 <li>The backend uses the UDF test server to run Python UDF's with JSON protocol or message pack binary protocol</li>
-<li>The backend uses the command line tool to execute Python UDF's.</li>
 </ul>
 </div></blockquote>
 </div>
@@ -156,6 +153,9 @@ The python3 message pack library <a class="footnote-reference" href="#messagepac
 <span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
 
 git clone https://github.com/Open-EO/openeo-udf.git
+
+<span class="c1"># Checkout the fastapi branch</span>
+git checkout fastapi
 virtualenv -p python3 venv
 </pre></div>
 </div>
@@ -191,55 +191,25 @@ firefox _build/html/index.html <span class="p">&amp;</span>
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">Run the udf server and download the swagger definition:</p>
-<blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>run_udf_server <span class="p">&amp;</span>
+<li><dl class="first docutils">
+<dt>Run the udf server and have a look at the OpenAPI documentation. Here you can also</dt>
+<dd><p class="first">download the swagger definition:</p>
+<div class="last highlight-bash notranslate"><div class="highlight"><pre><span></span>run_udf_server <span class="p">&amp;</span>
 
-<span class="c1"># Download the swagger JSON file</span>
-wget http://localhost:5000/api/v0/swagger.json
+firefox http://localhost:5000/redoc
+firefox http://localhost:5000/docs
 </pre></div>
 </div>
-</div></blockquote>
-</li>
-<li><p class="first">Run the UDF execution command line tool:</p>
-<blockquote>
-<div><p>The following command computes the NDVI on a raster
-image series of three multi-band tiff files. Two bands are provided with the names RED and NIR for
-the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
-            -b RED,NIR <span class="se">\</span>
-            -u src/openeo_udf/functions/raster_collections_ndvi.py
-</pre></div>
-</div>
-<p>This command computes the sum of the raster series for each band. A single raster image
-with two bands is written as GeoTiff file to the directory /tmp.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
-            -b RED,NIR <span class="se">\</span>
-            -u src/openeo_udf/functions/raster_collections_reduce_time_sum.py
-</pre></div>
-</div>
-<p>This command reads a feature collection stored in a gepackge file
-and applies the UDF buffer function. The result is a new geopackage
-that contains the buffers written in directory /tmp:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
-</pre></div>
-</div>
-<p>This command reads a series of raster GeoTiff files and a feature collection stored in a gepackge file
-and applies the UDF sampling function. The result is a new geopackage
-that contains the sampled attributes written in directory /tmp:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
-            -b RED,NIR <span class="se">\</span>
-            -v data/sampling_points.gpkg <span class="se">\</span>
-            -u src/openeo_udf/functions/raster_collections_sampling.py
-</pre></div>
-</div>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ol>
 </div>
 <div class="section" id="docker-image">
 <h3>Docker image<a class="headerlink" href="#docker-image" title="Permalink to this headline">¶</a></h3>
-<p>The openeo-udf repository contains the build instruction of an openeo-udf docker image:</p>
+<p>The openeo-udf repository contains the build instruction of an openeo-udf docker image.
+This description is specific for the fastapi branch, that directly supprts the
+OpenAPI documentation of the REST service.</p>
 <ol class="arabic">
 <li><p class="first">Clone the git repository into a specific directory and create the virtual python3 environment:</p>
 <blockquote>
@@ -247,6 +217,9 @@ that contains the sampled attributes written in directory /tmp:</p>
 <span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/src/openeo
 
 git clone https://github.com/Open-EO/openeo-udf.git
+
+<span class="c1"># Checkout the fastapi branch</span>
+git checkout fastapi
 </pre></div>
 </div>
 </div></blockquote>
@@ -268,10 +241,11 @@ documentation of the REST UDF service:</p>
 firefox http://localhost/index.html
 
 <span class="c1"># The python3 API description that must be used in the python3 UDF</span>
-firefox http://localhost/api/openeo_udf.api.html
+firefox http://localhost/index.html
 
 <span class="c1"># The swagger API description</span>
-firefox http://localhost/api_docs/index.html
+firefox http://localhost:5000/redoc
+firefox http://localhost:5000/docs
 
 <span class="c1"># Download the swagger JSON file</span>
 wget http://localhost:5000/api/v0/swagger.json
@@ -333,49 +307,48 @@ is available when you installed openeo_udf locally or if you use the docker imag
 However, the original python3 file that implements the OpenEO UDF python3 API is available here:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/collection_tile.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/collection_tile.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/feature_collection_tile.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/feature_collection_tile.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/hypercube.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/hypercube.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/machine_learn_model.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/machine_learn_model.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/raster_collection_tile.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/raster_collection_tile.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/spatial_extent.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/spatial_extent.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/structured_data.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/structured_data.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/udf_data.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/udf_data.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/collection.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/collection.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/feature_collection.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/feature_collection.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/hypercube.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/hypercube.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/machine_learn_model.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/machine_learn_model.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/spatial_extent.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/spatial_extent.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/structured_data.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/structured_data.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/udf_data.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/udf_data.py</a></li>
 </ul>
 </div></blockquote>
 <p>The UDF's are directly available for download from the repository:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_ndvi.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_ndvi.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_min_max_mean_sum.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_min_max_mean_sum.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_sum.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_reduce_time_sum.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/feature_collections_buffer.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sampling.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sampling.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_statistics.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_statistics.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_pytorch_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_pytorch_ml.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sklearn_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/raster_collections_sklearn_ml.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/hypercube_ndvi.py">https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/hypercube_ndvi.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_ndvi.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_ndvi.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_pytorch_ml.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_pytorch_ml.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_statistics.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_statistics.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_sklearn_ml.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_sklearn_ml.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_map_fabs.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_map_fabs.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_reduce_time_mean.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_reduce_time_mean.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_reduce_time_sum.py">https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_reduce_time_sum.py</a></li>
 </ul>
 </div></blockquote>
 <p>Several UDF were implemented and provide and example howto develop an UDF. Unittest were implemented for
 each UDF including machine learn models and hypercube approach. The tests are available here:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_sklearn_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_sklearn_ml.py</a></li>
-<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_pytorch_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_pytorch_ml.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_map_fabs.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_map_fabs.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_ndvi.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_ndvi.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_pytorch_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_pytorch_ml.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_mean.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_mean.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_sum.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_sum.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_sklearn_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_sklearn_ml.py</a></li>
+<li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_pytorch_ml.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_udf_hypercube_pytorch_ml.py</a></li>
 <li><a class="reference external" href="https://github.com/Open-EO/openeo-udf/blob/master/tests/test_ml_storage.py">https://github.com/Open-EO/openeo-udf/blob/master/tests/test_ml_storage.py</a></li>
 </ul>
 </div></blockquote>
-<p>The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend
+<p>The following classes are part of the UDF Python API and should be used for implementation of UDF's and backend Python
 driver:</p>
 <blockquote>
 <div><ul class="simple">
 <li>SpatialExtent</li>
-<li>RasterCollectionTile</li>
 <li>Hypercube</li>
-<li>FeatureCollectionTile</li>
+<li>FeatureCollection</li>
 <li>StructuredData</li>
 <li>MachineLearnModel</li>
 <li>UdfData</li>
@@ -391,173 +364,8 @@ of python3 UDF's without running it in a dedicated backend.</p>
 <li>Clone an existing unittest in the test directory and write your tests with generic raster, vector or xarray data</li>
 </ol>
 </div></blockquote>
-<div class="section" id="using-the-udf-command-line-tool">
-<h3>Using the UDF command line tool<a class="headerlink" href="#using-the-udf-command-line-tool" title="Permalink to this headline">¶</a></h3>
-<p>The python3 reference implementation provides a command line tool to run an UDF on raster images that
-are supported by GDAL and/or vector files support by OGR.
-The command line tool has a help interface with examples that run on test data available in the
-OpenEO UDF repository:</p>
-<blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>openeo_venv<span class="o">)</span> soeren@Knecht:~/src/openeo/openeo-udf$ execute_udf --help
-usage: execute_udf <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-r RASTER_FILES<span class="o">]</span> <span class="o">[</span>-v VECTOR_FILES<span class="o">]</span>
-                   <span class="o">[</span>-t RASTER_TIME_STAMPS<span class="o">]</span> <span class="o">[</span>-b BAND_NAMES<span class="o">]</span>
-                   <span class="o">[</span>-o RASTER_OUTPUT_DIR<span class="o">]</span> -u PATH_TO_UDF
-
-This program reads a list of single- or multi-band GeoTiff files and vector files
-and applies a user defined <span class="k">function</span> <span class="o">(</span>UDF<span class="o">)</span> on them.
-The GeoTiff files must be provided as comma separated list, as well as the band names.
-The vector files must be provides as comma separated list of files as well. The UDF
-must be accessible on the file system. The computed results are single- or multi-band GeoTiff files
-in <span class="k">case</span> of raster output and geopackage vector files in <span class="k">case</span> of vector output
-that are written into a specific output directory. Raster and vector files can be specified together.
-However, all provided files must have the same projection.
-
-Examples:
-
-    The following <span class="nb">command</span> computes the NDVI on a raster
-    image series of three multi-band tiff files. Two bands are provided with the names RED and NIR <span class="k">for</span>
-    the UDF. The three resulting single-band GeoTiff files are written to the /tmp directory.
-
-        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
-                    -b RED,NIR <span class="se">\</span>
-                    -u src/openeo_udf/functions/raster_collections_ndvi.py
-
-    This <span class="nb">command</span> computes the sum of the raster series <span class="k">for</span> each band. A single raster image
-    with two bands is written as GeoTiff file to the directory /tmp.
-
-        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
-                    -b RED,NIR <span class="se">\</span>
-                    -u src/openeo_udf/functions/raster_collections_reduce_time_sum.py
-
-
-    This <span class="nb">command</span> reads a feature collection stored in a gepackge file
-    and applies the UDF buffer <span class="k">function</span>. The result is a new geopackage
-    that contains the buffers written in directory /tmp:
-
-        execute_udf -v data/sampling_points.gpkg -u src/openeo_udf/functions/feature_collections_buffer.py
-
-    This <span class="nb">command</span> reads a series of raster GeoTiff files and a feature collection stored in a gepackge file
-    and applies the UDF sampling <span class="k">function</span>. The result is a new geopackage
-    that contains the sampled attributes written in directory /tmp:
-
-        execute_udf -r data/red_nir_1987.tif,data/red_nir_2000.tif,data/red_nir_2002.tif <span class="se">\</span>
-                    -b RED,NIR <span class="se">\</span>
-                    -v data/sampling_points.gpkg <span class="se">\</span>
-                    -u src/openeo_udf/functions/raster_collections_sampling.py
-
-optional arguments:
-  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
-  -r RASTER_FILES, --raster_files RASTER_FILES
-                        Comma separated list of raster files. If several
-                        raster files are provided, <span class="k">then</span> each raster file must
-                        have the same number of bands.
-  -v VECTOR_FILES, --vector_files VECTOR_FILES
-                        Comma separated list of vector files. Each vector file
-                        will be converted into a vector collection tile.
-  -t RASTER_TIME_STAMPS, --raster_time_stamps RASTER_TIME_STAMPS
-                        A comma separated list of <span class="nb">time</span> stamps, that must have
-                        the same number of entries as the list of raster
-                        files.
-  -b BAND_NAMES, --band_names BAND_NAMES
-                        A comma separated list of band names.
-  -o RASTER_OUTPUT_DIR, --raster_output_dir RASTER_OUTPUT_DIR
-                        The output directory to store the computed results.
-  -u PATH_TO_UDF, --path_to_udf PATH_TO_UDF
-                        The UDF file to execute.
-</pre></div>
-</div>
-</div></blockquote>
-</div>
 <div class="section" id="using-the-udf-server">
 <h3>Using the UDF server<a class="headerlink" href="#using-the-udf-server" title="Permalink to this headline">¶</a></h3>
-<p><strong>Raster Example</strong></p>
-<p>The first example removes the raster collection tiles from the provided input data. The code is very simple
-and removes all raster collection tiles in the input object that always has the name <strong>data</strong>:</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">del_raster_collection_tiles</span><span class="p">()</span>
-</pre></div>
-</div>
-</div></blockquote>
-<p>The following JSON definition includes the python3 code and a simple raster collection
-with two 2x2 tiles with two start and end time stamps.</p>
-<blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="nt">&quot;code&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;data.del_raster_collection_tiles()&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;python&quot;</span>
-  <span class="p">},</span>
-  <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;proj&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;raster_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span>
-        <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
-          <span class="p">[</span>
-            <span class="p">[</span>
-              <span class="mi">0</span><span class="p">,</span>
-              <span class="mi">1</span>
-            <span class="p">],</span>
-            <span class="p">[</span>
-              <span class="mi">2</span><span class="p">,</span>
-              <span class="mi">3</span>
-            <span class="p">]</span>
-          <span class="p">],</span>
-          <span class="p">[</span>
-            <span class="p">[</span>
-              <span class="mi">0</span><span class="p">,</span>
-              <span class="mi">1</span>
-            <span class="p">],</span>
-            <span class="p">[</span>
-              <span class="mi">2</span><span class="p">,</span>
-              <span class="mi">3</span>
-            <span class="p">]</span>
-          <span class="p">]</span>
-        <span class="p">],</span>
-        <span class="nt">&quot;extent&quot;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&quot;top&quot;</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span>
-          <span class="nt">&quot;bottom&quot;</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
-          <span class="nt">&quot;right&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
-          <span class="nt">&quot;left&quot;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
-          <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-          <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1</span>
-        <span class="p">},</span>
-        <span class="nt">&quot;end_times&quot;</span><span class="p">:</span> <span class="p">[</span>
-          <span class="s2">&quot;2001-01-02T00:00:00&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;2001-01-03T00:00:00&quot;</span>
-        <span class="p">],</span>
-        <span class="nt">&quot;start_times&quot;</span><span class="p">:</span> <span class="p">[</span>
-          <span class="s2">&quot;2001-01-01T00:00:00&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;2001-01-02T00:00:00&quot;</span>
-        <span class="p">],</span>
-        <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;test_data&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;wavelength&quot;</span><span class="p">:</span> <span class="mi">420</span>
-      <span class="p">}</span>
-    <span class="p">]</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div></blockquote>
-<p>Running the code, with the assumption that the JSON code was
-placed in the shell environmental variable &quot;JSON&quot;, should look like this:</p>
-<blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -X POST -d <span class="s2">&quot;</span><span class="si">${</span><span class="nv">JSON</span><span class="si">}</span><span class="s2">&quot;</span> http://localhost:5000/udf
-</pre></div>
-</div>
-</div></blockquote>
-<p>The result of the processing should be the elimination of the raster and feature collections,
-since the provided data object will be used to create the resulting data:</p>
-<blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="nt">&quot;feature_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[],</span>
-  <span class="nt">&quot;models&quot;</span><span class="p">:</span> <span class="p">{},</span>
-  <span class="nt">&quot;proj&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;raster_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div></blockquote>
-<p>Hence, a data object that contains the raster and feature collections is provided to the
-user defined function. The UDF code works on the data and stores the result in the same data object.</p>
 <p><strong>Vector Example</strong></p>
 <p>The second examples applies a buffer operation on a feature collection. It computes a buffer of size 5
 on all features of the first feature collection tile and stores the result in the input <strong>data</strong>
@@ -716,7 +524,6 @@ placed in the shell environmental variable &quot;JSON&quot;, should look like th
   <span class="p">],</span>
   <span class="nt">&quot;models&quot;</span><span class="p">:</span> <span class="p">{},</span>
   <span class="nt">&quot;proj&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;raster_collection_tiles&quot;</span><span class="p">:</span> <span class="p">[]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -767,7 +574,6 @@ placed in the shell environmental variable &quot;JSON&quot;, should look like th
 </ul>
 </li>
 <li><a class="reference internal" href="#using-the-api-to-code-an-udf">Using the API to code an UDF</a><ul>
-<li><a class="reference internal" href="#using-the-udf-command-line-tool">Using the UDF command line tool</a></li>
 <li><a class="reference internal" href="#using-the-udf-server">Using the UDF server</a></li>
 </ul>
 </li>
@@ -815,7 +621,7 @@ placed in the shell environmental variable &quot;JSON&quot;, should look like th
         <li class="right" >
           <a href="license.html" title="License"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">openeo-udf 0.0.post0.dev269+g6263df3 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
