@@ -9,8 +9,7 @@ from openeo_udf.api.datacube import DataCube
 from openeo_udf.api.machine_learn_model import MachineLearnModelConfig
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
-from openeo_udf.server.data_model.metadata_schema import MetadataModel
-from openeo_udf.server.data_model.udf_schemas import UdfDataModel
+
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -118,7 +117,7 @@ class UdfData:
                  feature_collection_list: Optional[List[FeatureCollection]]=None,
                  structured_data_list: Optional[List[StructuredData]]=None,
                  ml_model_list: Optional[List[MachineLearnModelConfig]]=None,
-                 metadata: MetadataModel = None):
+                 metadata: 'openeo_udf.server.data_model.metadata_schema.MetadataModel' = None):
         """The constructor of the UDF argument class that stores all data required by the
         user defined function.
 
@@ -138,7 +137,7 @@ class UdfData:
         self._structured_data_list = []
         self._ml_model_list = []
         self.proj = proj
-        self._metadata: MetadataModel = None
+        self._metadata: 'openeo_udf.server.data_model.metadata_schema.MetadataModel' = None
 
         self._user_context: Dict = dict()
         self._server_context: Dict = dict()
@@ -155,11 +154,11 @@ class UdfData:
             self.metadata = metadata
 
     @property
-    def metadata(self) -> MetadataModel:
+    def metadata(self) -> 'openeo_udf.server.data_model.metadata_schema.MetadataModel':
         return self._metadata
 
     @metadata.setter
-    def metadata(self, model: MetadataModel):
+    def metadata(self, model: 'openeo_udf.server.data_model.metadata_schema.MetadataModel'):
         self._metadata = model
 
     @property
@@ -465,7 +464,7 @@ class UdfData:
         return udf_data
 
     @staticmethod
-    def from_udf_data_model(udf_model: UdfDataModel) -> 'UdfData':
+    def from_udf_data_model(udf_model: 'openeo_udf.server.data_model.udf_schemas.UdfDataModel') -> 'UdfData':
         """TODO: Must be implemented
 
         Args:
