@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>openeo_udf.api.udf_data &#8212; openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</title>
+    <title>openeo_udf.api.udf_data &#8212; openeo-udf 1.0.0rc1.post0.dev4+g052ab87 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev4+g052ab87 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -48,8 +48,7 @@
 <span class="kn">from</span> <span class="nn">openeo_udf.api.machine_learn_model</span> <span class="kn">import</span> <span class="n">MachineLearnModelConfig</span>
 <span class="kn">from</span> <span class="nn">openeo_udf.api.spatial_extent</span> <span class="kn">import</span> <span class="n">SpatialExtent</span>
 <span class="kn">from</span> <span class="nn">openeo_udf.api.structured_data</span> <span class="kn">import</span> <span class="n">StructuredData</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.server.data_model.metadata_schema</span> <span class="kn">import</span> <span class="n">MetadataModel</span>
-<span class="kn">from</span> <span class="nn">openeo_udf.server.data_model.udf_schemas</span> <span class="kn">import</span> <span class="n">UdfDataModel</span>
+
 
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
 <span class="n">__author__</span>     <span class="o">=</span> <span class="s2">&quot;Soeren Gebbert&quot;</span>
@@ -157,7 +156,7 @@
                  <span class="n">feature_collection_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FeatureCollection</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">structured_data_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StructuredData</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">ml_model_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MachineLearnModelConfig</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataModel</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                 <span class="n">metadata</span><span class="p">:</span> <span class="s1">&#39;openeo_udf.server.data_model.metadata_schema.MetadataModel&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The constructor of the UDF argument class that stores all data required by the</span>
 <span class="sd">        user defined function.</span>
 
@@ -177,7 +176,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_structured_data_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ml_model_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">proj</span> <span class="o">=</span> <span class="n">proj</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">:</span> <span class="n">MetadataModel</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">:</span> <span class="s1">&#39;openeo_udf.server.data_model.metadata_schema.MetadataModel&#39;</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_user_context</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_server_context</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -194,11 +193,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MetadataModel</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;openeo_udf.server.data_model.metadata_schema.MetadataModel&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span>
 
     <span class="nd">@metadata</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">MetadataModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s1">&#39;openeo_udf.server.data_model.metadata_schema.MetadataModel&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span> <span class="o">=</span> <span class="n">model</span>
 
     <span class="nd">@property</span>
@@ -504,7 +503,7 @@
         <span class="k">return</span> <span class="n">udf_data</span></div>
 
 <div class="viewcode-block" id="UdfData.from_udf_data_model"><a class="viewcode-back" href="../../../api/openeo_udf.api.html#openeo_udf.api.udf_data.UdfData.from_udf_data_model">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_udf_data_model</span><span class="p">(</span><span class="n">udf_model</span><span class="p">:</span> <span class="n">UdfDataModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;UdfData&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_udf_data_model</span><span class="p">(</span><span class="n">udf_model</span><span class="p">:</span> <span class="s1">&#39;openeo_udf.server.data_model.udf_schemas.UdfDataModel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;UdfData&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;TODO: Must be implemented</span>
 
 <span class="sd">        Args:</span>
@@ -565,7 +564,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev2+g7db6d90 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">openeo-udf 1.0.0rc1.post0.dev4+g052ab87 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
