@@ -6,7 +6,6 @@ import numpy
 import xarray
 from typing import Dict, List
 
-from openeo_udf.server.data_model.data_collection_schema import DataCollectionModel
 
 __license__ = "Apache License, Version 2.0"
 __author__     = "Soeren Gebbert"
@@ -228,7 +227,7 @@ class DataCube:
         pass
 
     @staticmethod
-    def from_data_collection(data_collection: DataCollectionModel) -> List['DataCube']:
+    def from_data_collection(data_collection: 'openeo_udf.server.data_model.data_collection_schema.DataCollectionModel') -> List['DataCube']:
         """Create data cubes from a data collection
 
         Args:

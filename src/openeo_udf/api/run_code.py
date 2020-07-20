@@ -8,10 +8,6 @@ import pandas
 import geopandas
 import shapely
 from copy import deepcopy
-import torch
-import torchvision
-import tensorflow
-import tensorboard
 import math
 from typing import Dict
 from inspect import signature
@@ -64,22 +60,34 @@ def run_legacy_user_code(dict_data: Dict) -> Dict:
 
 
 def _build_default_execution_context():
-    return {
+    context = {
         'numpy': numpy,
         'xarray': xarray,
         'geopandas': geopandas,
         'pandas': pandas,
         'shapely': shapely,
-        'math':math,
-        'FeatureCollection':FeatureCollection,
-        'SpatialExtent':SpatialExtent,
-        'StructuredData':StructuredData,
-        'MachineLearnModel':MachineLearnModelConfig,
-        'torch':torch,
-        'tensorflow':tensorflow,
-        'DataCube':DataCube,
-        'UdfData':UdfData
+        'math': math,
+        'FeatureCollection': FeatureCollection,
+        'SpatialExtent': SpatialExtent,
+        'StructuredData': StructuredData,
+        'MachineLearnModel': MachineLearnModelConfig,
+        'DataCube': DataCube,
+        'UdfData': UdfData
     }
+    try:
+        import torch
+        context['torch'] = torch
+        import torchvision
+    except ImportError as e:
+        print('torch not available')
+    try:
+        import tensorflow
+        context['tensorflow'] = tensorflow
+        import tensorboard
+    except ImportError as e:
+        print('tensorflow not available')
+
+    return context
 
 
 def run_user_code(code:str, data:UdfData) -> UdfData:
