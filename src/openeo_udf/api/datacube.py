@@ -5,6 +5,8 @@
 import numpy
 import xarray
 from typing import Dict, List
+import json
+from matplotlib import pyplot
 
 
 __license__ = "Apache License, Version 2.0"
@@ -275,6 +277,179 @@ class DataCube:
                 dc_list.append(dc)
 
         return dc_list
+
+
+    @staticmethod
+    def from_file(filename, fmt='netcdf') -> "DataCube":
+        if fmt.lower()=='netcdf':
+            return DataCube(DataCube._load_DataArray_from_NetCDF(filename))
+        if fmt.lower()=='json':
+            return DataCube(DataCube._load_DataArray_from_JSON(filename))
+    
+    
+    def to_file(self, filename, fmt='netcdf'):
+        if fmt.lower()=='netcdf':
+            return DataCube._save_DataArray_to_NetCDF(filename, self.get_array())
+        if fmt.lower()=='json':
+            return DataCube._save_DataArray_to_JSON(filename, self.get_array())
+    
+    
+    @staticmethod
+    def _load_DataArray_from_JSON(filename) -> xarray.DataArray:
+        with open(filename) as f:
+            # get the deserialized json
+            d=json.load(f)
+            d['data']=numpy.array(d['data'],dtype=numpy.dtype(d['attrs']['dtype']))
+            for k,v in d['coords'].items():
+                # prepare coordinate 
+                d['coords'][k]['data']=numpy.array(v['data'],dtype=v['attrs']['dtype'])
+                # remove dtype and shape, because that is included for helping the user
+                if d['coords'][k].get('attrs',None) is not None:
+                    d['coords'][k]['attrs'].pop('dtype',None)
+                    d['coords'][k]['attrs'].pop('shape',None)
+            
+            # remove dtype and shape, because that is included for helping the user
+            if d.get('attrs',None) is not None:
+                d['attrs'].pop('dtype',None)
+                d['attrs'].pop('shape',None)
+            # vonvert to xarray
+            r=xarray.DataArray.from_dict(d)
+            del d
+        # build dimension list in proper order
+        dims=list(filter(lambda i: i!='t' and i!='bands' and i!='x' and i!='y',r.dims))
+        if 't' in r.dims: dims+=['t']
+        if 'bands' in r.dims: dims+=['bands']
+        if 'x' in r.dims: dims+=['x']
+        if 'y' in r.dims: dims+=['y']
+        # return the resulting data array
+        return r.transpose(*dims)
+    
+    
+    @staticmethod
+    def _load_DataArray_from_NetCDF(filename) -> xarray.DataArray:
+        # load the dataset and convert to data array
+        ds=xarray.open_dataset(filename, engine='h5netcdf')
+        r=ds.to_array(dim='bands')
+        # build dimension list in proper order
+        dims=list(filter(lambda i: i!='t' and i!='bands' and i!='x' and i!='y',r.dims))
+        if 't' in r.dims: dims+=['t']
+        if 'bands' in r.dims: dims+=['bands']
+        if 'x' in r.dims: dims+=['x']
+        if 'y' in r.dims: dims+=['y']
+        # return the resulting data array
+        return r.transpose(*dims)
+    
+    
+    @staticmethod
+    def _save_DataArray_to_JSON(filename, array: xarray.DataArray):
+        # to deserialized json
+        jsonarray=array.to_dict()
+        # add attributes that needed for re-creating xarray from json
+        jsonarray['attrs']['dtype']=str(array.values.dtype)
+        jsonarray['attrs']['shape']=list(array.values.shape)
+        for i in array.coords.values():
+            jsonarray['coords'][i.name]['attrs']['dtype']=str(i.dtype)
+            jsonarray['coords'][i.name]['attrs']['shape']=list(i.shape)
+        # custom print so resulting json file is humanly easy to read
+        with open(filename,'w') as f:
+            def custom_print(data_structure, indent=1):
+                f.write("{\n")
+                needs_comma=False
+                for key, value in data_structure.items():
+                    if needs_comma: 
+                        f.write(',\n')
+                    needs_comma=True
+                    f.write('  '*indent+json.dumps(key)+':')
+                    if isinstance(value, dict): 
+                        custom_print(value, indent+1)
+                    else: 
+                        json.dump(value,f,default=str,separators=(',',':'))
+                f.write('\n'+'  '*(indent-1)+"}")
+                
+            custom_print(jsonarray)
+    
+    
+    @staticmethod
+    def _save_DataArray_to_NetCDF(filename, array: xarray.DataArray):
+        # temp reference to avoid modifying the original array
+        result=array
+        # rearrange in a basic way because older xarray versions have a bug and ellipsis don't work in xarray.transpose()
+        if result.dims[-2]=='x' and result.dims[-1]=='y':
+            l=list(result.dims[:-2])
+            result=result.transpose(*(l+['y','x']))
+        # turn it into a dataset where each band becomes a variable
+        if not 'bands' in result.dims:
+            result=result.expand_dims(dim={'bands':['band_0']})
+        else:
+            if not 'bands' in result.coords:
+                labels=['band_'+str(i) for i in range(result.shape[result.dims.index('bands')])]
+                result=result.assign_coords(bands=labels)
+        result=result.to_dataset('bands')
+        result.to_netcdf(filename, engine='h5netcdf')
+
+    def plot(
+            self,
+            title=None, 
+            limits=None,
+            show_bandnames=True,
+            show_dates=True,
+            fontsize=10,
+            oversample=1,
+            cmap='RdYlBu_r', 
+            cbartext:str=None,
+            to_file:str=None,
+            to_show=True
+        ):
+        
+        data=self.get_array()
+        if limits is None:
+            vmin=data.min()
+            vmax=data.max()
+        else: 
+            vmin=limits[0]
+            vmax=limits[1]
+        nrow=data.shape[0]
+        ncol=data.shape[1]
+        data=data.transpose('t','bands','y','x')
+        dpi=100
+        xres=len(data.x)/dpi
+        yres=len(data.y)/dpi
+        fs=fontsize/oversample
+        frame=0.33
+    
+        fig = pyplot.figure(figsize=((ncol+frame)*xres*1.1,(nrow+frame)*yres),dpi=int(dpi*oversample)) 
+        gs = pyplot.GridSpec(nrow,ncol,wspace=0.,hspace=0.,top=nrow/(nrow+frame),bottom=0.,left=frame/(ncol+frame),right=1.) 
+         
+        for i in range(nrow):
+            for j in range(ncol):
+                im = data[i,j]
+                ax= pyplot.subplot(gs[i,j])
+                ax.set_axis_off()
+                img=ax.imshow(im[::-1,:],vmin=vmin,vmax=vmax,cmap=cmap)
+                ax.set_xticklabels([])
+                ax.set_yticklabels([])
+                if show_bandnames:
+                    if i==0: ax.text(0.5,1.08, data.bands.values[j]+" ("+str(data.dtype)+")", size=fs, va="center", ha="center", transform=ax.transAxes)
+                if show_dates:
+                    if j==0: ax.text(-0.08,0.5, data.t.dt.strftime("%Y-%m-%d").values[i], size=fs, va="center", ha="center", rotation=90,  transform=ax.transAxes)
+    
+        if title is not None:
+            fig.text(0.,1.,title.split('/')[-1], size=fs, va="top", ha="left",weight='bold')
+    
+        cbar_ax = fig.add_axes([0.01, 0.1, 0.04, 0.5])
+        if cbartext is not None:
+            fig.text(0.06,0.62,cbartext, size=fs, va="bottom", ha="center")
+        cbar=fig.colorbar(img, cax=cbar_ax)
+        cbar.ax.tick_params(labelsize=fs)
+        cbar.outline.set_visible(False)
+        cbar.ax.tick_params(size=0)
+        cbar.ax.yaxis.set_tick_params(pad=0)
+        
+        if to_file is not None: pyplot.savefig(to_file)
+        if to_show: pyplot.show()
+    
+        pyplot.close()
+
 
 
 if __name__ == "__main__":
