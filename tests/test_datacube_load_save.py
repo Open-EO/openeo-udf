@@ -15,6 +15,10 @@ class TestLoadSaveDatacube(unittest.TestCase):
         cls._tmpdir=TemporaryDirectory()
         cls.tmpdir=str(cls._tmpdir.name)
 
+    @classmethod
+    def tearDownClass(cls):
+        cls._tmpdir.cleanup()
+
     def buildData(self):
         a=numpy.zeros((3,2,5,6),numpy.int32)
         for t in range(a.shape[0]):

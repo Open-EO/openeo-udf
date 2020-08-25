@@ -10,15 +10,9 @@ import xarray
 from tempfile import TemporaryDirectory
 import os
 import matplotlib.pyplot as plt
-import tempfile
 
 
 class TestDataCubePlotter(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        cls._tmpdir=TemporaryDirectory()
-        cls.tmpdir=str(cls._tmpdir.name)
 
     def buildData(self):
         a=numpy.zeros((3,2,100,100),numpy.int32)
@@ -41,12 +35,13 @@ class TestDataCubePlotter(unittest.TestCase):
         )
 
     def testPlot(self):
-        refpng=plt.imread(os.path.join(os.path.dirname(__file__),'test_datacube_plot_reference_image.png'))
-        tmpfile=os.path.join(self.tmpdir,'test.png')
-        d=self.buildData()
-        d.plot("title", oversample=1.5, cbartext="some\nvalue", to_file=tmpfile, to_show=False)
-        respng=plt.imread(tmpfile)
-        numpy.testing.assert_array_equal(refpng,respng)
+        with TemporaryDirectory() as td:
+            refpng=plt.imread(os.path.join(os.path.dirname(__file__),'test_datacube_plot_reference_image.png'))
+            tmpfile=os.path.join(td,'test.png')
+            d=self.buildData()
+            d.plot("title", oversample=1.5, cbartext="some\nvalue", to_file=tmpfile, to_show=False)
+            respng=plt.imread(tmpfile)
+            numpy.testing.assert_array_equal(refpng,respng)
 
 
 
