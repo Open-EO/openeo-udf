@@ -26,7 +26,7 @@ msgpack==0.6.1
 # rasterio==0.36.0
 
 # FastAPI requirements
-uvicorn==0.8.6
+uvicorn==0.11.7
 fastapi==0.35.0
 pydantic==0.30
 ujson==1.35
