@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """OpenEO Python UDF interface"""
+import functools
 from pprint import pprint
 
 import xarray
@@ -18,7 +19,6 @@ from openeo_udf.api.machine_learn_model import MachineLearnModelConfig
 from openeo_udf.api.spatial_extent import SpatialExtent
 from openeo_udf.api.structured_data import StructuredData
 from openeo_udf.api.udf_data import UdfData
-from openeo_udf.server.data_model.udf_schemas import UdfRequestModel
 
 __license__ = "Apache License, Version 2.0"
 __author__ = "Soeren Gebbert"
@@ -27,7 +27,7 @@ __maintainer__ = "Soeren Gebbert"
 __email__ = "soerengebbert@googlemail.com"
 
 
-def run_udf_model_user_code(udf_model: UdfRequestModel) -> UdfData:
+def run_udf_model_user_code(udf_model: 'openeo_udf.server.data_model.udf_schemas.UdfRequestModel') -> UdfData:
     """Run the user defined python code
 
     Args:
@@ -90,16 +90,27 @@ def _build_default_execution_context():
     return context
 
 
-def run_user_code(code:str, data:UdfData) -> UdfData:
+@functools.lru_cache(maxsize=100)
+def load_module_from_string(code:str):
+    """
+    Experimental: avoid loading same UDF module more than once, to make caching inside the udf work.
+    @param code:
+    @return:
+    """
     module = _build_default_execution_context()
-    exec(code,module)
+    exec(code, module)
+    return module
 
-
+def run_user_code(code:str, data:UdfData) -> UdfData:
+    module = load_module_from_string(code)
 
     functions = {t[0]:t[1] for t in module.items() if callable(t[1])}
 
     for func in functions.items():
-        sig = signature(func[1])
+        try:
+            sig = signature(func[1])
+        except ValueError:
+            continue
         params = sig.parameters
         params_list = [t[1] for t in sig.parameters.items()]
         if(func[0] == 'apply_timeseries' and 'series' in params and 'context' in params and 'pandas.core.series.Series'
