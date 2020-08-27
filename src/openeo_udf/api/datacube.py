@@ -6,7 +6,6 @@ import numpy
 import xarray
 from typing import Dict, List
 import json
-from matplotlib import pyplot
 
 
 __license__ = "Apache License, Version 2.0"
@@ -400,6 +399,8 @@ class DataCube:
             to_file:str=None,
             to_show=True
         ):
+
+        from matplotlib import pyplot
         
         data=self.get_array()
         if limits is None:
