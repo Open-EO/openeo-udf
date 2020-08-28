@@ -35,7 +35,7 @@ def apply_timeseries_generic(udf_data: UdfData, callback: Callable = apply_times
             time_x_result = []
             for time_slice in time_x_slice:
                 series = pandas.Series(time_slice)
-                transformed_series = callback(series,{})
+                transformed_series = callback(series,udf_data.user_context)
                 time_x_result.append(transformed_series)
             array3d.append(time_x_result)
 
