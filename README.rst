@@ -27,14 +27,14 @@ udf server started from localhost.
 
 The following files implement the schemas:
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/dimension_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/feature_collection_tile_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/hypercube_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/machine_learn_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/raster_collection_tile_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/spatial_extent_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/structured_data_schema.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/server/udf_schemas.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/data_model/legacy/dimension_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/data_model/legacy/feature_collection_legacy_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/data_model/datacube_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/data_model/machine_learn_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/data_model/legacy/datacube_legacy_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/data_model/bounding_box_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/data_model/structured_data_schema.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/server/data_model/udf_schemas.py
 
 The basis of the OpenAPI 3.0 description are basic data-types that are available in many programming languages.
 These basic data-types are:
@@ -91,8 +91,6 @@ Local installation
 
         git clone https://github.com/Open-EO/openeo-udf.git
 
-        # Checkout the fastapi branch
-        git checkout fastapi
         virtualenv -p python3 venv
     ..
 
@@ -140,8 +138,6 @@ Docker image
 ------------
 
 The openeo-udf repository contains the build instruction of an openeo-udf docker image.
-This description is specific for the fastapi branch, that directly supprts the
-OpenAPI documentation of the REST service.
 
 
 1. Clone the git repository into a specific directory and create the virtual python3 environment:
@@ -153,8 +149,6 @@ OpenAPI documentation of the REST service.
 
         git clone https://github.com/Open-EO/openeo-udf.git
 
-        # Checkout the fastapi branch
-        git checkout fastapi
     ..
 
 2. Build the docker image and run it:
@@ -215,30 +209,30 @@ the handling of the API with simple examples. This document and the full API des
 is available when you installed openeo_udf locally or if you use the docker image.
 However, the original python3 file that implements the OpenEO UDF python3 API is available here:
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/collection.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/feature_collection.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/hypercube.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/machine_learn_model.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/spatial_extent.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/structured_data.py
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/api/udf_data.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/collection_base.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/feature_collection.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/datacube.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/machine_learn_model.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/spatial_extent.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/structured_data.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/api/udf_data.py
 
 The UDF's are directly available for download from the repository:
 
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_ndvi.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/datacube_ndvi.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_pytorch_ml.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/datacube_pytorch_ml.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_statistics.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/datacube_statistics.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_sklearn_ml.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/datacube_sklearn_ml.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_map_fabs.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/datacube_map_fabs.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_reduce_time_mean.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/datacube_reduce_time_mean.py
 
-    * https://github.com/Open-EO/openeo-udf/blob/fastapi/src/openeo_udf/functions/hypercube_reduce_time_sum.py
+    * https://github.com/Open-EO/openeo-udf/blob/master/src/openeo_udf/functions/datacube_reduce_time_sum.py
 
 Several UDF were implemented and provide and example howto develop an UDF. Unittest were implemented for
 each UDF including machine learn models and hypercube approach. The tests are available here:
