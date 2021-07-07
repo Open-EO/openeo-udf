@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export PORT=5000
+export START_NGINX=1
 
 # Update the udf repository and create the documentation for the nginx server
 cd /tmp/src/openeo_udf/
